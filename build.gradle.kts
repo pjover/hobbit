@@ -34,6 +34,8 @@ dependencies {
 	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 
 	implementation("org.springdoc:springdoc-openapi-ui:1.4.8")
+	implementation("org.springdoc:springdoc-openapi-data-rest:1.4.8")
+	implementation("org.springdoc:springdoc-openapi-kotlin:1.4.8")
 
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("de.flapdoodle.embed:de.flapdoodle.embed.mongo")
