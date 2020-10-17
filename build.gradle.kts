@@ -32,6 +32,9 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
+
+	implementation("org.springdoc:springdoc-openapi-ui:1.4.8")
+
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("de.flapdoodle.embed:de.flapdoodle.embed.mongo")
 }
