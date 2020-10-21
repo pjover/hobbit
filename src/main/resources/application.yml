@@ -1,0 +1,6 @@
+db:
+  name: hobbit_dev
+
+springdoc:
+  api-docs:
+    path: /api-docs
