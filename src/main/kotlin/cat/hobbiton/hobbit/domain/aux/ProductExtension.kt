@@ -1,4 +1,4 @@
-package cat.hobbiton.hobbit.domain.extension
+package cat.hobbiton.hobbit.domain.aux
 
 import cat.hobbiton.hobbit.domain.Product
 
