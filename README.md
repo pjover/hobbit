@@ -8,7 +8,7 @@ Hobbit will run inside a Kubernetes cluster, alongside with a MongoDB database.
 
 ### MongoDB on Docker
 
-For development you can deploy a Docker container, with local persistence
+For development, you can deploy a Docker container, with local persistence
 
 First, create the network
 

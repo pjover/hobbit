@@ -37,8 +37,14 @@ dependencies {
 	implementation("org.springdoc:springdoc-openapi-data-rest:1.4.8")
 	implementation("org.springdoc:springdoc-openapi-kotlin:1.4.8")
 
-	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	testImplementation("org.springframework.boot:spring-boot-starter-test") {
+		exclude(mapOf("group" to "org.junit.vintage", "module" to "junit-vintage-engine"))
+	}
 	testImplementation("de.flapdoodle.embed:de.flapdoodle.embed.mongo")
+	testImplementation("org.jetbrains.kotlin:kotlin-test:1.4.10")
+	testImplementation("io.kotlintest:kotlintest-runner-junit5:3.4.2")
+	testImplementation("io.mockk:mockk:1.10.0")
+
 }
 
 tasks.withType<Test> {
