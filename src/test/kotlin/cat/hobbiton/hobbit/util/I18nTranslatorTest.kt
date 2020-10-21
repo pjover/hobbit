@@ -12,7 +12,7 @@ class I18nTranslatorTest : DescribeSpec() {
         describe("english") {
 
             context("with no params") {
-                val actual = I18nTranslator.english(ERROR_TEST_ZERO_PARAMS)
+                val actual = I18nTranslator.english(TEST_MSG_ZERO_PARAMS)
 
                 it("translates the message") {
                     actual shouldBe "TEST TEXT FOR ZERO PARAMS"
@@ -20,7 +20,7 @@ class I18nTranslatorTest : DescribeSpec() {
             }
 
             context("with one params") {
-                val actual = I18nTranslator.english(ERROR_TEST_ONE_PARAMS, 3)
+                val actual = I18nTranslator.english(TEST_MSG_ONE_PARAMS, 3)
 
                 it("translates the message") {
                     actual shouldBe "TEST TEXT FOR ONE PARAMS: 3"
@@ -29,7 +29,7 @@ class I18nTranslatorTest : DescribeSpec() {
 
             context("with many params") {
                 val actual = I18nTranslator.english(
-                        ERROR_TEST_MANY_PARAMS,
+                        TEST_MSG_MANY_PARAMS,
                         3, 33, 333
                 )
 
@@ -43,7 +43,7 @@ class I18nTranslatorTest : DescribeSpec() {
 
             context("with no params") {
                 val actual = I18nTranslator.englishWithParamsArray(
-                        ERROR_TEST_ZERO_PARAMS,
+                        TEST_MSG_ZERO_PARAMS,
                         arrayOf()
                 )
 
@@ -54,7 +54,7 @@ class I18nTranslatorTest : DescribeSpec() {
 
             context("with one params") {
                 val actual = I18nTranslator.englishWithParamsArray(
-                        ERROR_TEST_ONE_PARAMS,
+                        TEST_MSG_ONE_PARAMS,
                         arrayOf(3))
 
                 it("translates the message") {
@@ -64,7 +64,7 @@ class I18nTranslatorTest : DescribeSpec() {
 
             context("with many params") {
                 val actual = I18nTranslator.englishWithParamsArray(
-                        ERROR_TEST_MANY_PARAMS,
+                        TEST_MSG_MANY_PARAMS,
                         arrayOf(3, 33, 333)
                 )
 
@@ -74,7 +74,7 @@ class I18nTranslatorTest : DescribeSpec() {
             }
 
             val actual = I18nTranslator.englishWithParamsArray(
-                    ERROR_TEST_MANY_PARAMS,
+                    TEST_MSG_MANY_PARAMS,
                     arrayOf(3, 33, 333)
             )
 
@@ -88,7 +88,7 @@ class I18nTranslatorTest : DescribeSpec() {
             context("other locale with translation") {
                 val actual = I18nTranslator.translate(
                         Locale("ca"),
-                        ERROR_TEST_ZERO_PARAMS
+                        TEST_MSG_ZERO_PARAMS
                 )
 
                 it("translates the message") {
@@ -99,7 +99,7 @@ class I18nTranslatorTest : DescribeSpec() {
             context("other locale without translation") {
                 val actual = I18nTranslator.translate(
                         Locale("ru"),
-                        ERROR_TEST_ZERO_PARAMS
+                        TEST_MSG_ZERO_PARAMS
                 )
 
                 it("translates the message") {

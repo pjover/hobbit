@@ -1,7 +1,7 @@
 package cat.hobbiton.hobbit.util
 
-import cat.hobbiton.hobbit.messages.TestsMessages.ERROR_TEST_ONE_PARAMS
-import cat.hobbiton.hobbit.messages.TestsMessages.ERROR_TEST_ZERO_PARAMS
+import cat.hobbiton.hobbit.messages.TestsMessages.TEST_MSG_ONE_PARAMS
+import cat.hobbiton.hobbit.messages.TestsMessages.TEST_MSG_ZERO_PARAMS
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.DescribeSpec
 import java.util.*
@@ -13,7 +13,7 @@ class I18nMessageExtensionTest : DescribeSpec() {
         describe("translate") {
 
             context("english") {
-                val actual = ERROR_TEST_ZERO_PARAMS.english()
+                val actual = TEST_MSG_ZERO_PARAMS.english()
 
                 it("translates the message") {
                     actual shouldBe "TEST TEXT FOR ZERO PARAMS"
@@ -21,7 +21,7 @@ class I18nMessageExtensionTest : DescribeSpec() {
             }
 
             context("other locale with translation") {
-                val actual = ERROR_TEST_ONE_PARAMS.translate(
+                val actual = TEST_MSG_ONE_PARAMS.translate(
                         Locale("ca"),
                         3
                 )
@@ -35,7 +35,7 @@ class I18nMessageExtensionTest : DescribeSpec() {
         describe("translateWithParamsArray") {
 
             context("english") {
-                val actual = ERROR_TEST_ZERO_PARAMS.englishWithParamsArray(
+                val actual = TEST_MSG_ZERO_PARAMS.englishWithParamsArray(
                         arrayOf()
                 )
 
@@ -45,7 +45,7 @@ class I18nMessageExtensionTest : DescribeSpec() {
             }
 
             context("other locale with translation") {
-                val actual = ERROR_TEST_ONE_PARAMS.translateWithParamsArray(
+                val actual = TEST_MSG_ONE_PARAMS.translateWithParamsArray(
                         Locale("ca"),
                         arrayOf(3)
                 )
