@@ -1,6 +1,5 @@
 package cat.hobbiton.hobbit.util
 
-@Suppress("unused")
 open class AppException : RuntimeException {
     val errorMessage: I18nErrorMessage
     val params: Array<out Any>
@@ -8,7 +7,7 @@ open class AppException : RuntimeException {
     constructor(
             errorMessage: I18nErrorMessage,
             vararg params: Any
-    ) : super(errorMessage.englishWithParamsArray(params)) {
+    ) : super(errorMessage.translateWithParamsArray(params)) {
         this.errorMessage = errorMessage
         this.params = params
     }
@@ -17,7 +16,7 @@ open class AppException : RuntimeException {
             cause: Throwable,
             errorMessage: I18nErrorMessage,
             vararg params: Any
-    ) : super(errorMessage.englishWithParamsArray(params), cause) {
+    ) : super(errorMessage.translateWithParamsArray(params), cause) {
         this.errorMessage = errorMessage
         this.params = params
     }
