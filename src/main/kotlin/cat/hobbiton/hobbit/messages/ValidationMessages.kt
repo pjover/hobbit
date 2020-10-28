@@ -14,5 +14,7 @@ enum class ValidationMessages(
     ERROR_PRODUCT_SHORT_NAME_BLANK("error.product.short_name.blank"),
     ERROR_PRODUCT_SHORT_NAME_TOO_LONG("error.product.short_name.too_long"),
     ERROR_PRODUCT_PRICE_ZERO("error.product.price.zero"),
-    ERROR_PRODUCT_TAX_PERCENTAGE_ZERO("error.product.tax_percentage.zero")
+    ERROR_PRODUCT_TAX_PERCENTAGE_ZERO("error.product.tax_percentage.zero"),
+
+    ERROR_SEQUENCE_COUNTER_INVALID("error.sequence.counter.invalid")
 }
