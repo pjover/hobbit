@@ -70,7 +70,7 @@ fun testAdultFather() = Adult(
 fun testAdults() = listOf(testAdultMother(), testAdultFather())
 
 fun testInvoiceHolder() = InvoiceHolder(
-        name = "Joana Bibiloni Pinya",
+        name = "Joana Bibiloni Oliver",
         taxId = "12238561P",
         address = testAddress(),
         email = "jbibiloni@gmail.com",
