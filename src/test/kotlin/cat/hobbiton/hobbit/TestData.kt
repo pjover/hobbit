@@ -42,7 +42,7 @@ fun testChild3() = Child(
 
 fun testChildren1() = listOf(testChild1())
 fun testChildren2() = listOf(testChild1(), testChild2())
-fun testChildren3() = listOf(testChild1(), testChild2(), testChild3())
+fun testChildren3Inactive() = listOf(testChild1(), testChild2(), testChild3().copy(active = false))
 
 fun testAddress() = Address(
         "Arlington Road, 1999 ",
