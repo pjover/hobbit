@@ -142,7 +142,7 @@ internal class CustomerExtensionsTest : DescribeSpec() {
                 val actual = sut.emailText()
 
                 it("returns the formatted email of the customer") {
-                    actual shouldBe "Joana Bibiloni Pinya <jbibiloni@gmail.com>"
+                    actual shouldBe "Joana Bibiloni Oliver <jbibiloni@gmail.com>"
                 }
             }
 

@@ -21,7 +21,7 @@ class ChildExtensionTest : DescribeSpec() {
                     val actual = sut.completeName()
 
                     it("returns the correct text") {
-                        actual shouldBe "Joana Bibiloni"
+                        actual shouldBe "Laura Llull Bibiloni"
                     }
                 }
 
@@ -30,7 +30,7 @@ class ChildExtensionTest : DescribeSpec() {
                     val actual = sut.copy(secondSurname = "Valls").completeName()
 
                     it("returns the correct text") {
-                        actual shouldBe "Joana Bibiloni Valls"
+                        actual shouldBe "Laura Llull Valls"
                     }
                 }
             }
@@ -42,7 +42,7 @@ class ChildExtensionTest : DescribeSpec() {
                     val actual = sut.shortName()
 
                     it("returns the correct text") {
-                        actual shouldBe "Joana Bibiloni"
+                        actual shouldBe "Laura Llull"
                     }
                 }
 
@@ -51,7 +51,7 @@ class ChildExtensionTest : DescribeSpec() {
                     val actual = sut.copy(secondSurname = "Valls").shortName()
 
                     it("returns the correct text") {
-                        actual shouldBe "Joana Bibiloni"
+                        actual shouldBe "Laura Llull"
                     }
                 }
             }
@@ -62,7 +62,7 @@ class ChildExtensionTest : DescribeSpec() {
                     val actual = sut.formattedText()
 
                     it("returns the correct text") {
-                        actual shouldBe "Joana"
+                        actual shouldBe "Laura"
                     }
                 }
 
@@ -71,7 +71,7 @@ class ChildExtensionTest : DescribeSpec() {
                             .formattedText()
 
                     it("returns the correct text") {
-                        actual shouldBe "(Joana)"
+                        actual shouldBe "(Laura)"
                     }
                 }
             }
@@ -82,7 +82,7 @@ class ChildExtensionTest : DescribeSpec() {
                     val actual = sut.longText()
 
                     it("returns the correct text") {
-                        actual shouldBe "Joana Bibiloni"
+                        actual shouldBe "Laura Llull"
                     }
                 }
 
@@ -91,7 +91,7 @@ class ChildExtensionTest : DescribeSpec() {
                             .longText()
 
                     it("returns the correct text") {
-                        actual shouldBe "(Joana Bibiloni)"
+                        actual shouldBe "(Laura Llull)"
                     }
                 }
             }
@@ -102,7 +102,7 @@ class ChildExtensionTest : DescribeSpec() {
                     val actual = sut.listText()
 
                     it("returns the correct text") {
-                        actual shouldBe "Joana Bibiloni, 2019-05-25, 1er EI"
+                        actual shouldBe "Laura Llull, 2019-05-25, 2on EI"
                     }
                 }
 
@@ -111,7 +111,7 @@ class ChildExtensionTest : DescribeSpec() {
                             .listText()
 
                     it("returns the correct text") {
-                        actual shouldBe "Joana Bibiloni, 2019-05-25, 1er EI"
+                        actual shouldBe "Laura Llull, 2019-05-25, 2on EI"
                     }
                 }
             }
