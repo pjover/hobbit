@@ -19,21 +19,24 @@ fun completeTestProduct() = Product("TST",
 fun testChild1() = Child(
         code = 1,
         name = "Laura",
-        surname = "Llull Bibiloni",
+        surname = "Llull",
+        secondSurname = "Bibiloni",
         birthDate = DATE
 )
 
 fun testChild2() = Child(
         code = 2,
         name = "Aina",
-        surname = "Llull Bibiloni",
+        surname = "Llull",
+        secondSurname = "Bibiloni",
         birthDate = DATE
 )
 
 fun testChild3() = Child(
         code = 3,
         name = "Laia",
-        surname = "Llull Bibiloni",
+        surname = "Llull",
+        secondSurname = "Bibiloni",
         birthDate = DATE
 )
 
@@ -50,7 +53,8 @@ fun testAddress() = Address(
 
 fun testAdultMother() = Adult(
         name = "Joana",
-        surname = "Bibiloni Pinya",
+        surname = "Bibiloni",
+        secondSurname = "Oliver",
         role = AdultRole.MOTHER,
         taxId = "12238561P",
         address = testAddress()
@@ -58,7 +62,8 @@ fun testAdultMother() = Adult(
 
 fun testAdultFather() = Adult(
         name = "Pere",
-        surname = "Llull Adrover",
+        surname = "Llull",
+        secondSurname = "Adrover",
         role = AdultRole.FATHER
 )
 
