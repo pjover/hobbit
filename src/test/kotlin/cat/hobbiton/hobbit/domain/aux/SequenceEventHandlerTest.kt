@@ -13,11 +13,10 @@ class SequenceEventHandlerTest : DescribeSpec() {
 
         describe("validate") {
             val executor = {
-                sut.validate(
-                        Sequence(
-                                SequenceType.CUSTOMER,
-                                -1
-                        )
+                sut.validate(Sequence(
+                        SequenceType.CUSTOMER,
+                        -1
+                )
                 )
             }
 

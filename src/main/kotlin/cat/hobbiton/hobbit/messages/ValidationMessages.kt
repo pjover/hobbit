@@ -39,5 +39,11 @@ enum class ValidationMessages(
     ERROR_PRODUCT_PRICE_ZERO("error.product.price.zero"),
     ERROR_PRODUCT_TAX_PERCENTAGE_ZERO("error.product.tax_percentage.zero"),
 
-    ERROR_SEQUENCE_COUNTER_INVALID("error.sequence.counter.invalid")
+    ERROR_SEQUENCE_COUNTER_INVALID("error.sequence.counter.invalid"),
+
+    ERROR_INVOICE_CHILDREN_CODES_EMPTY("error.invoice.children_codes.empty"),
+    ERROR_INVOICE_LINES_EMPTY("error.invoice.lines.empty"),
+    ERROR_INVOICE_AMOUNT_TOO_HIGH("error.invoice.amount.too_high"),
+    ERROR_INVOICE_LINE_PRODUCT_ID_BLANK("error.invoice_line.product_id.blank"),
+    ERROR_INVOICE_LINE_PRODUCT_UNITS_ZERO("error.invoice_line.product_units.zero")
 }

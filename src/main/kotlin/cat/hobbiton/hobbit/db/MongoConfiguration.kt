@@ -7,12 +7,11 @@ import org.springframework.data.mongodb.config.AbstractMongoClientConfiguration
 import javax.annotation.PostConstruct
 
 @Configuration
-class MongoConfiguration : AbstractMongoClientConfiguration() {
+class MongoConfiguration(
+        @Value("\${db.name}") private val dbName: String
+) : AbstractMongoClientConfiguration() {
 
     private val logger by Logging()
-
-    @Value("\${db.name}")
-    lateinit var dbName: String
 
     @PostConstruct
     private fun postConstruct() {

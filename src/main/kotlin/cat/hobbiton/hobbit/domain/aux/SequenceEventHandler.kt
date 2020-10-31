@@ -14,7 +14,7 @@ class SequenceEventHandler {
 
     @HandleBeforeSave
     @HandleBeforeCreate
-    fun validate(s: Sequence) {
-        require(s.counter > 0) { ValidationMessages.ERROR_SEQUENCE_COUNTER_INVALID.translate() }
+    fun validate(sequence: Sequence) {
+        require(sequence.counter > 0) { ValidationMessages.ERROR_SEQUENCE_COUNTER_INVALID.translate() }
     }
 }
