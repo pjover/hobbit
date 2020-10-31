@@ -84,3 +84,79 @@ fun testCustomer() = Customer(
         adults = testAdults(),
         invoiceHolder = testInvoiceHolder()
 )
+
+fun testInvoiceFtype(invoiceDate: LocalDate = DATE) = Invoice(
+        id = "F-103",
+        date = invoiceDate,
+        customerId = 148,
+        lines = testInvoiceLines(),
+        note = "Invoice note",
+        emailed = false,
+        printed = false,
+        paymentType = PaymentType.BANK_DIRECT_DEBIT,
+        childrenCodes = listOf(1800, 1801)
+)
+
+fun testInvoiceLines() = listOf(
+        InvoiceLine(productId = "AAA",
+                productName = "AAA product long name",
+                units = BigDecimal.valueOf(1),
+                productPrice = BigDecimal.valueOf(11),
+                taxPercentage = BigDecimal.ZERO
+        ),
+        InvoiceLine(productId = "BBB",
+                productName = "BBB product long name",
+                units = BigDecimal.valueOf(3),
+                productPrice = BigDecimal.valueOf(5.5),
+                taxPercentage = BigDecimal.valueOf(0.1)
+        ),
+        InvoiceLine(productId = "CCC",
+                productName = "CCC product long name",
+                units = BigDecimal.valueOf(1.5),
+                productPrice = BigDecimal.valueOf(5),
+                taxPercentage = BigDecimal.ZERO
+        )
+)
+
+fun testInvoices(invoiceDate: LocalDate? = DATE) = listOf(
+        Invoice(
+                id = "F-100",
+                date = invoiceDate!!,
+                customerId = 148,
+                lines = testInvoiceLines(),
+                note = "Invoice note",
+                emailed = false,
+                printed = false,
+                paymentType = PaymentType.BANK_DIRECT_DEBIT,
+                childrenCodes = listOf(1800, 1801)),
+        Invoice(
+                id = "F-101",
+                date = invoiceDate,
+                customerId = 148,
+                lines = testInvoiceLines(),
+                note = "Invoice note",
+                emailed = false,
+                printed = false,
+                paymentType = PaymentType.BANK_DIRECT_DEBIT,
+                childrenCodes = listOf(1801, 1802)),
+        Invoice(
+                id = "F-102",
+                date = invoiceDate,
+                customerId = 149,
+                lines = testInvoiceLines(),
+                note = "Invoice note",
+                emailed = false,
+                printed = false,
+                paymentType = PaymentType.BANK_DIRECT_DEBIT,
+                childrenCodes = listOf(1800, 1801, 1802)),
+        Invoice(
+                id = "F-103",
+                customerId = 149,
+                date = invoiceDate,
+                lines = testInvoiceLines(),
+                note = "Invoice note",
+                emailed = false,
+                printed = false,
+                paymentType = PaymentType.BANK_DIRECT_DEBIT,
+                childrenCodes = listOf(1800))
+)
