@@ -10,8 +10,6 @@ fun InvoiceLine.taxAmount(): BigDecimal = grossAmount().multiply(taxPercentage)
 
 fun InvoiceLine.totalAmount(): BigDecimal = grossAmount().add(taxAmount())
 
-fun InvoiceLine.formattedText() = "${units}x$productId"
-
 fun List<InvoiceLine>.grossAmount(): BigDecimal = sum(InvoiceLine::grossAmount)
 
 fun List<InvoiceLine>.taxAmount(): BigDecimal = sum(InvoiceLine::taxAmount)
@@ -25,5 +23,3 @@ private fun List<InvoiceLine>.sum(getter: KFunction1<InvoiceLine, BigDecimal>): 
     }
     return accumulator
 }
-
-fun List<InvoiceLine>.formattedText() = this.joinToString { it.formattedText() }

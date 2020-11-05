@@ -11,15 +11,6 @@ internal class InvoiceLineExtensionsTest : DescribeSpec() {
 
         describe("Invoice lines tests") {
 
-            describe("formattedText") {
-
-                val actual = testInvoiceLines().first().formattedText()
-
-                it("returns the formatted text describing the invoice line") {
-                    actual shouldBe "1xAAA"
-                }
-            }
-
             context("grossAmount()") {
 
                 val actual = testInvoiceLines().first().grossAmount()
@@ -44,15 +35,6 @@ internal class InvoiceLineExtensionsTest : DescribeSpec() {
 
                 it("return the correct amount") {
                     actual shouldBe BigDecimal.valueOf(11)
-                }
-            }
-
-            context("formattedText()") {
-
-                val actual = testInvoiceLines().first().formattedText()
-
-                it("returns the formatted text describing the invoice") {
-                    actual shouldBe "1xAAA"
                 }
             }
         }
@@ -83,15 +65,6 @@ internal class InvoiceLineExtensionsTest : DescribeSpec() {
 
                 it("returns  the correct amount") {
                     actual shouldBe BigDecimal("36.65")
-                }
-            }
-
-            context("formattedText()") {
-
-                val actual = testInvoiceLines().formattedText()
-
-                it("returns the formatted text describing the invoice") {
-                    actual shouldBe "1xAAA, 3xBBB, 1.5xCCC"
                 }
             }
         }

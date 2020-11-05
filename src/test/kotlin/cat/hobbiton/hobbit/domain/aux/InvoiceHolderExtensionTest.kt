@@ -11,15 +11,6 @@ class InvoiceHolderExtensionTest : DescribeSpec() {
 
         val sut = testInvoiceHolder()
 
-        describe("formattedText") {
-
-            val actual = sut.formattedText()
-
-            it("returns the correct text") {
-                actual shouldBe "Joana Bibiloni Oliver"
-            }
-        }
-
         describe("email") {
 
             context("emailText") {

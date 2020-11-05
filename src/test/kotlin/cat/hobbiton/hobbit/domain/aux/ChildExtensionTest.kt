@@ -3,7 +3,6 @@ package cat.hobbiton.hobbit.domain.aux
 import cat.hobbiton.hobbit.testChildren1
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.DescribeSpec
-import java.time.LocalDate
 
 
 class ChildExtensionTest : DescribeSpec() {
@@ -55,122 +54,6 @@ class ChildExtensionTest : DescribeSpec() {
                     }
                 }
             }
-
-            context("formattedText") {
-
-                context("active child") {
-                    val actual = sut.formattedText()
-
-                    it("returns the correct text") {
-                        actual shouldBe "Laura"
-                    }
-                }
-
-                context("inactive child") {
-                    val actual = sut.copy(active = false)
-                            .formattedText()
-
-                    it("returns the correct text") {
-                        actual shouldBe "(Laura)"
-                    }
-                }
-            }
-
-            context("longText") {
-
-                context("active child") {
-                    val actual = sut.longText()
-
-                    it("returns the correct text") {
-                        actual shouldBe "Laura Llull"
-                    }
-                }
-
-                context("inactive child") {
-                    val actual = sut.copy(active = false)
-                            .longText()
-
-                    it("returns the correct text") {
-                        actual shouldBe "(Laura Llull)"
-                    }
-                }
-            }
-
-            context("listText") {
-
-                context("active child") {
-                    val actual = sut.listText()
-
-                    it("returns the correct text") {
-                        actual shouldBe "Laura Llull, 2019-05-25, 2on EI"
-                    }
-                }
-
-                context("inactive child") {
-                    val actual = sut.copy(active = false)
-                            .listText()
-
-                    it("returns the correct text") {
-                        actual shouldBe "Laura Llull, 2019-05-25, 2on EI"
-                    }
-                }
-            }
         }
-
-        describe("Child is under three years old") {
-            val now = LocalDate.now()
-
-            context("with a child that is less than three years old") {
-                context("case 1") {
-                    val actual = sut.copy(birthDate = now.minusYears(2))
-                            .wasUnderThreeYearsOldAt(now)
-
-                    it("returns false") {
-                        actual shouldBe true
-                    }
-                }
-
-                context("case 2") {
-                    val actual = sut.copy(birthDate = now.minusYears(3).plusDays(1))
-                            .wasUnderThreeYearsOldAt(now)
-
-                    it("returns false") {
-                        actual shouldBe true
-                    }
-                }
-            }
-
-            context("with a child that is more than three years old") {
-
-                context("case 1") {
-                    val actual = sut.copy(birthDate = now.minusYears(4))
-                            .wasUnderThreeYearsOldAt(now)
-
-                    it("returns true") {
-                        actual shouldBe false
-                    }
-                }
-
-                context("case 2") {
-                    val actual = sut.copy(birthDate = now.minusYears(3).minusDays(1))
-                            .wasUnderThreeYearsOldAt(now)
-
-                    it("returns true") {
-                        actual shouldBe false
-                    }
-                }
-
-            }
-
-            context("with a child that is three years old") {
-                val actual = sut.copy(birthDate = now.minusYears(3))
-                        .wasUnderThreeYearsOldAt(now)
-
-                it("returns true") {
-                    actual shouldBe false
-                }
-            }
-        }
-
     }
 }

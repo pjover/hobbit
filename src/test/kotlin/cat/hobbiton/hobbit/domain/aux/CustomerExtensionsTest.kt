@@ -70,84 +70,6 @@ internal class CustomerExtensionsTest : DescribeSpec() {
             }
         }
 
-        describe("Customer formatting tests") {
-
-            context("formattedText()") {
-
-                context("and the customer is active") {
-
-                    val actual = sut.formattedText()
-
-                    it("returns the formatted text describing the customer") {
-                        actual shouldBe "[185] Laura, Aina : Joana Bibiloni"
-                    }
-                }
-
-                context("and the customer is inactive") {
-
-                    val actual = sut.copy(
-                            active = false)
-                            .formattedText()
-
-                    it("returns the formatted text describing the customer") {
-                        actual shouldBe "(185) Laura, Aina : Joana Bibiloni"
-                    }
-                }
-            }
-
-            context("activeChildrenText()") {
-
-                context("and one child is inactive") {
-
-                    val actual = sut.copy(
-                            children = testChildren3Inactive())
-                            .activeChildrenText()
-
-                    it("returns a text of the active children of the customer") {
-                        actual shouldBe "Laura, Aina"
-                    }
-                }
-            }
-
-            context("activeAndInactiveChildrenText()") {
-
-                context("and one child is inactive") {
-
-                    val actual = sut.copy(
-                            children = testChildren3Inactive())
-                            .activeAndInactiveChildrenText()
-
-                    it("returns a text of the active and inactive children of the customer") {
-                        actual shouldBe "Laura, Aina, (Laia)"
-                    }
-                }
-            }
-
-            context("getActiveChildrenNames()") {
-
-                context("and one child is inactive") {
-
-                    val actual = sut.copy(
-                            children = testChildren3Inactive())
-                            .getActiveChildrenNames()
-
-                    it("returns a text of the active children names list of the customer") {
-                        actual shouldBe listOf("Laura", "Aina")
-                    }
-                }
-            }
-
-            context("emailText()") {
-
-                val actual = sut.emailText()
-
-                it("returns the formatted email of the customer") {
-                    actual shouldBe "Joana Bibiloni Oliver <jbibiloni@gmail.com>"
-                }
-            }
-
-        }
-
         describe("list tests") {
 
             context("getActiveChildren") {
@@ -158,16 +80,6 @@ internal class CustomerExtensionsTest : DescribeSpec() {
                     actual shouldBe testChildren2()
                 }
             }
-
-            context("getActiveChildrenNames") {
-
-                val actual = sut.getActiveChildrenNames()
-
-                it("returns the active children list") {
-                    actual shouldBe listOf("Laura", "Aina")
-                }
-            }
-
         }
     }
 }
