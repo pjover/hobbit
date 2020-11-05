@@ -1,7 +1,7 @@
 package cat.hobbiton.hobbit.domain.aux
 
 import cat.hobbiton.hobbit.domain.PaymentType
-import cat.hobbiton.hobbit.testInvoiceFtype
+import cat.hobbiton.hobbit.testInvoice
 import cat.hobbiton.hobbit.testInvoices
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.DescribeSpec
@@ -11,7 +11,7 @@ class InvoiceExtensionsTest : DescribeSpec() {
 
     init {
         describe("Invoice tests") {
-            val invoice = testInvoiceFtype()
+            val invoice = testInvoice()
 
             context("grossAmount()") {
 
@@ -43,7 +43,7 @@ class InvoiceExtensionsTest : DescribeSpec() {
         }
 
         describe("Invoice formatting tests") {
-            val invoice = testInvoiceFtype()
+            val invoice = testInvoice()
 
             context("formattedTextWithoutKey()") {
 
@@ -75,7 +75,7 @@ class InvoiceExtensionsTest : DescribeSpec() {
             context("getChildrenText()") {
 
                 context("with an invoice with only child") {
-                    val invoice1 = testInvoiceFtype()
+                    val invoice1 = testInvoice()
                     invoice1.childrenCodes = listOf(1800)
 
                     val actual = invoice1.getChildrenText()
@@ -125,7 +125,7 @@ class InvoiceExtensionsTest : DescribeSpec() {
 
             context("idPrefix") {
 
-                val actual = testInvoiceFtype().idPrefix()
+                val actual = testInvoice().idPrefix()
 
                 it("should extract the prefix from the id") {
                     actual shouldBe "F"
@@ -134,7 +134,7 @@ class InvoiceExtensionsTest : DescribeSpec() {
 
             context("idSequence") {
 
-                val actual = testInvoiceFtype().idSequence()
+                val actual = testInvoice().idSequence()
 
                 it("should extract the id sequence from the id") {
                     actual shouldBe 103
@@ -145,7 +145,7 @@ class InvoiceExtensionsTest : DescribeSpec() {
 
         describe("List of Invoices tests")
         {
-            val invoice = testInvoiceFtype()
+            val invoice = testInvoice()
 
             context("getGrossAmount()") {
 
@@ -190,9 +190,9 @@ class InvoiceExtensionsTest : DescribeSpec() {
 
                     it("returns the summary with sum of every PaymentType and a total amount") {
                         actual shouldBe "Carregades 4 factures\n" +
-                                "  - 1 rebut (149): 36.65€\n" +
+                                "  - 1 rebut (148): 36.65€\n" +
                                 "  - 1 transferència (148): 36.65€\n" +
-                                "  - 1 xec escoleta (149): 36.65€\n" +
+                                "  - 1 xec escoleta (148): 36.65€\n" +
                                 "  - 1 en metàlic (148): 36.65€\n" +
                                 "Total: 146.60€"
                     }
@@ -207,9 +207,9 @@ class InvoiceExtensionsTest : DescribeSpec() {
 
                     it("return the summary, skipping the non existent payment types") {
                         actual shouldBe "Carregades 4 factures\n" +
-                                "  - 1 rebut (149): 36.65€\n" +
+                                "  - 1 rebut (148): 36.65€\n" +
                                 "  - 1 transferència (148): 36.65€\n" +
-                                "  - 1 xec escoleta (149): 36.65€\n" +
+                                "  - 1 xec escoleta (148): 36.65€\n" +
                                 "  - 1 en metàlic (148): 36.65€\n" +
                                 "Total: 146.60€"
                     }

@@ -18,5 +18,14 @@ class SequenceExtensionTest : DescribeSpec() {
                 actual shouldBe "C-99"
             }
         }
+
+        describe("extractCounter") {
+
+            it("extracts the correct counter") {
+                "C-0".extractCounter() shouldBe 0
+                "F-33".extractCounter() shouldBe 33
+                "X-666".extractCounter() shouldBe 666
+            }
+        }
     }
 }

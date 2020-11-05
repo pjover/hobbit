@@ -1,7 +1,7 @@
 package cat.hobbiton.hobbit.domain.aux
 
 import cat.hobbiton.hobbit.domain.InvoiceLine
-import cat.hobbiton.hobbit.testInvoiceFtype
+import cat.hobbiton.hobbit.testInvoice
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.DescribeSpec
 import java.math.BigDecimal
@@ -20,7 +20,7 @@ class InvoiceEventHandlerTest : DescribeSpec() {
 
                 val executor = {
                     sut.validate(
-                            testInvoiceFtype().copy(
+                            testInvoice().copy(
                                     childrenCodes = listOf()
                             )
                     )
@@ -36,7 +36,7 @@ class InvoiceEventHandlerTest : DescribeSpec() {
 
                 val executor = {
                     sut.validate(
-                            testInvoiceFtype().copy(
+                            testInvoice().copy(
                                     lines = listOf()
                             )
                     )
@@ -52,7 +52,7 @@ class InvoiceEventHandlerTest : DescribeSpec() {
 
                 val executor = {
                     sut.validate(
-                            testInvoiceFtype().copy(
+                            testInvoice().copy(
                                     lines = listOf(
                                             InvoiceLine(productId = "XXX",
                                                     productName = "XXX name",
@@ -79,7 +79,7 @@ class InvoiceEventHandlerTest : DescribeSpec() {
 
                     val executor = {
                         sut.validate(
-                                testInvoiceFtype().copy(
+                                testInvoice().copy(
                                         lines = listOf(
                                                 InvoiceLine(productId = "",
                                                         productName = "XXX name",
@@ -100,7 +100,7 @@ class InvoiceEventHandlerTest : DescribeSpec() {
 
                     val executor = {
                         sut.validate(
-                                testInvoiceFtype().copy(
+                                testInvoice().copy(
                                         lines = listOf(
                                                 InvoiceLine(productId = "XXX",
                                                         productName = "XXX name",

@@ -8,5 +8,5 @@ enum class ErrorMessages(
         override val httpStatus: HttpStatus
 ) : I18nErrorMessage {
 
-    ERROR_DATABASE_CONNECTION("error.database.connection", HttpStatus.INTERNAL_SERVER_ERROR)
+    ERROR_INVALID_CUSTOMER_SEQUENCE("error.invalid.customer.sequence", HttpStatus.INTERNAL_SERVER_ERROR) // TODO remove
 }
