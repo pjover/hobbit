@@ -1,18 +1,20 @@
 package cat.hobbiton.hobbit.db
 
+import cat.hobbiton.hobbit.db.converter.YearMonthReadConverter
+import cat.hobbiton.hobbit.db.converter.YearMonthWriteConverter
 import cat.hobbiton.hobbit.util.Logging
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Configuration
 import org.springframework.data.mongodb.config.AbstractMongoClientConfiguration
+import org.springframework.data.mongodb.core.convert.MongoCustomConversions
 import javax.annotation.PostConstruct
 
 @Configuration
-class MongoConfiguration : AbstractMongoClientConfiguration() {
+class MongoConfiguration(
+        @Value("\${db.name}") private val dbName: String
+) : AbstractMongoClientConfiguration() {
 
     private val logger by Logging()
-
-    @Value("\${db.name}")
-    lateinit var dbName: String
 
     @PostConstruct
     private fun postConstruct() {
@@ -20,4 +22,9 @@ class MongoConfiguration : AbstractMongoClientConfiguration() {
     }
 
     override fun getDatabaseName() = dbName
+
+    override fun configureConverters(adapter: MongoCustomConversions.MongoConverterConfigurationAdapter) {
+        adapter.registerConverter(YearMonthReadConverter())
+        adapter.registerConverter(YearMonthWriteConverter())
+    }
 }

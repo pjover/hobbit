@@ -4,3 +4,7 @@ db:
 springdoc:
   api-docs:
     path: /api-docs
+
+invoices:
+  maxAmount: 2500
+  currency: €
