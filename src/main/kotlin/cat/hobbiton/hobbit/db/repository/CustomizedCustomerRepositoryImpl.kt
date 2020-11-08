@@ -12,7 +12,6 @@ class CustomizedCustomerRepositoryImpl(
         private val mongoTemplate: MongoTemplate
 ) : CustomizedCustomerRepository {
 
-
     private val logger by Logging()
 
     override fun save(customer: Customer): Customer {
@@ -28,7 +27,7 @@ class CustomizedCustomerRepositoryImpl(
         val currSequence = sequenceRepository.findById(SequenceType.CUSTOMER).orElse(Sequence(SequenceType.CUSTOMER, 0))
         val newSequence = Sequence(SequenceType.CUSTOMER, currSequence.counter + 1)
         sequenceRepository.save(newSequence)
-        logger.debug("Updated customer sequence to ${newSequence.counter}")
+        logger.info("Updated customer sequence to ${newSequence.counter}")
 
         return customer.copy(id = newSequence.counter)
     }
@@ -39,9 +38,11 @@ class CustomizedCustomerRepositoryImpl(
         val newChildren = mutableListOf<Child>()
         for (i in currChildren.indices) {
             if (currChildren[i].code == 0) {
-                newChildren.add(currChildren[i].copy(
+                val child = currChildren[i].copy(
                         code = customer.id * 10 + i
-                ))
+                )
+                newChildren.add(child)
+                logger.info("Updated child code ${child.name}: ${child.code}")
             } else {
                 newChildren.add(currChildren[i])
             }
