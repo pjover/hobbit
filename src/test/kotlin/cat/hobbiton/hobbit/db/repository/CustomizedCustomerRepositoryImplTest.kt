@@ -1,10 +1,12 @@
 package cat.hobbiton.hobbit.db.repository
 
+import cat.hobbiton.hobbit.domain.Customer
 import cat.hobbiton.hobbit.domain.Sequence
 import cat.hobbiton.hobbit.domain.SequenceType
 import cat.hobbiton.hobbit.testChild1
 import cat.hobbiton.hobbit.testChild2
 import cat.hobbiton.hobbit.testCustomer
+import io.kotlintest.IsolationMode
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.DescribeSpec
 import io.mockk.every
@@ -15,12 +17,18 @@ import java.util.*
 
 class CustomizedCustomerRepositoryImplTest : DescribeSpec() {
 
+    override fun isolationMode() = IsolationMode.InstancePerLeaf
+
     init {
         val sequenceRepository = mockk<SequenceRepository>()
         val mongoTemplate = mockk<MongoTemplate>()
         val sut = CustomizedCustomerRepositoryImpl(sequenceRepository, mongoTemplate)
 
         describe("save") {
+
+            every { sequenceRepository.save(any()) } answers { firstArg() }
+            every { mongoTemplate.insert(any<Customer>()) } answers { firstArg() }
+            every { sequenceRepository.findById(SequenceType.CUSTOMER) } returns Optional.of(Sequence(SequenceType.CUSTOMER, 999))
 
             context("completes the children codes") {
 
@@ -53,9 +61,6 @@ class CustomizedCustomerRepositoryImplTest : DescribeSpec() {
 
             context("increments the customer id") {
 
-                every { sequenceRepository.findById(SequenceType.CUSTOMER) } returns Optional.of(Sequence(SequenceType.CUSTOMER, 999))
-                every { sequenceRepository.save(any()) } answers { firstArg() }
-
                 val actual = sut.save(testCustomer(id = 0))
 
                 it("updates the sequence") {
@@ -72,9 +77,14 @@ class CustomizedCustomerRepositoryImplTest : DescribeSpec() {
 
             context("saves the customer") {
 
-            }
+                sut.save(testCustomer())
 
+                it("call collaborators") {
+                    verify(exactly = 1) {
+                        mongoTemplate.insert(any<Customer>())
+                    }
+                }
+            }
         }
     }
-
 }

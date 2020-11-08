@@ -18,10 +18,8 @@ class CustomizedCustomerRepositoryImpl(
     override fun save(customer: Customer): Customer {
 
         val withId = incrementId(customer)
-        return completeChildrenCodes(withId)
-
-
-//        mongoTemplate.insert(customer, "customer")
+        val withChildrenCodes = completeChildrenCodes(withId)
+        return saveCustomer(withChildrenCodes)
     }
 
     private fun incrementId(customer: Customer): Customer {
@@ -50,4 +48,6 @@ class CustomizedCustomerRepositoryImpl(
         }
         return customer.copy(children = newChildren)
     }
+
+    private fun saveCustomer(customer: Customer) = mongoTemplate.insert(customer)
 }
