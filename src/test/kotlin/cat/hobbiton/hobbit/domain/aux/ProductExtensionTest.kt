@@ -6,25 +6,21 @@ import io.kotlintest.specs.DescribeSpec
 import java.math.BigDecimal
 import kotlin.test.assertFailsWith
 
-class ProductEventHandlerTest : DescribeSpec() {
+class ProductExtensionTest : DescribeSpec() {
 
     init {
-        val sut = ProductEventHandler()
-
         describe("validate") {
 
             context("Product id validation errors") {
 
                 context("and the id is blank") {
                     val executor = {
-                        sut.validate(
-                                Product(
-                                        "",
-                                        "Test",
-                                        "Test product",
-                                        BigDecimal.TEN
-                                )
-                        )
+                        Product(
+                                "",
+                                "Test",
+                                "Test product",
+                                BigDecimal.TEN
+                        ).validate()
                     }
 
                     it("throws an error") {
@@ -35,14 +31,12 @@ class ProductEventHandlerTest : DescribeSpec() {
 
                 context("and the id has less than 3 characters") {
                     val executor = {
-                        sut.validate(
-                                Product(
-                                        "AA",
-                                        "Test",
-                                        "Test product",
-                                        BigDecimal.TEN
-                                )
-                        )
+                        Product(
+                                "AA",
+                                "Test",
+                                "Test product",
+                                BigDecimal.TEN
+                        ).validate()
                     }
 
                     it("throws an error") {
@@ -53,14 +47,12 @@ class ProductEventHandlerTest : DescribeSpec() {
 
                 context("and the id has more than 3 characters") {
                     val executor = {
-                        sut.validate(
-                                Product(
-                                        "AAAA",
-                                        "Test",
-                                        "Test product",
-                                        BigDecimal.TEN
-                                )
-                        )
+                        Product(
+                                "AAAA",
+                                "Test",
+                                "Test product",
+                                BigDecimal.TEN
+                        ).validate()
                     }
 
                     it("throws an error") {
@@ -71,13 +63,12 @@ class ProductEventHandlerTest : DescribeSpec() {
 
                 context("and the id is lower case") {
                     val executor = {
-                        sut.validate(
-                                Product(
-                                        "aaa",
-                                        "Test",
-                                        "Test product",
-                                        BigDecimal.TEN)
-                        )
+                        Product(
+                                "aaa",
+                                "Test",
+                                "Test product",
+                                BigDecimal.TEN
+                        ).validate()
                     }
 
                     it("throws an error") {
@@ -91,14 +82,12 @@ class ProductEventHandlerTest : DescribeSpec() {
 
                 context("and the name is blank") {
                     val executor = {
-                        sut.validate(
-                                Product(
-                                        "AAA",
-                                        "",
-                                        "Test product",
-                                        BigDecimal.TEN
-                                )
-                        )
+                        Product(
+                                "AAA",
+                                "",
+                                "Test product",
+                                BigDecimal.TEN
+                        ).validate()
                     }
 
                     it("throws an error") {
@@ -109,15 +98,13 @@ class ProductEventHandlerTest : DescribeSpec() {
 
                 context("and the name is longer than 150 characters") {
                     val executor = {
-                        sut.validate(
-                                Product(
-                                        "AAA",
-                                        "12345678901234567890123456789012345678901234567890123456789012345678901234567890" +
-                                                "1234567890123456789012345678901234567890123456789012345678901234567890A",
-                                        "Test product",
-                                        BigDecimal.TEN
-                                )
-                        )
+                        Product(
+                                "AAA",
+                                "12345678901234567890123456789012345678901234567890123456789012345678901234567890" +
+                                        "1234567890123456789012345678901234567890123456789012345678901234567890A",
+                                "Test product",
+                                BigDecimal.TEN
+                        ).validate()
                     }
 
                     it("throws an error") {
@@ -131,14 +118,12 @@ class ProductEventHandlerTest : DescribeSpec() {
 
                 context("and the shortName is blank") {
                     val executor = {
-                        sut.validate(
-                                Product(
-                                        "AAA",
-                                        "Test product",
-                                        "",
-                                        BigDecimal.TEN
-                                )
-                        )
+                        Product(
+                                "AAA",
+                                "Test product",
+                                "",
+                                BigDecimal.TEN
+                        ).validate()
                     }
 
                     it("throws an error") {
@@ -149,14 +134,12 @@ class ProductEventHandlerTest : DescribeSpec() {
 
                 context("and the shortName is longer than 12 characters") {
                     val executor = {
-                        sut.validate(
-                                Product(
-                                        "AAA",
-                                        "Test product",
-                                        "1234567890123",
-                                        BigDecimal.TEN
-                                )
-                        )
+                        Product(
+                                "AAA",
+                                "Test product",
+                                "1234567890123",
+                                BigDecimal.TEN
+                        ).validate()
                     }
 
                     it("throws an error") {
@@ -170,14 +153,12 @@ class ProductEventHandlerTest : DescribeSpec() {
 
                 context("and the price is zero") {
                     val executor = {
-                        sut.validate(
-                                Product(
-                                        "AAA",
-                                        "Test product",
-                                        "Test product",
-                                        BigDecimal.ZERO
-                                )
-                        )
+                        Product(
+                                "AAA",
+                                "Test product",
+                                "Test product",
+                                BigDecimal.ZERO
+                        ).validate()
                     }
 
                     it("throws an error") {
@@ -191,15 +172,13 @@ class ProductEventHandlerTest : DescribeSpec() {
 
                 context("and the tax percentage is negative") {
                     val executor = {
-                        sut.validate(
-                                Product(
-                                        "AAA",
-                                        "Test product",
-                                        "Test product",
-                                        BigDecimal.TEN,
-                                        BigDecimal.valueOf(-1)
-                                )
-                        )
+                        Product(
+                                "AAA",
+                                "Test product",
+                                "Test product",
+                                BigDecimal.TEN,
+                                BigDecimal.valueOf(-1)
+                        ).validate()
                     }
 
                     it("throws an error") {
