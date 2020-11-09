@@ -1,4 +1,4 @@
-package cat.hobbiton.hobbit.domain.aux
+package cat.hobbiton.hobbit.domain.extension
 
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.DescribeSpec

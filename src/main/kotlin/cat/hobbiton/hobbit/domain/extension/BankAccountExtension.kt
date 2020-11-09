@@ -1,4 +1,4 @@
-package cat.hobbiton.hobbit.domain.aux
+package cat.hobbiton.hobbit.domain.extension
 
 import org.apache.commons.lang3.RegExUtils
 import org.apache.commons.lang3.StringUtils

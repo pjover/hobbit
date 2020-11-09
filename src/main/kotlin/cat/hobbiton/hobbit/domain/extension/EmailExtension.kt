@@ -1,4 +1,4 @@
-package cat.hobbiton.hobbit.domain.aux
+package cat.hobbiton.hobbit.domain.extension
 
 import java.util.regex.Pattern
 

@@ -1,4 +1,4 @@
-package cat.hobbiton.hobbit.domain.aux
+package cat.hobbiton.hobbit.domain.extension
 
 private const val CIF_LETTERS = "ABCDEFGHJKLMNPQRSVW"
 private const val CIF_HEAD_LETTERS = "NPQRSWJUF"

@@ -1,4 +1,4 @@
-package cat.hobbiton.hobbit.domain.aux
+package cat.hobbiton.hobbit.domain.extension
 
 import cat.hobbiton.hobbit.testAdultMother
 import io.kotlintest.shouldBe

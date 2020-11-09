@@ -1,7 +1,7 @@
 package cat.hobbiton.hobbit.db.eventhandler
 
 import cat.hobbiton.hobbit.domain.Product
-import cat.hobbiton.hobbit.domain.aux.validate
+import cat.hobbiton.hobbit.domain.extension.validate
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.DescribeSpec
 import io.mockk.*
