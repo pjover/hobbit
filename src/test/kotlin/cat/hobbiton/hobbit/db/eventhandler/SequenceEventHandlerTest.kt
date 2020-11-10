@@ -12,17 +12,27 @@ class SequenceEventHandlerTest : DescribeSpec() {
         val sut = SequenceEventHandler()
 
         describe("validate") {
-            val executor = {
-                sut.validate(Sequence(
-                        SequenceType.CUSTOMER,
-                        -1
-                )
-                )
+
+            context("validation fails") {
+                val executor = {
+                    sut.validate(Sequence(
+                            SequenceType.CUSTOMER,
+                            -1
+                    ))
+                }
+
+                it("throws an error") {
+                    val exception = assertFailsWith<IllegalArgumentException> { executor.invoke() }
+                    exception.message shouldBe "Sequence counter has to be greater than zero"
+                }
             }
 
-            it("throws an error") {
-                val exception = assertFailsWith<IllegalArgumentException> { executor.invoke() }
-                exception.message shouldBe "Sequence counter has to be greater than zero"
+            context("validation suceeds") {
+
+                sut.validate(Sequence(SequenceType.CUSTOMER, 22))
+
+                it("do not throws any error") {
+                }
             }
         }
     }
