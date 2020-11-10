@@ -3,7 +3,7 @@ package cat.hobbiton.hobbit.domain
 import java.time.LocalDate
 
 data class Child(
-        val code: Int,
+        val code: Int = 0,
         val name: String,
         val surname: String,
         val secondSurname: String? = null,

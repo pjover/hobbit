@@ -5,7 +5,7 @@ import cat.hobbiton.hobbit.db.repository.InvoiceRepository
 import cat.hobbiton.hobbit.db.repository.SequenceRepository
 import cat.hobbiton.hobbit.domain.Sequence
 import cat.hobbiton.hobbit.domain.SequenceType
-import cat.hobbiton.hobbit.domain.aux.extractCounter
+import cat.hobbiton.hobbit.domain.extension.extractCounter
 import cat.hobbiton.hobbit.util.Logging
 import org.springframework.stereotype.Service
 
