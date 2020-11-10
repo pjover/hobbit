@@ -1,15 +1,17 @@
 package cat.hobbiton.hobbit.domain.extension
 
+import cat.hobbiton.hobbit.domain.InvoiceLine
 import cat.hobbiton.hobbit.testInvoiceLines
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.DescribeSpec
 import java.math.BigDecimal
+import kotlin.test.assertFailsWith
 
 internal class InvoiceLineExtensionTest : DescribeSpec() {
 
     init {
 
-        describe("Invoice lines tests") {
+        describe("Invoice lines amounts") {
 
             context("grossAmount()") {
 
@@ -35,6 +37,40 @@ internal class InvoiceLineExtensionTest : DescribeSpec() {
 
                 it("return the correct amount") {
                     actual shouldBe BigDecimal.valueOf(11)
+                }
+            }
+        }
+
+        describe("validate Invoice Line") {
+            context("with blank id") {
+
+                val executor = {
+                    InvoiceLine(productId = "",
+                            productName = "XXX name",
+                            units = BigDecimal.valueOf(2000),
+                            productPrice = BigDecimal.ONE)
+                            .validate()
+                }
+
+                it("throws an error") {
+                    val exception = assertFailsWith<IllegalArgumentException> { executor.invoke() }
+                    exception.message shouldBe "Invoice line must inform a product id"
+                }
+            }
+
+            context("with zero units") {
+
+                val executor = {
+                    InvoiceLine(productId = "XXX",
+                            productName = "XXX name",
+                            units = BigDecimal.ZERO,
+                            productPrice = BigDecimal.ONE)
+                            .validate()
+                }
+
+                it("throws an error") {
+                    val exception = assertFailsWith<IllegalArgumentException> { executor.invoke() }
+                    exception.message shouldBe "Invoice line product units cannot be zero"
                 }
             }
         }
