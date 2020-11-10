@@ -1,14 +1,16 @@
 package cat.hobbiton.hobbit.domain.extension
 
+import cat.hobbiton.hobbit.domain.InvoiceLine
 import cat.hobbiton.hobbit.testInvoice
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.DescribeSpec
 import java.math.BigDecimal
+import kotlin.test.assertFailsWith
 
 class InvoiceExtensionTest : DescribeSpec() {
 
     init {
-        describe("Invoice tests") {
+        describe("Invoice amount tests") {
             val invoice = testInvoice()
 
             context("grossAmount()") {
@@ -38,6 +40,78 @@ class InvoiceExtensionTest : DescribeSpec() {
                     actual shouldBe BigDecimal("36.65")
                 }
             }
+        }
+
+        describe("validate Invoice") {
+
+            context("without children codes") {
+
+                val executor = {
+                    testInvoice().copy(childrenCodes = listOf()).validate(2500, "€")
+                }
+
+                it("throws an error") {
+                    val exception = assertFailsWith<IllegalArgumentException> { executor.invoke() }
+                    exception.message shouldBe "Invoice children codes cannot be blank"
+                }
+            }
+
+            context("without lines") {
+
+                val executor = {
+                    testInvoice().copy(lines = listOf()).validate(2500, "€")
+                }
+
+                it("throws an error") {
+                    val exception = assertFailsWith<IllegalArgumentException> { executor.invoke() }
+                    exception.message shouldBe "Invoice lines cannot be blank"
+                }
+            }
+
+            context("with amount too high") {
+
+                val executor = {
+                    testInvoice().copy(
+                            lines = listOf(
+                                    InvoiceLine(productId = "XXX",
+                                            productName = "XXX name",
+                                            units = BigDecimal.valueOf(2000),
+                                            productPrice = BigDecimal.ONE),
+                                    InvoiceLine(
+                                            productId = "TSS",
+                                            productName = "XXX name",
+                                            units = BigDecimal.valueOf(500),
+                                            productPrice = BigDecimal.ONE)
+                            )
+                    ).validate(2500, "€")
+                }
+
+                it("throws an error") {
+                    val exception = assertFailsWith<IllegalArgumentException> { executor.invoke() }
+                    exception.message shouldBe "Invoice amount has bo be lesser than 2,500 €"
+                }
+            }
+
+            context("with invalid line") {
+
+                val executor = {
+                    testInvoice().copy(
+                            lines = listOf(
+                                    InvoiceLine(productId = "XXX",
+                                            productName = "XXX name",
+                                            units = BigDecimal.ZERO,
+                                            productPrice = BigDecimal.ONE)
+                            )
+                    ).validate(2500, "€")
+                }
+
+                it("throws an error") {
+                    val exception = assertFailsWith<IllegalArgumentException> { executor.invoke() }
+                    exception.message shouldBe "Invoice line product units cannot be zero"
+                }
+            }
+
+
         }
 
         describe("List of Invoices tests")

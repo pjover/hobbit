@@ -1,6 +1,5 @@
 package cat.hobbiton.hobbit.db.eventhandler
 
-import cat.hobbiton.hobbit.domain.extension.CustomerEventHandler
 import cat.hobbiton.hobbit.testCustomer
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.DescribeSpec
