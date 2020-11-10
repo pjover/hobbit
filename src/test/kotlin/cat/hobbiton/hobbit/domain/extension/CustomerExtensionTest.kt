@@ -6,7 +6,7 @@ import io.kotlintest.shouldBe
 import io.kotlintest.specs.DescribeSpec
 import kotlin.test.assertFailsWith
 
-internal class CustomerExtensionsTest : DescribeSpec() {
+internal class CustomerExtensionTest : DescribeSpec() {
 
     init {
 

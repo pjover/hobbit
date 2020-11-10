@@ -5,7 +5,7 @@ import io.kotlintest.shouldBe
 import io.kotlintest.specs.DescribeSpec
 import java.math.BigDecimal
 
-internal class InvoiceLineExtensionsTest : DescribeSpec() {
+internal class InvoiceLineExtensionTest : DescribeSpec() {
 
     init {
 

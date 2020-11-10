@@ -1,4 +1,4 @@
-package cat.hobbiton.hobbit.domain.extension
+package cat.hobbiton.hobbit.db.eventhandler
 
 import cat.hobbiton.hobbit.domain.InvoiceLine
 import cat.hobbiton.hobbit.testInvoice
