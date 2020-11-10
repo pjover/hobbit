@@ -4,6 +4,7 @@ import cat.hobbiton.hobbit.*
 import cat.hobbiton.hobbit.domain.AdultRole
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.DescribeSpec
+import kotlin.test.assertFailsWith
 
 internal class CustomerExtensionsTest : DescribeSpec() {
 
@@ -70,7 +71,7 @@ internal class CustomerExtensionsTest : DescribeSpec() {
             }
         }
 
-        describe("list tests") {
+        describe("lists") {
 
             context("getActiveChildren") {
 
@@ -78,6 +79,29 @@ internal class CustomerExtensionsTest : DescribeSpec() {
 
                 it("return false") {
                     actual shouldBe testChildren2()
+                }
+            }
+        }
+
+        describe("validate") {
+
+            context("valid") {
+
+                sut.validate()
+
+                it("should not throw any error") {}
+
+            }
+
+            context("not valid") {
+
+                val executor = {
+                    sut.copy(children = listOf()).validate()
+                }
+
+                it("throws an error") {
+                    val exception = assertFailsWith<IllegalArgumentException> { executor.invoke() }
+                    exception.message shouldBe "Customer must have al least one child"
                 }
             }
         }
