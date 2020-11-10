@@ -16,5 +16,6 @@ data class Consumption(
         val productId: String,
         @Field(targetType = FieldType.DECIMAL128) val units: BigDecimal,
         var yearMonth: YearMonth = YearMonth.from(LocalDate.now()),
-        val note: String? = null
+        val note: String? = null,
+        val invoicedOn: LocalDate? = null
 )
