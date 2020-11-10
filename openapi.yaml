@@ -1,0 +1,1758 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+  - url: 'http://localhost:8080'
+    description: Generated server url
+paths:
+  /consumptions:
+    get:
+      tags:
+        - consumption-entity-controller
+      description: get-consumption
+      operationId: getCollectionResource-consumption-get_1
+      parameters:
+        - name: page
+          in: query
+          description: Zero-based page index (0..N)
+          required: false
+          schema:
+            minimum: 0
+            type: integer
+            default: '0'
+        - name: size
+          in: query
+          description: The size of the page to be returned
+          required: false
+          schema:
+            minimum: 1
+            type: integer
+            default: '20'
+        - name: sort
+          in: query
+          description: 'Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.'
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelConsumption'
+            application/x-spring-data-compact+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelConsumption'
+            text/uri-list:
+              schema:
+                $ref: '#/components/schemas/CollectionModelConsumption'
+    post:
+      tags:
+        - consumption-entity-controller
+      description: create-consumption
+      operationId: postCollectionResource-consumption-post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Consumption'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/RepresentationModelConsumption'
+  '/consumptions/{id}':
+    get:
+      tags:
+        - consumption-entity-controller
+      description: get-consumption
+      operationId: getItemResource-consumption-get
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/EntityModelConsumption'
+        '404':
+          description: Not Found
+    put:
+      tags:
+        - consumption-entity-controller
+      description: update-consumption
+      operationId: putItemResource-consumption-put
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Consumption'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/RepresentationModelConsumption'
+        '201':
+          description: Created
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/RepresentationModelConsumption'
+        '204':
+          description: No Content
+    delete:
+      tags:
+        - consumption-entity-controller
+      description: delete-consumption
+      operationId: deleteItemResource-consumption-delete
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: No Content
+        '404':
+          description: Not Found
+    patch:
+      tags:
+        - consumption-entity-controller
+      description: patch-consumption
+      operationId: patchItemResource-consumption-patch
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Consumption'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/RepresentationModelConsumption'
+        '204':
+          description: No Content
+  /customers:
+    get:
+      tags:
+        - customer-entity-controller
+      description: get-customer
+      operationId: getCollectionResource-customer-get_1
+      parameters:
+        - name: page
+          in: query
+          description: Zero-based page index (0..N)
+          required: false
+          schema:
+            minimum: 0
+            type: integer
+            default: '0'
+        - name: size
+          in: query
+          description: The size of the page to be returned
+          required: false
+          schema:
+            minimum: 1
+            type: integer
+            default: '20'
+        - name: sort
+          in: query
+          description: 'Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.'
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelCustomer'
+            application/x-spring-data-compact+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelCustomer'
+            text/uri-list:
+              schema:
+                $ref: '#/components/schemas/CollectionModelCustomer'
+    post:
+      tags:
+        - customer-entity-controller
+      description: create-customer
+      operationId: postCollectionResource-customer-post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Customer'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/RepresentationModelCustomer'
+  '/customers/{id}':
+    get:
+      tags:
+        - customer-entity-controller
+      description: get-customer
+      operationId: getItemResource-customer-get
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/EntityModelCustomer'
+        '404':
+          description: Not Found
+    put:
+      tags:
+        - customer-entity-controller
+      description: update-customer
+      operationId: putItemResource-customer-put
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Customer'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/RepresentationModelCustomer'
+        '201':
+          description: Created
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/RepresentationModelCustomer'
+        '204':
+          description: No Content
+    delete:
+      tags:
+        - customer-entity-controller
+      description: delete-customer
+      operationId: deleteItemResource-customer-delete
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: No Content
+        '404':
+          description: Not Found
+    patch:
+      tags:
+        - customer-entity-controller
+      description: patch-customer
+      operationId: patchItemResource-customer-patch
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Customer'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/RepresentationModelCustomer'
+        '204':
+          description: No Content
+  /invoices:
+    get:
+      tags:
+        - invoice-entity-controller
+      description: get-invoice
+      operationId: getCollectionResource-invoice-get_1
+      parameters:
+        - name: page
+          in: query
+          description: Zero-based page index (0..N)
+          required: false
+          schema:
+            minimum: 0
+            type: integer
+            default: '0'
+        - name: size
+          in: query
+          description: The size of the page to be returned
+          required: false
+          schema:
+            minimum: 1
+            type: integer
+            default: '20'
+        - name: sort
+          in: query
+          description: 'Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.'
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelInvoice'
+            application/x-spring-data-compact+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelInvoice'
+            text/uri-list:
+              schema:
+                $ref: '#/components/schemas/CollectionModelInvoice'
+    post:
+      tags:
+        - invoice-entity-controller
+      description: create-invoice
+      operationId: postCollectionResource-invoice-post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Invoice'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/RepresentationModelInvoice'
+  /invoices/search/findByCustomerId:
+    get:
+      tags:
+        - invoice-search-controller
+      operationId: executeSearch-invoice-get
+      parameters:
+        - name: customerId
+          in: query
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelInvoice'
+        '404':
+          description: Not Found
+  /invoices/search/findByEmailedAndYearMonth:
+    get:
+      tags:
+        - invoice-search-controller
+      operationId: executeSearch-invoice-get_1
+      parameters:
+        - name: emailed
+          in: query
+          schema:
+            type: boolean
+        - name: yearMonth
+          in: query
+          schema:
+            type: object
+            properties:
+              year:
+                type: integer
+                format: int32
+              month:
+                type: string
+                enum:
+                  - JANUARY
+                  - FEBRUARY
+                  - MARCH
+                  - APRIL
+                  - MAY
+                  - JUNE
+                  - JULY
+                  - AUGUST
+                  - SEPTEMBER
+                  - OCTOBER
+                  - NOVEMBER
+                  - DECEMBER
+              monthValue:
+                type: integer
+                format: int32
+              leapYear:
+                type: boolean
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelInvoice'
+        '404':
+          description: Not Found
+  /invoices/search/findByIdStartingWith:
+    get:
+      tags:
+        - invoice-search-controller
+      operationId: executeSearch-invoice-get_2
+      parameters:
+        - name: idPrefix
+          in: query
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelInvoice'
+        '404':
+          description: Not Found
+  /invoices/search/findByPaymentTypeAndYearMonth:
+    get:
+      tags:
+        - invoice-search-controller
+      operationId: executeSearch-invoice-get_3
+      parameters:
+        - name: paymentType
+          in: query
+          schema:
+            type: string
+            enum:
+              - BANK_DIRECT_DEBIT
+              - BANK_TRANSFER
+              - VOUCHER
+              - CASH
+        - name: yearMonth
+          in: query
+          schema:
+            type: object
+            properties:
+              year:
+                type: integer
+                format: int32
+              month:
+                type: string
+                enum:
+                  - JANUARY
+                  - FEBRUARY
+                  - MARCH
+                  - APRIL
+                  - MAY
+                  - JUNE
+                  - JULY
+                  - AUGUST
+                  - SEPTEMBER
+                  - OCTOBER
+                  - NOVEMBER
+                  - DECEMBER
+              monthValue:
+                type: integer
+                format: int32
+              leapYear:
+                type: boolean
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelInvoice'
+        '404':
+          description: Not Found
+  /invoices/search/findByPrintedAndYearMonth:
+    get:
+      tags:
+        - invoice-search-controller
+      operationId: executeSearch-invoice-get_4
+      parameters:
+        - name: printed
+          in: query
+          schema:
+            type: boolean
+        - name: yearMonth
+          in: query
+          schema:
+            type: object
+            properties:
+              year:
+                type: integer
+                format: int32
+              month:
+                type: string
+                enum:
+                  - JANUARY
+                  - FEBRUARY
+                  - MARCH
+                  - APRIL
+                  - MAY
+                  - JUNE
+                  - JULY
+                  - AUGUST
+                  - SEPTEMBER
+                  - OCTOBER
+                  - NOVEMBER
+                  - DECEMBER
+              monthValue:
+                type: integer
+                format: int32
+              leapYear:
+                type: boolean
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelInvoice'
+        '404':
+          description: Not Found
+  /invoices/search/findByYearMonth:
+    get:
+      tags:
+        - invoice-search-controller
+      operationId: executeSearch-invoice-get_5
+      parameters:
+        - name: yearMonth
+          in: query
+          schema:
+            type: object
+            properties:
+              year:
+                type: integer
+                format: int32
+              month:
+                type: string
+                enum:
+                  - JANUARY
+                  - FEBRUARY
+                  - MARCH
+                  - APRIL
+                  - MAY
+                  - JUNE
+                  - JULY
+                  - AUGUST
+                  - SEPTEMBER
+                  - OCTOBER
+                  - NOVEMBER
+                  - DECEMBER
+              monthValue:
+                type: integer
+                format: int32
+              leapYear:
+                type: boolean
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelInvoice'
+        '404':
+          description: Not Found
+  '/invoices/{id}':
+    get:
+      tags:
+        - invoice-entity-controller
+      description: get-invoice
+      operationId: getItemResource-invoice-get
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/EntityModelInvoice'
+        '404':
+          description: Not Found
+    put:
+      tags:
+        - invoice-entity-controller
+      description: update-invoice
+      operationId: putItemResource-invoice-put
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Invoice'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/RepresentationModelInvoice'
+        '201':
+          description: Created
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/RepresentationModelInvoice'
+        '204':
+          description: No Content
+    delete:
+      tags:
+        - invoice-entity-controller
+      description: delete-invoice
+      operationId: deleteItemResource-invoice-delete
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: No Content
+        '404':
+          description: Not Found
+    patch:
+      tags:
+        - invoice-entity-controller
+      description: patch-invoice
+      operationId: patchItemResource-invoice-patch
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Invoice'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/RepresentationModelInvoice'
+        '204':
+          description: No Content
+  /products:
+    get:
+      tags:
+        - product-entity-controller
+      description: get-product
+      operationId: getCollectionResource-product-get_1
+      parameters:
+        - name: page
+          in: query
+          description: Zero-based page index (0..N)
+          required: false
+          schema:
+            minimum: 0
+            type: integer
+            default: '0'
+        - name: size
+          in: query
+          description: The size of the page to be returned
+          required: false
+          schema:
+            minimum: 1
+            type: integer
+            default: '20'
+        - name: sort
+          in: query
+          description: 'Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.'
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelProduct'
+            application/x-spring-data-compact+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelProduct'
+            text/uri-list:
+              schema:
+                $ref: '#/components/schemas/CollectionModelProduct'
+    post:
+      tags:
+        - product-entity-controller
+      description: create-product
+      operationId: postCollectionResource-product-post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/RepresentationModelProduct'
+  '/products/{id}':
+    get:
+      tags:
+        - product-entity-controller
+      description: get-product
+      operationId: getItemResource-product-get
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/EntityModelProduct'
+        '404':
+          description: Not Found
+    put:
+      tags:
+        - product-entity-controller
+      description: update-product
+      operationId: putItemResource-product-put
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/RepresentationModelProduct'
+        '201':
+          description: Created
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/RepresentationModelProduct'
+        '204':
+          description: No Content
+    delete:
+      tags:
+        - product-entity-controller
+      description: delete-product
+      operationId: deleteItemResource-product-delete
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: No Content
+        '404':
+          description: Not Found
+    patch:
+      tags:
+        - product-entity-controller
+      description: patch-product
+      operationId: patchItemResource-product-patch
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/RepresentationModelProduct'
+        '204':
+          description: No Content
+  /profile:
+    get:
+      tags:
+        - profile-controller
+      operationId: listAllFormsOfMetadata_1
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/RepresentationModelObject'
+  /profile/consumptions:
+    get:
+      tags:
+        - profile-controller
+      operationId: descriptor_1
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+            application/alps+json:
+              schema:
+                type: string
+            application/schema+json:
+              schema:
+                $ref: '#/components/schemas/JsonSchema'
+  /profile/customers:
+    get:
+      tags:
+        - profile-controller
+      operationId: descriptor_2
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+            application/alps+json:
+              schema:
+                type: string
+            application/schema+json:
+              schema:
+                $ref: '#/components/schemas/JsonSchema'
+  /profile/invoices:
+    get:
+      tags:
+        - profile-controller
+      operationId: descriptor_3
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+            application/alps+json:
+              schema:
+                type: string
+            application/schema+json:
+              schema:
+                $ref: '#/components/schemas/JsonSchema'
+  /profile/products:
+    get:
+      tags:
+        - profile-controller
+      operationId: descriptor_4
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+            application/alps+json:
+              schema:
+                type: string
+            application/schema+json:
+              schema:
+                $ref: '#/components/schemas/JsonSchema'
+  /profile/sequences:
+    get:
+      tags:
+        - profile-controller
+      operationId: descriptor_5
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+            application/alps+json:
+              schema:
+                type: string
+            application/schema+json:
+              schema:
+                $ref: '#/components/schemas/JsonSchema'
+  /sequences:
+    get:
+      tags:
+        - sequence-entity-controller
+      description: get-sequence
+      operationId: getCollectionResource-sequence-get_1
+      parameters:
+        - name: page
+          in: query
+          description: Zero-based page index (0..N)
+          required: false
+          schema:
+            minimum: 0
+            type: integer
+            default: '0'
+        - name: size
+          in: query
+          description: The size of the page to be returned
+          required: false
+          schema:
+            minimum: 1
+            type: integer
+            default: '20'
+        - name: sort
+          in: query
+          description: 'Sorting criteria in the format: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.'
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelSequence'
+            application/x-spring-data-compact+json:
+              schema:
+                $ref: '#/components/schemas/CollectionModelSequence'
+            text/uri-list:
+              schema:
+                $ref: '#/components/schemas/CollectionModelSequence'
+    post:
+      tags:
+        - sequence-entity-controller
+      description: create-sequence
+      operationId: postCollectionResource-sequence-post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Sequence'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/RepresentationModelSequence'
+  '/sequences/{id}':
+    get:
+      tags:
+        - sequence-entity-controller
+      description: get-sequence
+      operationId: getItemResource-sequence-get
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/EntityModelSequence'
+        '404':
+          description: Not Found
+    put:
+      tags:
+        - sequence-entity-controller
+      description: update-sequence
+      operationId: putItemResource-sequence-put
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Sequence'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/RepresentationModelSequence'
+        '201':
+          description: Created
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/RepresentationModelSequence'
+        '204':
+          description: No Content
+    delete:
+      tags:
+        - sequence-entity-controller
+      description: delete-sequence
+      operationId: deleteItemResource-sequence-delete
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: No Content
+        '404':
+          description: Not Found
+    patch:
+      tags:
+        - sequence-entity-controller
+      description: patch-sequence
+      operationId: patchItemResource-sequence-patch
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Sequence'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/RepresentationModelSequence'
+        '204':
+          description: No Content
+components:
+  schemas:
+    AbstractJsonSchemaPropertyObject:
+      type: object
+      properties:
+        title:
+          type: string
+        readOnly:
+          type: boolean
+    Item:
+      type: object
+      properties:
+        type:
+          type: string
+        properties:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/AbstractJsonSchemaPropertyObject'
+        requiredProperties:
+          type: array
+          items:
+            type: string
+    JsonSchema:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        properties:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/AbstractJsonSchemaPropertyObject'
+        requiredProperties:
+          type: array
+          items:
+            type: string
+        definitions:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Item'
+        type:
+          type: string
+        $schema:
+          type: string
+    Links:
+      type: object
+      additionalProperties:
+        $ref: '#/components/schemas/Link'
+    RepresentationModelObject:
+      type: object
+      properties:
+        _links:
+          $ref: '#/components/schemas/Links'
+    Invoice:
+      required:
+        - childrenCodes
+        - customerId
+        - date
+        - emailed
+        - id
+        - lines
+        - paymentType
+        - printed
+        - subsidizedAmount
+        - yearMonth
+      type: object
+      properties:
+        id:
+          type: string
+        customerId:
+          type: integer
+          format: int32
+        date:
+          type: string
+          format: date
+        yearMonth:
+          type: object
+          properties:
+            year:
+              type: integer
+              format: int32
+            month:
+              type: string
+              enum:
+                - JANUARY
+                - FEBRUARY
+                - MARCH
+                - APRIL
+                - MAY
+                - JUNE
+                - JULY
+                - AUGUST
+                - SEPTEMBER
+                - OCTOBER
+                - NOVEMBER
+                - DECEMBER
+            monthValue:
+              type: integer
+              format: int32
+            leapYear:
+              type: boolean
+        childrenCodes:
+          type: array
+          items:
+            type: integer
+            format: int32
+        lines:
+          type: array
+          items:
+            $ref: '#/components/schemas/InvoiceLine'
+        paymentType:
+          type: string
+          enum:
+            - BANK_DIRECT_DEBIT
+            - BANK_TRANSFER
+            - VOUCHER
+            - CASH
+        subsidizedAmount:
+          type: number
+        note:
+          type: string
+        emailed:
+          type: boolean
+        printed:
+          type: boolean
+    InvoiceLine:
+      required:
+        - productId
+        - productName
+        - productPrice
+        - taxPercentage
+        - units
+      type: object
+      properties:
+        productId:
+          type: string
+        productName:
+          type: string
+        units:
+          type: number
+        productPrice:
+          type: number
+        taxPercentage:
+          type: number
+    RepresentationModelInvoice:
+      type: object
+      properties:
+        _links:
+          $ref: '#/components/schemas/Links'
+    CollectionModelInvoice:
+      type: object
+      properties:
+        _embedded:
+          type: object
+          properties:
+            invoices:
+              type: array
+              items:
+                $ref: '#/components/schemas/Invoice'
+        _links:
+          $ref: '#/components/schemas/Links'
+    EntityModelInvoice:
+      type: object
+      properties:
+        id:
+          type: string
+        customerId:
+          type: integer
+          format: int32
+        date:
+          type: string
+          format: date
+        yearMonth:
+          type: object
+          properties:
+            year:
+              type: integer
+              format: int32
+            month:
+              type: string
+              enum:
+                - JANUARY
+                - FEBRUARY
+                - MARCH
+                - APRIL
+                - MAY
+                - JUNE
+                - JULY
+                - AUGUST
+                - SEPTEMBER
+                - OCTOBER
+                - NOVEMBER
+                - DECEMBER
+            monthValue:
+              type: integer
+              format: int32
+            leapYear:
+              type: boolean
+        childrenCodes:
+          type: array
+          items:
+            type: integer
+            format: int32
+        lines:
+          type: array
+          items:
+            $ref: '#/components/schemas/InvoiceLine'
+        paymentType:
+          type: string
+          enum:
+            - BANK_DIRECT_DEBIT
+            - BANK_TRANSFER
+            - VOUCHER
+            - CASH
+        subsidizedAmount:
+          type: number
+        note:
+          type: string
+        emailed:
+          type: boolean
+        printed:
+          type: boolean
+        _links:
+          $ref: '#/components/schemas/Links'
+    Address:
+      required:
+        - city
+        - state
+        - street
+        - zipCode
+      type: object
+      properties:
+        street:
+          type: string
+        zipCode:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+    Adult:
+      required:
+        - name
+        - role
+        - surname
+      type: object
+      properties:
+        name:
+          type: string
+        surname:
+          type: string
+        secondSurname:
+          type: string
+        taxId:
+          type: string
+        role:
+          type: string
+          enum:
+            - MOTHER
+            - FATHER
+            - TUTOR
+        address:
+          $ref: '#/components/schemas/Address'
+        email:
+          type: string
+        mobilePhone:
+          type: string
+        homePhone:
+          type: string
+        grandMotherPhone:
+          type: string
+        grandParentPhone:
+          type: string
+        workPhone:
+          type: string
+    Child:
+      required:
+        - active
+        - birthDate
+        - code
+        - group
+        - name
+        - surname
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        name:
+          type: string
+        surname:
+          type: string
+        secondSurname:
+          type: string
+        taxId:
+          type: string
+        birthDate:
+          type: string
+          format: date
+        group:
+          type: string
+          enum:
+            - EI_1
+            - EI_2
+            - EI_3
+            - UNDEFINED
+        note:
+          type: string
+        active:
+          type: boolean
+    Customer:
+      required:
+        - active
+        - adults
+        - children
+        - id
+        - invoiceHolder
+        - language
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/Child'
+        adults:
+          type: array
+          items:
+            $ref: '#/components/schemas/Adult'
+        invoiceHolder:
+          $ref: '#/components/schemas/InvoiceHolder'
+        note:
+          type: string
+        language:
+          type: string
+          enum:
+            - CA
+            - ES
+            - EN
+        active:
+          type: boolean
+    InvoiceHolder:
+      required:
+        - address
+        - isBusiness
+        - name
+        - paymentType
+        - sendEmail
+        - subsidizedAmount
+        - taxId
+      type: object
+      properties:
+        name:
+          type: string
+        taxId:
+          type: string
+        address:
+          $ref: '#/components/schemas/Address'
+        email:
+          type: string
+        sendEmail:
+          type: boolean
+        paymentType:
+          type: string
+          enum:
+            - BANK_DIRECT_DEBIT
+            - BANK_TRANSFER
+            - VOUCHER
+            - CASH
+        bankAccount:
+          type: string
+        subsidizedAmount:
+          type: number
+        isBusiness:
+          type: boolean
+    RepresentationModelCustomer:
+      type: object
+      properties:
+        _links:
+          $ref: '#/components/schemas/Links'
+    CollectionModelCustomer:
+      type: object
+      properties:
+        _embedded:
+          type: object
+          properties:
+            customers:
+              type: array
+              items:
+                $ref: '#/components/schemas/Customer'
+        _links:
+          $ref: '#/components/schemas/Links'
+    EntityModelCustomer:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/Child'
+        adults:
+          type: array
+          items:
+            $ref: '#/components/schemas/Adult'
+        invoiceHolder:
+          $ref: '#/components/schemas/InvoiceHolder'
+        note:
+          type: string
+        language:
+          type: string
+          enum:
+            - CA
+            - ES
+            - EN
+        active:
+          type: boolean
+        _links:
+          $ref: '#/components/schemas/Links'
+    Product:
+      required:
+        - id
+        - name
+        - price
+        - shortName
+        - taxPercentage
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        shortName:
+          type: string
+        price:
+          type: number
+        taxPercentage:
+          type: number
+    RepresentationModelProduct:
+      type: object
+      properties:
+        _links:
+          $ref: '#/components/schemas/Links'
+    CollectionModelProduct:
+      type: object
+      properties:
+        _embedded:
+          type: object
+          properties:
+            products:
+              type: array
+              items:
+                $ref: '#/components/schemas/Product'
+        _links:
+          $ref: '#/components/schemas/Links'
+    EntityModelProduct:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        shortName:
+          type: string
+        price:
+          type: number
+        taxPercentage:
+          type: number
+        _links:
+          $ref: '#/components/schemas/Links'
+    Sequence:
+      required:
+        - counter
+        - id
+      type: object
+      properties:
+        id:
+          type: string
+          enum:
+            - STANDARD_INVOICE
+            - SPECIAL_INVOICE
+            - CUSTOMER
+        counter:
+          type: integer
+          format: int32
+    RepresentationModelSequence:
+      type: object
+      properties:
+        _links:
+          $ref: '#/components/schemas/Links'
+    CollectionModelSequence:
+      type: object
+      properties:
+        _embedded:
+          type: object
+          properties:
+            sequences:
+              type: array
+              items:
+                $ref: '#/components/schemas/Sequence'
+        _links:
+          $ref: '#/components/schemas/Links'
+    EntityModelSequence:
+      type: object
+      properties:
+        id:
+          type: string
+          enum:
+            - STANDARD_INVOICE
+            - SPECIAL_INVOICE
+            - CUSTOMER
+        counter:
+          type: integer
+          format: int32
+        _links:
+          $ref: '#/components/schemas/Links'
+    Consumption:
+      required:
+        - childrenCode
+        - id
+        - productId
+        - units
+        - yearMonth
+      type: object
+      properties:
+        id:
+          type: string
+        childrenCode:
+          type: integer
+          format: int32
+        productId:
+          type: string
+        units:
+          type: number
+        yearMonth:
+          type: object
+          properties:
+            year:
+              type: integer
+              format: int32
+            month:
+              type: string
+              enum:
+                - JANUARY
+                - FEBRUARY
+                - MARCH
+                - APRIL
+                - MAY
+                - JUNE
+                - JULY
+                - AUGUST
+                - SEPTEMBER
+                - OCTOBER
+                - NOVEMBER
+                - DECEMBER
+            monthValue:
+              type: integer
+              format: int32
+            leapYear:
+              type: boolean
+        note:
+          type: string
+        invoicedOn:
+          type: string
+          format: date
+    RepresentationModelConsumption:
+      type: object
+      properties:
+        _links:
+          $ref: '#/components/schemas/Links'
+    CollectionModelConsumption:
+      type: object
+      properties:
+        _embedded:
+          type: object
+          properties:
+            consumptions:
+              type: array
+              items:
+                $ref: '#/components/schemas/Consumption'
+        _links:
+          $ref: '#/components/schemas/Links'
+    EntityModelConsumption:
+      type: object
+      properties:
+        id:
+          type: string
+        childrenCode:
+          type: integer
+          format: int32
+        productId:
+          type: string
+        units:
+          type: number
+        yearMonth:
+          type: object
+          properties:
+            year:
+              type: integer
+              format: int32
+            month:
+              type: string
+              enum:
+                - JANUARY
+                - FEBRUARY
+                - MARCH
+                - APRIL
+                - MAY
+                - JUNE
+                - JULY
+                - AUGUST
+                - SEPTEMBER
+                - OCTOBER
+                - NOVEMBER
+                - DECEMBER
+            monthValue:
+              type: integer
+              format: int32
+            leapYear:
+              type: boolean
+        note:
+          type: string
+        invoicedOn:
+          type: string
+          format: date
+        _links:
+          $ref: '#/components/schemas/Links'
+    Link:
+      type: object
+      properties:
+        href:
+          type: string
+        hreflang:
+          type: string
+        title:
+          type: string
+        type:
+          type: string
+        deprecation:
+          type: string
+        profile:
+          type: string
+        name:
+          type: string
+        templated:
+          type: boolean
