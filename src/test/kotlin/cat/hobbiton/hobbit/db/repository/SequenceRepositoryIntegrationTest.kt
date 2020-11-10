@@ -12,7 +12,7 @@ import org.springframework.http.HttpStatus
 
 //@DataMongoTest
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-class ProductRepositoryIntegrationTests {
+class SequenceRepositoryIntegrationTest {
 
     @LocalServerPort
     private val port = 0
@@ -22,9 +22,9 @@ class ProductRepositoryIntegrationTests {
 
     @Test
     @Throws(Exception::class)
-    fun products() {
+    fun sequences() {
         val response = restTemplate?.getForEntity(
-                "http://localhost:$port/products?page=0&size=2",
+                "http://localhost:$port/sequences?page=0&size=2",
                 String::class.java)!!
 
         assertThat(response.statusCode, equalTo(HttpStatus.OK))
