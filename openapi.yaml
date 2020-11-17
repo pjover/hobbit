@@ -18,6 +18,24 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/ChildrenGroupDTO'
+
+  /lists/customers:
+    get:
+      tags:
+        - List
+      description: Return the active customers list
+      operationId: getCustomersList
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CustomerListDTO'
+
+
 components:
   schemas:
     ChildrenGroupDTO:
@@ -40,4 +58,16 @@ components:
           format: int32
         shortName:
           type: string
-
+    CustomerListDTO:
+      description: Customer's basic info
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        shortName:
+          type: string
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChildListDTO'

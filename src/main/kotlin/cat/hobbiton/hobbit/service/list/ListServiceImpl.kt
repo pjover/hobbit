@@ -2,6 +2,7 @@ package cat.hobbiton.hobbit.service.list
 
 import cat.hobbiton.hobbit.api.model.ChildListDTO
 import cat.hobbiton.hobbit.api.model.ChildrenGroupDTO
+import cat.hobbiton.hobbit.api.model.CustomerListDTO
 import cat.hobbiton.hobbit.db.repository.CustomerRepository
 import cat.hobbiton.hobbit.domain.extension.shortName
 import org.springframework.stereotype.Service
@@ -32,5 +33,9 @@ class ListServiceImpl(
                                     }
                     )
                 }
+    }
+
+    override fun getCustomersList(): List<CustomerListDTO> {
+        TODO("Not yet implemented")
     }
 }

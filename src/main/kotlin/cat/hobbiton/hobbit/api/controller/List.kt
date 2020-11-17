@@ -1,6 +1,7 @@
 package cat.hobbiton.hobbit.api.controller
 
 import cat.hobbiton.hobbit.api.model.ChildrenGroupDTO
+import cat.hobbiton.hobbit.api.model.CustomerListDTO
 import cat.hobbiton.hobbit.service.list.ListService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
@@ -22,5 +23,14 @@ class ListController(@Autowired(required = true) val service: ListService) {
             method = [RequestMethod.GET])
     fun getChildrenList(): ResponseEntity<List<ChildrenGroupDTO>> {
         return ResponseEntity(service.getChildrenList(), HttpStatus.valueOf(200))
+    }
+
+
+    @RequestMapping(
+            value = ["/lists/customers"],
+            produces = ["application/json"],
+            method = [RequestMethod.GET])
+    fun getCustomersList(): ResponseEntity<List<CustomerListDTO>> {
+        return ResponseEntity(service.getCustomersList(), HttpStatus.valueOf(200))
     }
 }

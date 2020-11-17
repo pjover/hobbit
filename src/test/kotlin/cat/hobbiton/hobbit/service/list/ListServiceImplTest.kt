@@ -2,6 +2,7 @@ package cat.hobbiton.hobbit.service.list
 
 import cat.hobbiton.hobbit.api.model.ChildListDTO
 import cat.hobbiton.hobbit.api.model.ChildrenGroupDTO
+import cat.hobbiton.hobbit.api.model.CustomerListDTO
 import cat.hobbiton.hobbit.db.repository.CustomerRepository
 import cat.hobbiton.hobbit.domain.GroupType
 import cat.hobbiton.hobbit.testChild3
@@ -41,6 +42,29 @@ class ListServiceImplTest : DescribeSpec() {
             )
 
             val actual = sut.getChildrenList()
+
+            it("returns the correct list") {
+                actual shouldBe expected
+            }
+        }
+
+        describe("getCustomersList") {
+
+            val expected = listOf(
+                    CustomerListDTO(185, "Joana Bibiloni",
+                            listOf(
+                                    ChildListDTO(1, "Laura Llull"),
+                                    ChildListDTO(2, "Aina Llull")
+                            )
+                    ),
+                    CustomerListDTO(185, "Xisca Llull",
+                            listOf(
+                                    ChildListDTO(3, "Laia Llull")
+                            )
+                    )
+            )
+
+            val actual = sut.getCustomersList()
 
             it("returns the correct list") {
                 actual shouldBe expected
