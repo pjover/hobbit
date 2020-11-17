@@ -15,13 +15,18 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ChildrenListDTO'
+                type: array
+                items:
+                  $ref: '#/components/schemas/ChildrenGroupDTO'
 components:
   schemas:
-    ChildrenListDTO:
-      description: List of children's basic info
+    ChildrenGroupDTO:
+      description: List of children's basic info for a concrete group
       type: object
       properties:
+        group:
+          description: The children's group
+          type: string
         children:
           type: array
           items:

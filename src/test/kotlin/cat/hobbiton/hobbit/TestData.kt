@@ -21,7 +21,8 @@ fun testChild1() = Child(
         name = "Laura",
         surname = "Llull",
         secondSurname = "Bibiloni",
-        birthDate = DATE
+        birthDate = DATE,
+        group = GroupType.EI_1
 )
 
 fun testChild2() = Child(
@@ -29,7 +30,8 @@ fun testChild2() = Child(
         name = "Aina",
         surname = "Llull",
         secondSurname = "Bibiloni",
-        birthDate = DATE
+        birthDate = DATE,
+        group = GroupType.EI_1
 )
 
 fun testChild3() = Child(
@@ -37,7 +39,8 @@ fun testChild3() = Child(
         name = "Laia",
         surname = "Llull",
         secondSurname = "Bibiloni",
-        birthDate = DATE
+        birthDate = DATE,
+        group = GroupType.EI_2
 )
 
 fun testChildren1() = listOf(testChild1())

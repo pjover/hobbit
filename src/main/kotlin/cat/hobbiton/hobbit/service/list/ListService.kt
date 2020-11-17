@@ -1,8 +1,7 @@
 package cat.hobbiton.hobbit.service.list
 
-import cat.hobbiton.hobbit.api.model.ChildrenListDTO
-
+import cat.hobbiton.hobbit.api.model.ChildrenGroupDTO
 interface ListService {
 
-    fun getChildrenList(): ChildrenListDTO
+	fun getChildrenList(): List<ChildrenGroupDTO>
 }

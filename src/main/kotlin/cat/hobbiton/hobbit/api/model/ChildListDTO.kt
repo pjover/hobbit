@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty
 
 /**
  * Children's basic info
- * @param shortName
  * @param code
+ * @param shortName
  */
 data class ChildListDTO(
 
