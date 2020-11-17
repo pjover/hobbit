@@ -30,8 +30,9 @@ components:
       description: Children's basic info
       type: object
       properties:
-        shortName:
-          type: string
         code:
           type: integer
           format: int32
+        shortName:
+          type: string
+
