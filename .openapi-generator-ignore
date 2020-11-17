@@ -27,4 +27,5 @@ src/main/resources/application.yaml
 README.md
 src/main/kotlin/cat/hobbiton/hobbit/Application.kt
 src/main/kotlin/cat/hobbiton/hobbit/api/ApiUtil.kt
+src/main/kotlin/cat/hobbiton/hobbit/api/Exceptions.kt
 src/test/**

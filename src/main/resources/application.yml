@@ -8,3 +8,10 @@ springdoc:
 invoices:
   maxAmount: 2500
   currency: €
+
+api:
+  base-path: /
+#spring:
+#  jackson:
+#    serialization:
+#      WRITE_DATES_AS_TIMESTAMPS: false
