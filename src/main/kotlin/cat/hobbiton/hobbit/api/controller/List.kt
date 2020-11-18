@@ -3,6 +3,7 @@ package cat.hobbiton.hobbit.api.controller
 import cat.hobbiton.hobbit.api.model.ChildrenGroupDTO
 import cat.hobbiton.hobbit.api.model.CustomerListDTO
 import cat.hobbiton.hobbit.api.model.EmailsGroupDTO
+import cat.hobbiton.hobbit.api.model.GroupDTO
 import cat.hobbiton.hobbit.service.list.ListService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
@@ -41,8 +42,8 @@ class ListController(@Autowired(required = true) val service: ListService) {
             value = ["/lists/emails/{group}"],
             produces = ["application/json"],
             method = [RequestMethod.GET])
-    fun getEmailsList(@PathVariable("group") group: String
-    ): ResponseEntity<List<EmailsGroupDTO>> {
+    fun getEmailsList(@PathVariable("group") group: GroupDTO
+    ): ResponseEntity<EmailsGroupDTO> {
         return ResponseEntity(service.getEmailsList(group), HttpStatus.valueOf(200))
     }
 }

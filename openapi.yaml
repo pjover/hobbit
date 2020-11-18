@@ -47,23 +47,14 @@ paths:
           in: path
           required: true
           schema:
-            type: string
-            enum:
-              - ALL
-              - EI_1
-              - EI_2
-              - EI_3
-            default: ALL
-            example: ALL
+            $ref: '#/components/schemas/GroupDTO'
       responses:
         '200':
           description: OK
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/EmailsGroupDTO'
+                $ref: '#/components/schemas/EmailsGroupDTO'
 
 components:
   schemas:
@@ -108,10 +99,19 @@ components:
       type: object
       properties:
         group:
-          description: The children's group
-          type: string
+          $ref: '#/components/schemas/GroupDTO'
         emails:
           description: The customers email
           type: array
           items:
             type: string
+
+    GroupDTO:
+      description: Group where the children are
+      type: string
+      default: ALL
+      enum:
+        - ALL
+        - EI_1
+        - EI_2
+        - EI_3
