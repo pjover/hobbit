@@ -4,7 +4,10 @@ import cat.hobbiton.hobbit.api.model.ChildListDTO
 import cat.hobbiton.hobbit.api.model.ChildrenGroupDTO
 import cat.hobbiton.hobbit.api.model.CustomerListDTO
 import cat.hobbiton.hobbit.db.repository.CustomerRepository
+import cat.hobbiton.hobbit.domain.Adult
+import cat.hobbiton.hobbit.domain.AdultRole
 import cat.hobbiton.hobbit.domain.GroupType
+import cat.hobbiton.hobbit.testChild1
 import cat.hobbiton.hobbit.testChild3
 import cat.hobbiton.hobbit.testCustomer
 import io.kotlintest.shouldBe
@@ -50,6 +53,22 @@ class ListServiceImplTest : DescribeSpec() {
 
         describe("getCustomersList") {
 
+            every { customerRepository.findAll() } returns listOf(
+                    testCustomer(),
+                    testCustomer(
+                            id = 186,
+                            children = listOf(
+                                    testChild3(),
+                                    testChild1().copy(active = false)
+                            ),
+                    ).copy(adults = listOf(Adult(
+                            name = "Xisca",
+                            surname = "Llull",
+                            role = AdultRole.MOTHER
+                    ))),
+                    testCustomer(id = 187).copy(active = false)
+            )
+
             val expected = listOf(
                     CustomerListDTO(185, "Joana Bibiloni",
                             listOf(
@@ -57,7 +76,7 @@ class ListServiceImplTest : DescribeSpec() {
                                     ChildListDTO(2, "Aina Llull")
                             )
                     ),
-                    CustomerListDTO(185, "Xisca Llull",
+                    CustomerListDTO(186, "Xisca Llull",
                             listOf(
                                     ChildListDTO(3, "Laia Llull")
                             )
