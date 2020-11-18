@@ -1,8 +1,6 @@
 package cat.hobbiton.hobbit.service.list
 
-import cat.hobbiton.hobbit.api.model.ChildListDTO
-import cat.hobbiton.hobbit.api.model.ChildrenGroupDTO
-import cat.hobbiton.hobbit.api.model.CustomerListDTO
+import cat.hobbiton.hobbit.api.model.*
 import cat.hobbiton.hobbit.db.repository.CustomerRepository
 import cat.hobbiton.hobbit.domain.Adult
 import cat.hobbiton.hobbit.domain.AdultRole
@@ -10,6 +8,7 @@ import cat.hobbiton.hobbit.domain.GroupType
 import cat.hobbiton.hobbit.testChild1
 import cat.hobbiton.hobbit.testChild3
 import cat.hobbiton.hobbit.testCustomer
+import cat.hobbiton.hobbit.testInvoiceHolder
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.DescribeSpec
 import io.mockk.every
@@ -24,8 +23,15 @@ class ListServiceImplTest : DescribeSpec() {
         describe("getChildrenList") {
             every { customerRepository.findAll() } returns listOf(
                     testCustomer(),
-                    testCustomer(children = listOf(testChild3())),
-                    testCustomer().copy(children = listOf(testChild3().copy(active = false)))
+                    testCustomer(
+                            children = listOf(
+                                    testChild3(),
+                                    testChild1().copy(active = false)
+                            )
+                    ),
+                    testCustomer().copy(
+                            active = false,
+                            children = listOf(testChild3()))
             )
 
             val expected = listOf(
@@ -61,11 +67,12 @@ class ListServiceImplTest : DescribeSpec() {
                                     testChild3(),
                                     testChild1().copy(active = false)
                             ),
-                    ).copy(adults = listOf(Adult(
-                            name = "Xisca",
-                            surname = "Llull",
-                            role = AdultRole.MOTHER
-                    ))),
+                    ).copy(
+                            adults = listOf(Adult(
+                                    name = "Xisca",
+                                    surname = "Llull",
+                                    role = AdultRole.MOTHER
+                            ))),
                     testCustomer(id = 187).copy(active = false)
             )
 
@@ -90,6 +97,37 @@ class ListServiceImplTest : DescribeSpec() {
             }
 
         }
-    }
 
+        describe("getEmailsList") {
+            every { customerRepository.findAll() } returns listOf(
+                    testCustomer(),
+                    testCustomer(
+                            children = listOf(testChild3(), testChild1().copy(active = false)),
+                            invoiceHolder = testInvoiceHolder().copy(email = "test@gmail.com")
+                    ),
+                    testCustomer().copy(active = false, children = listOf(testChild3()))
+            )
+
+            context("all groups") {
+
+                val expected = EmailsGroupDTO(
+                        group = GroupDTO.ALL,
+                        emails = listOf(
+                                "Joana Bibiloni Oliver <jbibiloni@gmail.com>",
+                                "Joana Bibiloni Oliver <test@gmail.com>"
+                        )
+                )
+
+                val actual = sut.getEmailsList(GroupDTO.ALL)
+
+                it("returns the correct list") {
+                    actual shouldBe expected
+                }
+            }
+
+            context("one group") {
+                assert(false)
+            }
+        }
+    }
 }

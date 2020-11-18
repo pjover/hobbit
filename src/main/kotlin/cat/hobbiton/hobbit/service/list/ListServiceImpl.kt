@@ -1,10 +1,8 @@
 package cat.hobbiton.hobbit.service.list
 
-import cat.hobbiton.hobbit.api.model.ChildListDTO
-import cat.hobbiton.hobbit.api.model.ChildrenGroupDTO
-import cat.hobbiton.hobbit.api.model.CustomerListDTO
-import cat.hobbiton.hobbit.api.model.EmailsGroupDTO
+import cat.hobbiton.hobbit.api.model.*
 import cat.hobbiton.hobbit.db.repository.CustomerRepository
+import cat.hobbiton.hobbit.domain.extension.emailText
 import cat.hobbiton.hobbit.domain.extension.getFirstAdult
 import cat.hobbiton.hobbit.domain.extension.shortName
 import org.springframework.stereotype.Service
@@ -59,7 +57,23 @@ class ListServiceImpl(
                 }
     }
 
-    override fun getEmailsList(group: String): List<EmailsGroupDTO> {
+    override fun getEmailsList(group: GroupDTO): EmailsGroupDTO {
+        return if (group == GroupDTO.ALL) getAllGroupsEmailsList()
+        else getOneGroupEmailsList()
+    }
+
+    private fun getAllGroupsEmailsList(): EmailsGroupDTO {
+
+        return EmailsGroupDTO(
+                group = GroupDTO.ALL,
+                emails = customerRepository.findAll()
+                        .filter { it.active }
+                        .sortedBy { it.id }
+                        .map { it.invoiceHolder.emailText() }
+        )
+    }
+
+    private fun getOneGroupEmailsList(): EmailsGroupDTO {
         TODO("Not yet implemented")
     }
 }

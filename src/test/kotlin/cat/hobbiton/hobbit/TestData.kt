@@ -88,11 +88,11 @@ fun testInvoiceHolder() = InvoiceHolder(
         bankAccount = "ES28 3066 8859 9782 5852 9057"
 )
 
-fun testCustomer(id: Int = 185, children: List<Child> = testChildren2()) = Customer(
+fun testCustomer(id: Int = 185, children: List<Child> = testChildren2(), invoiceHolder: InvoiceHolder = testInvoiceHolder()) = Customer(
         id = id,
         children = children,
         adults = testAdults(),
-        invoiceHolder = testInvoiceHolder()
+        invoiceHolder = invoiceHolder
 )
 
 fun testInvoice(
