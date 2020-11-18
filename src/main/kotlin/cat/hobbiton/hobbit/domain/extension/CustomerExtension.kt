@@ -27,6 +27,8 @@ fun Customer.getAdult(role: AdultRole): Adult? {
     else list.first()
 }
 
+fun Customer.getFirstAdult() = adults.minByOrNull { it.role.order }!!
+
 fun Customer.validate() {
 
     require(children.isNotEmpty()) {

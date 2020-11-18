@@ -69,6 +69,34 @@ internal class CustomerExtensionTest : DescribeSpec() {
                     }
                 }
             }
+
+            context("getCustomersList") {
+
+                context("has mother") {
+                    val actual = sut.getFirstAdult()
+
+                    it("returns the adult") {
+                        actual shouldBe testAdultMother()
+                    }
+                }
+
+                context("has father") {
+                    val actual = sut.copy(adults = listOf(testAdultFather())).getFirstAdult()
+
+                    it("returns the adult") {
+                        actual shouldBe testAdultFather()
+                    }
+                }
+
+                context("has tutor") {
+                    val actual = sut.copy(adults = listOf(testAdultTutor())).getFirstAdult()
+
+                    it("returns the adult") {
+                        actual shouldBe testAdultTutor()
+                    }
+                }
+
+            }
         }
 
         describe("lists") {

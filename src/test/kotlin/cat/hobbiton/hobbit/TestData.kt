@@ -70,6 +70,13 @@ fun testAdultFather() = Adult(
         role = AdultRole.FATHER
 )
 
+fun testAdultTutor() = Adult(
+        name = "Silvia",
+        surname = "Mayol",
+        secondSurname = "Alcover",
+        role = AdultRole.TUTOR
+)
+
 fun testAdults() = listOf(testAdultMother(), testAdultFather())
 
 fun testInvoiceHolder() = InvoiceHolder(
