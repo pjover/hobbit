@@ -1,14 +1,11 @@
 package cat.hobbiton.hobbit.service.list
 
+import cat.hobbiton.hobbit.*
 import cat.hobbiton.hobbit.api.model.*
 import cat.hobbiton.hobbit.db.repository.CustomerRepository
 import cat.hobbiton.hobbit.domain.Adult
 import cat.hobbiton.hobbit.domain.AdultRole
 import cat.hobbiton.hobbit.domain.GroupType
-import cat.hobbiton.hobbit.testChild1
-import cat.hobbiton.hobbit.testChild3
-import cat.hobbiton.hobbit.testCustomer
-import cat.hobbiton.hobbit.testInvoiceHolder
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.DescribeSpec
 import io.mockk.every
@@ -99,16 +96,16 @@ class ListServiceImplTest : DescribeSpec() {
         }
 
         describe("getEmailsList") {
-            every { customerRepository.findAll() } returns listOf(
-                    testCustomer(),
-                    testCustomer(
-                            children = listOf(testChild3(), testChild1().copy(active = false)),
-                            invoiceHolder = testInvoiceHolder().copy(email = "test@gmail.com")
-                    ),
-                    testCustomer().copy(active = false, children = listOf(testChild3()))
-            )
 
             context("all groups") {
+                every { customerRepository.findAll() } returns listOf(
+                        testCustomer(),
+                        testCustomer(
+                                children = listOf(testChild3(), testChild1().copy(active = false)),
+                                invoiceHolder = testInvoiceHolder().copy(email = "test@gmail.com")
+                        ),
+                        testCustomer().copy(active = false, children = listOf(testChild3()))
+                )
 
                 val expected = EmailsGroupDTO(
                         group = GroupDTO.ALL,
@@ -126,7 +123,28 @@ class ListServiceImplTest : DescribeSpec() {
             }
 
             context("one group") {
-                assert(false)
+                every { customerRepository.findAll() } returns listOf(
+                        testCustomer(),
+                        testCustomer(
+                                children = testChildren3Inactive(),
+                                invoiceHolder = testInvoiceHolder().copy(email = "test@gmail.com")
+                        ),
+                        testCustomer().copy(active = false, children = listOf(testChild3()))
+                )
+
+                val expected = EmailsGroupDTO(
+                        group = GroupDTO.EI_1,
+                        emails = listOf(
+                                "Joana Bibiloni Oliver <jbibiloni@gmail.com>",
+                                "Joana Bibiloni Oliver <test@gmail.com>"
+                        )
+                )
+
+                val actual = sut.getEmailsList(GroupDTO.EI_1)
+
+                it("returns the correct list") {
+                    actual shouldBe expected
+                }
             }
         }
     }

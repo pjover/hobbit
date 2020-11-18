@@ -59,7 +59,7 @@ class ListServiceImpl(
 
     override fun getEmailsList(group: GroupDTO): EmailsGroupDTO {
         return if (group == GroupDTO.ALL) getAllGroupsEmailsList()
-        else getOneGroupEmailsList()
+        else getOneGroupEmailsList(group)
     }
 
     private fun getAllGroupsEmailsList(): EmailsGroupDTO {
@@ -68,12 +68,22 @@ class ListServiceImpl(
                 group = GroupDTO.ALL,
                 emails = customerRepository.findAll()
                         .filter { it.active }
-                        .sortedBy { it.id }
                         .map { it.invoiceHolder.emailText() }
+                        .sorted()
         )
     }
 
-    private fun getOneGroupEmailsList(): EmailsGroupDTO {
-        TODO("Not yet implemented")
+    private fun getOneGroupEmailsList(group: GroupDTO): EmailsGroupDTO {
+
+        return EmailsGroupDTO(
+                group = group,
+                emails = customerRepository.findAll()
+                        .filter { it.active }
+                        .filter {
+                            it.children.any { child -> child.group.name == group.name }
+                        }
+                        .map { it.invoiceHolder.emailText() }
+                        .sorted()
+        )
     }
 }
