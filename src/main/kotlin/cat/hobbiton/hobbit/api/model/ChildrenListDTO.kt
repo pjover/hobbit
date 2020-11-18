@@ -8,8 +8,6 @@ import com.fasterxml.jackson.annotation.JsonProperty
  */
 data class ChildrenListDTO(
 
-        @JsonProperty("children") val children: kotlin.collections.List<ChildListDTO>? = null
-) {
-
-}
+        @JsonProperty("children") val children: List<ChildListDTO>? = null
+)
 

@@ -15,7 +15,5 @@ data class CustomerListDTO(
         @JsonProperty("shortName") val shortName: String? = null,
 
         @JsonProperty("children") val children: List<ChildListDTO>? = null
-) {
-
-}
+)
 

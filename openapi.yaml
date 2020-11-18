@@ -35,6 +35,35 @@ paths:
                 items:
                   $ref: '#/components/schemas/CustomerListDTO'
 
+  /lists/emails/{group}:
+    get:
+      tags:
+        - List
+      description: Return the active customers list emails by group
+      operationId: getEmailsList
+      parameters:
+        - name: group
+          description: the group of the customer childrens
+          in: path
+          required: true
+          schema:
+            type: string
+            enum:
+              - ALL
+              - EI_1
+              - EI_2
+              - EI_3
+            default: ALL
+            example: ALL
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EmailsGroupDTO'
 
 components:
   schemas:
@@ -49,6 +78,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ChildListDTO'
+
     ChildListDTO:
       description: Children's basic info
       type: object
@@ -58,6 +88,7 @@ components:
           format: int32
         shortName:
           type: string
+
     CustomerListDTO:
       description: Customer's basic info
       type: object
@@ -71,3 +102,16 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ChildListDTO'
+
+    EmailsGroupDTO:
+      description: List of customers' emails for a concrete group
+      type: object
+      properties:
+        group:
+          description: The children's group
+          type: string
+        emails:
+          description: The customers email
+          type: array
+          items:
+            type: string

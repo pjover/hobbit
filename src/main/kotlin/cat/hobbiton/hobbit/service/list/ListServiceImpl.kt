@@ -3,6 +3,7 @@ package cat.hobbiton.hobbit.service.list
 import cat.hobbiton.hobbit.api.model.ChildListDTO
 import cat.hobbiton.hobbit.api.model.ChildrenGroupDTO
 import cat.hobbiton.hobbit.api.model.CustomerListDTO
+import cat.hobbiton.hobbit.api.model.EmailsGroupDTO
 import cat.hobbiton.hobbit.db.repository.CustomerRepository
 import cat.hobbiton.hobbit.domain.extension.getFirstAdult
 import cat.hobbiton.hobbit.domain.extension.shortName
@@ -56,5 +57,9 @@ class ListServiceImpl(
                                     }
                     )
                 }
+    }
+
+    override fun getEmailsList(group: String): List<EmailsGroupDTO> {
+        TODO("Not yet implemented")
     }
 }

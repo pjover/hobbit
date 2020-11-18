@@ -12,7 +12,5 @@ data class ChildListDTO(
         @JsonProperty("code") val code: Int? = null,
 
         @JsonProperty("shortName") val shortName: String? = null
-) {
-
-}
+)
 

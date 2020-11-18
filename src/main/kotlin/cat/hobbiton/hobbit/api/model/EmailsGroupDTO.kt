@@ -3,14 +3,14 @@ package cat.hobbiton.hobbit.api.model
 import com.fasterxml.jackson.annotation.JsonProperty
 
 /**
- * List of children's basic info for a concrete group
+ * List of customers' emails for a concrete group
  * @param group The children's group
- * @param children
+ * @param emails The customers email
  */
-data class ChildrenGroupDTO(
+data class EmailsGroupDTO(
 
         @JsonProperty("group") val group: String? = null,
 
-        @JsonProperty("children") val children: List<ChildListDTO>? = null
+        @JsonProperty("emails") val emails: List<String>? = null
 )
 
