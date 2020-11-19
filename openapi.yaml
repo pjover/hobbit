@@ -56,6 +56,29 @@ paths:
               schema:
                 $ref: '#/components/schemas/EmailsGroupDTO'
 
+  /search/customer:
+    get:
+      tags:
+        - Search
+      description: Search customers by adult or child name
+      operationId: searchCustomer
+      parameters:
+        - name: text
+          description: the text to search
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CustomerListDTO'
+
 components:
   schemas:
     ChildrenGroupDTO:
