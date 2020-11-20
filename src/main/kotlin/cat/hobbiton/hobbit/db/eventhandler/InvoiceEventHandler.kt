@@ -1,7 +1,7 @@
 package cat.hobbiton.hobbit.db.eventhandler
 
-import cat.hobbiton.hobbit.domain.Invoice
-import cat.hobbiton.hobbit.domain.extension.validate
+import cat.hobbiton.hobbit.model.Invoice
+import cat.hobbiton.hobbit.model.extension.validate
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.data.rest.core.annotation.HandleBeforeCreate
 import org.springframework.data.rest.core.annotation.HandleBeforeSave

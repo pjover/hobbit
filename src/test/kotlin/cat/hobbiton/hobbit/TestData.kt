@@ -1,6 +1,6 @@
 package cat.hobbiton.hobbit
 
-import cat.hobbiton.hobbit.domain.*
+import cat.hobbiton.hobbit.model.*
 import java.math.BigDecimal
 import java.time.LocalDate
 import java.time.LocalDateTime

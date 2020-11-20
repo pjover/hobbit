@@ -1,7 +1,7 @@
 package cat.hobbiton.hobbit.db.repository
 
-import cat.hobbiton.hobbit.domain.Invoice
-import cat.hobbiton.hobbit.domain.PaymentType
+import cat.hobbiton.hobbit.model.Invoice
+import cat.hobbiton.hobbit.model.PaymentType
 import org.springframework.data.mongodb.repository.MongoRepository
 import java.time.YearMonth
 

@@ -3,9 +3,9 @@ package cat.hobbiton.hobbit.service.list
 import cat.hobbiton.hobbit.*
 import cat.hobbiton.hobbit.api.model.*
 import cat.hobbiton.hobbit.db.repository.CustomerRepository
-import cat.hobbiton.hobbit.domain.Adult
-import cat.hobbiton.hobbit.domain.AdultRole
-import cat.hobbiton.hobbit.domain.GroupType
+import cat.hobbiton.hobbit.model.Adult
+import cat.hobbiton.hobbit.model.AdultRole
+import cat.hobbiton.hobbit.model.GroupType
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.DescribeSpec
 import io.mockk.every

@@ -1,7 +1,7 @@
 package cat.hobbiton.hobbit.db.eventhandler
 
-import cat.hobbiton.hobbit.domain.Sequence
 import cat.hobbiton.hobbit.messages.ValidationMessages
+import cat.hobbiton.hobbit.model.Sequence
 import cat.hobbiton.hobbit.util.translate
 import org.springframework.data.rest.core.annotation.HandleBeforeCreate
 import org.springframework.data.rest.core.annotation.HandleBeforeSave

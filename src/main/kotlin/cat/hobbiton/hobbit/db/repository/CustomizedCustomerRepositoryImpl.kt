@@ -1,9 +1,9 @@
 package cat.hobbiton.hobbit.db.repository
 
-import cat.hobbiton.hobbit.domain.Child
-import cat.hobbiton.hobbit.domain.Customer
-import cat.hobbiton.hobbit.domain.Sequence
-import cat.hobbiton.hobbit.domain.SequenceType
+import cat.hobbiton.hobbit.model.Child
+import cat.hobbiton.hobbit.model.Customer
+import cat.hobbiton.hobbit.model.Sequence
+import cat.hobbiton.hobbit.model.SequenceType
 import cat.hobbiton.hobbit.util.Logging
 import org.springframework.data.mongodb.core.MongoTemplate
 

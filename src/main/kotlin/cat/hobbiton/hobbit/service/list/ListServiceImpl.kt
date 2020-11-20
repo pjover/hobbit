@@ -2,9 +2,9 @@ package cat.hobbiton.hobbit.service.list
 
 import cat.hobbiton.hobbit.api.model.*
 import cat.hobbiton.hobbit.db.repository.CustomerRepository
-import cat.hobbiton.hobbit.domain.extension.emailText
-import cat.hobbiton.hobbit.domain.extension.getFirstAdult
-import cat.hobbiton.hobbit.domain.extension.shortName
+import cat.hobbiton.hobbit.model.extension.emailText
+import cat.hobbiton.hobbit.model.extension.getFirstAdult
+import cat.hobbiton.hobbit.model.extension.shortName
 import org.springframework.stereotype.Service
 
 @Service

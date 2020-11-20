@@ -2,9 +2,9 @@ package cat.hobbiton.hobbit.service.search
 
 import cat.hobbiton.hobbit.api.model.ChildListDTO
 import cat.hobbiton.hobbit.api.model.CustomerListDTO
-import cat.hobbiton.hobbit.domain.Adult
-import cat.hobbiton.hobbit.domain.AdultRole
-import cat.hobbiton.hobbit.domain.Customer
+import cat.hobbiton.hobbit.model.Adult
+import cat.hobbiton.hobbit.model.AdultRole
+import cat.hobbiton.hobbit.model.Customer
 import cat.hobbiton.hobbit.testChild1
 import cat.hobbiton.hobbit.testChild2
 import cat.hobbiton.hobbit.testChild3

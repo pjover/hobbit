@@ -1,6 +1,6 @@
 package cat.hobbiton.hobbit.service.init
 
-import cat.hobbiton.hobbit.domain.Customer
+import cat.hobbiton.hobbit.model.Customer
 import cat.hobbiton.hobbit.util.Logging
 import org.springframework.data.mongodb.core.MongoTemplate
 import org.springframework.data.mongodb.core.index.TextIndexDefinition.TextIndexDefinitionBuilder

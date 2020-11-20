@@ -2,9 +2,9 @@ package cat.hobbiton.hobbit.service.search
 
 import cat.hobbiton.hobbit.api.model.ChildListDTO
 import cat.hobbiton.hobbit.api.model.CustomerListDTO
-import cat.hobbiton.hobbit.domain.Customer
-import cat.hobbiton.hobbit.domain.extension.getFirstAdult
-import cat.hobbiton.hobbit.domain.extension.shortName
+import cat.hobbiton.hobbit.model.Customer
+import cat.hobbiton.hobbit.model.extension.getFirstAdult
+import cat.hobbiton.hobbit.model.extension.shortName
 import org.springframework.data.mongodb.core.MongoTemplate
 import org.springframework.data.mongodb.core.query.TextCriteria
 import org.springframework.data.mongodb.core.query.TextQuery

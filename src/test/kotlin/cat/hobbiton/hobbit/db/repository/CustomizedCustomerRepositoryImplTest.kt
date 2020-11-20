@@ -1,8 +1,8 @@
 package cat.hobbiton.hobbit.db.repository
 
-import cat.hobbiton.hobbit.domain.Customer
-import cat.hobbiton.hobbit.domain.Sequence
-import cat.hobbiton.hobbit.domain.SequenceType
+import cat.hobbiton.hobbit.model.Customer
+import cat.hobbiton.hobbit.model.Sequence
+import cat.hobbiton.hobbit.model.SequenceType
 import cat.hobbiton.hobbit.testChild1
 import cat.hobbiton.hobbit.testChild2
 import cat.hobbiton.hobbit.testCustomer
