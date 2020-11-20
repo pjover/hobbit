@@ -34,7 +34,7 @@ class CustomizedCustomerRepositoryImplTest : DescribeSpec() {
 
                 context("updates the new children codes") {
 
-                    val actual = sut.save(testCustomer().copy(
+                    val actual = sut.save(testCustomer(
                             children = listOf(
                                     testChild1().copy(code = 0),
                                     testChild2().copy(code = 0)

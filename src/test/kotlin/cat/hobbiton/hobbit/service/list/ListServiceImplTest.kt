@@ -26,9 +26,8 @@ class ListServiceImplTest : DescribeSpec() {
                                     testChild1().copy(active = false)
                             )
                     ),
-                    testCustomer().copy(
-                            active = false,
-                            children = listOf(testChild3()))
+                    testCustomer(children = listOf(testChild3()))
+                            .copy(active = false)
             )
 
             val expected = listOf(
@@ -60,16 +59,9 @@ class ListServiceImplTest : DescribeSpec() {
                     testCustomer(),
                     testCustomer(
                             id = 186,
-                            children = listOf(
-                                    testChild3(),
-                                    testChild1().copy(active = false)
-                            ),
-                    ).copy(
-                            adults = listOf(Adult(
-                                    name = "Xisca",
-                                    surname = "Llull",
-                                    role = AdultRole.MOTHER
-                            ))),
+                            children = listOf(testChild3(), testChild1().copy(active = false)),
+                            adults = listOf(Adult(name = "Xisca", surname = "Llull", role = AdultRole.MOTHER))
+                    ),
                     testCustomer(id = 187).copy(active = false)
             )
 
@@ -104,7 +96,9 @@ class ListServiceImplTest : DescribeSpec() {
                                 children = listOf(testChild3(), testChild1().copy(active = false)),
                                 invoiceHolder = testInvoiceHolder().copy(email = "test@gmail.com")
                         ),
-                        testCustomer().copy(active = false, children = listOf(testChild3()))
+                        testCustomer(
+                                children = listOf(testChild3())
+                        ).copy(active = false)
                 )
 
                 val expected = EmailsGroupDTO(
@@ -129,7 +123,9 @@ class ListServiceImplTest : DescribeSpec() {
                                 children = testChildren3Inactive(),
                                 invoiceHolder = testInvoiceHolder().copy(email = "test@gmail.com")
                         ),
-                        testCustomer().copy(active = false, children = listOf(testChild3()))
+                        testCustomer(
+                                children = listOf(testChild3()))
+                                .copy(active = false)
                 )
 
                 val expected = EmailsGroupDTO(
