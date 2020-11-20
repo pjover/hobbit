@@ -117,5 +117,49 @@ class ChildExtensionTest : DescribeSpec() {
                 }
             }
         }
+
+        describe("calculateGroup") {
+            val thisYear = LocalDate.now().year
+
+            context("EI_1") {
+                val birthDate = LocalDate.of(thisYear, 2, 2)
+
+                val actual = birthDate.calculateGroup()
+
+                it("has to be in EI_1 group") {
+                    actual shouldBe GroupType.EI_1
+                }
+            }
+
+            context("EI_2") {
+                val birthDate = LocalDate.of(thisYear - 1, 2, 2)
+
+                val actual = birthDate.calculateGroup()
+
+                it("has to be in EI_1 group") {
+                    actual shouldBe GroupType.EI_2
+                }
+            }
+
+            context("EI_3") {
+                val birthDate = LocalDate.of(thisYear - 2, 2, 2)
+
+                val actual = birthDate.calculateGroup()
+
+                it("has to be in EI_1 group") {
+                    actual shouldBe GroupType.EI_3
+                }
+            }
+
+            context("UNDEFINED") {
+                val birthDate = LocalDate.of(thisYear - 3, 2, 2)
+
+                val actual = birthDate.calculateGroup()
+
+                it("has to be in EI_1 group") {
+                    actual shouldBe GroupType.UNDEFINED
+                }
+            }
+        }
     }
 }

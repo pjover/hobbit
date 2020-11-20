@@ -31,3 +31,12 @@ fun Child.validate() {
         ValidationMessages.ERROR_CHILD_GROUP_UNDEFINED.translate()
     }
 }
+
+fun LocalDate.calculateGroup(): GroupType {
+    return when (LocalDate.now().year - this.year) {
+        0 -> GroupType.EI_1
+        1 -> GroupType.EI_2
+        2 -> GroupType.EI_3
+        else -> GroupType.UNDEFINED
+    }
+}
