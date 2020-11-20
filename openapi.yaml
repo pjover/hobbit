@@ -79,6 +79,32 @@ paths:
                 items:
                   $ref: '#/components/schemas/CustomerListDTO'
 
+  /billing/consumptions:
+    get:
+      tags:
+        - Billing
+      description: Reports all the pending consumptions grouped by year-mont
+      operationId: getConsumptions
+      parameters:
+        - name: childrenCode
+          description: the children code to list consumptions, if none, all children ar listed
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/YearMonthConsumptionsDTO'
+        '404':
+          description: Not Found
+
 components:
   schemas:
     ChildrenGroupDTO:
@@ -138,3 +164,39 @@ components:
         - EI_1
         - EI_2
         - EI_3
+
+    YearMonthConsumptionsDTO:
+      description: Pending consumptions for a year-month
+      type: object
+      properties:
+        yearMonth:
+          type: String
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChildConsumtionDTO'
+
+    ChildConsumtionDTO:
+      description: Pending consumption of a child for a year-month
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        shortName:
+          type: string
+        consumptions:
+          type: array
+          items:
+            $ref: '#/components/schemas/ConsumtionDTO'
+
+    ConsumtionDTO:
+      description: Consumption item of a child
+      properties:
+        productId:
+          type: String
+        units:
+          type: Number
+          format: double
+        note:
+          type: String

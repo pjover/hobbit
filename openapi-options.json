@@ -1,5 +1,4 @@
 {
-  "gradleBuildFile": false,
   "supportingFiles": "",
   "apiDocs": "",
   "modelDocs": "",
@@ -12,7 +11,8 @@
   "apiSuffix": "",
   "artifactId": "hobbit",
   "sourceFolder": "src/main/kotlin",
-  "exceptionHandler": true,
+  "exceptionHandler": false,
+  "gradleBuildFile": false,
   "serviceInterface": true,
   "sortModelPropertiesByRequiredFlag": true,
   "swaggerAnnotations": false,
