@@ -17,13 +17,11 @@ class BillingServiceImpl(
 ) : BillingService {
 
     override fun getConsumptions(childCode: Int?): List<YearMonthConsumptionsDTO> {
-
         return if (childCode == null) getAllChildrenConsumptions()
         else getChildConsumptions(childCode)
     }
 
     private fun getAllChildrenConsumptions(): List<YearMonthConsumptionsDTO> {
-
         return consumptionRepository.findByInvoicedOnNull()
                 .groupBy { it.yearMonth }
                 .map { (yearMonth, consumptions) ->
@@ -66,6 +64,10 @@ class BillingServiceImpl(
     }
 
     private fun getChildConsumptions(childCode: Int): List<YearMonthConsumptionsDTO> {
-        TODO("Not yet implemented")
+        return consumptionRepository.findByInvoicedOnNullAndChildCode(childCode)
+                .groupBy { it.yearMonth }
+                .map { (yearMonth, consumptions) ->
+                    YearMonthConsumptionsDTO(yearMonth = yearMonth.toString(), groupYearMonth(consumptions))
+                }
     }
 }

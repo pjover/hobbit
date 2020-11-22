@@ -5,4 +5,5 @@ import org.springframework.data.mongodb.repository.MongoRepository
 
 interface ConsumptionRepository : MongoRepository<Consumption, String> {
     fun findByInvoicedOnNull(): List<Consumption>
+    fun findByInvoicedOnNullAndChildCode(childCode: Int): List<Consumption>
 }
