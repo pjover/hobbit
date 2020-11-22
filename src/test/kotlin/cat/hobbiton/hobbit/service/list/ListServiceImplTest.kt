@@ -30,26 +30,24 @@ class ListServiceImplTest : DescribeSpec() {
                             .copy(active = false)
             )
 
-            val expected = listOf(
-                    ChildrenGroupDTO(
-                            GroupType.EI_1.text,
-                            listOf(
-                                    ChildListDTO(1, "Laura Llull"),
-                                    ChildListDTO(2, "Aina Llull")
-                            )
-                    ),
-                    ChildrenGroupDTO(
-                            GroupType.EI_2.text,
-                            listOf(
-                                    ChildListDTO(3, "Laia Llull")
-                            )
-                    )
-            )
-
             val actual = sut.getChildrenList()
 
             it("returns the correct list") {
-                actual shouldBe expected
+                actual shouldBe listOf(
+                        ChildrenGroupDTO(
+                                GroupType.EI_1.text,
+                                listOf(
+                                        ChildListDTO(1, "Laura Llull"),
+                                        ChildListDTO(2, "Aina Llull")
+                                )
+                        ),
+                        ChildrenGroupDTO(
+                                GroupType.EI_2.text,
+                                listOf(
+                                        ChildListDTO(3, "Laia Llull")
+                                )
+                        )
+                )
             }
         }
 
@@ -65,24 +63,22 @@ class ListServiceImplTest : DescribeSpec() {
                     testCustomer(id = 187).copy(active = false)
             )
 
-            val expected = listOf(
-                    CustomerListDTO(185, "Joana Bibiloni",
-                            listOf(
-                                    ChildListDTO(1, "Laura Llull"),
-                                    ChildListDTO(2, "Aina Llull")
-                            )
-                    ),
-                    CustomerListDTO(186, "Xisca Llull",
-                            listOf(
-                                    ChildListDTO(3, "Laia Llull")
-                            )
-                    )
-            )
-
             val actual = sut.getCustomersList()
 
             it("returns the correct list") {
-                actual shouldBe expected
+                actual shouldBe listOf(
+                        CustomerListDTO(185, "Joana Bibiloni",
+                                listOf(
+                                        ChildListDTO(1, "Laura Llull"),
+                                        ChildListDTO(2, "Aina Llull")
+                                )
+                        ),
+                        CustomerListDTO(186, "Xisca Llull",
+                                listOf(
+                                        ChildListDTO(3, "Laia Llull")
+                                )
+                        )
+                )
             }
 
         }
@@ -101,18 +97,16 @@ class ListServiceImplTest : DescribeSpec() {
                         ).copy(active = false)
                 )
 
-                val expected = EmailsGroupDTO(
-                        group = GroupDTO.ALL,
-                        emails = listOf(
-                                "Joana Bibiloni Oliver <jbibiloni@gmail.com>",
-                                "Joana Bibiloni Oliver <test@gmail.com>"
-                        )
-                )
-
                 val actual = sut.getEmailsList(GroupDTO.ALL)
 
                 it("returns the correct list") {
-                    actual shouldBe expected
+                    actual shouldBe EmailsGroupDTO(
+                            group = GroupDTO.ALL,
+                            emails = listOf(
+                                    "Joana Bibiloni Oliver <jbibiloni@gmail.com>",
+                                    "Joana Bibiloni Oliver <test@gmail.com>"
+                            )
+                    )
                 }
             }
 
@@ -128,18 +122,16 @@ class ListServiceImplTest : DescribeSpec() {
                                 .copy(active = false)
                 )
 
-                val expected = EmailsGroupDTO(
-                        group = GroupDTO.EI_1,
-                        emails = listOf(
-                                "Joana Bibiloni Oliver <jbibiloni@gmail.com>",
-                                "Joana Bibiloni Oliver <test@gmail.com>"
-                        )
-                )
-
                 val actual = sut.getEmailsList(GroupDTO.EI_1)
 
                 it("returns the correct list") {
-                    actual shouldBe expected
+                    actual shouldBe EmailsGroupDTO(
+                            group = GroupDTO.EI_1,
+                            emails = listOf(
+                                    "Joana Bibiloni Oliver <jbibiloni@gmail.com>",
+                                    "Joana Bibiloni Oliver <test@gmail.com>"
+                            )
+                    )
                 }
             }
         }
