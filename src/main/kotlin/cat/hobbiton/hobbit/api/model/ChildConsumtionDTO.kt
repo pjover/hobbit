@@ -10,10 +10,10 @@ import com.fasterxml.jackson.annotation.JsonProperty
  */
 data class ChildConsumtionDTO(
 
-        @JsonProperty("code") val code: kotlin.Int? = null,
+        @JsonProperty("code") val code: Int? = null,
 
-        @JsonProperty("shortName") val shortName: kotlin.String? = null,
+        @JsonProperty("shortName") val shortName: String? = null,
 
-        @JsonProperty("consumptions") val consumptions: kotlin.collections.List<ConsumtionDTO>? = null
+        @JsonProperty("consumptions") val consumptions: List<ConsumtionDTO>? = null
 )
 

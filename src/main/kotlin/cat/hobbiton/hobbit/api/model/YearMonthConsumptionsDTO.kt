@@ -1,6 +1,5 @@
 package cat.hobbiton.hobbit.api.model
 
-import cat.hobbiton.hobbit.api.model.String
 import com.fasterxml.jackson.annotation.JsonProperty
 
 /**
@@ -12,6 +11,6 @@ data class YearMonthConsumptionsDTO(
 
         @JsonProperty("yearMonth") val yearMonth: String? = null,
 
-        @JsonProperty("children") val children: kotlin.collections.List<ChildConsumtionDTO>? = null
+        @JsonProperty("children") val children: List<ChildConsumtionDTO>? = null
 )
 

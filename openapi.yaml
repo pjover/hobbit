@@ -86,8 +86,8 @@ paths:
       description: Reports all the pending consumptions grouped by year-mont
       operationId: getConsumptions
       parameters:
-        - name: childrenCode
-          description: the children code to list consumptions, if none, all children ar listed
+        - name: childCode
+          description: the child code to list consumptions, if none, all children ar listed
           in: query
           required: false
           schema:
@@ -170,7 +170,7 @@ components:
       type: object
       properties:
         yearMonth:
-          type: String
+          type: string
         children:
           type: array
           items:
@@ -194,9 +194,9 @@ components:
       description: Consumption item of a child
       properties:
         productId:
-          type: String
+          type: string
         units:
-          type: Number
+          type: number
           format: double
         note:
-          type: String
+          type: string

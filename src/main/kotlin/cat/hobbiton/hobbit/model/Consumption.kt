@@ -12,7 +12,7 @@ private const val SHORT_ID_LENGTH = 8
 
 data class Consumption(
         @Id val id: String = RandomStringUtils.randomAlphanumeric(SHORT_ID_LENGTH),
-        var childrenCode: Int,
+        var childCode: Int,
         val productId: String,
         @Field(targetType = FieldType.DECIMAL128) val units: BigDecimal,
         var yearMonth: YearMonth = YearMonth.from(LocalDate.now()),
