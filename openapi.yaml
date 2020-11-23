@@ -171,6 +171,9 @@ components:
       properties:
         yearMonth:
           type: string
+        grossAmount:
+          type: number
+          format: double
         children:
           type: array
           items:
@@ -185,6 +188,9 @@ components:
           format: int32
         shortName:
           type: string
+        grossAmount:
+          type: number
+          format: double
         consumptions:
           type: array
           items:
@@ -196,6 +202,9 @@ components:
         productId:
           type: string
         units:
+          type: number
+          format: double
+        grossAmount:
           type: number
           format: double
         note:
