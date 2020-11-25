@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package cat.hobbiton.hobbit.api.model
 
 /**

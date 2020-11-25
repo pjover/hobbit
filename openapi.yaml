@@ -104,6 +104,23 @@ paths:
                   $ref: '#/components/schemas/YearMonthConsumptionsDTO'
         '404':
           description: Not Found
+    post:
+      tags:
+        - Billing
+      description: Sets the pending consumptions grouped by year-mont
+      operationId: setConsumptions
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SetYearMonthConsumptionsDTO'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/hal+json:
+              schema:
+                $ref: '#/components/schemas/YearMonthConsumptionsDTO'
 
 components:
   schemas:
@@ -204,6 +221,40 @@ components:
         units:
           type: number
           format: double
+        grossAmount:
+          type: number
+          format: double
+        note:
+          type: string
+
+    SetYearMonthConsumptionsDTO:
+      description: Pending consumptions for a year-month
+      type: object
+      properties:
+        yearMonth:
+          type: string
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/SetChildConsumtionDTO'
+
+    SetChildConsumtionDTO:
+      description: Pending consumption of a child for a year-month
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        consumptions:
+          type: array
+          items:
+            $ref: '#/components/schemas/SetConsumtionDTO'
+
+    SetConsumtionDTO:
+      description: Consumption item of a child
+      properties:
+        productId:
+          type: string
         grossAmount:
           type: number
           format: double
