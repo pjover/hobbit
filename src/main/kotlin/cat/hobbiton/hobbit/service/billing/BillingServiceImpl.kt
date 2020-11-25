@@ -7,6 +7,7 @@ import cat.hobbiton.hobbit.db.repository.ConsumptionRepository
 import cat.hobbiton.hobbit.db.repository.CustomerRepository
 import cat.hobbiton.hobbit.db.repository.ProductRepository
 import cat.hobbiton.hobbit.messages.ErrorMessages
+import cat.hobbiton.hobbit.model.Child
 import cat.hobbiton.hobbit.model.Consumption
 import cat.hobbiton.hobbit.model.Product
 import cat.hobbiton.hobbit.model.extension.getChild
@@ -47,7 +48,7 @@ class BillingServiceImpl(
                 .toDouble()
     }
 
-    private fun groupYearMonth(consumptions: List<Consumption>): List<ChildConsumtionDTO>? {
+    private fun groupYearMonth(consumptions: List<Consumption>): List<ChildConsumtionDTO> {
         return consumptions
                 .groupBy { it.childCode }
                 .map { (childCode, consumptions) -> sumConsumptions(childCode, consumptions) }
@@ -97,11 +98,15 @@ class BillingServiceImpl(
     }
 
     private fun getChildrenShortName(childCode: Int): String {
-        return getChild(childCode)?.getChild(childCode)?.shortName() ?: ""
+        return getChild(childCode).shortName()
     }
 
     @Cacheable("children")
-    fun getChild(code: Int) = customerRepository.findByChildCode(code)
+    fun getChild(code: Int): Child {
+        val customer = customerRepository.findByChildCode(code)
+                ?: throw AppException(ErrorMessages.ERROR_CHILD_NOT_FOUND, code)
+        return customer.getChild(code) ?: throw AppException(ErrorMessages.ERROR_CHILD_NOT_FOUND, code)
+    }
 
     private fun getChildConsumptions(childCode: Int): List<YearMonthConsumptionsDTO> {
         return consumptionRepository.findByInvoicedOnNullAndChildCode(childCode)

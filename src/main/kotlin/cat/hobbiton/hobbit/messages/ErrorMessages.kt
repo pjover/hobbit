@@ -8,5 +8,6 @@ enum class ErrorMessages(
         override val httpStatus: HttpStatus
 ) : I18nErrorMessage {
 
-    ERROR_PRODUCT_NOT_FOUND("error.product.not_found", HttpStatus.NOT_FOUND) // TODO Manage on GlobalExcepcionHandle
+    ERROR_PRODUCT_NOT_FOUND("error.product.not_found", HttpStatus.NOT_FOUND),
+    ERROR_CHILD_NOT_FOUND("error.child.not_found", HttpStatus.NOT_FOUND)
 }
