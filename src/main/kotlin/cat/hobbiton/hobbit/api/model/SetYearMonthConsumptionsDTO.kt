@@ -1,6 +1,7 @@
 package cat.hobbiton.hobbit.api.model
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import javax.validation.constraints.NotNull
 
 /**
  * Pending consumptions for a year-month
@@ -9,8 +10,10 @@ import com.fasterxml.jackson.annotation.JsonProperty
  */
 data class SetYearMonthConsumptionsDTO(
 
-        @JsonProperty("yearMonth") val yearMonth: String? = null,
+        @get:NotNull
+        @JsonProperty("yearMonth") val yearMonth: String,
 
-        @JsonProperty("children") val children: List<SetChildConsumtionDTO>? = null
+        @get:NotNull
+        @JsonProperty("children") val children: List<SetChildConsumtionDTO>
 )
 

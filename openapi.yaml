@@ -114,6 +114,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/SetYearMonthConsumptionsDTO'
+        required: true
       responses:
         '201':
           description: Created
@@ -126,6 +127,7 @@ paths:
 
 components:
   schemas:
+
     ChildrenGroupDTO:
       description: List of children's basic info for a concrete group
       type: object
@@ -239,6 +241,9 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/SetChildConsumtionDTO'
+      required:
+        - yearMonth
+        - children
 
     SetChildConsumtionDTO:
       description: Pending consumption of a child for a year-month
@@ -251,14 +256,20 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/SetConsumtionDTO'
+      required:
+        - code
+        - consumptions
 
     SetConsumtionDTO:
       description: Consumption item of a child
       properties:
         productId:
           type: string
-        grossAmount:
+        units:
           type: number
           format: double
         note:
           type: string
+      required:
+        - productId
+        - units

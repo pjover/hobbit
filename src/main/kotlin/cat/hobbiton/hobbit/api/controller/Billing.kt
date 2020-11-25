@@ -1,4 +1,4 @@
-package cat.hobbiton.hobbit.api.controller
+package cat.hobbiton.hobbit.api
 
 import cat.hobbiton.hobbit.api.model.SetYearMonthConsumptionsDTO
 import cat.hobbiton.hobbit.api.model.YearMonthConsumptionsDTO
@@ -28,7 +28,7 @@ class BillingController(@Autowired(required = true) val service: BillingService)
             value = ["/billing/consumptions"],
             produces = ["application/json"],
             method = [RequestMethod.GET])
-    fun getConsumptions(@RequestParam(value = "childCode", required = false) childCode: Int?
+    fun getConsumptions(@RequestParam(value = "childCode", required = false) childCode: kotlin.Int?
     ): ResponseEntity<List<YearMonthConsumptionsDTO>> {
         return ResponseEntity(service.getConsumptions(childCode), HttpStatus.valueOf(200))
     }
@@ -39,7 +39,7 @@ class BillingController(@Autowired(required = true) val service: BillingService)
             produces = ["application/hal+json"],
             consumes = ["application/json"],
             method = [RequestMethod.POST])
-    fun setConsumptions(@Valid @RequestBody setYearMonthConsumptionsDTO: SetYearMonthConsumptionsDTO?
+    fun setConsumptions(@Valid @RequestBody setYearMonthConsumptionsDTO: SetYearMonthConsumptionsDTO
     ): ResponseEntity<List<YearMonthConsumptionsDTO>> {
         return ResponseEntity(service.setConsumptions(setYearMonthConsumptionsDTO), HttpStatus.valueOf(201))
     }

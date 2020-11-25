@@ -1,18 +1,21 @@
 package cat.hobbiton.hobbit.api.model
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import javax.validation.constraints.NotNull
 
 /**
  * Consumption item of a child
  * @param productId
- * @param grossAmount
+ * @param units
  * @param note
  */
 data class SetConsumtionDTO(
 
-        @JsonProperty("productId") val productId: String? = null,
+        @get:NotNull
+        @JsonProperty("productId") val productId: String,
 
-        @JsonProperty("grossAmount") val grossAmount: Double? = null,
+        @get:NotNull
+        @JsonProperty("units") val units: Double,
 
         @JsonProperty("note") val note: String? = null
 )
