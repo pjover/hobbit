@@ -6,5 +6,5 @@ interface BillingService {
 
 	fun getConsumptions(childCode: Int?): List<YearMonthConsumptionsDTO>
 
-	fun setConsumptions(setYearMonthConsumptionsDTO: SetYearMonthConsumptionsDTO?): YearMonthConsumptionsDTO
+	fun setConsumptions(setYearMonthConsumptionsDTO: SetYearMonthConsumptionsDTO?): List<YearMonthConsumptionsDTO>
 }

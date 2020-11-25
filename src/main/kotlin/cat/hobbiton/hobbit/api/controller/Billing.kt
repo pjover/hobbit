@@ -40,7 +40,7 @@ class BillingController(@Autowired(required = true) val service: BillingService)
             consumes = ["application/json"],
             method = [RequestMethod.POST])
     fun setConsumptions(@Valid @RequestBody setYearMonthConsumptionsDTO: SetYearMonthConsumptionsDTO?
-    ): ResponseEntity<YearMonthConsumptionsDTO> {
+    ): ResponseEntity<List<YearMonthConsumptionsDTO>> {
         return ResponseEntity(service.setConsumptions(setYearMonthConsumptionsDTO), HttpStatus.valueOf(201))
     }
 }

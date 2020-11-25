@@ -120,7 +120,9 @@ paths:
           content:
             application/hal+json:
               schema:
-                $ref: '#/components/schemas/YearMonthConsumptionsDTO'
+                type: array
+                items:
+                  $ref: '#/components/schemas/YearMonthConsumptionsDTO'
 
 components:
   schemas:
