@@ -122,29 +122,28 @@ class BillingServiceImpl(
     override fun getLastMonthConsumptions(): List<SetYearMonthConsumptionsDTO> {
         return getConsumptions()
                 .filter { isLastMonth(it.yearMonth) }
-                .map {
-                    SetYearMonthConsumptionsDTO(
-                            yearMonth = it.yearMonth,
-                            children = it.children.map { child ->
-                                SetChildConsumtionDTO(
-                                        code = child.code,
-                                        consumptions = child.consumptions.map { consumption ->
-                                            SetConsumtionDTO(
-                                                    productId = consumption.productId,
-                                                    units = consumption.units,
-                                                    note = consumption.note
-                                            )
-                                        }
-                                )
-                            }
-                    )
-                }
+                .map { getSetYearMonthConsumptionsDTO(it) }
     }
 
     private fun isLastMonth(yearMonth: String) = getYearMonth(yearMonth) == getLastMonth()
 
     private fun getLastMonth() = timeService.currentYearMonth.minusMonths(1)
 
+    private fun getSetYearMonthConsumptionsDTO(dto: YearMonthConsumptionsDTO) = SetYearMonthConsumptionsDTO(
+            yearMonth = dto.yearMonth,
+            children = dto.children.map { getSetChildConsumtionDTO(it) }
+    )
+
+    private fun getSetChildConsumtionDTO(dto: ChildConsumtionDTO) = SetChildConsumtionDTO(
+            code = dto.code,
+            consumptions = dto.consumptions.map { getSetConsumtionDTO(it) }
+    )
+
+    private fun getSetConsumtionDTO(dto: ConsumtionDTO) = SetConsumtionDTO(
+            productId = dto.productId,
+            units = dto.units,
+            note = dto.note
+    )
 
     override fun setConsumptions(setYearMonthConsumptionsDTO: SetYearMonthConsumptionsDTO): List<YearMonthConsumptionsDTO> {
         saveConsumptions(setYearMonthConsumptionsDTO)
