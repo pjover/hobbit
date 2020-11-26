@@ -1,21 +1,24 @@
 package cat.hobbiton.hobbit.service.billing
 
-import cat.hobbiton.hobbit.api.model.ChildConsumtionDTO
-import cat.hobbiton.hobbit.api.model.ConsumtionDTO
-import cat.hobbiton.hobbit.api.model.YearMonthConsumptionsDTO
+import cat.hobbiton.hobbit.api.model.*
 import cat.hobbiton.hobbit.db.repository.ConsumptionRepository
 import cat.hobbiton.hobbit.db.repository.CustomerRepository
 import cat.hobbiton.hobbit.db.repository.ProductRepository
 import cat.hobbiton.hobbit.messages.ErrorMessages
+import cat.hobbiton.hobbit.messages.ValidationMessages
 import cat.hobbiton.hobbit.model.Child
 import cat.hobbiton.hobbit.model.Consumption
 import cat.hobbiton.hobbit.model.Product
 import cat.hobbiton.hobbit.model.extension.getChild
 import cat.hobbiton.hobbit.model.extension.shortName
 import cat.hobbiton.hobbit.util.AppException
+import cat.hobbiton.hobbit.util.translate
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Service
+import java.lang.IllegalArgumentException
 import java.math.BigDecimal
+import java.time.YearMonth
+import java.time.format.DateTimeParseException
 
 @Service
 class BillingServiceImpl(
@@ -119,4 +122,37 @@ class BillingServiceImpl(
                     )
                 }
     }
+
+    override fun setConsumptions(setYearMonthConsumptionsDTO: SetYearMonthConsumptionsDTO): List<YearMonthConsumptionsDTO> {
+        saveConsumptions(setYearMonthConsumptionsDTO)
+        return getAllChildrenConsumptions()
+    }
+
+    private fun saveConsumptions(setYearMonthConsumptionsDTO: SetYearMonthConsumptionsDTO) {
+        val yearMonth = getYearMonth(setYearMonthConsumptionsDTO.yearMonth)
+        setYearMonthConsumptionsDTO.children.forEach { saveChildConsumtions(yearMonth, it) }
+    }
+
+    private fun getYearMonth(yearMonth: String): YearMonth {
+        return try {
+            YearMonth.parse(yearMonth)
+        } catch (e: DateTimeParseException) {
+            throw IllegalArgumentException(ValidationMessages.ERROR_YEAR_MONTH_INVALID.translate(), e)
+        }
+    }
+
+    private fun saveChildConsumtions(yearMonth: YearMonth, childConsumtionDTO: SetChildConsumtionDTO) {
+        childConsumtionDTO.consumptions.forEach { saveChildConsumtion(yearMonth, childConsumtionDTO.code, it) }
+    }
+
+    private fun saveChildConsumtion(yearMonth: YearMonth, childCode: Int, consumtionDTO: SetConsumtionDTO) {
+        consumptionRepository.save(Consumption(
+                childCode = childCode,
+                productId = consumtionDTO.productId,
+                units = BigDecimal.valueOf(consumtionDTO.units),
+                yearMonth = yearMonth,
+                note = consumtionDTO.note
+        ))
+    }
+
 }
