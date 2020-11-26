@@ -1,4 +1,4 @@
-package cat.hobbiton.hobbit.service.billing
+package cat.hobbiton.hobbit.service.consumptions
 
 import cat.hobbiton.hobbit.*
 import cat.hobbiton.hobbit.api.model.*
@@ -16,14 +16,14 @@ import io.mockk.verify
 import java.math.BigDecimal
 import java.util.*
 
-class BillingServiceImplTest : DescribeSpec() {
+class ConsumptionsServiceImplTest : DescribeSpec() {
 
     init {
         val consumptionRepository = mockk<ConsumptionRepository>()
         val customerRepository = mockk<CustomerRepository>()
         val productRepository = mockk<ProductRepository>()
         val timeService = mockk<TimeService>()
-        val sut = BillingServiceImpl(consumptionRepository, customerRepository, productRepository, timeService)
+        val sut = ConsumptionsServiceImpl(consumptionRepository, customerRepository, productRepository, timeService)
 
         every { customerRepository.findByChildCode(1) } returns testCustomer(children = listOf(testChild1()))
         every { productRepository.findById("TST") } returns Optional.of(

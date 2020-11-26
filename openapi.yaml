@@ -79,10 +79,10 @@ paths:
                 items:
                   $ref: '#/components/schemas/CustomerListDTO'
 
-  /billing/consumptions/{childCode}:
+  /consumptions/{childCode}:
     get:
       tags:
-        - Billing
+        - Consumptions
       description: Reports all the pending consumptions grouped by year-month
       operationId: getChildConsumptions
       parameters:
@@ -106,10 +106,10 @@ paths:
         '404':
           description: Not Found
 
-  /billing/consumptions:
+  /consumptions:
     get:
       tags:
-        - Billing
+        - Consumptions
       description: Reports all the pending consumptions grouped by year-month
       operationId: getConsumptions
       responses:
@@ -123,7 +123,7 @@ paths:
                   $ref: '#/components/schemas/YearMonthConsumptionsDTO'
     post:
       tags:
-        - Billing
+        - Consumptions
       description: Sets the consumptions
       operationId: setConsumptions
       requestBody:
@@ -142,10 +142,10 @@ paths:
                 items:
                   $ref: '#/components/schemas/YearMonthConsumptionsDTO'
 
-  /billing/lastMonthConsumptions:
+  /consumptions/lastMonth:
     get:
       tags:
-        - Billing
+        - Consumptions
       description: Reports all the consumptions from last month
       operationId: getLastMonthConsumptions
       responses:

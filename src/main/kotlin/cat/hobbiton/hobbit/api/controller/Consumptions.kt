@@ -2,7 +2,7 @@ package cat.hobbiton.hobbit.api
 
 import cat.hobbiton.hobbit.api.model.SetYearMonthConsumptionsDTO
 import cat.hobbiton.hobbit.api.model.YearMonthConsumptionsDTO
-import cat.hobbiton.hobbit.service.billing.BillingService
+import cat.hobbiton.hobbit.service.consumptions.ConsumptionsService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 
@@ -22,11 +22,11 @@ import kotlin.collections.List
 @RestController
 @Validated
 @RequestMapping("\${api.base-path:}")
-class BillingController(@Autowired(required = true) val service: BillingService) {
+class ConsumptionsController(@Autowired(required = true) val service: ConsumptionsService) {
 
 
     @RequestMapping(
-            value = ["/billing/consumptions/{childCode}"],
+            value = ["/consumptions/{childCode}"],
             produces = ["application/json"],
             method = [RequestMethod.GET])
     fun getChildConsumptions(@Min(1) @PathVariable("childCode") childCode: kotlin.Int
@@ -36,7 +36,7 @@ class BillingController(@Autowired(required = true) val service: BillingService)
 
 
     @RequestMapping(
-            value = ["/billing/consumptions"],
+            value = ["/consumptions"],
             produces = ["application/json"],
             method = [RequestMethod.GET])
     fun getConsumptions(): ResponseEntity<List<YearMonthConsumptionsDTO>> {
@@ -45,7 +45,7 @@ class BillingController(@Autowired(required = true) val service: BillingService)
 
 
     @RequestMapping(
-            value = ["/billing/lastMonthConsumptions"],
+            value = ["/consumptions/lastMonth"],
             produces = ["application/json"],
             method = [RequestMethod.GET])
     fun getLastMonthConsumptions(): ResponseEntity<List<SetYearMonthConsumptionsDTO>> {
@@ -54,7 +54,7 @@ class BillingController(@Autowired(required = true) val service: BillingService)
 
 
     @RequestMapping(
-            value = ["/billing/consumptions"],
+            value = ["/consumptions"],
             produces = ["application/hal+json"],
             consumes = ["application/json"],
             method = [RequestMethod.POST])

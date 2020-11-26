@@ -1,4 +1,4 @@
-package cat.hobbiton.hobbit.service.billing
+package cat.hobbiton.hobbit.service.consumptions
 
 import cat.hobbiton.hobbit.api.model.*
 import cat.hobbiton.hobbit.db.repository.ConsumptionRepository
@@ -21,12 +21,12 @@ import java.time.YearMonth
 import java.time.format.DateTimeParseException
 
 @Service
-class BillingServiceImpl(
+class ConsumptionsServiceImpl(
         private val consumptionRepository: ConsumptionRepository,
         private val customerRepository: CustomerRepository,
         private val productRepository: ProductRepository,
         private val timeService: TimeService
-) : BillingService {
+) : ConsumptionsService {
 
     override fun getChildConsumptions(childCode: Int): List<YearMonthConsumptionsDTO> {
         return consumptionRepository.findByInvoicedOnNullAndChildCode(childCode)
