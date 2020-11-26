@@ -121,52 +121,16 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/YearMonthConsumptionsDTO'
-        '404':
-          description: Not Found
-
-  /billing/monthConsumptions:
-    get:
-      tags:
-        - Billing
-      description: Reports all the consumptions from a year-month
-      operationId: getMonthConsumptions
-      parameters:
-        - name: yearMonth
-          description: the year-month (YYYY-MM) to list consumptions, if none, previous last month is listed
-          in: query
-          required: false
-          schema:
-            type: string
-            format: int32
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/SetChildConsumtionDTO'
-        '404':
-          description: Not Found
     post:
       tags:
         - Billing
-      description: Sets the pending consumptions for a year-month
-      operationId: setMonthConsumptions
-      parameters:
-        - name: yearMonth
-          description: the year-month (YYYY-MM) to list consumptions, if none, previous last month is listed
-          in: query
-          required: false
-          schema:
-            type: string
-            format: int32
+      description: Sets the consumptions
+      operationId: setConsumptions
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/SetChildConsumtionDTO'
+              $ref: '#/components/schemas/SetYearMonthConsumptionsDTO'
         required: true
       responses:
         '201':
@@ -177,6 +141,23 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/YearMonthConsumptionsDTO'
+
+  /billing/lastMonthConsumptions:
+    get:
+      tags:
+        - Billing
+      description: Reports all the consumptions from last month
+      operationId: getLastMonthConsumptions
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SetYearMonthConsumptionsDTO'
+
 
 components:
   schemas:
@@ -283,6 +264,20 @@ components:
           format: double
         note:
           type: string
+
+    SetYearMonthConsumptionsDTO:
+      description: Pending consumptions for a year-month
+      type: object
+      properties:
+        yearMonth:
+          type: string
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/SetChildConsumtionDTO'
+      required:
+        - yearMonth
+        - children
 
     SetChildConsumtionDTO:
       description: Pending consumption of a child for a year-month

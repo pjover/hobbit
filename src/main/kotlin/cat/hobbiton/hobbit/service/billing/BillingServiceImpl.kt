@@ -27,13 +27,8 @@ class BillingServiceImpl(
         private val productRepository: ProductRepository
 ) : BillingService {
 
-    override fun getConsumptions(childCode: Int?): List<YearMonthConsumptionsDTO> {
-        return if (childCode == null) getAllChildrenConsumptions()
-        else getChildConsumptions(childCode)
-    }
-
-    private fun getAllChildrenConsumptions(): List<YearMonthConsumptionsDTO> {
-        return consumptionRepository.findByInvoicedOnNull()
+    override fun getChildConsumptions(childCode: Int): List<YearMonthConsumptionsDTO> {
+        return consumptionRepository.findByInvoicedOnNullAndChildCode(childCode)
                 .groupBy { it.yearMonth }
                 .map { (yearMonth, consumptions) ->
                     YearMonthConsumptionsDTO(
@@ -49,6 +44,17 @@ class BillingServiceImpl(
                 .map { getGrossAmount(it) }
                 .sumOf { it }
                 .toDouble()
+    }
+
+    private fun getGrossAmount(consumption: Consumption): BigDecimal {
+        val product = getProduct(consumption.productId)
+        return product.price.multiply(consumption.units)
+    }
+
+    @Cacheable("products")
+    fun getProduct(id: String): Product {
+        return productRepository.findById(id)
+                .orElseThrow { AppException(ErrorMessages.ERROR_PRODUCT_NOT_FOUND, id) }
     }
 
     private fun groupYearMonth(consumptions: List<Consumption>): List<ChildConsumtionDTO> {
@@ -70,17 +76,6 @@ class BillingServiceImpl(
                             }
                     )
                 }
-    }
-
-    private fun getGrossAmount(consumption: Consumption): BigDecimal {
-        val product = getProduct(consumption.productId)
-        return product.price.multiply(consumption.units)
-    }
-
-    @Cacheable("products")
-    fun getProduct(id: String): Product {
-        return productRepository.findById(id)
-                .orElseThrow { AppException(ErrorMessages.ERROR_PRODUCT_NOT_FOUND, id) }
     }
 
     private fun sumConsumptions(childCode: Int, consumptions: List<Consumption>): Pair<Int, List<Consumption>> {
@@ -111,8 +106,8 @@ class BillingServiceImpl(
         return customer.getChild(code) ?: throw AppException(ErrorMessages.ERROR_CHILD_NOT_FOUND, code)
     }
 
-    private fun getChildConsumptions(childCode: Int): List<YearMonthConsumptionsDTO> {
-        return consumptionRepository.findByInvoicedOnNullAndChildCode(childCode)
+    override fun getConsumptions(): List<YearMonthConsumptionsDTO> {
+        return consumptionRepository.findByInvoicedOnNull()
                 .groupBy { it.yearMonth }
                 .map { (yearMonth, consumptions) ->
                     YearMonthConsumptionsDTO(
@@ -123,9 +118,14 @@ class BillingServiceImpl(
                 }
     }
 
+    override fun getLastMonthConsumptions(): List<SetYearMonthConsumptionsDTO> {
+        TODO("Not yet implemented")
+    }
+
+
     override fun setConsumptions(setYearMonthConsumptionsDTO: SetYearMonthConsumptionsDTO): List<YearMonthConsumptionsDTO> {
         saveConsumptions(setYearMonthConsumptionsDTO)
-        return getAllChildrenConsumptions()
+        return getConsumptions()
     }
 
     private fun saveConsumptions(setYearMonthConsumptionsDTO: SetYearMonthConsumptionsDTO) {
@@ -154,5 +154,4 @@ class BillingServiceImpl(
                 note = consumtionDTO.note
         ))
     }
-
 }

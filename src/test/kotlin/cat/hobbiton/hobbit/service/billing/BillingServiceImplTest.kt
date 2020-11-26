@@ -39,57 +39,56 @@ class BillingServiceImplTest : DescribeSpec() {
                         price = BigDecimal.valueOf(9.1)
                 ))
 
-        describe("getConsumptions") {
-            context("for one child") {
-                every { consumptionRepository.findByInvoicedOnNullAndChildCode(1) } returns listOf(
-                        Consumption(
-                                id = "AA1",
-                                childCode = 1,
-                                productId = "TST",
-                                units = BigDecimal.valueOf(2),
-                                yearMonth = YEAR_MONTH,
-                                note = "Note 1",
-                                invoicedOn = null
-                        ),
-                        Consumption(
-                                id = "AA2",
-                                childCode = 1,
-                                productId = "TST",
-                                units = BigDecimal.valueOf(2),
-                                yearMonth = YEAR_MONTH,
-                                note = "Note 2",
-                                invoicedOn = null
-                        ),
-                        Consumption(
-                                id = "AA3",
-                                childCode = 1,
-                                productId = "TST",
-                                units = BigDecimal.valueOf(2),
-                                yearMonth = YEAR_MONTH,
-                                note = "Note 3",
-                                invoicedOn = null
-                        ),
-                        Consumption(
-                                id = "AA4",
-                                childCode = 1,
-                                productId = "STS",
-                                units = BigDecimal.valueOf(2),
-                                yearMonth = YEAR_MONTH,
-                                note = "Note 4",
-                                invoicedOn = null
-                        ),
-                        Consumption(
-                                id = "AA5",
-                                childCode = 1,
-                                productId = "TST",
-                                units = BigDecimal.valueOf(2),
-                                yearMonth = YEAR_MONTH,
-                                note = "Note 5",
-                                invoicedOn = null
-                        )
-                )
+        describe("getChildConsumptions") {
+            every { consumptionRepository.findByInvoicedOnNullAndChildCode(1) } returns listOf(
+                    Consumption(
+                            id = "AA1",
+                            childCode = 1,
+                            productId = "TST",
+                            units = BigDecimal.valueOf(2),
+                            yearMonth = YEAR_MONTH,
+                            note = "Note 1",
+                            invoicedOn = null
+                    ),
+                    Consumption(
+                            id = "AA2",
+                            childCode = 1,
+                            productId = "TST",
+                            units = BigDecimal.valueOf(2),
+                            yearMonth = YEAR_MONTH,
+                            note = "Note 2",
+                            invoicedOn = null
+                    ),
+                    Consumption(
+                            id = "AA3",
+                            childCode = 1,
+                            productId = "TST",
+                            units = BigDecimal.valueOf(2),
+                            yearMonth = YEAR_MONTH,
+                            note = "Note 3",
+                            invoicedOn = null
+                    ),
+                    Consumption(
+                            id = "AA4",
+                            childCode = 1,
+                            productId = "STS",
+                            units = BigDecimal.valueOf(2),
+                            yearMonth = YEAR_MONTH,
+                            note = "Note 4",
+                            invoicedOn = null
+                    ),
+                    Consumption(
+                            id = "AA5",
+                            childCode = 1,
+                            productId = "TST",
+                            units = BigDecimal.valueOf(2),
+                            yearMonth = YEAR_MONTH,
+                            note = "Note 5",
+                            invoicedOn = null
+                    )
+            )
 
-                val actual = sut.getConsumptions(1)
+            val actual = sut.getChildConsumptions(1)
 
                 it("return the consumpion of this child") {
                     actual shouldBe listOf(
@@ -110,16 +109,15 @@ class BillingServiceImplTest : DescribeSpec() {
                             )
                     )
                 }
-            }
+        }
+        describe("getConsumptions") {
 
-            context("for all children") {
-                mockForAllChildren(consumptionRepository, customerRepository)
+            mockForAllChildren(consumptionRepository, customerRepository)
 
-                val actual = sut.getConsumptions(null)
+            val actual = sut.getConsumptions()
 
-                it("return the consumpion of all children") {
-                    actual shouldBe allChildrenConsumptions()
-                }
+            it("return the consumpion of all children") {
+                actual shouldBe allChildrenConsumptions()
             }
         }
 

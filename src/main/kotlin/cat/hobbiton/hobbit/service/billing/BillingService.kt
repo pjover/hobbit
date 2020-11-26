@@ -1,6 +1,6 @@
 package cat.hobbiton.hobbit.service.billing
 
-import cat.hobbiton.hobbit.api.model.SetChildConsumtionDTO
+import cat.hobbiton.hobbit.api.model.SetYearMonthConsumptionsDTO
 import cat.hobbiton.hobbit.api.model.YearMonthConsumptionsDTO
 interface BillingService {
 
@@ -8,7 +8,7 @@ interface BillingService {
 
 	fun getConsumptions(): List<YearMonthConsumptionsDTO>
 
-	fun getMonthConsumptions(yearMonth: kotlin.String?): List<SetChildConsumtionDTO>
+	fun getLastMonthConsumptions(): List<SetYearMonthConsumptionsDTO>
 
-	fun setMonthConsumptions(setChildConsumtionDTO: SetChildConsumtionDTO, yearMonth: kotlin.String?): List<YearMonthConsumptionsDTO>
+	fun setConsumptions(setYearMonthConsumptionsDTO: SetYearMonthConsumptionsDTO): List<YearMonthConsumptionsDTO>
 }

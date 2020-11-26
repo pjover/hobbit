@@ -1,13 +1,12 @@
-package cat.hobbiton.hobbit.api.controller
+package cat.hobbiton.hobbit.api
 
-import cat.hobbiton.hobbit.api.model.SetChildConsumtionDTO
+import cat.hobbiton.hobbit.api.model.SetYearMonthConsumptionsDTO
 import cat.hobbiton.hobbit.api.model.YearMonthConsumptionsDTO
 import cat.hobbiton.hobbit.service.billing.BillingService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 
 import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RequestMapping
@@ -46,22 +45,21 @@ class BillingController(@Autowired(required = true) val service: BillingService)
 
 
     @RequestMapping(
-            value = ["/billing/monthConsumptions"],
+            value = ["/billing/lastMonthConsumptions"],
             produces = ["application/json"],
             method = [RequestMethod.GET])
-    fun getMonthConsumptions(@RequestParam(value = "yearMonth", required = false) yearMonth: kotlin.String?
-    ): ResponseEntity<List<SetChildConsumtionDTO>> {
-        return ResponseEntity(service.getMonthConsumptions(yearMonth), HttpStatus.valueOf(200))
+    fun getLastMonthConsumptions(): ResponseEntity<List<SetYearMonthConsumptionsDTO>> {
+        return ResponseEntity(service.getLastMonthConsumptions(), HttpStatus.valueOf(200))
     }
 
 
     @RequestMapping(
-            value = ["/billing/monthConsumptions"],
+            value = ["/billing/consumptions"],
             produces = ["application/hal+json"],
             consumes = ["application/json"],
             method = [RequestMethod.POST])
-    fun setMonthConsumptions(@Valid @RequestBody setChildConsumtionDTO: SetChildConsumtionDTO, @RequestParam(value = "yearMonth", required = false) yearMonth: kotlin.String?
+    fun setConsumptions(@Valid @RequestBody setYearMonthConsumptionsDTO: SetYearMonthConsumptionsDTO
     ): ResponseEntity<List<YearMonthConsumptionsDTO>> {
-        return ResponseEntity(service.setMonthConsumptions(setChildConsumtionDTO, yearMonth), HttpStatus.valueOf(201))
+        return ResponseEntity(service.setConsumptions(setYearMonthConsumptionsDTO), HttpStatus.valueOf(201))
     }
 }
