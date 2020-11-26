@@ -90,29 +90,30 @@ class BillingServiceImplTest : DescribeSpec() {
 
             val actual = sut.getChildConsumptions(1)
 
-                it("return the consumpion of this child") {
-                    actual shouldBe listOf(
-                            YearMonthConsumptionsDTO(
-                                    yearMonth = YEAR_MONTH.toString(),
-                                    grossAmount = 105.4,
-                                    listOf(
-                                            ChildConsumtionDTO(
-                                                    code = 1,
-                                                    shortName = "Laura Llull",
-                                                    grossAmount = 105.4,
-                                                    listOf(
-                                                            ConsumtionDTO("TST", 8.0, 87.2, "Note 1, Note 2, Note 3, Note 5"),
-                                                            ConsumtionDTO("STS", 2.0, 18.2, "Note 4")
-                                                    )
-                                            )
-                                    )
-                            )
-                    )
-                }
+            it("return the consumpion of this child") {
+                actual shouldBe listOf(
+                        YearMonthConsumptionsDTO(
+                                yearMonth = YEAR_MONTH.toString(),
+                                grossAmount = 105.4,
+                                listOf(
+                                        ChildConsumtionDTO(
+                                                code = 1,
+                                                shortName = "Laura Llull",
+                                                grossAmount = 105.4,
+                                                listOf(
+                                                        ConsumtionDTO("TST", 8.0, 87.2, "Note 1, Note 2, Note 3, Note 5"),
+                                                        ConsumtionDTO("STS", 2.0, 18.2, "Note 4")
+                                                )
+                                        )
+                                )
+                        )
+                )
+            }
         }
-        describe("getConsumptions") {
 
-            mockForAllChildren(consumptionRepository, customerRepository)
+        describe("getConsumptions") {
+            every { consumptionRepository.findByInvoicedOnNull() } returns allChildren()
+            mockFindByChildCode(customerRepository)
 
             val actual = sut.getConsumptions()
 
@@ -121,8 +122,54 @@ class BillingServiceImplTest : DescribeSpec() {
             }
         }
 
+        describe("getLastMonthConsumptions") {
+            every { consumptionRepository.findByInvoicedOnNull() } returns allChildren() + listOf(
+                    Consumption(
+                            id = "AA1",
+                            childCode = 1,
+                            productId = "TST",
+                            units = BigDecimal.valueOf(2),
+                            yearMonth = YEAR_MONTH.minusMonths(1),
+                            note = "Note 1",
+                            invoicedOn = null
+                    ))
+            mockFindByChildCode(customerRepository)
+
+            val actual = sut.getLastMonthConsumptions()
+
+            it("return the consumpion of all children") {
+                actual shouldBe listOf(
+                        SetYearMonthConsumptionsDTO(
+                                yearMonth = YEAR_MONTH.toString(),
+                                listOf(
+                                        SetChildConsumtionDTO(
+                                                code = 1,
+                                                listOf(
+                                                        SetConsumtionDTO("TST", 4.0, "Note 1, Note 2")
+                                                )
+                                        ),
+                                        SetChildConsumtionDTO(
+                                                code = 2,
+                                                listOf(
+                                                        SetConsumtionDTO("TST", 2.0, "Note 3"),
+                                                        SetConsumtionDTO("STS", 2.0, "Note 4")
+                                                )
+                                        ),
+                                        SetChildConsumtionDTO(
+                                                code = 3,
+                                                listOf(
+                                                        SetConsumtionDTO("TST", 2.0, "Note 5")
+                                                )
+                                        )
+                                )
+                        )
+                )
+            }
+        }
+
         describe("setConsumptions") {
-            mockForAllChildren(consumptionRepository, customerRepository)
+            every { consumptionRepository.findByInvoicedOnNull() } returns allChildren()
+            mockFindByChildCode(customerRepository)
             every { consumptionRepository.save(any()) } answers { firstArg() }
 
             val actual = sut.setConsumptions(
@@ -197,54 +244,55 @@ class BillingServiceImplTest : DescribeSpec() {
             )
     )
 
-    private fun mockForAllChildren(consumptionRepository: ConsumptionRepository, customerRepository: CustomerRepository) {
-        every { consumptionRepository.findByInvoicedOnNull() } returns listOf(
-                Consumption(
-                        id = "AA1",
-                        childCode = 1,
-                        productId = "TST",
-                        units = BigDecimal.valueOf(2),
-                        yearMonth = YEAR_MONTH,
-                        note = "Note 1",
-                        invoicedOn = null
-                ),
-                Consumption(
-                        id = "AA2",
-                        childCode = 1,
-                        productId = "TST",
-                        units = BigDecimal.valueOf(2),
-                        yearMonth = YEAR_MONTH,
-                        note = "Note 2",
-                        invoicedOn = null
-                ),
-                Consumption(
-                        id = "AA3",
-                        childCode = 2,
-                        productId = "TST",
-                        units = BigDecimal.valueOf(2),
-                        yearMonth = YEAR_MONTH,
-                        note = "Note 3",
-                        invoicedOn = null
-                ),
-                Consumption(
-                        id = "AA4",
-                        childCode = 2,
-                        productId = "STS",
-                        units = BigDecimal.valueOf(2),
-                        yearMonth = YEAR_MONTH,
-                        note = "Note 4",
-                        invoicedOn = null
-                ),
-                Consumption(
-                        id = "AA5",
-                        childCode = 3,
-                        productId = "TST",
-                        units = BigDecimal.valueOf(2),
-                        yearMonth = YEAR_MONTH,
-                        note = "Note 5",
-                        invoicedOn = null
-                )
-        )
+    private fun allChildren() = listOf(
+            Consumption(
+                    id = "AA1",
+                    childCode = 1,
+                    productId = "TST",
+                    units = BigDecimal.valueOf(2),
+                    yearMonth = YEAR_MONTH,
+                    note = "Note 1",
+                    invoicedOn = null
+            ),
+            Consumption(
+                    id = "AA2",
+                    childCode = 1,
+                    productId = "TST",
+                    units = BigDecimal.valueOf(2),
+                    yearMonth = YEAR_MONTH,
+                    note = "Note 2",
+                    invoicedOn = null
+            ),
+            Consumption(
+                    id = "AA3",
+                    childCode = 2,
+                    productId = "TST",
+                    units = BigDecimal.valueOf(2),
+                    yearMonth = YEAR_MONTH,
+                    note = "Note 3",
+                    invoicedOn = null
+            ),
+            Consumption(
+                    id = "AA4",
+                    childCode = 2,
+                    productId = "STS",
+                    units = BigDecimal.valueOf(2),
+                    yearMonth = YEAR_MONTH,
+                    note = "Note 4",
+                    invoicedOn = null
+            ),
+            Consumption(
+                    id = "AA5",
+                    childCode = 3,
+                    productId = "TST",
+                    units = BigDecimal.valueOf(2),
+                    yearMonth = YEAR_MONTH,
+                    note = "Note 5",
+                    invoicedOn = null
+            )
+    )
+
+    private fun mockFindByChildCode(customerRepository: CustomerRepository) {
         every { customerRepository.findByChildCode(1) } returns testCustomer(children = listOf(testChild1()))
         every { customerRepository.findByChildCode(2) } returns testCustomer(children = listOf(testChild2()))
         every { customerRepository.findByChildCode(3) } returns testCustomer(children = listOf(testChild3()))
