@@ -7,6 +7,7 @@ import cat.hobbiton.hobbit.db.repository.CustomerRepository
 import cat.hobbiton.hobbit.db.repository.ProductRepository
 import cat.hobbiton.hobbit.model.Consumption
 import cat.hobbiton.hobbit.model.Product
+import cat.hobbiton.hobbit.service.aux.TimeService
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.DescribeSpec
 import io.mockk.every
@@ -21,7 +22,8 @@ class BillingServiceImplTest : DescribeSpec() {
         val consumptionRepository = mockk<ConsumptionRepository>()
         val customerRepository = mockk<CustomerRepository>()
         val productRepository = mockk<ProductRepository>()
-        val sut = BillingServiceImpl(consumptionRepository, customerRepository, productRepository)
+        val timeService = mockk<TimeService>()
+        val sut = BillingServiceImpl(consumptionRepository, customerRepository, productRepository, timeService)
 
         every { customerRepository.findByChildCode(1) } returns testCustomer(children = listOf(testChild1()))
         every { productRepository.findById("TST") } returns Optional.of(
@@ -134,6 +136,7 @@ class BillingServiceImplTest : DescribeSpec() {
                             invoicedOn = null
                     ))
             mockFindByChildCode(customerRepository)
+            every { timeService.currentYearMonth } returns YEAR_MONTH.plusMonths(1)
 
             val actual = sut.getLastMonthConsumptions()
 

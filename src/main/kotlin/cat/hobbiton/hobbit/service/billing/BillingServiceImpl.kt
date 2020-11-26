@@ -11,11 +11,11 @@ import cat.hobbiton.hobbit.model.Consumption
 import cat.hobbiton.hobbit.model.Product
 import cat.hobbiton.hobbit.model.extension.getChild
 import cat.hobbiton.hobbit.model.extension.shortName
+import cat.hobbiton.hobbit.service.aux.TimeService
 import cat.hobbiton.hobbit.util.AppException
 import cat.hobbiton.hobbit.util.translate
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Service
-import java.lang.IllegalArgumentException
 import java.math.BigDecimal
 import java.time.YearMonth
 import java.time.format.DateTimeParseException
@@ -24,7 +24,8 @@ import java.time.format.DateTimeParseException
 class BillingServiceImpl(
         private val consumptionRepository: ConsumptionRepository,
         private val customerRepository: CustomerRepository,
-        private val productRepository: ProductRepository
+        private val productRepository: ProductRepository,
+        private val timeService: TimeService
 ) : BillingService {
 
     override fun getChildConsumptions(childCode: Int): List<YearMonthConsumptionsDTO> {
@@ -119,8 +120,30 @@ class BillingServiceImpl(
     }
 
     override fun getLastMonthConsumptions(): List<SetYearMonthConsumptionsDTO> {
-        TODO("Not yet implemented")
+        return getConsumptions()
+                .filter { isLastMonth(it.yearMonth) }
+                .map {
+                    SetYearMonthConsumptionsDTO(
+                            yearMonth = it.yearMonth,
+                            children = it.children.map { child ->
+                                SetChildConsumtionDTO(
+                                        code = child.code,
+                                        consumptions = child.consumptions.map { consumption ->
+                                            SetConsumtionDTO(
+                                                    productId = consumption.productId,
+                                                    units = consumption.units,
+                                                    note = consumption.note
+                                            )
+                                        }
+                                )
+                            }
+                    )
+                }
     }
+
+    private fun isLastMonth(yearMonth: String) = getYearMonth(yearMonth) == getLastMonth()
+
+    private fun getLastMonth() = timeService.currentYearMonth.minusMonths(1)
 
 
     override fun setConsumptions(setYearMonthConsumptionsDTO: SetYearMonthConsumptionsDTO): List<YearMonthConsumptionsDTO> {

@@ -233,6 +233,10 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ChildConsumtionDTO'
+      required:
+        - yearMonth
+        - grossAmount
+        - children
 
     ChildConsumtionDTO:
       description: Pending consumption of a child for a year-month
@@ -250,6 +254,11 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ConsumtionDTO'
+      required:
+        - code
+        - shortName
+        - grossAmount
+        - consumptions
 
     ConsumtionDTO:
       description: Consumption item of a child
@@ -264,6 +273,10 @@ components:
           format: double
         note:
           type: string
+      required:
+        - productId
+        - units
+        - grossAmount
 
     SetYearMonthConsumptionsDTO:
       description: Pending consumptions for a year-month
