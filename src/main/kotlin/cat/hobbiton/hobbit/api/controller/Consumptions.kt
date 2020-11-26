@@ -29,7 +29,7 @@ class ConsumptionsController(@Autowired(required = true) val service: Consumptio
             value = ["/consumptions/{childCode}"],
             produces = ["application/json"],
             method = [RequestMethod.GET])
-    fun getChildConsumptions(@Min(1) @PathVariable("childCode") childCode: kotlin.Int
+    fun getChildConsumptions(@Min(1) @PathVariable("childCode") childCode: Int
     ): ResponseEntity<List<YearMonthConsumptionsDTO>> {
         return ResponseEntity(service.getChildConsumptions(childCode), HttpStatus.valueOf(200))
     }
@@ -48,14 +48,14 @@ class ConsumptionsController(@Autowired(required = true) val service: Consumptio
             value = ["/consumptions/lastMonth"],
             produces = ["application/json"],
             method = [RequestMethod.GET])
-    fun getLastMonthConsumptions(): ResponseEntity<List<SetYearMonthConsumptionsDTO>> {
+    fun getLastMonthConsumptions(): ResponseEntity<SetYearMonthConsumptionsDTO> {
         return ResponseEntity(service.getLastMonthConsumptions(), HttpStatus.valueOf(200))
     }
 
 
     @RequestMapping(
             value = ["/consumptions"],
-            produces = ["application/hal+json"],
+            produces = ["application/json"],
             consumes = ["application/json"],
             method = [RequestMethod.POST])
     fun setConsumptions(@Valid @RequestBody setYearMonthConsumptionsDTO: SetYearMonthConsumptionsDTO

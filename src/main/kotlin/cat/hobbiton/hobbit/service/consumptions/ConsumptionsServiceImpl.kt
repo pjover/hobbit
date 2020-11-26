@@ -119,10 +119,10 @@ class ConsumptionsServiceImpl(
                 }
     }
 
-    override fun getLastMonthConsumptions(): List<SetYearMonthConsumptionsDTO> {
-        return getConsumptions()
-                .filter { isLastMonth(it.yearMonth) }
-                .map { getSetYearMonthConsumptionsDTO(it) }
+    override fun getLastMonthConsumptions(): SetYearMonthConsumptionsDTO {
+        return getSetYearMonthConsumptionsDTO(
+                getConsumptions().last { isLastMonth(it.yearMonth) }
+        )
     }
 
     private fun isLastMonth(yearMonth: String) = getYearMonth(yearMonth) == getLastMonth()

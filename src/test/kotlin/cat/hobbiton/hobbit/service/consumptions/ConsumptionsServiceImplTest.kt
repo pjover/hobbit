@@ -141,28 +141,26 @@ class ConsumptionsServiceImplTest : DescribeSpec() {
             val actual = sut.getLastMonthConsumptions()
 
             it("return the consumpion of all children") {
-                actual shouldBe listOf(
-                        SetYearMonthConsumptionsDTO(
-                                yearMonth = YEAR_MONTH.toString(),
-                                listOf(
-                                        SetChildConsumtionDTO(
-                                                code = 1,
-                                                listOf(
-                                                        SetConsumtionDTO("TST", 4.0, "Note 1, Note 2")
-                                                )
-                                        ),
-                                        SetChildConsumtionDTO(
-                                                code = 2,
-                                                listOf(
-                                                        SetConsumtionDTO("TST", 2.0, "Note 3"),
-                                                        SetConsumtionDTO("STS", 2.0, "Note 4")
-                                                )
-                                        ),
-                                        SetChildConsumtionDTO(
-                                                code = 3,
-                                                listOf(
-                                                        SetConsumtionDTO("TST", 2.0, "Note 5")
-                                                )
+                actual shouldBe SetYearMonthConsumptionsDTO(
+                        yearMonth = YEAR_MONTH.toString(),
+                        listOf(
+                                SetChildConsumtionDTO(
+                                        code = 1,
+                                        listOf(
+                                                SetConsumtionDTO("TST", 4.0, "Note 1, Note 2")
+                                        )
+                                ),
+                                SetChildConsumtionDTO(
+                                        code = 2,
+                                        listOf(
+                                                SetConsumtionDTO("TST", 2.0, "Note 3"),
+                                                SetConsumtionDTO("STS", 2.0, "Note 4")
+                                        )
+                                ),
+                                SetChildConsumtionDTO(
+                                        code = 3,
+                                        listOf(
+                                                SetConsumtionDTO("TST", 2.0, "Note 5")
                                         )
                                 )
                         )

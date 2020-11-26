@@ -78,7 +78,7 @@ private fun oddPosition(str: String): Int {
 
 private fun isValidNie(value: String) = computeNie(value) == value
 
-private fun computeNie(value: String): String? {
+private fun computeNie(value: String): String {
     val withoutTail = removeTail(value)
     val seed: String
     seed = when {

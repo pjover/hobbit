@@ -2,8 +2,6 @@ package cat.hobbiton.hobbit.util
 
 import cat.hobbiton.hobbit.messages.ErrorMessages
 import io.kotlintest.specs.DescribeSpec
-import io.kotlintest.shouldBe
-import io.kotlintest.shouldNotBe
 import io.mockk.*
 import org.springframework.http.HttpStatus
 import javax.servlet.http.HttpServletResponse
