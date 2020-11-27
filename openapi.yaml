@@ -1,0 +1,320 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI definition
+  version: v0
+paths:
+  /lists/children:
+    get:
+      tags:
+        - List
+      description: Return the active children list
+      operationId: getChildrenList
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ChildrenGroupDTO'
+
+  /lists/customers:
+    get:
+      tags:
+        - List
+      description: Return the active customers list
+      operationId: getCustomersList
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CustomerListDTO'
+
+  /lists/emails/{group}:
+    get:
+      tags:
+        - List
+      description: Return the active customers list emails by group
+      operationId: getEmailsList
+      parameters:
+        - name: group
+          description: the group of the customer childrens
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/GroupDTO'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmailsGroupDTO'
+
+  /search/customer:
+    get:
+      tags:
+        - Search
+      description: Search customers by adult or child name, surame, taxid, email or mobile
+      operationId: searchCustomer
+      parameters:
+        - name: text
+          description: the text to search
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CustomerListDTO'
+
+  /consumptions/{childCode}:
+    get:
+      tags:
+        - Consumptions
+      description: Reports all the pending consumptions grouped by year-month
+      operationId: getChildConsumptions
+      parameters:
+        - name: childCode
+          description: the child code to list consumptions, if none, all children ar listed
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+            minimum: 1
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/YearMonthConsumptionsDTO'
+        '404':
+          description: Not Found
+
+  /consumptions:
+    get:
+      tags:
+        - Consumptions
+      description: Reports all the pending consumptions grouped by year-month
+      operationId: getConsumptions
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/YearMonthConsumptionsDTO'
+    post:
+      tags:
+        - Consumptions
+      description: Sets the consumptions
+      operationId: setConsumptions
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SetYearMonthConsumptionsDTO'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/YearMonthConsumptionsDTO'
+
+  /consumptions/lastMonth:
+    get:
+      tags:
+        - Consumptions
+      description: Reports all the consumptions from last month
+      operationId: getLastMonthConsumptions
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SetYearMonthConsumptionsDTO'
+
+
+components:
+  schemas:
+
+    ChildrenGroupDTO:
+      description: List of children's basic info for a concrete group
+      type: object
+      properties:
+        group:
+          description: The children's group
+          type: string
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChildListDTO'
+
+    ChildListDTO:
+      description: Children's basic info
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        shortName:
+          type: string
+
+    CustomerListDTO:
+      description: Customer's basic info
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        shortName:
+          type: string
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChildListDTO'
+
+    EmailsGroupDTO:
+      description: List of customers' emails for a concrete group
+      type: object
+      properties:
+        group:
+          $ref: '#/components/schemas/GroupDTO'
+        emails:
+          description: The customers email
+          type: array
+          items:
+            type: string
+
+    GroupDTO:
+      description: Group where the children are
+      type: string
+      default: ALL
+      enum:
+        - ALL
+        - EI_1
+        - EI_2
+        - EI_3
+
+    YearMonthConsumptionsDTO:
+      description: Pending consumptions for a year-month
+      type: object
+      properties:
+        yearMonth:
+          type: string
+        grossAmount:
+          type: number
+          format: double
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChildConsumtionDTO'
+      required:
+        - yearMonth
+        - grossAmount
+        - children
+
+    ChildConsumtionDTO:
+      description: Pending consumption of a child for a year-month
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        shortName:
+          type: string
+        grossAmount:
+          type: number
+          format: double
+        consumptions:
+          type: array
+          items:
+            $ref: '#/components/schemas/ConsumtionDTO'
+      required:
+        - code
+        - shortName
+        - grossAmount
+        - consumptions
+
+    ConsumtionDTO:
+      description: Consumption item of a child
+      properties:
+        productId:
+          type: string
+        units:
+          type: number
+          format: double
+        grossAmount:
+          type: number
+          format: double
+        note:
+          type: string
+      required:
+        - productId
+        - units
+        - grossAmount
+
+    SetYearMonthConsumptionsDTO:
+      description: Pending consumptions for a year-month
+      type: object
+      properties:
+        yearMonth:
+          type: string
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/SetChildConsumtionDTO'
+      required:
+        - yearMonth
+        - children
+
+    SetChildConsumtionDTO:
+      description: Pending consumption of a child for a year-month
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        consumptions:
+          type: array
+          items:
+            $ref: '#/components/schemas/SetConsumtionDTO'
+      required:
+        - code
+        - consumptions
+
+    SetConsumtionDTO:
+      description: Consumption item of a child
+      properties:
+        productId:
+          type: string
+        units:
+          type: number
+          format: double
+        note:
+          type: string
+      required:
+        - productId
+        - units

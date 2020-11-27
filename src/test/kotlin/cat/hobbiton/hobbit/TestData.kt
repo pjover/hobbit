@@ -1,6 +1,6 @@
 package cat.hobbiton.hobbit
 
-import cat.hobbiton.hobbit.domain.*
+import cat.hobbiton.hobbit.model.*
 import java.math.BigDecimal
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -21,7 +21,8 @@ fun testChild1() = Child(
         name = "Laura",
         surname = "Llull",
         secondSurname = "Bibiloni",
-        birthDate = DATE
+        birthDate = DATE,
+        group = GroupType.EI_1
 )
 
 fun testChild2() = Child(
@@ -29,7 +30,8 @@ fun testChild2() = Child(
         name = "Aina",
         surname = "Llull",
         secondSurname = "Bibiloni",
-        birthDate = DATE
+        birthDate = DATE,
+        group = GroupType.EI_1
 )
 
 fun testChild3() = Child(
@@ -37,7 +39,8 @@ fun testChild3() = Child(
         name = "Laia",
         surname = "Llull",
         secondSurname = "Bibiloni",
-        birthDate = DATE
+        birthDate = DATE,
+        group = GroupType.EI_2
 )
 
 fun testChildren1() = listOf(testChild1())
@@ -67,6 +70,13 @@ fun testAdultFather() = Adult(
         role = AdultRole.FATHER
 )
 
+fun testAdultTutor() = Adult(
+        name = "Silvia",
+        surname = "Mayol",
+        secondSurname = "Alcover",
+        role = AdultRole.TUTOR
+)
+
 fun testAdults() = listOf(testAdultMother(), testAdultFather())
 
 fun testInvoiceHolder() = InvoiceHolder(
@@ -78,11 +88,11 @@ fun testInvoiceHolder() = InvoiceHolder(
         bankAccount = "ES28 3066 8859 9782 5852 9057"
 )
 
-fun testCustomer(id: Int = 185) = Customer(
+fun testCustomer(id: Int = 185, children: List<Child> = testChildren2(), adults: List<Adult> = testAdults(), invoiceHolder: InvoiceHolder = testInvoiceHolder()) = Customer(
         id = id,
-        children = testChildren2(),
-        adults = testAdults(),
-        invoiceHolder = testInvoiceHolder()
+        children = children,
+        adults = adults,
+        invoiceHolder = invoiceHolder
 )
 
 fun testInvoice(

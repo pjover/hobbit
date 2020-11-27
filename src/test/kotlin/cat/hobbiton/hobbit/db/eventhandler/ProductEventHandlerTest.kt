@@ -1,6 +1,6 @@
 package cat.hobbiton.hobbit.db.eventhandler
 
-import cat.hobbiton.hobbit.domain.Product
+import cat.hobbiton.hobbit.model.Product
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.DescribeSpec
 import java.math.BigDecimal

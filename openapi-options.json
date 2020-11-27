@@ -1,0 +1,22 @@
+{
+  "supportingFiles": "",
+  "apiDocs": "",
+  "modelDocs": "",
+  "apiTests": false,
+  "modelTests": false,
+  "enumPropertyNaming": "original",
+  "basePackage": "cat.hobbiton.hobbit",
+  "apiPackage": "cat.hobbiton.hobbit.api",
+  "modelPackage": "cat.hobbiton.hobbit.api.model",
+  "apiSuffix": "",
+  "artifactId": "hobbit",
+  "sourceFolder": "src/main/kotlin",
+  "exceptionHandler": false,
+  "gradleBuildFile": false,
+  "serviceInterface": true,
+  "sortModelPropertiesByRequiredFlag": true,
+  "swaggerAnnotations": false,
+  "useBeanValidation": true,
+  "title": "Hobbit",
+  "useTags": true
+}

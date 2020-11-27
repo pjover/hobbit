@@ -12,14 +12,14 @@ class AppExceptionTest : DescribeSpec() {
         describe("without cause") {
 
             val executor = {
-                throw AppException(ErrorMessages.ERROR_INVALID_CUSTOMER_SEQUENCE, 2, 3)
+                throw AppException(ErrorMessages.ERROR_PRODUCT_NOT_FOUND, "TST")
             }
 
             it("throws an error") {
                 val exception = assertFailsWith<AppException> { executor.invoke() }
-                exception.message shouldBe "Invalid customer sequence: last customer is 2 and the sequence is 3"
-                exception.errorMessage shouldBe ErrorMessages.ERROR_INVALID_CUSTOMER_SEQUENCE
-                exception.params shouldBe arrayOf(2, 3)
+                exception.message shouldBe "Cannot find product with id TST"
+                exception.errorMessage shouldBe ErrorMessages.ERROR_PRODUCT_NOT_FOUND
+                exception.params shouldBe arrayOf("TST")
             }
         }
 
@@ -28,14 +28,14 @@ class AppExceptionTest : DescribeSpec() {
             val cause = IllegalArgumentException("Root cause")
 
             val executor = {
-                throw AppException(cause, ErrorMessages.ERROR_INVALID_CUSTOMER_SEQUENCE, 2, 3)
+                throw AppException(cause, ErrorMessages.ERROR_PRODUCT_NOT_FOUND, "TST")
             }
 
             it("throws an error") {
                 val exception = assertFailsWith<AppException> { executor.invoke() }
-                exception.message shouldBe "Invalid customer sequence: last customer is 2 and the sequence is 3"
-                exception.errorMessage shouldBe ErrorMessages.ERROR_INVALID_CUSTOMER_SEQUENCE
-                exception.params shouldBe arrayOf(2, 3)
+                exception.message shouldBe "Cannot find product with id TST"
+                exception.errorMessage shouldBe ErrorMessages.ERROR_PRODUCT_NOT_FOUND
+                exception.params shouldBe arrayOf("TST")
                 exception.cause shouldBe cause
             }
         }

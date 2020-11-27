@@ -1,7 +1,7 @@
 package cat.hobbiton.hobbit.db.eventhandler
 
-import cat.hobbiton.hobbit.domain.Sequence
-import cat.hobbiton.hobbit.domain.SequenceType
+import cat.hobbiton.hobbit.model.Sequence
+import cat.hobbiton.hobbit.model.SequenceType
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.DescribeSpec
 import kotlin.test.assertFailsWith

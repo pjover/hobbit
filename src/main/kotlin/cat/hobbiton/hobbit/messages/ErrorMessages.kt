@@ -8,5 +8,6 @@ enum class ErrorMessages(
         override val httpStatus: HttpStatus
 ) : I18nErrorMessage {
 
-    ERROR_INVALID_CUSTOMER_SEQUENCE("error.invalid.customer.sequence", HttpStatus.INTERNAL_SERVER_ERROR) // TODO remove
+    ERROR_PRODUCT_NOT_FOUND("error.product.not_found", HttpStatus.NOT_FOUND),
+    ERROR_CHILD_NOT_FOUND("error.child.not_found", HttpStatus.NOT_FOUND)
 }

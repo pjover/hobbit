@@ -8,3 +8,6 @@ springdoc:
 invoices:
   maxAmount: 2500
   currency: €
+
+api:
+  base-path: /
