@@ -13,7 +13,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 
 @DataMongoTest
 @ExtendWith(SpringExtension::class)
-class MongoDbSpringIntegrationTest {
+class MongoDbSpringTest {
 
     @DisplayName("save object using MongoDB template")
     @Test
