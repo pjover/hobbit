@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull
  * @param subsidizedAmount
  * @param note
  */
-data class InvoicesDTO(
+data class InvoiceDTO(
 
     @get:NotNull
     @JsonProperty("code") val code: String,
@@ -28,7 +28,7 @@ data class InvoicesDTO(
     @JsonProperty("totalAmount") val totalAmount: Double,
 
     @get:NotNull
-    @JsonProperty("lines") val lines: List<InvoicesLinesDTO>,
+    @JsonProperty("lines") val lines: List<InvoiceLineDTO>,
 
     @JsonProperty("subsidizedAmount") val subsidizedAmount: Double? = null,
 

@@ -73,17 +73,19 @@ class InvoiceExtensionTest : DescribeSpec() {
 
                 val executor = {
                     testInvoice().copy(
-                            lines = listOf(
-                                    InvoiceLine(productId = "XXX",
-                                            productName = "XXX name",
-                                            units = BigDecimal.valueOf(2000),
-                                            productPrice = BigDecimal.ONE),
-                                    InvoiceLine(
-                                            productId = "TSS",
-                                            productName = "XXX name",
-                                            units = BigDecimal.valueOf(500),
-                                            productPrice = BigDecimal.ONE)
-                            )
+                        lines = listOf(
+                            InvoiceLine(productId = "XXX",
+                                productName = "XXX name",
+                                units = BigDecimal.valueOf(2000),
+                                productPrice = BigDecimal.ONE,
+                                childCode = 1),
+                            InvoiceLine(
+                                productId = "TSS",
+                                productName = "XXX name",
+                                units = BigDecimal.valueOf(500),
+                                productPrice = BigDecimal.ONE,
+                                childCode = 2)
+                        )
                     ).validate(2500, "€")
                 }
 
@@ -97,12 +99,13 @@ class InvoiceExtensionTest : DescribeSpec() {
 
                 val executor = {
                     testInvoice().copy(
-                            lines = listOf(
-                                    InvoiceLine(productId = "XXX",
-                                            productName = "XXX name",
-                                            units = BigDecimal.ZERO,
-                                            productPrice = BigDecimal.ONE)
-                            )
+                        lines = listOf(
+                            InvoiceLine(productId = "XXX",
+                                productName = "XXX name",
+                                units = BigDecimal.ZERO,
+                                productPrice = BigDecimal.ONE,
+                                childCode = 1)
+                        )
                     ).validate(2500, "€")
                 }
 

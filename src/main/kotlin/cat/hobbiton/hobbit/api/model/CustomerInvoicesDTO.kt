@@ -22,6 +22,6 @@ data class CustomerInvoicesDTO(
     @JsonProperty("totalAmount") val totalAmount: Double,
 
     @get:NotNull
-    @JsonProperty("invoices") val invoices: List<InvoicesDTO>
+    @JsonProperty("invoices") val invoices: List<InvoiceDTO>
 )
 

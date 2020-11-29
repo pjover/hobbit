@@ -67,23 +67,6 @@ class ConsumptionsServiceImpl(
                 }
     }
 
-    private fun sumConsumptions(childCode: Int, consumptions: List<Consumption>): Pair<Int, List<Consumption>> {
-        return Pair(
-                childCode,
-                consumptions
-                        .groupBy { it.productId }
-                        .map { (productId, it) ->
-                            Consumption(
-                                    childCode = childCode,
-                                    productId = productId,
-                                    units = it.sumOf { it.units },
-                                    yearMonth = it.first().yearMonth,
-                                    note = it.map { it.note }.joinToString(separator = ", ")
-                            )
-                        }
-        )
-    }
-
     private fun getChildrenShortName(childCode: Int): String {
         return customerRepository.getChild(childCode).shortName()
     }
@@ -150,11 +133,29 @@ class ConsumptionsServiceImpl(
 
     private fun saveChildConsumtion(yearMonth: YearMonth, childCode: Int, consumtionDTO: SetConsumtionDTO) {
         consumptionRepository.save(Consumption(
-                childCode = childCode,
-                productId = consumtionDTO.productId,
-                units = BigDecimal.valueOf(consumtionDTO.units),
-                yearMonth = yearMonth,
-                note = consumtionDTO.note
+            childCode = childCode,
+            productId = consumtionDTO.productId,
+            units = BigDecimal.valueOf(consumtionDTO.units),
+            yearMonth = yearMonth,
+            note = consumtionDTO.note
         ))
     }
+}
+
+
+fun sumConsumptions(childCode: Int, consumptions: List<Consumption>): Pair<Int, List<Consumption>> {
+    return Pair(
+        childCode,
+        consumptions
+            .groupBy { it.productId }
+            .map { (productId, it) ->
+                Consumption(
+                    childCode = childCode,
+                    productId = productId,
+                    units = it.sumOf { it.units },
+                    yearMonth = it.first().yearMonth,
+                    note = it.map { it.note }.joinToString(separator = ", ")
+                )
+            }
+    )
 }

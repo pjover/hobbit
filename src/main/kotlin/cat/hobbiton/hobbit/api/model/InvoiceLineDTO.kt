@@ -8,8 +8,9 @@ import javax.validation.constraints.NotNull
  * @param productId
  * @param units
  * @param totalAmount
+ * @param childCode The child code
  */
-data class InvoicesLinesDTO(
+data class InvoiceLineDTO(
 
     @get:NotNull
     @JsonProperty("productId") val productId: String,
@@ -18,6 +19,9 @@ data class InvoicesLinesDTO(
     @JsonProperty("units") val units: Double,
 
     @get:NotNull
-    @JsonProperty("totalAmount") val totalAmount: Double
+    @JsonProperty("totalAmount") val totalAmount: Double,
+
+    @get:NotNull
+    @JsonProperty("childCode") val childCode: Int
 )
 

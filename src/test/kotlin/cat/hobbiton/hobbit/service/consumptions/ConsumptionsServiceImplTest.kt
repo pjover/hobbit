@@ -232,7 +232,6 @@ class ConsumptionsServiceImplTest : DescribeSpec() {
 }
 
 fun mockAuxReaders(customerRepository: CachedCustomerRepository, productRepository: CachedProductRepository) {
-    every { customerRepository.getChild(1) } returns testChild1()
     every { productRepository.getProduct("TST") } returns Product(
         id = "TST",
         name = "Test product",

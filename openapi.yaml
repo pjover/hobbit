@@ -325,6 +325,7 @@ components:
       type: object
       properties:
         code:
+          description: The child code
           type: integer
           format: int32
         consumptions:
@@ -393,14 +394,14 @@ components:
         invoices:
           type: array
           items:
-            $ref: '#/components/schemas/InvoicesDTO'
+            $ref: '#/components/schemas/InvoiceDTO'
       required:
         - code
         - shortName
         - totalAmount
         - invoices
 
-    InvoicesDTO:
+    InvoiceDTO:
       description: A single invoice
       type: object
       properties:
@@ -423,7 +424,7 @@ components:
         lines:
           type: array
           items:
-            $ref: '#/components/schemas/InvoicesLinesDTO'
+            $ref: '#/components/schemas/InvoiceLineDTO'
       required:
         - code
         - yearMonth
@@ -431,7 +432,7 @@ components:
         - totalAmount
         - lines
 
-    InvoicesLinesDTO:
+    InvoiceLineDTO:
       description: An invoice line
       type: object
       properties:
@@ -443,7 +444,12 @@ components:
         totalAmount:
           type: number
           format: double
+        childCode:
+          description: The child code
+          type: integer
+          format: int32
       required:
         - productId
         - units
         - totalAmount
+        - childCode
