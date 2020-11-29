@@ -16,7 +16,7 @@ class CustomerEventHandlerTest : DescribeSpec() {
 
                 context("and the id is blank") {
                     val executor = {
-                        sut.validate(testCustomer().copy(children = listOf()))
+                        sut.validate(testCustomer().copy(children = emptyList()))
                     }
 
                     it("throws an error") {

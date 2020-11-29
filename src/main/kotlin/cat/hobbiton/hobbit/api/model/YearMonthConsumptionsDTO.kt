@@ -11,13 +11,13 @@ import javax.validation.constraints.NotNull
  */
 data class YearMonthConsumptionsDTO(
 
-        @get:NotNull
-        @JsonProperty("yearMonth") val yearMonth: String,
+    @get:NotNull
+    @JsonProperty("yearMonth") val yearMonth: String,
 
-        @get:NotNull
-        @JsonProperty("grossAmount") val grossAmount: Double,
+    @get:NotNull
+    @JsonProperty("grossAmount") val grossAmount: Double,
 
-        @get:NotNull
-        @JsonProperty("children") val children: List<ChildConsumtionDTO>
+    @get:NotNull
+    @JsonProperty("children") val children: List<ChildConsumtionDTO>
 )
 

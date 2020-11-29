@@ -9,8 +9,8 @@ import com.fasterxml.jackson.annotation.JsonProperty
  */
 data class ChildListDTO(
 
-        @JsonProperty("code") val code: Int? = null,
+    @JsonProperty("code") val code: Int? = null,
 
-        @JsonProperty("shortName") val shortName: String? = null
+    @JsonProperty("shortName") val shortName: String? = null
 )
 

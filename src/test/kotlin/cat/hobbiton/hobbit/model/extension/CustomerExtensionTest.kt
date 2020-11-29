@@ -124,7 +124,7 @@ internal class CustomerExtensionTest : DescribeSpec() {
             context("not valid") {
 
                 val executor = {
-                    sut.copy(children = listOf()).validate()
+                    sut.copy(children = emptyList()).validate()
                 }
 
                 it("throws an error") {

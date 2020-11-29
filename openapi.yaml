@@ -3,6 +3,7 @@ info:
   title: OpenAPI definition
   version: v0
 paths:
+
   /lists/children:
     get:
       tags:
@@ -156,6 +157,35 @@ paths:
               schema:
                 $ref: '#/components/schemas/SetYearMonthConsumptionsDTO'
 
+  /billing/billConsumptions:
+    get:
+      tags:
+        - Billing
+      description: Simulates billing the current consumption before generating the invoices
+      operationId: getInvoices
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PaymentTypeInvoicesDTO'
+    post:
+      tags:
+        - Billing
+      description: Bills the current consumption and generates the invoices into the system
+      operationId: setInvoices
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PaymentTypeInvoicesDTO'
 
 components:
   schemas:
@@ -318,3 +348,102 @@ components:
       required:
         - productId
         - units
+
+    PaymentTypeDTO:
+      description: Type of payment of the customer or the invoice
+      type: string
+      enum:
+        - BANK_DIRECT_DEBIT
+        - BANK_TRANSFER
+        - VOUCHER
+        - CASH
+
+    PaymentTypeInvoicesDTO:
+      description: Invoices grouped by payment type
+      type: object
+      properties:
+        paymentType:
+          $ref: '#/components/schemas/PaymentTypeDTO'
+        totalAmount:
+          type: number
+          format: double
+        customers:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomerInvoicesDTO'
+      required:
+        - paymentType
+        - totalAmount
+        - customers
+
+    CustomerInvoicesDTO:
+      description: Invoices grouped by customer
+      type: object
+      properties:
+        code:
+          description: Customer code
+          type: integer
+          format: int32
+        shortName:
+          description: Customer short name
+          type: string
+        totalAmount:
+          type: number
+          format: double
+        invoices:
+          type: array
+          items:
+            $ref: '#/components/schemas/InvoicesDTO'
+      required:
+        - code
+        - shortName
+        - totalAmount
+        - invoices
+
+    InvoicesDTO:
+      description: A single invoice
+      type: object
+      properties:
+        code:
+          type: string
+        yearMonth:
+          type: string
+        children:
+          type: array
+          items:
+            type: string
+        totalAmount:
+          type: number
+          format: double
+        subsidizedAmount:
+          type: number
+          format: double
+        note:
+          type: string
+        lines:
+          type: array
+          items:
+            $ref: '#/components/schemas/InvoicesLinesDTO'
+      required:
+        - code
+        - yearMonth
+        - children
+        - totalAmount
+        - lines
+
+    InvoicesLinesDTO:
+      description: An invoice line
+      type: object
+      properties:
+        productId:
+          type: string
+        units:
+          type: number
+          format: double
+        totalAmount:
+          type: number
+          format: double
+      required:
+        - productId
+        - units
+        - totalAmount

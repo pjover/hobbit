@@ -10,10 +10,10 @@ import javax.validation.constraints.NotNull
  */
 data class SetChildConsumtionDTO(
 
-        @get:NotNull
-        @JsonProperty("code") val code: Int,
+    @get:NotNull
+    @JsonProperty("code") val code: Int,
 
-        @get:NotNull
-        @JsonProperty("consumptions") val consumptions: List<SetConsumtionDTO>
+    @get:NotNull
+    @JsonProperty("consumptions") val consumptions: List<SetConsumtionDTO>
 )
 
