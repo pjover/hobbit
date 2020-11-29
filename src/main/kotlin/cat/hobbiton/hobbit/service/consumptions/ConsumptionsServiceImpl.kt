@@ -1,21 +1,14 @@
 package cat.hobbiton.hobbit.service.consumptions
 
 import cat.hobbiton.hobbit.api.model.*
+import cat.hobbiton.hobbit.db.repository.CachedCustomerRepository
 import cat.hobbiton.hobbit.db.repository.CachedProductRepository
 import cat.hobbiton.hobbit.db.repository.ConsumptionRepository
-import cat.hobbiton.hobbit.db.repository.CustomerRepository
-import cat.hobbiton.hobbit.db.repository.ProductRepository
-import cat.hobbiton.hobbit.messages.ErrorMessages
 import cat.hobbiton.hobbit.messages.ValidationMessages
-import cat.hobbiton.hobbit.model.Child
 import cat.hobbiton.hobbit.model.Consumption
-import cat.hobbiton.hobbit.model.Product
-import cat.hobbiton.hobbit.model.extension.getChild
 import cat.hobbiton.hobbit.model.extension.shortName
 import cat.hobbiton.hobbit.service.aux.TimeService
-import cat.hobbiton.hobbit.util.AppException
 import cat.hobbiton.hobbit.util.translate
-import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Service
 import java.math.BigDecimal
 import java.time.YearMonth
@@ -24,7 +17,7 @@ import java.time.format.DateTimeParseException
 @Service
 class ConsumptionsServiceImpl(
     private val consumptionRepository: ConsumptionRepository,
-    private val customerRepository: CustomerRepository,
+    private val customerRepository: CachedCustomerRepository,
     private val productRepository: CachedProductRepository,
     private val timeService: TimeService
 ) : ConsumptionsService {
@@ -92,14 +85,7 @@ class ConsumptionsServiceImpl(
     }
 
     private fun getChildrenShortName(childCode: Int): String {
-        return getChild(childCode).shortName()
-    }
-
-    @Cacheable("children")
-    fun getChild(code: Int): Child {
-        val customer = customerRepository.findByChildCode(code)
-                ?: throw AppException(ErrorMessages.ERROR_CHILD_NOT_FOUND, code)
-        return customer.getChild(code) ?: throw AppException(ErrorMessages.ERROR_CHILD_NOT_FOUND, code)
+        return customerRepository.getChild(childCode).shortName()
     }
 
     override fun getConsumptions(): List<YearMonthConsumptionsDTO> {

@@ -2,9 +2,9 @@ package cat.hobbiton.hobbit.service.consumptions
 
 import cat.hobbiton.hobbit.*
 import cat.hobbiton.hobbit.api.model.*
+import cat.hobbiton.hobbit.db.repository.CachedCustomerRepository
 import cat.hobbiton.hobbit.db.repository.CachedProductRepository
 import cat.hobbiton.hobbit.db.repository.ConsumptionRepository
-import cat.hobbiton.hobbit.db.repository.CustomerRepository
 import cat.hobbiton.hobbit.model.Consumption
 import cat.hobbiton.hobbit.model.Product
 import cat.hobbiton.hobbit.service.aux.TimeService
@@ -19,7 +19,7 @@ class ConsumptionsServiceImplTest : DescribeSpec() {
 
     init {
         val consumptionRepository = mockk<ConsumptionRepository>()
-        val customerRepository = mockk<CustomerRepository>()
+        val customerRepository = mockk<CachedCustomerRepository>()
         val productRepository = mockk<CachedProductRepository>()
         val timeService = mockk<TimeService>()
         val sut = ConsumptionsServiceImpl(consumptionRepository, customerRepository, productRepository, timeService)
@@ -231,8 +231,8 @@ class ConsumptionsServiceImplTest : DescribeSpec() {
     )
 }
 
-fun mockAuxReaders(customerRepository: CustomerRepository, productRepository: CachedProductRepository) {
-    every { customerRepository.findByChildCode(1) } returns testCustomer(children = listOf(testChild1()))
+fun mockAuxReaders(customerRepository: CachedCustomerRepository, productRepository: CachedProductRepository) {
+    every { customerRepository.getChild(1) } returns testChild1()
     every { productRepository.getProduct("TST") } returns Product(
         id = "TST",
         name = "Test product",
@@ -245,9 +245,9 @@ fun mockAuxReaders(customerRepository: CustomerRepository, productRepository: Ca
         shortName = "Test",
         price = BigDecimal.valueOf(9.1)
     )
-    every { customerRepository.findByChildCode(1) } returns testCustomer(children = listOf(testChild1()))
-    every { customerRepository.findByChildCode(2) } returns testCustomer(children = listOf(testChild2()))
-    every { customerRepository.findByChildCode(3) } returns testCustomer(children = listOf(testChild3()))
+    every { customerRepository.getChild(1) } returns testChild1()
+    every { customerRepository.getChild(2) } returns testChild2()
+    every { customerRepository.getChild(3) } returns testChild3()
 }
 
 fun mockConsumptionsReader(consumptionRepository: ConsumptionRepository, additionalList: List<Consumption> = emptyList()

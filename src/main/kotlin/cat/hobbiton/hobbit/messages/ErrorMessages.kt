@@ -9,5 +9,6 @@ enum class ErrorMessages(
 ) : I18nErrorMessage {
 
     ERROR_PRODUCT_NOT_FOUND("error.product.not_found", HttpStatus.NOT_FOUND),
-    ERROR_CHILD_NOT_FOUND("error.child.not_found", HttpStatus.NOT_FOUND)
+    ERROR_CHILD_NOT_FOUND("error.child.not_found", HttpStatus.NOT_FOUND),
+    ERROR_CUSTOMER_NOT_FOUND("error.customer.not_found", HttpStatus.NOT_FOUND)
 }

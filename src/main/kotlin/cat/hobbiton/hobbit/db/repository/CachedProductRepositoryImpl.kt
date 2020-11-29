@@ -11,7 +11,7 @@ class CachedProductRepositoryImpl(
     private val productRepository: ProductRepository
 ) : CachedProductRepository {
 
-    @Cacheable("products")
+    @Cacheable("productById")
     override fun getProduct(id: String): Product {
         return productRepository.findById(id)
             .orElseThrow { AppException(ErrorMessages.ERROR_PRODUCT_NOT_FOUND, id) }

@@ -1,7 +1,6 @@
 package cat.hobbiton.hobbit.db.repository
 
-import cat.hobbiton.hobbit.completeTestProduct
-import cat.hobbiton.hobbit.model.extension.validate
+import cat.hobbiton.hobbit.testProduct
 import cat.hobbiton.hobbit.util.AppException
 import io.kotlintest.specs.DescribeSpec
 import io.kotlintest.shouldBe
@@ -19,12 +18,12 @@ class CachedProductRepositoryImplTest : DescribeSpec() {
 
         describe("getProduct") {
             context("existing product") {
-                every { productRepository.findById(any()) } returns Optional.of(completeTestProduct())
+                every { productRepository.findById(any()) } returns Optional.of(testProduct())
 
                 val actual = sut.getProduct("TST")
 
                 it("returns the product") {
-                    actual shouldBe completeTestProduct()
+                    actual shouldBe testProduct()
                 }
 
                 it("calls the repository once") {
