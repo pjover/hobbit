@@ -19,6 +19,7 @@ class SequenceServiceImplTest : DescribeSpec() {
     init {
         val sequenceRepository = mockk<SequenceRepository>()
         val sut = SequenceServiceImpl(sequenceRepository)
+
         val slot = slot<Sequence>()
 
         every { sequenceRepository.findById(SequenceType.CUSTOMER) } returns

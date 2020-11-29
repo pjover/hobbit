@@ -5,18 +5,18 @@ import cat.hobbiton.hobbit.db.repository.CachedCustomerRepository
 import cat.hobbiton.hobbit.db.repository.CachedProductRepository
 import cat.hobbiton.hobbit.db.repository.ConsumptionRepository
 import cat.hobbiton.hobbit.db.repository.InvoiceRepository
-import cat.hobbiton.hobbit.model.Consumption
-import cat.hobbiton.hobbit.model.Customer
-import cat.hobbiton.hobbit.model.Invoice
-import cat.hobbiton.hobbit.model.InvoiceLine
+import cat.hobbiton.hobbit.messages.ErrorMessages
+import cat.hobbiton.hobbit.model.*
+import cat.hobbiton.hobbit.model.extension.formattedText
 import cat.hobbiton.hobbit.model.extension.getFirstAdult
 import cat.hobbiton.hobbit.model.extension.shortName
 import cat.hobbiton.hobbit.model.extension.totalAmount
 import cat.hobbiton.hobbit.service.aux.TimeService
+import cat.hobbiton.hobbit.service.consumptions.sumConsumptions
+import cat.hobbiton.hobbit.util.AppException
 import org.springframework.stereotype.Service
 import java.math.BigDecimal
 import java.time.YearMonth
-import cat.hobbiton.hobbit.service.consumptions.sumConsumptions
 
 @Service
 class BillingServiceImpl(
@@ -24,10 +24,15 @@ class BillingServiceImpl(
     private val customerRepository: CachedCustomerRepository,
     private val productRepository: CachedProductRepository,
     private val invoiceRepository: InvoiceRepository,
-    private val timeService: TimeService
+    private val timeService: TimeService,
+    private val sequenceService: SequenceService
 ) : BillingService {
 
     override fun getInvoices(): List<PaymentTypeInvoicesDTO> {
+        return invoices(false)
+    }
+
+    fun invoices(save: Boolean): List<PaymentTypeInvoicesDTO> {
         val consumptions = consumptionRepository.findByInvoicedOnNull()
         return consumptions
             .map { Pair(customerRepository.getCustomerByChildCode(it.childCode), it) }
@@ -36,7 +41,7 @@ class BillingServiceImpl(
                 PaymentTypeInvoicesDTO(
                     paymentType = PaymentTypeDTO.valueOf(paymentType.name),
                     totalAmount = getTotalAmount(consumptions.map { it.second }),
-                    customers = getCustomerInvoices(consumptions)
+                    customers = getCustomerInvoices(save, consumptions)
                 )
             }
     }
@@ -53,7 +58,7 @@ class BillingServiceImpl(
         return product.price.multiply(consumption.units)
     }
 
-    private fun getCustomerInvoices(consumptions: List<Pair<Customer, Consumption>>): List<CustomerInvoicesDTO> {
+    private fun getCustomerInvoices(save: Boolean, consumptions: List<Pair<Customer, Consumption>>): List<CustomerInvoicesDTO> {
         return consumptions
             .groupBy { it.first.id }
             .map { (customerCode, consumptionPairs) ->
@@ -63,21 +68,21 @@ class BillingServiceImpl(
                     code = customerCode,
                     shortName = customer.getFirstAdult().shortName(),
                     totalAmount = getTotalAmount(customerConsumptions),
-                    invoices = getInvoiceDtos(customer, customerConsumptions)
+                    invoices = getInvoiceDtos(save, customer, customerConsumptions)
                 )
             }
     }
 
-    private fun getInvoiceDtos(customer: Customer, consumptions: List<Consumption>): List<InvoiceDTO> {
+    private fun getInvoiceDtos(save: Boolean, customer: Customer, consumptions: List<Consumption>): List<InvoiceDTO> {
         return consumptions
             .groupBy { it.yearMonth }
-            .map { getInvoice(customer, it.key, it.value) }
+            .map { getInvoice(save, customer, it.key, it.value) }
             .map { getInvoiceDto(customer, it) }
     }
 
-    private fun getInvoice(customer: Customer, yearMonth: YearMonth, consumptions: List<Consumption>): Invoice {
+    private fun getInvoice(save: Boolean, customer: Customer, yearMonth: YearMonth, consumptions: List<Consumption>): Invoice {
 
-        return Invoice(
+        val invoice = Invoice(
             id = "??",
             customerId = customer.id,
             date = timeService.currentLocalDate,
@@ -88,13 +93,15 @@ class BillingServiceImpl(
             note = getNotes(consumptions),
             lines = getInvoiceLines(consumptions)
         )
+        return if(save) save(invoice)
+        else invoice
     }
 
     private fun getNotes(consumptions: List<Consumption>): String? {
         val n = consumptions
             .map { it.note }
             .filterNotNull()
-        return if (n.isEmpty()) null
+        return if(n.isEmpty()) null
         else n.joinToString(", ")
     }
 
@@ -142,11 +149,21 @@ class BillingServiceImpl(
     }
 
     private fun getSubsidizedAmount(customer: Customer): Double? {
-        return if (customer.invoiceHolder.subsidizedAmount == BigDecimal.ZERO) null
+        return if(customer.invoiceHolder.subsidizedAmount == BigDecimal.ZERO) null
         else customer.invoiceHolder.subsidizedAmount.toDouble()
     }
 
     override fun setInvoices(): List<PaymentTypeInvoicesDTO> {
-        TODO("Not yet implemented")
+        return invoices(true)
+    }
+
+    fun save(invoice: Invoice): Invoice {
+        val sequence = sequenceService.increment(invoice.paymentType.sequenceType)
+        return try {
+            invoiceRepository.save(invoice.copy(id = sequence.formattedText()))
+        } catch(t: Throwable) {
+            sequenceService.decrement(invoice.paymentType.sequenceType)
+            throw AppException(ErrorMessages.ERROR_SAVING_INVOICE, t.message ?: sequence.formattedText())
+        }
     }
 }

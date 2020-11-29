@@ -6,18 +6,13 @@ import cat.hobbiton.hobbit.db.repository.CachedCustomerRepository
 import cat.hobbiton.hobbit.db.repository.CachedProductRepository
 import cat.hobbiton.hobbit.db.repository.ConsumptionRepository
 import cat.hobbiton.hobbit.db.repository.InvoiceRepository
-import cat.hobbiton.hobbit.model.Invoice
-import cat.hobbiton.hobbit.model.InvoiceLine
-import cat.hobbiton.hobbit.model.PaymentType
-import cat.hobbiton.hobbit.model.Product
+import cat.hobbiton.hobbit.model.*
 import cat.hobbiton.hobbit.service.aux.TimeService
 import cat.hobbiton.hobbit.service.consumptions.mockAuxReaders
 import cat.hobbiton.hobbit.service.consumptions.mockConsumptionsReader
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.DescribeSpec
-import io.mockk.every
-import io.mockk.mockk
-import io.mockk.verify
+import io.mockk.*
 import java.math.BigDecimal
 
 class BillingServiceImplTest : DescribeSpec() {
@@ -28,7 +23,10 @@ class BillingServiceImplTest : DescribeSpec() {
         val productRepository = mockk<CachedProductRepository>()
         val invoiceRepository = mockk<InvoiceRepository>()
         val timeService = mockk<TimeService>()
-        val sut = BillingServiceImpl(consumptionRepository, customerRepository, productRepository, invoiceRepository, timeService)
+        val sequenceService = mockk<SequenceService>()
+        val sut = BillingServiceImpl(consumptionRepository, customerRepository, productRepository, invoiceRepository, timeService, sequenceService)
+
+        val slot = slot<Invoice>()
 
         every { timeService.currentLocalDate } returns DATE
 
@@ -44,18 +42,69 @@ class BillingServiceImplTest : DescribeSpec() {
         }
 
         describe("setInvoices") {
-//            mockAuxReaders(customerRepository, productRepository)
-//            mockConsumptionsReader(consumptionRepository)
-//            mockWriters(invoiceRepository)
-//
-//            val actual = sut.getInvoices()
-//
-//            it("saves the invoices") {
-//                verify(exactly = 1) {
-//                    invoiceRepository.save(savedInvoices()[0])
-//                    invoiceRepository.save(savedInvoices()[1])
-//                }
-//            }
+            mockAuxReaders(customerRepository, productRepository)
+            mockConsumptionsReader(consumptionRepository)
+            mockWriters(invoiceRepository, sequenceService, slot)
+
+            val actual = sut.setInvoices()
+
+            it("saves the invoices") {
+                verify(exactly = 2) {
+                    sequenceService.increment(any())
+                }
+                verify(exactly = 1) {
+                    invoiceRepository.save(
+                        Invoice(
+                            id = "F-1",
+                            customerId = 185,
+                            date = DATE,
+                            yearMonth = YEAR_MONTH,
+                            childrenCodes = listOf(1, 2),
+                            paymentType = PaymentType.BANK_DIRECT_DEBIT,
+                            lines = listOf(
+                                InvoiceLine(
+                                    productId = "TST",
+                                    units = BigDecimal.valueOf(4),
+                                    productPrice = BigDecimal.valueOf(10.9),
+                                    childCode = 1
+                                ),
+                                InvoiceLine(
+                                    productId = "TST",
+                                    units = BigDecimal.valueOf(2),
+                                    productPrice = BigDecimal.valueOf(10.9),
+                                    childCode = 2
+                                ),
+                                InvoiceLine(
+                                    productId = "STS",
+                                    units = BigDecimal.valueOf(2),
+                                    productPrice = BigDecimal.valueOf(9.1),
+                                    childCode = 2
+                                )
+                            ),
+                            note = "Note 1, Note 2, Note 3, Note 4"
+                        )
+                    )
+                    invoiceRepository.save(
+                        Invoice(
+                            id = "F-1",
+                            customerId = 186,
+                            date = DATE,
+                            yearMonth = YEAR_MONTH,
+                            childrenCodes = listOf(3),
+                            paymentType = PaymentType.BANK_DIRECT_DEBIT,
+                            lines = listOf(
+                                InvoiceLine(
+                                    productId = "TST",
+                                    units = BigDecimal.valueOf(2),
+                                    productPrice = BigDecimal.valueOf(10.9),
+                                    childCode = 3
+                                )
+                            ),
+                            note = "Note 5"
+                        )
+                    )
+                }
+            }
         }
     }
 
@@ -85,55 +134,10 @@ class BillingServiceImplTest : DescribeSpec() {
         every { customerRepository.getChild(3) } returns testChild3()
     }
 
-    private fun mockWriters(invoiceRepository: InvoiceRepository) {
+    private fun mockWriters(invoiceRepository: InvoiceRepository, sequenceService: SequenceService, slot: CapturingSlot<Invoice>) {
+        every { invoiceRepository.save(capture(slot)) } answers { slot.captured }
+        every { sequenceService.increment(any()) } returns Sequence(SequenceType.STANDARD_INVOICE, 1)
     }
-
-    private fun savedInvoices() = listOf(
-        Invoice(
-            id = "F-1",
-            customerId = 185,
-            date = DATE,
-            yearMonth = YEAR_MONTH,
-            childrenCodes = listOf(1, 2),
-            paymentType = PaymentType.BANK_DIRECT_DEBIT,
-            lines = listOf(
-                InvoiceLine(
-                    productId = "TST",
-                    units = BigDecimal.valueOf(4),
-                    productPrice = BigDecimal.valueOf(10.9),
-                    childCode = 1
-                ),
-                InvoiceLine(
-                    productId = "TST",
-                    units = BigDecimal.valueOf(2),
-                    productPrice = BigDecimal.valueOf(10.9),
-                    childCode = 2
-                ),
-                InvoiceLine(
-                    productId = "STS",
-                    units = BigDecimal.valueOf(2),
-                    productPrice = BigDecimal.valueOf(9.1),
-                    childCode = 2
-                )
-            )
-        ),
-        Invoice(
-            id = "F-3",
-            customerId = 186,
-            date = DATE,
-            yearMonth = YEAR_MONTH,
-            childrenCodes = listOf(3),
-            paymentType = PaymentType.BANK_DIRECT_DEBIT,
-            lines = listOf(
-                InvoiceLine(
-                    productId = "TST",
-                    units = BigDecimal.valueOf(2),
-                    productPrice = BigDecimal.valueOf(10.9),
-                    childCode = 3
-                )
-            )
-        )
-    )
 
     private fun expectedInvoices() = listOf(
         PaymentTypeInvoicesDTO(
