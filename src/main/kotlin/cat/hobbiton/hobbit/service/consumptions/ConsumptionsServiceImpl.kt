@@ -1,6 +1,7 @@
 package cat.hobbiton.hobbit.service.consumptions
 
 import cat.hobbiton.hobbit.api.model.*
+import cat.hobbiton.hobbit.db.repository.CachedProductRepository
 import cat.hobbiton.hobbit.db.repository.ConsumptionRepository
 import cat.hobbiton.hobbit.db.repository.CustomerRepository
 import cat.hobbiton.hobbit.db.repository.ProductRepository
@@ -22,10 +23,10 @@ import java.time.format.DateTimeParseException
 
 @Service
 class ConsumptionsServiceImpl(
-        private val consumptionRepository: ConsumptionRepository,
-        private val customerRepository: CustomerRepository,
-        private val productRepository: ProductRepository,
-        private val timeService: TimeService
+    private val consumptionRepository: ConsumptionRepository,
+    private val customerRepository: CustomerRepository,
+    private val productRepository: CachedProductRepository,
+    private val timeService: TimeService
 ) : ConsumptionsService {
 
     override fun getChildConsumptions(childCode: Int): List<YearMonthConsumptionsDTO> {
@@ -48,14 +49,8 @@ class ConsumptionsServiceImpl(
     }
 
     private fun getGrossAmount(consumption: Consumption): BigDecimal {
-        val product = getProduct(consumption.productId)
+        val product = productRepository.getProduct(consumption.productId)
         return product.price.multiply(consumption.units)
-    }
-
-    @Cacheable("products")
-    fun getProduct(id: String): Product {
-        return productRepository.findById(id)
-                .orElseThrow { AppException(ErrorMessages.ERROR_PRODUCT_NOT_FOUND, id) }
     }
 
     private fun groupYearMonth(consumptions: List<Consumption>): List<ChildConsumtionDTO> {
