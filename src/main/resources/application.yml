@@ -1,5 +1,4 @@
 db:
-  name: hobbit_dev
   host: host.docker.internal
   port: 27017
 
