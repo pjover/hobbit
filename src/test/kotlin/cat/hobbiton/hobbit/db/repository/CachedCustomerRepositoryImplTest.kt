@@ -24,7 +24,7 @@ class CachedCustomerRepositoryImplTest : DescribeSpec() {
             context("existing customer") {
                 every { customerRepository.findByChildCode(any()) } returns testCustomer()
 
-                val actual = sut.getChild(1)
+                val actual = sut.getChild(1850)
 
                 it("returns the customer") {
                     actual shouldBe testChild1()
@@ -32,7 +32,7 @@ class CachedCustomerRepositoryImplTest : DescribeSpec() {
 
                 it("calls the repository once") {
                     verify(exactly = 1) {
-                        customerRepository.findByChildCode(1)
+                        customerRepository.findByChildCode(1850)
                     }
                 }
             }
@@ -41,12 +41,12 @@ class CachedCustomerRepositoryImplTest : DescribeSpec() {
                 every { customerRepository.findByChildCode(any()) } returns null
 
                 val executor = {
-                    sut.getChild(1)
+                    sut.getChild(1850)
                 }
 
                 it("throws an error") {
                     val exception = assertFailsWith<AppException> { executor.invoke() }
-                    exception.message shouldBe "Cannot find child with id 1"
+                    exception.message shouldBe "Cannot find child with id 1,850"
                 }
             }
         }

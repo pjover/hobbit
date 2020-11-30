@@ -42,21 +42,21 @@ class SearchServiceImplTest : DescribeSpec() {
 
             it("returns the correct list") {
                 actual shouldBe listOf(
-                        CustomerListDTO(185, "Joana Bibiloni",
-                                listOf(
-                                        ChildListDTO(1, "Laura Llull")
-                                )
-                        ),
-                        CustomerListDTO(186, "Xisca Llull",
-                                listOf(
-                                        ChildListDTO(2, "Aina Llull")
-                                )
-                        ),
-                        CustomerListDTO(187, "Antònia Palmer",
-                                listOf(
-                                        ChildListDTO(3, "Laia Llull")
-                                )
+                    CustomerListDTO(185, "Joana Bibiloni",
+                        listOf(
+                            ChildListDTO(1850, "Laura Llull")
                         )
+                    ),
+                    CustomerListDTO(186, "Xisca Llull",
+                        listOf(
+                            ChildListDTO(1851, "Aina Llull")
+                        )
+                    ),
+                    CustomerListDTO(187, "Antònia Palmer",
+                        listOf(
+                            ChildListDTO(1852, "Laia Llull")
+                        )
+                    )
                 )
             }
 

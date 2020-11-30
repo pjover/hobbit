@@ -17,7 +17,7 @@ fun testProduct() = Product("TST",
 )
 
 fun testChild1() = Child(
-    code = 1,
+    code = 1850,
     name = "Laura",
     surname = "Llull",
     secondSurname = "Bibiloni",
@@ -26,7 +26,7 @@ fun testChild1() = Child(
 )
 
 fun testChild2() = Child(
-    code = 2,
+    code = 1851,
     name = "Aina",
     surname = "Llull",
     secondSurname = "Bibiloni",
@@ -35,7 +35,7 @@ fun testChild2() = Child(
 )
 
 fun testChild3() = Child(
-    code = 3,
+    code = 1852,
     name = "Laia",
     surname = "Llull",
     secondSurname = "Bibiloni",
@@ -99,7 +99,7 @@ fun testInvoice(
     id: Int = 103,
     paymentType: PaymentType = PaymentType.BANK_DIRECT_DEBIT,
     invoiceDate: LocalDate = DATE,
-    childrenCodes: List<Int> = listOf(1800, 1801)) = Invoice(
+    childrenCodes: List<Int> = listOf(1850, 1851)) = Invoice(
     id = "${paymentType.sequenceType.prefix}-$id",
     date = invoiceDate,
     customerId = 148,
@@ -117,21 +117,21 @@ fun testInvoiceLines() = listOf(
         units = BigDecimal.valueOf(1),
         productPrice = BigDecimal.valueOf(11),
         taxPercentage = BigDecimal.ZERO,
-        childCode = 1800
+        childCode = 1850
     ),
     InvoiceLine(productId = "BBB",
         productName = "BBB product long name",
         units = BigDecimal.valueOf(3),
         productPrice = BigDecimal.valueOf(5.5),
         taxPercentage = BigDecimal.valueOf(0.1),
-        childCode = 1800
+        childCode = 1850
     ),
     InvoiceLine(productId = "CCC",
         productName = "CCC product long name",
         units = BigDecimal.valueOf(1.5),
         productPrice = BigDecimal.valueOf(5),
         taxPercentage = BigDecimal.ZERO,
-        childCode = 1801
+        childCode = 1851
     )
 )
 
@@ -140,7 +140,7 @@ fun testInvoices(
     paymentType: PaymentType = PaymentType.BANK_DIRECT_DEBIT,
     invoiceDate: LocalDate = DATE) = listOf(
     testInvoice(firstId, paymentType, invoiceDate),
-    testInvoice(firstId + 1, paymentType, invoiceDate, listOf(1801, 1802)),
-    testInvoice(firstId + 2, paymentType, invoiceDate, listOf(1800, 1801, 1802)),
-    testInvoice(firstId + 3, paymentType, invoiceDate, listOf(1800))
+    testInvoice(firstId + 1, paymentType, invoiceDate, listOf(1851, 1852)),
+    testInvoice(firstId + 2, paymentType, invoiceDate, listOf(1850, 1851, 1852)),
+    testInvoice(firstId + 3, paymentType, invoiceDate, listOf(1850))
 )
