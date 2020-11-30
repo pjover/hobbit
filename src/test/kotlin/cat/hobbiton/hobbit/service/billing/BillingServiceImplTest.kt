@@ -5,14 +5,17 @@ import cat.hobbiton.hobbit.api.model.*
 import cat.hobbiton.hobbit.db.repository.CachedCustomerRepository
 import cat.hobbiton.hobbit.db.repository.CachedProductRepository
 import cat.hobbiton.hobbit.db.repository.ConsumptionRepository
-import cat.hobbiton.hobbit.db.repository.InvoiceRepository
-import cat.hobbiton.hobbit.model.*
+import cat.hobbiton.hobbit.model.Invoice
+import cat.hobbiton.hobbit.model.InvoiceLine
+import cat.hobbiton.hobbit.model.PaymentType
+import cat.hobbiton.hobbit.model.Product
 import cat.hobbiton.hobbit.service.aux.TimeService
-import cat.hobbiton.hobbit.service.consumptions.mockAuxReaders
-import cat.hobbiton.hobbit.service.consumptions.mockConsumptionsReader
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.DescribeSpec
-import io.mockk.*
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.slot
+import io.mockk.verify
 import java.math.BigDecimal
 
 class BillingServiceImplTest : DescribeSpec() {
@@ -21,12 +24,9 @@ class BillingServiceImplTest : DescribeSpec() {
         val consumptionRepository = mockk<ConsumptionRepository>()
         val customerRepository = mockk<CachedCustomerRepository>()
         val productRepository = mockk<CachedProductRepository>()
-        val invoiceRepository = mockk<InvoiceRepository>()
         val timeService = mockk<TimeService>()
-        val sequenceService = mockk<SequenceService>()
-        val sut = BillingServiceImpl(consumptionRepository, customerRepository, productRepository, invoiceRepository, timeService, sequenceService)
-
-        val slot = slot<Invoice>()
+        val billingUtilsService = mockk<InvoiceService>()
+        val sut = BillingServiceImpl(consumptionRepository, customerRepository, productRepository, timeService, billingUtilsService)
 
         every { timeService.currentLocalDate } returns DATE
 
@@ -37,25 +37,27 @@ class BillingServiceImplTest : DescribeSpec() {
             val actual = sut.getInvoices()
 
             it("returns the list of invoices from pending consumptions") {
-                actual shouldBe expectedInvoices()
+                actual shouldBe expectedInvoices(code = "??")
             }
         }
 
         describe("setInvoices") {
             mockAuxReaders(customerRepository, productRepository)
             mockConsumptionsReader(consumptionRepository)
-            mockWriters(invoiceRepository, sequenceService, slot)
+            val slot = slot<Invoice>()
+            every { billingUtilsService.saveInvoice(capture(slot)) } answers { slot.captured.copy(id = "F-1") }
 
             val actual = sut.setInvoices()
 
+            it("returns the list of invoices from pending consumptions") {
+                actual shouldBe expectedInvoices(code = "F-1")
+            }
+
             it("saves the invoices") {
-                verify(exactly = 2) {
-                    sequenceService.increment(any())
-                }
                 verify(exactly = 1) {
-                    invoiceRepository.save(
+                    billingUtilsService.saveInvoice(
                         Invoice(
-                            id = "F-1",
+                            id = "??",
                             customerId = 185,
                             date = DATE,
                             yearMonth = YEAR_MONTH,
@@ -84,9 +86,9 @@ class BillingServiceImplTest : DescribeSpec() {
                             note = "Note 1, Note 2, Note 3, Note 4"
                         )
                     )
-                    invoiceRepository.save(
+                    billingUtilsService.saveInvoice(
                         Invoice(
-                            id = "F-1",
+                            id = "??",
                             customerId = 186,
                             date = DATE,
                             yearMonth = YEAR_MONTH,
@@ -134,12 +136,7 @@ class BillingServiceImplTest : DescribeSpec() {
         every { customerRepository.getChild(3) } returns testChild3()
     }
 
-    private fun mockWriters(invoiceRepository: InvoiceRepository, sequenceService: SequenceService, slot: CapturingSlot<Invoice>) {
-        every { invoiceRepository.save(capture(slot)) } answers { slot.captured }
-        every { sequenceService.increment(any()) } returns Sequence(SequenceType.STANDARD_INVOICE, 1)
-    }
-
-    private fun expectedInvoices() = listOf(
+    private fun expectedInvoices(code: String) = listOf(
         PaymentTypeInvoicesDTO(
             paymentType = PaymentTypeDTO.BANK_DIRECT_DEBIT,
             totalAmount = 105.4,
@@ -150,7 +147,7 @@ class BillingServiceImplTest : DescribeSpec() {
                     totalAmount = 83.6,
                     invoices = listOf(
                         InvoiceDTO(
-                            code = "??",
+                            code = code,
                             yearMonth = YEAR_MONTH.toString(),
                             children = listOf("Laura", "Aina"),
                             totalAmount = 83.6,
@@ -184,7 +181,7 @@ class BillingServiceImplTest : DescribeSpec() {
                     totalAmount = 21.8,
                     invoices = listOf(
                         InvoiceDTO(
-                            code = "??",
+                            code = code,
                             yearMonth = YEAR_MONTH.toString(),
                             children = listOf("Laia"),
                             totalAmount = 21.8,

@@ -2,7 +2,7 @@ package cat.hobbiton.hobbit.api
 
 import cat.hobbiton.hobbit.api.model.SetYearMonthConsumptionsDTO
 import cat.hobbiton.hobbit.api.model.YearMonthConsumptionsDTO
-import cat.hobbiton.hobbit.service.consumptions.ConsumptionsService
+import cat.hobbiton.hobbit.service.billing.ConsumptionsService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 

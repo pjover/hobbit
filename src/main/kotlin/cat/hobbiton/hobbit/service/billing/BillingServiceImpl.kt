@@ -4,16 +4,14 @@ import cat.hobbiton.hobbit.api.model.*
 import cat.hobbiton.hobbit.db.repository.CachedCustomerRepository
 import cat.hobbiton.hobbit.db.repository.CachedProductRepository
 import cat.hobbiton.hobbit.db.repository.ConsumptionRepository
-import cat.hobbiton.hobbit.db.repository.InvoiceRepository
-import cat.hobbiton.hobbit.messages.ErrorMessages
-import cat.hobbiton.hobbit.model.*
-import cat.hobbiton.hobbit.model.extension.formattedText
+import cat.hobbiton.hobbit.model.Consumption
+import cat.hobbiton.hobbit.model.Customer
+import cat.hobbiton.hobbit.model.Invoice
+import cat.hobbiton.hobbit.model.InvoiceLine
 import cat.hobbiton.hobbit.model.extension.getFirstAdult
 import cat.hobbiton.hobbit.model.extension.shortName
 import cat.hobbiton.hobbit.model.extension.totalAmount
 import cat.hobbiton.hobbit.service.aux.TimeService
-import cat.hobbiton.hobbit.service.consumptions.sumConsumptions
-import cat.hobbiton.hobbit.util.AppException
 import org.springframework.stereotype.Service
 import java.math.BigDecimal
 import java.time.YearMonth
@@ -23,9 +21,8 @@ class BillingServiceImpl(
     private val consumptionRepository: ConsumptionRepository,
     private val customerRepository: CachedCustomerRepository,
     private val productRepository: CachedProductRepository,
-    private val invoiceRepository: InvoiceRepository,
     private val timeService: TimeService,
-    private val sequenceService: SequenceService
+    private val invoiceService: InvoiceService
 ) : BillingService {
 
     override fun getInvoices(): List<PaymentTypeInvoicesDTO> {
@@ -93,7 +90,7 @@ class BillingServiceImpl(
             note = getNotes(consumptions),
             lines = getInvoiceLines(consumptions)
         )
-        return if(save) save(invoice)
+        return if(save) invoiceService.saveInvoice(invoice)
         else invoice
     }
 
@@ -108,7 +105,9 @@ class BillingServiceImpl(
     private fun getInvoiceLines(consumptions: List<Consumption>): List<InvoiceLine> {
         return consumptions
             .groupBy { it.childCode }
-            .map { (childCode, consumptions) -> sumConsumptions(childCode, consumptions) }
+            .map { (childCode, consumptions) ->
+                groupConsumptions(childCode, consumptions)
+            }
             .map { getChildInvoiceLines(it.second) }
             .flatten()
     }
@@ -155,15 +154,5 @@ class BillingServiceImpl(
 
     override fun setInvoices(): List<PaymentTypeInvoicesDTO> {
         return invoices(true)
-    }
-
-    fun save(invoice: Invoice): Invoice {
-        val sequence = sequenceService.increment(invoice.paymentType.sequenceType)
-        return try {
-            invoiceRepository.save(invoice.copy(id = sequence.formattedText()))
-        } catch(t: Throwable) {
-            sequenceService.decrement(invoice.paymentType.sequenceType)
-            throw AppException(ErrorMessages.ERROR_SAVING_INVOICE, t.message ?: sequence.formattedText())
-        }
     }
 }

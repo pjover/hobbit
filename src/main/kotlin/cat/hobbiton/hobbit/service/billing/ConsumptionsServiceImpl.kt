@@ -1,4 +1,4 @@
-package cat.hobbiton.hobbit.service.consumptions
+package cat.hobbiton.hobbit.service.billing
 
 import cat.hobbiton.hobbit.api.model.*
 import cat.hobbiton.hobbit.db.repository.CachedCustomerRepository
@@ -24,21 +24,21 @@ class ConsumptionsServiceImpl(
 
     override fun getChildConsumptions(childCode: Int): List<YearMonthConsumptionsDTO> {
         return consumptionRepository.findByInvoicedOnNullAndChildCode(childCode)
-                .groupBy { it.yearMonth }
-                .map { (yearMonth, consumptions) ->
-                    YearMonthConsumptionsDTO(
-                            yearMonth.toString(),
-                            getGrossAmount(consumptions),
-                            groupYearMonth(consumptions)
-                    )
-                }
+            .groupBy { it.yearMonth }
+            .map { (yearMonth, consumptions) ->
+                YearMonthConsumptionsDTO(
+                    yearMonth.toString(),
+                    getGrossAmount(consumptions),
+                    groupYearMonth(consumptions)
+                )
+            }
     }
 
     private fun getGrossAmount(consumptions: List<Consumption>): Double {
         return consumptions
-                .map { getGrossAmount(it) }
-                .sumOf { it }
-                .toDouble()
+            .map { getGrossAmount(it) }
+            .sumOf { it }
+            .toDouble()
     }
 
     private fun getGrossAmount(consumption: Consumption): BigDecimal {
@@ -48,23 +48,25 @@ class ConsumptionsServiceImpl(
 
     private fun groupYearMonth(consumptions: List<Consumption>): List<ChildConsumtionDTO> {
         return consumptions
-                .groupBy { it.childCode }
-                .map { (childCode, consumptions) -> sumConsumptions(childCode, consumptions) }
-                .map {
-                    ChildConsumtionDTO(
-                            code = it.first,
-                            shortName = getChildrenShortName(it.first),
-                            grossAmount = getGrossAmount(it.second),
-                            consumptions = it.second.map { c ->
-                                ConsumtionDTO(
-                                        c.productId,
-                                        c.units.toDouble(),
-                                        getGrossAmount(c).toDouble(),
-                                        c.note
-                                )
-                            }
-                    )
-                }
+            .groupBy { it.childCode }
+            .map { (childCode, consumptions) ->
+                groupConsumptions(childCode, consumptions)
+            }
+            .map {
+                ChildConsumtionDTO(
+                    code = it.first,
+                    shortName = getChildrenShortName(it.first),
+                    grossAmount = getGrossAmount(it.second),
+                    consumptions = it.second.map { c ->
+                        ConsumtionDTO(
+                            c.productId,
+                            c.units.toDouble(),
+                            getGrossAmount(c).toDouble(),
+                            c.note
+                        )
+                    }
+                )
+            }
     }
 
     private fun getChildrenShortName(childCode: Int): String {
@@ -73,19 +75,19 @@ class ConsumptionsServiceImpl(
 
     override fun getConsumptions(): List<YearMonthConsumptionsDTO> {
         return consumptionRepository.findByInvoicedOnNull()
-                .groupBy { it.yearMonth }
-                .map { (yearMonth, consumptions) ->
-                    YearMonthConsumptionsDTO(
-                            yearMonth.toString(),
-                            getGrossAmount(consumptions),
-                            groupYearMonth(consumptions)
-                    )
-                }
+            .groupBy { it.yearMonth }
+            .map { (yearMonth, consumptions) ->
+                YearMonthConsumptionsDTO(
+                    yearMonth.toString(),
+                    getGrossAmount(consumptions),
+                    groupYearMonth(consumptions)
+                )
+            }
     }
 
     override fun getLastMonthConsumptions(): SetYearMonthConsumptionsDTO {
         return getSetYearMonthConsumptionsDTO(
-                getConsumptions().last { isLastMonth(it.yearMonth) }
+            getConsumptions().last { isLastMonth(it.yearMonth) }
         )
     }
 
@@ -94,19 +96,19 @@ class ConsumptionsServiceImpl(
     private fun getLastMonth() = timeService.currentYearMonth.minusMonths(1)
 
     private fun getSetYearMonthConsumptionsDTO(dto: YearMonthConsumptionsDTO) = SetYearMonthConsumptionsDTO(
-            yearMonth = dto.yearMonth,
-            children = dto.children.map { getSetChildConsumtionDTO(it) }
+        yearMonth = dto.yearMonth,
+        children = dto.children.map { getSetChildConsumtionDTO(it) }
     )
 
     private fun getSetChildConsumtionDTO(dto: ChildConsumtionDTO) = SetChildConsumtionDTO(
-            code = dto.code,
-            consumptions = dto.consumptions.map { getSetConsumtionDTO(it) }
+        code = dto.code,
+        consumptions = dto.consumptions.map { getSetConsumtionDTO(it) }
     )
 
     private fun getSetConsumtionDTO(dto: ConsumtionDTO) = SetConsumtionDTO(
-            productId = dto.productId,
-            units = dto.units,
-            note = dto.note
+        productId = dto.productId,
+        units = dto.units,
+        note = dto.note
     )
 
     override fun setConsumptions(setYearMonthConsumptionsDTO: SetYearMonthConsumptionsDTO): List<YearMonthConsumptionsDTO> {
@@ -122,7 +124,7 @@ class ConsumptionsServiceImpl(
     private fun getYearMonth(yearMonth: String): YearMonth {
         return try {
             YearMonth.parse(yearMonth)
-        } catch (e: DateTimeParseException) {
+        } catch(e: DateTimeParseException) {
             throw IllegalArgumentException(ValidationMessages.ERROR_YEAR_MONTH_INVALID.translate(), e)
         }
     }
@@ -142,20 +144,3 @@ class ConsumptionsServiceImpl(
     }
 }
 
-
-fun sumConsumptions(childCode: Int, consumptions: List<Consumption>): Pair<Int, List<Consumption>> {
-    return Pair(
-        childCode,
-        consumptions
-            .groupBy { it.productId }
-            .map { (productId, it) ->
-                Consumption(
-                    childCode = childCode,
-                    productId = productId,
-                    units = it.sumOf { it.units },
-                    yearMonth = it.first().yearMonth,
-                    note = it.map { it.note }.joinToString(separator = ", ")
-                )
-            }
-    )
-}
