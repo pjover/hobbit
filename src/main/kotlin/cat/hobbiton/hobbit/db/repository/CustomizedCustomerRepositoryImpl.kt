@@ -6,10 +6,12 @@ import cat.hobbiton.hobbit.model.Sequence
 import cat.hobbiton.hobbit.model.SequenceType
 import cat.hobbiton.hobbit.util.Logging
 import org.springframework.data.mongodb.core.MongoTemplate
+import org.springframework.stereotype.Component
 
+@Component
 class CustomizedCustomerRepositoryImpl(
-        private val sequenceRepository: SequenceRepository,
-        private val mongoTemplate: MongoTemplate
+    private val sequenceRepository: SequenceRepository,
+    private val mongoTemplate: MongoTemplate
 ) : CustomizedCustomerRepository {
 
     private val logger by Logging()
@@ -22,7 +24,7 @@ class CustomizedCustomerRepositoryImpl(
     }
 
     private fun incrementId(customer: Customer): Customer {
-        if (customer.id != 0) return customer
+        if(customer.id != 0) return customer
 
         val currSequence = sequenceRepository.findById(SequenceType.CUSTOMER).orElse(Sequence(SequenceType.CUSTOMER, 0))
         val newSequence = Sequence(SequenceType.CUSTOMER, currSequence.counter + 1)
@@ -36,10 +38,10 @@ class CustomizedCustomerRepositoryImpl(
 
         val currChildren = customer.children.sortedBy { it.birthDate }
         val newChildren = mutableListOf<Child>()
-        for (i in currChildren.indices) {
-            if (currChildren[i].code == 0) {
+        for(i in currChildren.indices) {
+            if(currChildren[i].code == 0) {
                 val child = currChildren[i].copy(
-                        code = customer.id * 10 + i
+                    code = customer.id * 10 + i
                 )
                 newChildren.add(child)
                 logger.info("Updated child code ${child.name}: ${child.code}")

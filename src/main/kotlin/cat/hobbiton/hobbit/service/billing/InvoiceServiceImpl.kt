@@ -2,7 +2,6 @@ package cat.hobbiton.hobbit.service.billing
 
 import cat.hobbiton.hobbit.db.repository.InvoiceRepository
 import cat.hobbiton.hobbit.messages.ErrorMessages
-import cat.hobbiton.hobbit.model.Consumption
 import cat.hobbiton.hobbit.model.Invoice
 import cat.hobbiton.hobbit.model.extension.formattedText
 import cat.hobbiton.hobbit.util.AppException

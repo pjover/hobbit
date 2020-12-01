@@ -95,9 +95,7 @@ class BillingServiceImpl(
     }
 
     private fun getNotes(consumptions: List<Consumption>): String? {
-        val n = consumptions
-            .map { it.note }
-            .filterNotNull()
+        val n = consumptions.mapNotNull { it.note }
         return if(n.isEmpty()) null
         else n.joinToString(", ")
     }
@@ -141,7 +139,7 @@ class BillingServiceImpl(
                         productId = it.productId,
                         units = it.units.toDouble(),
                         totalAmount = it.totalAmount().toDouble(),
-                        childCode = it.childCode!! //TODO elliminar !!
+                        childCode = it.childCode
                     )
                 }
         )

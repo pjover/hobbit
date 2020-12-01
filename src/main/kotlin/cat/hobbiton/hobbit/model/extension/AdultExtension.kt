@@ -25,7 +25,7 @@ fun Adult.validate() {
         ValidationMessages.ERROR_ADULT_TAX_ID_INVALID.translate(taxId)
     }
 
-    if (address != null) address.validate()
+    address?.validate()
 
     if (email != null) require(email.isValidEmail()) {
         ValidationMessages.ERROR_ADULT_EMAIL_INVALID.translate(email)

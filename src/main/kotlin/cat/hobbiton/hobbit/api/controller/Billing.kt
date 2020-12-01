@@ -1,4 +1,4 @@
-package cat.hobbiton.hobbit.api
+package cat.hobbiton.hobbit.api.controller
 
 import cat.hobbiton.hobbit.api.model.PaymentTypeInvoicesDTO
 import cat.hobbiton.hobbit.service.billing.BillingService
