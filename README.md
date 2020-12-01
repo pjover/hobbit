@@ -48,4 +48,13 @@ docker run -it --rm \
      mongo --host mongo-server
 ```
 
---spring.profiles.active=dev
+### Local app
+
+Set program arguments to: `--spring.profiles.active=local`
+
+
+### App docker image
+
+- Build the image with JIB: `.\gradlew jibDockerBuild`
+- Run the image for DEV: `docker container run --network mongo-network -p 8080:8080 -e "SPRING_PROFILES_ACTIVE=dev" hobbit`
+- Run the image for PROD: `docker container run --network mongo-network -p 8080:8080 -e "SPRING_PROFILES_ACTIVE=prod" hobbit`

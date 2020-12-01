@@ -1,8 +1,8 @@
 spring:
   profiles:
-    active: dev
+    active: local
 
 db:
   name: hobbit_dev
-  host: host.docker.internal
+  host: localhost
   port: 27017
