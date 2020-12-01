@@ -99,11 +99,12 @@ fun testInvoice(
     id: Int = 103,
     paymentType: PaymentType = PaymentType.BANK_DIRECT_DEBIT,
     invoiceDate: LocalDate = DATE,
-    childrenCodes: List<Int> = listOf(1850, 1851)) = Invoice(
+    childrenCodes: List<Int> = listOf(1850, 1851),
+    lines: List<InvoiceLine> = testInvoiceLines()) = Invoice(
     id = "${paymentType.sequenceType.prefix}-$id",
     date = invoiceDate,
     customerId = 148,
-    lines = testInvoiceLines(),
+    lines = lines,
     note = "Invoice note",
     emailed = false,
     printed = false,
@@ -135,10 +136,7 @@ fun testInvoiceLines() = listOf(
     )
 )
 
-fun testInvoices(
-    firstId: Int = 100,
-    paymentType: PaymentType = PaymentType.BANK_DIRECT_DEBIT,
-    invoiceDate: LocalDate = DATE) = listOf(
+fun testInvoices(firstId: Int = 100, paymentType: PaymentType = PaymentType.BANK_DIRECT_DEBIT, invoiceDate: LocalDate = DATE) = listOf(
     testInvoice(firstId, paymentType, invoiceDate),
     testInvoice(firstId + 1, paymentType, invoiceDate, listOf(1851, 1852)),
     testInvoice(firstId + 2, paymentType, invoiceDate, listOf(1850, 1851, 1852)),

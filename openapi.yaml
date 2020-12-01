@@ -187,6 +187,33 @@ paths:
                 items:
                   $ref: '#/components/schemas/PaymentTypeInvoicesDTO'
 
+  /admin/modifyEntity/{entity}:
+    post:
+      tags:
+        - Admin
+      description: Modifies database entities
+      operationId: modifyEntity
+      parameters:
+        - name: entity
+          in: path
+          required: true
+          schema:
+            type: string
+            enum:
+              - Consumption
+              - Customer
+              - Invoice
+              - Product
+              - Sequence
+      responses:
+        '200':
+          description: OK, number of modified entities
+          content:
+            application/json:
+              schema:
+                type: integer
+                format: int32
+
 components:
   schemas:
 
