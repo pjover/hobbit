@@ -47,3 +47,5 @@ docker run -it --rm \
      mongo \
      mongo --host mongo-server
 ```
+
+--spring.profiles.active=dev

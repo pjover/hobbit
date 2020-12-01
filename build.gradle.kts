@@ -5,10 +5,12 @@ plugins {
 	id("io.spring.dependency-management") version "1.0.10.RELEASE"
 	kotlin("jvm") version "1.4.10"
 	kotlin("plugin.spring") version "1.4.10"
+	id("com.google.cloud.tools.jib") version "1.3.0"
 }
 
 group = "cat.hobbiton"
 version = "5.0.0-SNAPSHOT"
+
 java.sourceCompatibility = JavaVersion.VERSION_1_8
 
 configurations {
@@ -54,5 +56,28 @@ tasks.withType<KotlinCompile> {
 	kotlinOptions {
 		freeCompilerArgs = listOf("-Xjsr305=strict")
 		jvmTarget = "1.8"
+	}
+}
+
+jib {
+	from {
+		image = "openjdk:8-jre-alpine"
+	}
+	to {
+		tags = setOf("$version", "latest")
+	}
+	container {
+		useCurrentTimestamp = true
+		labels = mapOf(
+			"org.opencontainers.image.title" to "Hobbit",
+			"org.opencontainers.image.description" to "Hobbit Kotlin Spring boot application for managing a Kindergarten business",
+			"org.opencontainers.image.version" to "$version",
+			"org.opencontainers.image.url" to "https://github.com/pjover/hobbit",
+			"org.opencontainers.image.vendor" to "https://github.com/pjover",
+			"org.opencontainers.image.licenses" to "GPL-3.0"
+		)
+		workingDirectory = "/opt/target"
+		jvmFlags = listOf("-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005")
+		ports = listOf("8080", "5005")
 	}
 }
