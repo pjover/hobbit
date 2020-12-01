@@ -9,8 +9,8 @@ import com.fasterxml.jackson.annotation.JsonProperty
  */
 data class ChildrenGroupDTO(
 
-        @JsonProperty("group") val group: String? = null,
+    @JsonProperty("group") val group: String? = null,
 
-        @JsonProperty("children") val children: List<ChildListDTO>? = null
+    @JsonProperty("children") val children: List<ChildListDTO>? = null
 )
 

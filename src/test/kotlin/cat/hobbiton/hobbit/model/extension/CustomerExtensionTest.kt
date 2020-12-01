@@ -23,7 +23,7 @@ internal class CustomerExtensionTest : DescribeSpec() {
                             .getActiveChildrenCodes()
 
                     it("returns a text of the active children of the customer") {
-                        actual shouldBe listOf(1, 2)
+                        actual shouldBe listOf(1850, 1851)
                     }
                 }
             }
@@ -32,7 +32,7 @@ internal class CustomerExtensionTest : DescribeSpec() {
 
                 context("and the code exists") {
 
-                    val actual = sut.getChild(1)
+                    val actual = sut.getChild(1850)
 
                     it("returns the child") {
                         actual shouldBe testChild1()
@@ -41,7 +41,7 @@ internal class CustomerExtensionTest : DescribeSpec() {
 
                 context("and the code does not exists") {
 
-                    val actual = sut.getChild(3)
+                    val actual = sut.getChild(1852)
 
                     it("returns null") {
                         actual shouldBe null
@@ -124,7 +124,7 @@ internal class CustomerExtensionTest : DescribeSpec() {
             context("not valid") {
 
                 val executor = {
-                    sut.copy(children = listOf()).validate()
+                    sut.copy(children = emptyList()).validate()
                 }
 
                 it("throws an error") {

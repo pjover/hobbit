@@ -10,10 +10,10 @@ import javax.validation.constraints.NotNull
  */
 data class SetYearMonthConsumptionsDTO(
 
-        @get:NotNull
-        @JsonProperty("yearMonth") val yearMonth: String,
+    @get:NotNull
+    @JsonProperty("yearMonth") val yearMonth: String,
 
-        @get:NotNull
-        @JsonProperty("children") val children: List<SetChildConsumtionDTO>
+    @get:NotNull
+    @JsonProperty("children") val children: List<SetChildConsumtionDTO>
 )
 

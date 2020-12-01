@@ -4,13 +4,13 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import javax.validation.constraints.NotNull
 
 /**
- * Consumption item of a child
+ * An invoice line
  * @param productId
  * @param units
- * @param grossAmount
- * @param note
+ * @param totalAmount
+ * @param childCode The child code
  */
-data class ConsumtionDTO(
+data class InvoiceLineDTO(
 
     @get:NotNull
     @JsonProperty("productId") val productId: String,
@@ -19,8 +19,9 @@ data class ConsumtionDTO(
     @JsonProperty("units") val units: Double,
 
     @get:NotNull
-    @JsonProperty("grossAmount") val grossAmount: Double,
+    @JsonProperty("totalAmount") val totalAmount: Double,
 
-    @JsonProperty("note") val note: String? = null
+    @get:NotNull
+    @JsonProperty("childCode") val childCode: Int
 )
 

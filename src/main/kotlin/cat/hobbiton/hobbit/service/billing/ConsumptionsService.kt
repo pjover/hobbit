@@ -1,4 +1,4 @@
-package cat.hobbiton.hobbit.service.consumptions
+package cat.hobbiton.hobbit.service.billing
 
 import cat.hobbiton.hobbit.api.model.SetYearMonthConsumptionsDTO
 import cat.hobbiton.hobbit.api.model.YearMonthConsumptionsDTO

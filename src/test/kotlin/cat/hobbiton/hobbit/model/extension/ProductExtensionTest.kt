@@ -16,10 +16,10 @@ class ProductExtensionTest : DescribeSpec() {
                 context("and the id is blank") {
                     val executor = {
                         Product(
-                                "",
-                                "Test",
-                                "Test product",
-                                BigDecimal.TEN
+                            "",
+                            "Test",
+                            "TST product",
+                            BigDecimal.TEN
                         ).validate()
                     }
 
@@ -32,10 +32,10 @@ class ProductExtensionTest : DescribeSpec() {
                 context("and the id has less than 3 characters") {
                     val executor = {
                         Product(
-                                "AA",
-                                "Test",
-                                "Test product",
-                                BigDecimal.TEN
+                            "AA",
+                            "Test",
+                            "TST product",
+                            BigDecimal.TEN
                         ).validate()
                     }
 
@@ -48,10 +48,10 @@ class ProductExtensionTest : DescribeSpec() {
                 context("and the id has more than 3 characters") {
                     val executor = {
                         Product(
-                                "AAAA",
-                                "Test",
-                                "Test product",
-                                BigDecimal.TEN
+                            "AAAA",
+                            "Test",
+                            "TST product",
+                            BigDecimal.TEN
                         ).validate()
                     }
 
@@ -64,10 +64,10 @@ class ProductExtensionTest : DescribeSpec() {
                 context("and the id is lower case") {
                     val executor = {
                         Product(
-                                "aaa",
-                                "Test",
-                                "Test product",
-                                BigDecimal.TEN
+                            "aaa",
+                            "Test",
+                            "TST product",
+                            BigDecimal.TEN
                         ).validate()
                     }
 
@@ -83,10 +83,10 @@ class ProductExtensionTest : DescribeSpec() {
                 context("and the name is blank") {
                     val executor = {
                         Product(
-                                "AAA",
-                                "",
-                                "Test product",
-                                BigDecimal.TEN
+                            "AAA",
+                            "",
+                            "TST product",
+                            BigDecimal.TEN
                         ).validate()
                     }
 
@@ -99,11 +99,11 @@ class ProductExtensionTest : DescribeSpec() {
                 context("and the name is longer than 150 characters") {
                     val executor = {
                         Product(
-                                "AAA",
-                                "12345678901234567890123456789012345678901234567890123456789012345678901234567890" +
-                                        "1234567890123456789012345678901234567890123456789012345678901234567890A",
-                                "Test product",
-                                BigDecimal.TEN
+                            "AAA",
+                            "12345678901234567890123456789012345678901234567890123456789012345678901234567890" +
+                                "1234567890123456789012345678901234567890123456789012345678901234567890A",
+                            "TST product",
+                            BigDecimal.TEN
                         ).validate()
                     }
 
@@ -119,10 +119,10 @@ class ProductExtensionTest : DescribeSpec() {
                 context("and the shortName is blank") {
                     val executor = {
                         Product(
-                                "AAA",
-                                "Test product",
-                                "",
-                                BigDecimal.TEN
+                            "AAA",
+                            "TST product",
+                            "",
+                            BigDecimal.TEN
                         ).validate()
                     }
 
@@ -135,10 +135,10 @@ class ProductExtensionTest : DescribeSpec() {
                 context("and the shortName is longer than 12 characters") {
                     val executor = {
                         Product(
-                                "AAA",
-                                "Test product",
-                                "1234567890123",
-                                BigDecimal.TEN
+                            "AAA",
+                            "TST product",
+                            "1234567890123",
+                            BigDecimal.TEN
                         ).validate()
                     }
 
@@ -154,10 +154,10 @@ class ProductExtensionTest : DescribeSpec() {
                 context("and the price is zero") {
                     val executor = {
                         Product(
-                                "AAA",
-                                "Test product",
-                                "Test product",
-                                BigDecimal.ZERO
+                            "AAA",
+                            "TST product",
+                            "TST product",
+                            BigDecimal.ZERO
                         ).validate()
                     }
 
@@ -173,11 +173,11 @@ class ProductExtensionTest : DescribeSpec() {
                 context("and the tax percentage is negative") {
                     val executor = {
                         Product(
-                                "AAA",
-                                "Test product",
-                                "Test product",
-                                BigDecimal.TEN,
-                                BigDecimal.valueOf(-1)
+                            "AAA",
+                            "TST product",
+                            "TST product",
+                            BigDecimal.TEN,
+                            BigDecimal.valueOf(-1)
                         ).validate()
                     }
 

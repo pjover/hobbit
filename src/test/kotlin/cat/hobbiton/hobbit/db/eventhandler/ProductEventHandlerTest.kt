@@ -18,12 +18,12 @@ class ProductEventHandlerTest : DescribeSpec() {
                 context("and the id is blank") {
                     val executor = {
                         sut.validate(
-                                Product(
-                                        "",
-                                        "Test",
-                                        "Test product",
-                                        BigDecimal.TEN
-                                )
+                            Product(
+                                "",
+                                "Test",
+                                "TST product",
+                                BigDecimal.TEN
+                            )
                         )
                     }
 
@@ -36,12 +36,12 @@ class ProductEventHandlerTest : DescribeSpec() {
                 context("validation suceeds") {
 
                     sut.validate(
-                            Product(
-                                    "AAA",
-                                    "Test",
-                                    "Test product",
-                                    BigDecimal.TEN
-                            )
+                        Product(
+                            "AAA",
+                            "Test",
+                            "TST product",
+                            BigDecimal.TEN
+                        )
                     )
 
                     it("do not throws any error") {

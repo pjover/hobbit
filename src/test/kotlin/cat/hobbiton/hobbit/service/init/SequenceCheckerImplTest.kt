@@ -30,10 +30,10 @@ internal class SequenceCheckerImplTest : DescribeSpec() {
         describe("missed sequence") {
 
             context("missed all sequences") {
-                every { sequenceRepository.findAll() } returns listOf()
-                every { customerRepository.findAll() } returns listOf()
-                every { invoiceRepository.findByIdStartingWith("F") } returns listOf()
-                every { invoiceRepository.findByIdStartingWith("X") } returns listOf()
+                every { sequenceRepository.findAll() } returns emptyList()
+                every { customerRepository.findAll() } returns emptyList()
+                every { invoiceRepository.findByIdStartingWith("F") } returns emptyList()
+                every { invoiceRepository.findByIdStartingWith("X") } returns emptyList()
 
                 sut.checkSequences()
 
@@ -53,11 +53,11 @@ internal class SequenceCheckerImplTest : DescribeSpec() {
                         Sequence(SequenceType.SPECIAL_INVOICE, 96)
                 )
                 every { sequenceRepository.save(any()) } answers { firstArg() }
-                every { customerRepository.findAll() } returns listOf()
+                every { customerRepository.findAll() } returns emptyList()
                 every { invoiceRepository.findByIdStartingWith("F") } returns listOf(
-                        testInvoice(id = 98),
-                        testInvoice(id = 102),
-                        testInvoice(id = 103)
+                    testInvoice(id = 98),
+                    testInvoice(id = 102),
+                    testInvoice(id = 103)
                 )
                 every { invoiceRepository.findByIdStartingWith("X") } returns listOf(
                         testInvoice(id = 92, paymentType = PaymentType.VOUCHER),

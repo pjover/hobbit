@@ -34,19 +34,19 @@ class ListServiceImplTest : DescribeSpec() {
 
             it("returns the correct list") {
                 actual shouldBe listOf(
-                        ChildrenGroupDTO(
-                                GroupType.EI_1.text,
-                                listOf(
-                                        ChildListDTO(1, "Laura Llull"),
-                                        ChildListDTO(2, "Aina Llull")
-                                )
-                        ),
-                        ChildrenGroupDTO(
-                                GroupType.EI_2.text,
-                                listOf(
-                                        ChildListDTO(3, "Laia Llull")
-                                )
+                    ChildrenGroupDTO(
+                        GroupType.EI_1.text,
+                        listOf(
+                            ChildListDTO(1850, "Laura Llull"),
+                            ChildListDTO(1851, "Aina Llull")
                         )
+                    ),
+                    ChildrenGroupDTO(
+                        GroupType.EI_2.text,
+                        listOf(
+                            ChildListDTO(1852, "Laia Llull")
+                        )
+                    )
                 )
             }
         }
@@ -67,17 +67,17 @@ class ListServiceImplTest : DescribeSpec() {
 
             it("returns the correct list") {
                 actual shouldBe listOf(
-                        CustomerListDTO(185, "Joana Bibiloni",
-                                listOf(
-                                        ChildListDTO(1, "Laura Llull"),
-                                        ChildListDTO(2, "Aina Llull")
-                                )
-                        ),
-                        CustomerListDTO(186, "Xisca Llull",
-                                listOf(
-                                        ChildListDTO(3, "Laia Llull")
-                                )
+                    CustomerListDTO(185, "Joana Bibiloni",
+                        listOf(
+                            ChildListDTO(1850, "Laura Llull"),
+                            ChildListDTO(1851, "Aina Llull")
                         )
+                    ),
+                    CustomerListDTO(186, "Xisca Llull",
+                        listOf(
+                            ChildListDTO(1852, "Laia Llull")
+                        )
+                    )
                 )
             }
 

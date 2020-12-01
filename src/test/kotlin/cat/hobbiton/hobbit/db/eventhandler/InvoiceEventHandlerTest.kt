@@ -18,9 +18,9 @@ class InvoiceEventHandlerTest : DescribeSpec() {
 
                 val executor = {
                     sut.validate(
-                            testInvoice().copy(
-                                    childrenCodes = listOf()
-                            )
+                        testInvoice().copy(
+                            childrenCodes = emptyList()
+                        )
                     )
                 }
 

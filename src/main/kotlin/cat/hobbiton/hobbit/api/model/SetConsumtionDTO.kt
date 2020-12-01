@@ -11,12 +11,12 @@ import javax.validation.constraints.NotNull
  */
 data class SetConsumtionDTO(
 
-        @get:NotNull
-        @JsonProperty("productId") val productId: String,
+    @get:NotNull
+    @JsonProperty("productId") val productId: String,
 
-        @get:NotNull
-        @JsonProperty("units") val units: Double,
+    @get:NotNull
+    @JsonProperty("units") val units: Double,
 
-        @JsonProperty("note") val note: String? = null
+    @JsonProperty("note") val note: String? = null
 )
 
