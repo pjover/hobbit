@@ -29,21 +29,7 @@ class AdminServiceImpl(
     }
 
     private fun modifyInvoice(): Int {
-        var counter = 0
-        invoiceRepository.findAll()
-            .map {
-                counter += 1
-                modify(it)
-            }
-            .forEach { invoiceRepository.save(it) }
-        return counter
-    }
-
-    private fun modify(invoice: Invoice): Invoice {
-        val firstChildCode = invoice.childrenCodes.first()
-        val lines = invoice.lines
-            .map { it.copy(productName = null, childCode = it.childCode ?: firstChildCode) }
-        return invoice.copy(lines = lines)
+        return 0
     }
 
     private fun modifyProduct(): Int {

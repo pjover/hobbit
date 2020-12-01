@@ -11,7 +11,7 @@ val DATE_TIME: LocalDateTime = LocalDateTime.of(2019, 5, 25, 10, 29, 59)
 val YEAR_MONTH: YearMonth = YearMonth.of(2019, 5)
 
 fun testProduct() = Product("TST",
-    "Test product",
+    "TST product",
     "Test",
     BigDecimal.valueOf(10.9)
 )

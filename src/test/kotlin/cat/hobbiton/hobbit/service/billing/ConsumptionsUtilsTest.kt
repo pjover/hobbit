@@ -44,7 +44,7 @@ class ConsumptionsUtilsTest : DescribeSpec() {
                     Consumption(
                         id = "AA4",
                         childCode = 1,
-                        productId = "STS",
+                        productId = "XXX",
                         units = BigDecimal.valueOf(2),
                         yearMonth = YEAR_MONTH,
                         note = "Note 4",
@@ -72,7 +72,7 @@ class ConsumptionsUtilsTest : DescribeSpec() {
                 actual.second[0].note shouldBe "Note 1, Note 2, Note 3, Note 5"
 
                 actual.second[1].childCode shouldBe 1
-                actual.second[1].productId shouldBe "STS"
+                actual.second[1].productId shouldBe "XXX"
                 actual.second[1].units shouldBe BigDecimal.valueOf(2)
                 actual.second[1].yearMonth shouldBe YEAR_MONTH
                 actual.second[1].note shouldBe "Note 4"

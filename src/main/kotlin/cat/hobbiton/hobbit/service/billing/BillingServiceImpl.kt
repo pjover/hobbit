@@ -113,17 +113,19 @@ class BillingServiceImpl(
     }
 
     private fun getChildInvoiceLines(consumptions: List<Consumption>): List<InvoiceLine> {
-        return consumptions
-            .map {
-                val product = productRepository.getProduct(it.productId)
-                InvoiceLine(
-                    productId = it.productId,
-                    units = it.units,
-                    productPrice = product.price,
-                    taxPercentage = product.taxPercentage,
-                    childCode = it.childCode
-                )
-            }
+        return consumptions.map { getInvoiceLine(it) }
+    }
+
+    private fun getInvoiceLine(consumption: Consumption): InvoiceLine {
+        val product = productRepository.getProduct(consumption.productId)
+        return InvoiceLine(
+            productId = consumption.productId,
+            units = consumption.units,
+            productPrice = product.price,
+            productName = product.name,
+            taxPercentage = product.taxPercentage,
+            childCode = consumption.childCode
+        )
     }
 
     private fun getInvoiceDto(customer: Customer, invoice: Invoice): InvoiceDTO {

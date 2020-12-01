@@ -38,18 +38,21 @@ class InvoiceServiceImplTest : DescribeSpec() {
                 lines = listOf(
                     InvoiceLine(
                         productId = "TST",
+                        productName = "TST product",
                         units = BigDecimal.valueOf(4),
                         productPrice = BigDecimal.valueOf(10.9),
                         childCode = 1
                     ),
                     InvoiceLine(
                         productId = "TST",
+                        productName = "TST product",
                         units = BigDecimal.valueOf(2),
                         productPrice = BigDecimal.valueOf(10.9),
                         childCode = 2
                     ),
                     InvoiceLine(
-                        productId = "STS",
+                        productId = "XXX",
+                        productName = "XXX product",
                         units = BigDecimal.valueOf(2),
                         productPrice = BigDecimal.valueOf(9.1),
                         childCode = 2
@@ -70,11 +73,7 @@ class InvoiceServiceImplTest : DescribeSpec() {
                     invoiceRepository.save(invoice.copy(id = "F-1"))
                 }
             }
-
-
         }
-
-        describe("groupConsumptions") { }
     }
 
 }
