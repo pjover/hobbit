@@ -58,3 +58,14 @@ Set program arguments to: `--spring.profiles.active=local`
 - Build the image with JIB: `.\gradlew jibDockerBuild`
 - Run the image for DEV: `docker container run --network mongo-network -p 8080:8080 -e "SPRING_PROFILES_ACTIVE=dev" hobbit`
 - Run the image for PROD: `docker container run --network mongo-network -p 8080:8080 -e "SPRING_PROFILES_ACTIVE=prod" hobbit`
+
+### Helm
+
+- Examine a chart for possible issues: `helm lint`
+- Test the template rendering: `helm install --debug --dry-run hobbit ./chart`
+
+- Install the app (1st time): `helm install hobbit ./chart`
+- Update the app: `helm upgrade --install hobbit ./chart`
+- Delete the app: `helm uninstall hobbit`
+
+- Run the app inside k8s: `kubectl get svc/hobbit -o wide`
