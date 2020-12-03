@@ -61,7 +61,7 @@ Set program arguments to: `--spring.profiles.active=local`
 
 ### Helm
 
-- Examine a chart for possible issues: `helm lint`
+- Examine a chart for possible issues: `helm lint ./chart`
 - Test the template rendering: `helm install --debug --dry-run hobbit ./chart`
 
 - Install the app (1st time): `helm install hobbit ./chart`

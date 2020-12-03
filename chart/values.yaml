@@ -12,3 +12,10 @@ service:
   internalPort: 8080
   externalDebugPort: 5005
   internalDebugPort: 5005
+
+db:
+  name: mongo
+  persitentVolumeClaimName: mongo-pvc
+  storage: 256Mi
+  externalPort: 27017
+  internalPort: 27017

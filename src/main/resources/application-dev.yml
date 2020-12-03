@@ -4,5 +4,5 @@ spring:
 
 db:
   name: hobbit_dev
-  host: host.docker.internal
+  host: mongo
   port: 27017
