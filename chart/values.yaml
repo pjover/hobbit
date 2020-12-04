@@ -1,6 +1,5 @@
 replicaCount: 1
 name: hobbit
-appVersion: 5.0.0-SNAPSHOT
 profile: dev
 
 image:

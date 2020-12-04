@@ -64,8 +64,13 @@ Set program arguments to: `--spring.profiles.active=local`
 - Examine a chart for possible issues: `helm lint ./chart`
 - Test the template rendering: `helm install --debug --dry-run hobbit ./chart`
 
-- Install the app: `helm install hobbit ./chart`
-- Update the app: `helm upgrade --install hobbit ./chart`
-- Delete the app: `helm uninstall hobbit`
+Production:
+- Install the app: `helm install hobbit ./chart --values app-version.yaml --set profile=prod `
+- Update the app: `helm upgrade --install hobbit ./chart --values app-version.yaml --set profile=prod `
 
+Development:
+- Install the app: `helm install hobbit ./chart --values app-version.yaml`
+- Update the app: `helm upgrade --install hobbit ./chart --values app-version.yaml`
+
+- Delete the app: `helm uninstall hobbit`
 - Run the app inside k8s: `kubectl get svc/hobbit -o wide`
