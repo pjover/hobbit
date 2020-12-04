@@ -18,7 +18,9 @@ spec:
       containers:
         - name: {{ .Values.name }}
           image: {{ .Values.image.name }}:{{ .Values.image.tag }}
-          args: [ "--spring.profiles.active=dev" ]
+          envFrom:
+            - configMapRef:
+                name: profile-config
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - containerPort: {{ .Values.service.internalPort }}
