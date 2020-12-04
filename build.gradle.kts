@@ -9,7 +9,12 @@ plugins {
 }
 
 group = "cat.hobbiton"
-version = "5.0.0-SNAPSHOT"
+version = rootProject
+	.file("app-version.yaml")
+	.readText()
+	.split(":")
+	.last()
+	.trim()
 
 java.sourceCompatibility = JavaVersion.VERSION_1_8
 
