@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: {{ .Values.name }}
-          image: {{ .Values.image.name }}:{{ .Values.image.tag }}
+          image: {{ .Values.image.name }}:{{ .Chart.AppVersion }}
           envFrom:
             - configMapRef:
                 name: profile-config

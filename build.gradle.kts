@@ -64,7 +64,11 @@ jib {
 		image = "openjdk:8-jre-alpine"
 	}
 	to {
-		tags = setOf("$version", "latest")
+		tags = if(version.toString().endsWith("-SNAPSHOT")) {
+			setOf("$version")
+		} else {
+			setOf("$version", "latest")
+		}
 	}
 	container {
 		useCurrentTimestamp = true

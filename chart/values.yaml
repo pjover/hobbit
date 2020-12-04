@@ -3,7 +3,6 @@ name: hobbit
 
 image:
   name: hobbit
-  tag: latest
   pullPolicy: IfNotPresent
 
 service:
