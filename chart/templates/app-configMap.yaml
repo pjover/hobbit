@@ -6,4 +6,4 @@ metadata:
     name: {{ .Values.name }}
   {{- template "labels" . }}
 data:
-  spring.profiles.active: prod
+  spring.profiles.active: {{ .Values.profile }}
