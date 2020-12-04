@@ -14,6 +14,7 @@ spec:
       containers:
         - name: {{ .Values.db.name }}
           image: {{ .Values.db.name }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - containerPort: {{ .Values.db.internalPort }}
           volumeMounts:

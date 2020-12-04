@@ -6,8 +6,7 @@ image:
   name: hobbit
   pullPolicy: IfNotPresent
 
-service:
-  type: LoadBalancer
+app:
   externalPort: 8080
   internalPort: 8080
   externalDebugPort: 5005
@@ -19,3 +18,8 @@ db:
   storage: 256Mi
   externalPort: 27017
   internalPort: 27017
+
+dba:
+  name: mongo-express
+  externalPort: 8081
+  internalPort: 8081

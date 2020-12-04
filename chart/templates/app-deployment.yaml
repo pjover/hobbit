@@ -18,12 +18,12 @@ spec:
       containers:
         - name: {{ .Values.name }}
           image: {{ .Values.image.name }}:{{ .Values.appVersion }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
           envFrom:
             - configMapRef:
                 name: profile-config
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
-            - containerPort: {{ .Values.service.internalPort }}
+            - containerPort: {{ .Values.app.internalPort }}
               name: "http"
-            - containerPort: {{ .Values.service.internalDebugPort }}
+            - containerPort: {{ .Values.app.internalDebugPort }}
               name: "debug"
