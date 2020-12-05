@@ -46,7 +46,7 @@ internal class InvoiceLineExtensionTest : DescribeSpec() {
 
                 val executor = {
                     InvoiceLine(productId = "",
-                        productName = "XXX name",
+                        productName = "XXX product",
                         units = BigDecimal.valueOf(2000),
                         productPrice = BigDecimal.ONE,
                         childCode = 1)
@@ -63,7 +63,7 @@ internal class InvoiceLineExtensionTest : DescribeSpec() {
 
                 val executor = {
                     InvoiceLine(productId = "XXX",
-                        productName = "XXX name",
+                        productName = "XXX product",
                         units = BigDecimal.ZERO,
                         productPrice = BigDecimal.ONE,
                         childCode = 1)

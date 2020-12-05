@@ -57,7 +57,7 @@ class ConsumptionsServiceImplTest : DescribeSpec() {
                 Consumption(
                     id = "AA4",
                     childCode = 1,
-                    productId = "STS",
+                    productId = "XXX",
                     units = BigDecimal.valueOf(2),
                     yearMonth = YEAR_MONTH,
                     note = "Note 4",
@@ -88,7 +88,7 @@ class ConsumptionsServiceImplTest : DescribeSpec() {
                                 grossAmount = 105.4,
                                 listOf(
                                     ConsumtionDTO("TST", 8.0, 87.2, "Note 1, Note 2, Note 3, Note 5"),
-                                    ConsumtionDTO("STS", 2.0, 18.2, "Note 4")
+                                    ConsumtionDTO("XXX", 2.0, 18.2, "Note 4")
                                 )
                             )
                         )
@@ -139,7 +139,7 @@ class ConsumptionsServiceImplTest : DescribeSpec() {
                             code = 2,
                             listOf(
                                 SetConsumtionDTO("TST", 2.0, "Note 3"),
-                                SetConsumtionDTO("STS", 2.0, "Note 4")
+                                SetConsumtionDTO("XXX", 2.0, "Note 4")
                             )
                         ),
                         SetChildConsumtionDTO(
@@ -173,7 +173,7 @@ class ConsumptionsServiceImplTest : DescribeSpec() {
                             code = 2,
                             listOf(
                                 SetConsumtionDTO("TST", 2.0, "Note 3"),
-                                SetConsumtionDTO("STS", 2.0, "Note 4")
+                                SetConsumtionDTO("XXX", 2.0, "Note 4")
                             )
                         ),
                         SetChildConsumtionDTO(
@@ -215,7 +215,7 @@ class ConsumptionsServiceImplTest : DescribeSpec() {
                     grossAmount = 40.0,
                     listOf(
                         ConsumtionDTO("TST", 2.0, 21.8, "Note 3"),
-                        ConsumtionDTO("STS", 2.0, 18.2, "Note 4")
+                        ConsumtionDTO("XXX", 2.0, 18.2, "Note 4")
                     )
                 ),
                 ChildConsumtionDTO(
@@ -234,14 +234,14 @@ class ConsumptionsServiceImplTest : DescribeSpec() {
 fun mockAuxReaders(customerRepository: CachedCustomerRepository, productRepository: CachedProductRepository) {
     every { productRepository.getProduct("TST") } returns Product(
         id = "TST",
-        name = "Test product",
+        name = "TST product",
         shortName = "Test",
         price = BigDecimal.valueOf(10.9)
     )
-    every { productRepository.getProduct("STS") } returns Product(
-        id = "STS",
-        name = "Test product",
-        shortName = "Test",
+    every { productRepository.getProduct("XXX") } returns Product(
+        id = "XXX",
+        name = "XXX product",
+        shortName = "XXX product",
         price = BigDecimal.valueOf(9.1)
     )
     every { customerRepository.getChild(1) } returns testChild1()
@@ -282,7 +282,7 @@ fun mockConsumptionsReader(consumptionRepository: ConsumptionRepository, additio
         Consumption(
             id = "AA4",
             childCode = 2,
-            productId = "STS",
+            productId = "XXX",
             units = BigDecimal.valueOf(2),
             yearMonth = YEAR_MONTH,
             note = "Note 4",

@@ -66,18 +66,21 @@ class BillingServiceImplTest : DescribeSpec() {
                             lines = listOf(
                                 InvoiceLine(
                                     productId = "TST",
+                                    productName = "TST product",
                                     units = BigDecimal.valueOf(4),
                                     productPrice = BigDecimal.valueOf(10.9),
                                     childCode = 1
                                 ),
                                 InvoiceLine(
                                     productId = "TST",
+                                    productName = "TST product",
                                     units = BigDecimal.valueOf(2),
                                     productPrice = BigDecimal.valueOf(10.9),
                                     childCode = 2
                                 ),
                                 InvoiceLine(
-                                    productId = "STS",
+                                    productId = "XXX",
+                                    productName = "XXX product",
                                     units = BigDecimal.valueOf(2),
                                     productPrice = BigDecimal.valueOf(9.1),
                                     childCode = 2
@@ -97,6 +100,7 @@ class BillingServiceImplTest : DescribeSpec() {
                             lines = listOf(
                                 InvoiceLine(
                                     productId = "TST",
+                                    productName = "TST product",
                                     units = BigDecimal.valueOf(2),
                                     productPrice = BigDecimal.valueOf(10.9),
                                     childCode = 3
@@ -113,14 +117,14 @@ class BillingServiceImplTest : DescribeSpec() {
     private fun mockReaders(customerRepository: CachedCustomerRepository, productRepository: CachedProductRepository) {
         every { productRepository.getProduct("TST") } returns Product(
             id = "TST",
-            name = "Test product",
-            shortName = "Test",
+            name = "TST product",
+            shortName = "TST product",
             price = BigDecimal.valueOf(10.9)
         )
-        every { productRepository.getProduct("STS") } returns Product(
-            id = "STS",
-            name = "Test product",
-            shortName = "Test",
+        every { productRepository.getProduct("XXX") } returns Product(
+            id = "XXX",
+            name = "XXX product",
+            shortName = "XXX product",
             price = BigDecimal.valueOf(9.1)
         )
         every { customerRepository.getCustomerByChildCode(1) } returns testCustomer(children = listOf(testChild1()))
@@ -165,7 +169,7 @@ class BillingServiceImplTest : DescribeSpec() {
                                     childCode = 2
                                 ),
                                 InvoiceLineDTO(
-                                    productId = "STS",
+                                    productId = "XXX",
                                     units = 2.0,
                                     totalAmount = 18.2,
                                     childCode = 2
