@@ -15,6 +15,8 @@ app:
 db:
   name: mongo
   persitentVolumeClaimName: mongo-pvc
+  persitentVolumeName: mongo-pv
+  persitentVolumePath: /Users/pere/hobbit_data
   storage: 256Mi
   externalPort: 27017
   internalPort: 27017

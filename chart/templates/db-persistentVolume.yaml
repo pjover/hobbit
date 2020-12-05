@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {{ .Values.db.persitentVolumeName }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: {{ .Values.db.storage }}
+  claimRef:
+    apiVersion: v1
+    kind: PersistentVolumeClaim
+    name: {{ .Values.db.persitentVolumeClaimName }}
+  hostPath:
+    path: {{ .Values.db.persitentVolumePath }}
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: hostpath
+  volumeMode: Filesystem
