@@ -3,16 +3,10 @@ kind: PersistentVolume
 metadata:
   name: {{ .Values.db.persitentVolumeName }}
 spec:
-  accessModes:
-    - ReadWriteOnce
+  storageClassName: manual
   capacity:
     storage: {{ .Values.db.storage }}
-  claimRef:
-    apiVersion: v1
-    kind: PersistentVolumeClaim
-    name: {{ .Values.db.persitentVolumeClaimName }}
+  accessModes:
+    - ReadWriteOnce
   hostPath:
     path: {{ .Values.db.persitentVolumePath }}
-  persistentVolumeReclaimPolicy: Retain
-  storageClassName: hostpath
-  volumeMode: Filesystem
