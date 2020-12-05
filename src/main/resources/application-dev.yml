@@ -1,8 +1,2 @@
-spring:
-  profiles:
-    active: dev
-
 db:
   name: hobbit_dev
-  host: mongo
-  port: 27017

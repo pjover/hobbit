@@ -1,8 +1,0 @@
-spring:
-  profiles:
-    active: local
-
-db:
-  name: hobbit_dev
-  host: localhost
-  port: 27017

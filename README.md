@@ -4,74 +4,35 @@ Hobbit Kotlin Spring boot application for managing a Kindergarten business, init
 
 ## How to run
 
-Hobbit will run inside a Kubernetes cluster, alongside with a MongoDB database.
-
-### MongoDB on Docker
-
-For development, you can deploy a Docker container, with local persistence
-
-First, create the network
-
-```shell script
-docker network create mongo-network
-```
-
-Run the MongoDB server
-
-```shell script
-docker run -d \
-    --name mongo-server \
-    --network mongo-network \
-    -v $HOME/mongodb_data:/data/db \
-    -p 27017:27017 \
-    mongo
-```
-
-Run the Mongo express database UI
-
-```shell script
-docker run -d \
-    --name mongo-express \
-    --network mongo-network \
-    -p 8081:8081 \
-    -e ME_CONFIG_OPTIONS_EDITORTHEME="ambiance" \
-    -e ME_CONFIG_MONGODB_SERVER="mongo-server" \
-    mongo-express
-```
-
-Run the Mongo client to access the database server by command terminal
-
-```shell script
-docker run -it --rm \
-    --network mongo-network \
-     mongo \
-     mongo --host mongo-server
-```
-
-### Local app
-
-Set program arguments to: `--spring.profiles.active=local`
-
+Hobbit will run inside a Kubernetes cluster, alongside with a MongoDB database and Mongo express database administrator.
 
 ### App docker image
 
 - Build the image with JIB: `.\gradlew jibDockerBuild`
-- Run the image for DEV: `docker container run --network mongo-network -p 8080:8080 -e "SPRING_PROFILES_ACTIVE=dev" hobbit`
-- Run the image for PROD: `docker container run --network mongo-network -p 8080:8080 -e "SPRING_PROFILES_ACTIVE=prod" hobbit`
 
 ### Helm
 
+We use Hel to build the k8s files and deploy it to the kubernetes cluster.
+
+The database directory location is set as a command line param, in the examples is `/Users/pere/hobbit_db`.
 
 - Examine a chart for possible issues: `helm lint ./chart --values hobbit.yaml`
 - Test the template rendering: `helm install --debug --dry-run hobbit ./chart --set db.persitentVolumePath=/Users/pere/hobbit_db`
 
-Development:
+Run with development database:
 - Install the app: `helm install hobbit ./chart --values hobbit.yaml --set db.persitentVolumePath=/Users/pere/hobbit_db`
 - Update the app: `helm upgrade --install hobbit ./chart --values hobbit.yaml --set db.persitentVolumePath=/Users/pere/hobbit_db`
 
-Production:
+Run the latest stable version with production database:
 - Install the app: `helm install hobbit ./chart --set appVersion=latest,profile=prod,db.persitentVolumePath=/Users/pere/hobbit_db`
 
-- Delete the app: `helm uninstall hobbit`
+Delete the app from Kubernetes: `helm uninstall hobbit`
 
-Where `/Users/pere/hobbit_db` is the mongodb data directory 
+
+## Configure IntelliJ for remote debug
+
+Add new run configuration
+- type: Remote
+- host: localhost:5005
+- Command line args for remote JVM (JDK 5-8): -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005
+- Use module classpath: hobbit.main
