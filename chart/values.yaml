@@ -1,0 +1,28 @@
+replicaCount: 1
+name: hobbit
+appVersion: latest
+profile: dev
+
+image:
+  name: hobbit
+  pullPolicy: IfNotPresent
+
+app:
+  externalPort: 8080
+  internalPort: 8080
+  externalDebugPort: 5005
+  internalDebugPort: 5005
+
+db:
+  name: mongo
+  persitentVolumeClaimName: mongo-pvc
+  persitentVolumeName: mongo-pv
+  persitentVolumePath: /tmp/hobbit_db
+  storage: 256Mi
+  externalPort: 27017
+  internalPort: 27017
+
+dba:
+  name: mongo-express
+  externalPort: 8081
+  internalPort: 8081

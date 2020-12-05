@@ -1,9 +1,10 @@
-db:
-  name: hobbit_dev
-
 springdoc:
   api-docs:
     path: /api-docs
+
+db:
+  host: mongo
+  port: 27017
 
 invoices:
   maxAmount: 2500
