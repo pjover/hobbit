@@ -9,12 +9,7 @@ plugins {
 }
 
 group = "cat.hobbiton"
-version = rootProject
-	.file("app-version.yaml")
-	.readText()
-	.split(":")
-	.last()
-	.trim()
+version = version()
 
 java.sourceCompatibility = JavaVersion.VERSION_1_8
 
@@ -69,11 +64,7 @@ jib {
 		image = "openjdk:8-jre-alpine"
 	}
 	to {
-		tags = if(version.toString().endsWith("-SNAPSHOT")) {
-			setOf("$version")
-		} else {
-			setOf("$version", "latest")
-		}
+		tags = tags()
 	}
 	container {
 		useCurrentTimestamp = true
@@ -88,5 +79,23 @@ jib {
 		workingDirectory = "/opt/target"
 		jvmFlags = listOf("-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005")
 		ports = listOf("8080", "5005")
+	}
+}
+
+fun version(): String {
+	return rootProject
+		.file("hobbit.yaml")
+		.readLines()
+		.findLast { it.startsWith("appVersion:") }
+		?.split(":")
+		?.last()
+		?.trim()!!
+}
+
+fun tags(): Set<String> {
+	return if(version.toString().endsWith("-SNAPSHOT")) {
+		setOf("$version")
+	} else {
+		setOf("$version", "latest")
 	}
 }

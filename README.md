@@ -61,16 +61,17 @@ Set program arguments to: `--spring.profiles.active=local`
 
 ### Helm
 
-- Examine a chart for possible issues: `helm lint ./chart`
-- Test the template rendering: `helm install --debug --dry-run hobbit ./chart`
 
-Production:
-- Install the app: `helm install hobbit ./chart --values app-version.yaml --set profile=prod `
-- Update the app: `helm upgrade --install hobbit ./chart --values app-version.yaml --set profile=prod `
+- Examine a chart for possible issues: `helm lint ./chart --values hobbit.yaml`
+- Test the template rendering: `helm install --debug --dry-run hobbit ./chart --set db.persitentVolumePath=/Users/pere/hobbit_db`
 
 Development:
-- Install the app: `helm install hobbit ./chart --values app-version.yaml`
-- Update the app: `helm upgrade --install hobbit ./chart --values app-version.yaml`
+- Install the app: `helm install hobbit ./chart --values hobbit.yaml --set db.persitentVolumePath=/Users/pere/hobbit_db`
+- Update the app: `helm upgrade --install hobbit ./chart --values hobbit.yaml --set db.persitentVolumePath=/Users/pere/hobbit_db`
+
+Production:
+- Install the app: `helm install hobbit ./chart --set appVersion=latest,profile=prod,db.persitentVolumePath=/Users/pere/hobbit_db`
 
 - Delete the app: `helm uninstall hobbit`
-- Run the app inside k8s: `kubectl get svc/hobbit -o wide`
+
+Where `/Users/pere/hobbit_db` is the mongodb data directory 
