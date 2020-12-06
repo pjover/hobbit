@@ -29,7 +29,7 @@ class ConsumptionsServiceImplTest : DescribeSpec() {
             every { consumptionRepository.findByInvoicedOnNullAndChildCode(1) } returns listOf(
                 Consumption(
                     id = "AA1",
-                    childCode = 1,
+                    childCode = 1850,
                     productId = "TST",
                     units = BigDecimal.valueOf(2),
                     yearMonth = YEAR_MONTH,
@@ -38,7 +38,7 @@ class ConsumptionsServiceImplTest : DescribeSpec() {
                 ),
                 Consumption(
                     id = "AA2",
-                    childCode = 1,
+                    childCode = 1850,
                     productId = "TST",
                     units = BigDecimal.valueOf(2),
                     yearMonth = YEAR_MONTH,
@@ -47,7 +47,7 @@ class ConsumptionsServiceImplTest : DescribeSpec() {
                 ),
                 Consumption(
                     id = "AA3",
-                    childCode = 1,
+                    childCode = 1850,
                     productId = "TST",
                     units = BigDecimal.valueOf(2),
                     yearMonth = YEAR_MONTH,
@@ -56,7 +56,7 @@ class ConsumptionsServiceImplTest : DescribeSpec() {
                 ),
                 Consumption(
                     id = "AA4",
-                    childCode = 1,
+                    childCode = 1850,
                     productId = "XXX",
                     units = BigDecimal.valueOf(2),
                     yearMonth = YEAR_MONTH,
@@ -65,7 +65,7 @@ class ConsumptionsServiceImplTest : DescribeSpec() {
                 ),
                 Consumption(
                     id = "AA5",
-                    childCode = 1,
+                    childCode = 1850,
                     productId = "TST",
                     units = BigDecimal.valueOf(2),
                     yearMonth = YEAR_MONTH,
@@ -83,7 +83,7 @@ class ConsumptionsServiceImplTest : DescribeSpec() {
                         grossAmount = 105.4,
                         listOf(
                             ChildConsumtionDTO(
-                                code = 1,
+                                code = 1850,
                                 shortName = "Laura Llull",
                                 grossAmount = 105.4,
                                 listOf(
@@ -113,7 +113,7 @@ class ConsumptionsServiceImplTest : DescribeSpec() {
             mockConsumptionsReader(consumptionRepository, listOf(
                 Consumption(
                     id = "AA1",
-                    childCode = 1,
+                    childCode = 1850,
                     productId = "TST",
                     units = BigDecimal.valueOf(2),
                     yearMonth = YEAR_MONTH.minusMonths(1),
@@ -130,20 +130,20 @@ class ConsumptionsServiceImplTest : DescribeSpec() {
                     yearMonth = YEAR_MONTH.toString(),
                     listOf(
                         SetChildConsumtionDTO(
-                            code = 1,
+                            code = 1850,
                             listOf(
                                 SetConsumtionDTO("TST", 4.0, "Note 1, Note 2")
                             )
                         ),
                         SetChildConsumtionDTO(
-                            code = 2,
+                            code = 1851,
                             listOf(
                                 SetConsumtionDTO("TST", 2.0, "Note 3"),
                                 SetConsumtionDTO("XXX", 2.0, "Note 4")
                             )
                         ),
                         SetChildConsumtionDTO(
-                            code = 3,
+                            code = 1852,
                             listOf(
                                 SetConsumtionDTO("TST", 2.0, "Note 5")
                             )
@@ -163,21 +163,21 @@ class ConsumptionsServiceImplTest : DescribeSpec() {
                     yearMonth = YEAR_MONTH.toString(),
                     listOf(
                         SetChildConsumtionDTO(
-                            code = 1,
+                            code = 1850,
                             listOf(
                                 SetConsumtionDTO("TST", 2.0, "Note 1"),
                                 SetConsumtionDTO("TST", 2.0, "Note 2")
                             )
                         ),
                         SetChildConsumtionDTO(
-                            code = 2,
+                            code = 1851,
                             listOf(
                                 SetConsumtionDTO("TST", 2.0, "Note 3"),
                                 SetConsumtionDTO("XXX", 2.0, "Note 4")
                             )
                         ),
                         SetChildConsumtionDTO(
-                            code = 3,
+                            code = 1852,
                             listOf(
                                 SetConsumtionDTO("TST", 2.0, "Note 5")
                             )
@@ -202,7 +202,7 @@ class ConsumptionsServiceImplTest : DescribeSpec() {
             grossAmount = 105.4,
             listOf(
                 ChildConsumtionDTO(
-                    code = 1,
+                    code = 1850,
                     shortName = "Laura Llull",
                     grossAmount = 43.6,
                     listOf(
@@ -210,7 +210,7 @@ class ConsumptionsServiceImplTest : DescribeSpec() {
                     )
                 ),
                 ChildConsumtionDTO(
-                    code = 2,
+                    code = 1851,
                     shortName = "Aina Llull",
                     grossAmount = 40.0,
                     listOf(
@@ -219,7 +219,7 @@ class ConsumptionsServiceImplTest : DescribeSpec() {
                     )
                 ),
                 ChildConsumtionDTO(
-                    code = 3,
+                    code = 1852,
                     shortName = "Laia Llull",
                     grossAmount = 21.8,
                     listOf(
@@ -244,9 +244,9 @@ fun mockAuxReaders(customerRepository: CachedCustomerRepository, productReposito
         shortName = "XXX product",
         price = BigDecimal.valueOf(9.1)
     )
-    every { customerRepository.getChild(1) } returns testChild1()
-    every { customerRepository.getChild(2) } returns testChild2()
-    every { customerRepository.getChild(3) } returns testChild3()
+    every { customerRepository.getChild(1850) } returns testChild1()
+    every { customerRepository.getChild(1851) } returns testChild2()
+    every { customerRepository.getChild(1852) } returns testChild3()
 }
 
 fun mockConsumptionsReader(consumptionRepository: ConsumptionRepository, additionalList: List<Consumption> = emptyList()
@@ -254,7 +254,7 @@ fun mockConsumptionsReader(consumptionRepository: ConsumptionRepository, additio
     every { consumptionRepository.findByInvoicedOnNull() } returns listOf(
         Consumption(
             id = "AA1",
-            childCode = 1,
+            childCode = 1850,
             productId = "TST",
             units = BigDecimal.valueOf(2),
             yearMonth = YEAR_MONTH,
@@ -263,7 +263,7 @@ fun mockConsumptionsReader(consumptionRepository: ConsumptionRepository, additio
         ),
         Consumption(
             id = "AA2",
-            childCode = 1,
+            childCode = 1850,
             productId = "TST",
             units = BigDecimal.valueOf(2),
             yearMonth = YEAR_MONTH,
@@ -272,7 +272,7 @@ fun mockConsumptionsReader(consumptionRepository: ConsumptionRepository, additio
         ),
         Consumption(
             id = "AA3",
-            childCode = 2,
+            childCode = 1851,
             productId = "TST",
             units = BigDecimal.valueOf(2),
             yearMonth = YEAR_MONTH,
@@ -281,7 +281,7 @@ fun mockConsumptionsReader(consumptionRepository: ConsumptionRepository, additio
         ),
         Consumption(
             id = "AA4",
-            childCode = 2,
+            childCode = 1851,
             productId = "XXX",
             units = BigDecimal.valueOf(2),
             yearMonth = YEAR_MONTH,
@@ -290,7 +290,7 @@ fun mockConsumptionsReader(consumptionRepository: ConsumptionRepository, additio
         ),
         Consumption(
             id = "AA5",
-            childCode = 3,
+            childCode = 1852,
             productId = "TST",
             units = BigDecimal.valueOf(2),
             yearMonth = YEAR_MONTH,

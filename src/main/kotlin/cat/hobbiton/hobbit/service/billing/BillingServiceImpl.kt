@@ -1,6 +1,9 @@
 package cat.hobbiton.hobbit.service.billing
 
-import cat.hobbiton.hobbit.api.model.*
+import cat.hobbiton.hobbit.api.model.CustomerInvoicesDTO
+import cat.hobbiton.hobbit.api.model.InvoiceDTO
+import cat.hobbiton.hobbit.api.model.PaymentTypeDTO
+import cat.hobbiton.hobbit.api.model.PaymentTypeInvoicesDTO
 import cat.hobbiton.hobbit.db.repository.CachedCustomerRepository
 import cat.hobbiton.hobbit.db.repository.CachedProductRepository
 import cat.hobbiton.hobbit.db.repository.ConsumptionRepository
@@ -10,7 +13,6 @@ import cat.hobbiton.hobbit.model.Invoice
 import cat.hobbiton.hobbit.model.InvoiceLine
 import cat.hobbiton.hobbit.model.extension.getFirstAdult
 import cat.hobbiton.hobbit.model.extension.shortName
-import cat.hobbiton.hobbit.model.extension.totalAmount
 import cat.hobbiton.hobbit.service.aux.TimeService
 import org.springframework.stereotype.Service
 import java.math.BigDecimal
@@ -124,32 +126,6 @@ class BillingServiceImpl(
             taxPercentage = product.taxPercentage,
             childCode = consumption.childCode
         )
-    }
-
-    private fun getInvoiceDto(customer: Customer, invoice: Invoice): InvoiceDTO {
-
-        return InvoiceDTO(
-            code = invoice.id,
-            yearMonth = invoice.yearMonth.toString(),
-            children = invoice.childrenCodes.map { customerRepository.getChild(it).name },
-            totalAmount = invoice.totalAmount().toDouble(),
-            subsidizedAmount = getSubsidizedAmount(customer),
-            note = invoice.note,
-            lines = invoice.lines
-                .map {
-                    InvoiceLineDTO(
-                        productId = it.productId,
-                        units = it.units.toDouble(),
-                        totalAmount = it.totalAmount().toDouble(),
-                        childCode = it.childCode
-                    )
-                }
-        )
-    }
-
-    private fun getSubsidizedAmount(customer: Customer): Double? {
-        return if(customer.invoiceHolder.subsidizedAmount == BigDecimal.ZERO) null
-        else customer.invoiceHolder.subsidizedAmount.toDouble()
     }
 
     override fun setInvoices(): List<PaymentTypeInvoicesDTO> {
