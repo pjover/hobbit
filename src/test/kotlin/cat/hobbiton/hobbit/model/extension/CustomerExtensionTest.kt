@@ -42,34 +42,13 @@ internal class CustomerExtensionTest : DescribeSpec() {
 
                 context("and the code does not exists") {
 
-                    val actual = sut.getChild(1852)
-
-                    it("returns null") {
-                        actual shouldBe null
-                    }
-                }
-            }
-
-            context("getChildOrThrowError") {
-
-                context("and the code exists") {
-
-                    val actual = sut.getChildOrThrowError(1850)
-
-                    it("returns the child") {
-                        actual shouldBe testChild1()
-                    }
-                }
-
-                context("and the code does not exists") {
-
                     val executor = {
-                        sut.getChildOrThrowError(1852)
+                        sut.getChild(1852)
                     }
 
                     it("throws an error") {
                         val exception = assertFailsWith<AppException> { executor.invoke() }
-                        exception.message shouldBe "Cannot find customer with id 185"
+                        exception.message shouldBe "Cannot find child with id 185"
                     }
 
                 }

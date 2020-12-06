@@ -17,15 +17,9 @@ fun Customer.getActiveChildrenCodes(): List<Int> {
         .map { child -> child.code }
 }
 
-fun Customer.getChild(code: Int): Child? {
+fun Customer.getChild(code: Int): Child {
     val list = children.filter { it.code == code }
-    return if(list.isEmpty()) null
-    else list.first()
-}
-
-fun Customer.getChildOrThrowError(code: Int): Child {
-    val list = children.filter { it.code == code }
-    if(list.isEmpty()) throw AppException(ErrorMessages.ERROR_CUSTOMER_NOT_FOUND, id)
+    if(list.isEmpty()) throw AppException(ErrorMessages.ERROR_CHILD_NOT_FOUND, id)
     return list.first()
 }
 
