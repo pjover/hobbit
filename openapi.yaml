@@ -214,9 +214,37 @@ paths:
                 type: integer
                 format: int32
 
+  /generate/sepa:
+    get:
+      tags:
+        - Generate
+      description: Simulates generating the bank direct debit file (SEPA XML) for the pending invoices (not generated previously)
+      operationId: simulateSepa
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PaymentTypeInvoicesDTO'
+    post:
+      tags:
+        - Generate
+      description: Generates the bank direct debit file (SEPA XML) for the pending invoices (not generated previously)
+      operationId: generateSepa
+      responses:
+        '200':
+          description: OK
+          content:
+            application/xml:
+              schema:
+                type: string
+                format: binary
+
 components:
   schemas:
-
     ChildrenGroupDTO:
       description: List of children's basic info for a concrete group
       type: object
