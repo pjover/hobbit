@@ -32,7 +32,7 @@ class GenerateController(@Autowired(required = true) val service: GenerateServic
         value = ["/generate/sepa"],
         produces = ["application/json"],
         method = [RequestMethod.GET])
-    fun simulateSepa(): ResponseEntity<List<PaymentTypeInvoicesDTO>> {
+    fun simulateSepa(): ResponseEntity<PaymentTypeInvoicesDTO> {
         return ResponseEntity(service.simulateSepa(), HttpStatus.valueOf(200))
     }
 }

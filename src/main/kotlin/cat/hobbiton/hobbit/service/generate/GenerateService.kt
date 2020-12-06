@@ -6,5 +6,5 @@ interface GenerateService {
 
 	fun generateSepa(): org.springframework.core.io.Resource
 
-	fun simulateSepa(): List<PaymentTypeInvoicesDTO>
+	fun simulateSepa(): PaymentTypeInvoicesDTO
 }

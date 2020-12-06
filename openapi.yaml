@@ -226,9 +226,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/PaymentTypeInvoicesDTO'
+                $ref: '#/components/schemas/PaymentTypeInvoicesDTO'
     post:
       tags:
         - Generate
