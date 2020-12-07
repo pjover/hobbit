@@ -15,6 +15,8 @@ interface InvoiceRepository : MongoRepository<Invoice, String> {
 
     fun findByPaymentTypeAndYearMonth(paymentType: PaymentType, yearMonth: YearMonth): List<Invoice>
 
+    fun findByPaymentTypeAndSentToBank(paymentType: PaymentType, sentToBank: Boolean): List<Invoice>
+
     fun findByCustomerId(customerId: Int): List<Invoice>
 
     fun findByIdStartingWith(idPrefix: String): List<Invoice>

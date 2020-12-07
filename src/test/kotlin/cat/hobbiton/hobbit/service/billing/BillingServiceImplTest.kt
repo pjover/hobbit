@@ -55,60 +55,8 @@ class BillingServiceImplTest : DescribeSpec() {
 
             it("saves the invoices") {
                 verify(exactly = 1) {
-                    invoiceService.saveInvoice(
-                        Invoice(
-                            id = "??",
-                            customerId = 185,
-                            date = DATE,
-                            yearMonth = YEAR_MONTH,
-                            childrenCodes = listOf(1850, 1851),
-                            paymentType = PaymentType.BANK_DIRECT_DEBIT,
-                            lines = listOf(
-                                InvoiceLine(
-                                    productId = "TST",
-                                    productName = "TST product",
-                                    units = BigDecimal.valueOf(4),
-                                    productPrice = BigDecimal.valueOf(10.9),
-                                    childCode = 1850
-                                ),
-                                InvoiceLine(
-                                    productId = "TST",
-                                    productName = "TST product",
-                                    units = BigDecimal.valueOf(2),
-                                    productPrice = BigDecimal.valueOf(10.9),
-                                    childCode = 1851
-                                ),
-                                InvoiceLine(
-                                    productId = "XXX",
-                                    productName = "XXX product",
-                                    units = BigDecimal.valueOf(2),
-                                    productPrice = BigDecimal.valueOf(9.1),
-                                    childCode = 1851
-                                )
-                            ),
-                            note = "Note 1, Note 2, Note 3, Note 4"
-                        )
-                    )
-                    invoiceService.saveInvoice(
-                        Invoice(
-                            id = "??",
-                            customerId = 186,
-                            date = DATE,
-                            yearMonth = YEAR_MONTH,
-                            childrenCodes = listOf(1852),
-                            paymentType = PaymentType.BANK_DIRECT_DEBIT,
-                            lines = listOf(
-                                InvoiceLine(
-                                    productId = "TST",
-                                    productName = "TST product",
-                                    units = BigDecimal.valueOf(2),
-                                    productPrice = BigDecimal.valueOf(10.9),
-                                    childCode = 1852
-                                )
-                            ),
-                            note = "Note 5"
-                        )
-                    )
+                    invoiceService.saveInvoice(invoice1())
+                    invoiceService.saveInvoice(invoice2())
                 }
             }
         }
@@ -140,69 +88,124 @@ class BillingServiceImplTest : DescribeSpec() {
         every { customerRepository.getChild(1852) } returns testChild3()
     }
 
-    private fun expectedInvoices(code: String) = listOf(
-        PaymentTypeInvoicesDTO(
-            paymentType = PaymentTypeDTO.BANK_DIRECT_DEBIT,
-            totalAmount = 105.4,
-            customers = listOf(
-                CustomerInvoicesDTO(
-                    code = 185,
-                    shortName = "Joana Bibiloni",
-                    totalAmount = 83.6,
-                    invoices = listOf(
-                        InvoiceDTO(
-                            code = code,
-                            yearMonth = YEAR_MONTH.toString(),
-                            children = listOf("Laura", "Aina"),
-                            totalAmount = 83.6,
-                            lines = listOf(
-                                InvoiceLineDTO(
-                                    productId = "TST",
-                                    units = 4.0,
-                                    totalAmount = 43.6,
-                                    childCode = 1850
-                                ),
-                                InvoiceLineDTO(
-                                    productId = "TST",
-                                    units = 2.0,
-                                    totalAmount = 21.8,
-                                    childCode = 1851
-                                ),
-                                InvoiceLineDTO(
-                                    productId = "XXX",
-                                    units = 2.0,
-                                    totalAmount = 18.2,
-                                    childCode = 1851
-                                )
+}
+
+fun expectedInvoices(code: String) = listOf(
+    PaymentTypeInvoicesDTO(
+        paymentType = PaymentTypeDTO.BANK_DIRECT_DEBIT,
+        totalAmount = 105.4,
+        customers = listOf(
+            CustomerInvoicesDTO(
+                code = 185,
+                shortName = "Joana Bibiloni",
+                totalAmount = 83.6,
+                invoices = listOf(
+                    InvoiceDTO(
+                        code = code,
+                        yearMonth = YEAR_MONTH.toString(),
+                        children = listOf("Laura", "Aina"),
+                        totalAmount = 83.6,
+                        lines = listOf(
+                            InvoiceLineDTO(
+                                productId = "TST",
+                                units = 4.0,
+                                totalAmount = 43.6,
+                                childCode = 1850
                             ),
-                            note = "Note 1, Note 2, Note 3, Note 4"
-                        )
+                            InvoiceLineDTO(
+                                productId = "TST",
+                                units = 2.0,
+                                totalAmount = 21.8,
+                                childCode = 1851
+                            ),
+                            InvoiceLineDTO(
+                                productId = "XXX",
+                                units = 2.0,
+                                totalAmount = 18.2,
+                                childCode = 1851
+                            )
+                        ),
+                        note = "Note 1, Note 2, Note 3, Note 4"
                     )
-                ),
-                CustomerInvoicesDTO(
-                    code = 186,
-                    shortName = "Silvia Mayol",
-                    totalAmount = 21.8,
-                    invoices = listOf(
-                        InvoiceDTO(
-                            code = code,
-                            yearMonth = YEAR_MONTH.toString(),
-                            children = listOf("Laia"),
-                            totalAmount = 21.8,
-                            lines = listOf(
-                                InvoiceLineDTO(
-                                    productId = "TST",
-                                    units = 2.0,
-                                    totalAmount = 21.8,
-                                    childCode = 1852
-                                )
-                            ),
-                            note = "Note 5"
-                        )
+                )
+            ),
+            CustomerInvoicesDTO(
+                code = 186,
+                shortName = "Silvia Mayol",
+                totalAmount = 21.8,
+                invoices = listOf(
+                    InvoiceDTO(
+                        code = code,
+                        yearMonth = YEAR_MONTH.toString(),
+                        children = listOf("Laia"),
+                        totalAmount = 21.8,
+                        lines = listOf(
+                            InvoiceLineDTO(
+                                productId = "TST",
+                                units = 2.0,
+                                totalAmount = 21.8,
+                                childCode = 1852
+                            )
+                        ),
+                        note = "Note 5"
                     )
                 )
             )
         )
     )
-}
+)
+
+fun invoice1() = Invoice(
+    id = "??",
+    customerId = 185,
+    date = DATE,
+    yearMonth = YEAR_MONTH,
+    childrenCodes = listOf(1850, 1851),
+    paymentType = PaymentType.BANK_DIRECT_DEBIT,
+    lines = listOf(
+        InvoiceLine(
+            productId = "TST",
+            productName = "TST product",
+            units = BigDecimal.valueOf(4),
+            productPrice = BigDecimal.valueOf(10.9),
+            childCode = 1850
+        ),
+        InvoiceLine(
+            productId = "TST",
+            productName = "TST product",
+            units = BigDecimal.valueOf(2),
+            productPrice = BigDecimal.valueOf(10.9),
+            childCode = 1851
+        ),
+        InvoiceLine(
+            productId = "XXX",
+            productName = "XXX product",
+            units = BigDecimal.valueOf(2),
+            productPrice = BigDecimal.valueOf(9.1),
+            childCode = 1851
+        )
+    ),
+    note = "Note 1, Note 2, Note 3, Note 4"
+)
+
+fun invoice2() = Invoice(
+    id = "??",
+    customerId = 186,
+    date = DATE,
+    yearMonth = YEAR_MONTH,
+    childrenCodes = listOf(1852),
+    paymentType = PaymentType.BANK_DIRECT_DEBIT,
+    lines = listOf(
+        InvoiceLine(
+            productId = "TST",
+            productName = "TST product",
+            units = BigDecimal.valueOf(2),
+            productPrice = BigDecimal.valueOf(10.9),
+            childCode = 1852
+        )
+    ),
+    note = "Note 5"
+)
+
+
 
