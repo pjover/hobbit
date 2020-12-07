@@ -220,6 +220,12 @@ paths:
         - Generate
       description: Simulates generating the bank direct debit file (SEPA XML) for the pending invoices (not generated previously)
       operationId: simulateSepa
+      parameters:
+        - name: yearMonth
+          in: query
+          required: false
+          schema:
+            type: string
       responses:
         '200':
           description: OK
@@ -232,6 +238,12 @@ paths:
         - Generate
       description: Generates the bank direct debit file (SEPA XML) for the pending invoices (not generated previously)
       operationId: generateSepa
+      parameters:
+        - name: yearMonth
+          in: query
+          required: false
+          schema:
+            type: string
       responses:
         '200':
           description: OK

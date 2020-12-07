@@ -1,10 +1,9 @@
 package cat.hobbiton.hobbit.service.generate
 
 import cat.hobbiton.hobbit.api.model.PaymentTypeInvoicesDTO
-
 interface GenerateService {
 
-	fun generateSepa(): org.springframework.core.io.Resource
+	fun generateSepa(yearMonth: String?): org.springframework.core.io.Resource
 
-	fun simulateSepa(): PaymentTypeInvoicesDTO
+	fun simulateSepa(yearMonth: String?): PaymentTypeInvoicesDTO
 }

@@ -10,27 +10,38 @@ import cat.hobbiton.hobbit.model.PaymentType
 import cat.hobbiton.hobbit.model.extension.getFirstAdult
 import cat.hobbiton.hobbit.model.extension.shortName
 import cat.hobbiton.hobbit.model.extension.totalAmount
+import cat.hobbiton.hobbit.service.aux.TimeService
 import cat.hobbiton.hobbit.service.billing.getInvoiceDto
 import org.springframework.core.io.Resource
 import org.springframework.stereotype.Service
+import java.time.YearMonth
 
 @Service
 class GenerateServiceImpl(
     private val invoiceRepository: InvoiceRepository,
-    private val customerRepository: CachedCustomerRepository
+    private val customerRepository: CachedCustomerRepository,
+    private val timeService: TimeService
 ) : GenerateService {
 
-    override fun generateSepa(): Resource {
+    override fun generateSepa(yearMonth: String?): Resource {
         TODO("Not yet implemented")
     }
 
-    override fun simulateSepa(): PaymentTypeInvoicesDTO {
-        val invoices = invoiceRepository.findByPaymentTypeAndSentToBank(PaymentType.BANK_DIRECT_DEBIT, false)
+    override fun simulateSepa(yearMonth: String?): PaymentTypeInvoicesDTO {
+        val invoices = getInvoices(yearMonth)
         return PaymentTypeInvoicesDTO(
             PaymentTypeDTO.BANK_DIRECT_DEBIT,
             invoices.totalAmount().toDouble(),
             getCustomerInvoicesDTOs(invoices)
         )
+    }
+
+    private fun getInvoices(yearMonth: String?): List<Invoice> {
+        val ym = if(yearMonth == null) timeService.currentYearMonth else YearMonth.parse(yearMonth)
+        return invoiceRepository.findByPaymentTypeAndYearMonthAndSentToBank(
+            PaymentType.BANK_DIRECT_DEBIT,
+            ym,
+            false)
     }
 
     private fun getCustomerInvoicesDTOs(invoices: List<Invoice>): List<CustomerInvoicesDTO> {
