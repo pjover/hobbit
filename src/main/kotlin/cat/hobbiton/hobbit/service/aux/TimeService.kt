@@ -8,4 +8,5 @@ interface TimeService {
     val currentLocalDateTime: LocalDateTime
     val currentLocalDate: LocalDate
     val currentYearMonth: YearMonth
+    val lastMonth: YearMonth
 }

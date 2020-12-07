@@ -16,4 +16,7 @@ class TimeServiceImpl : TimeService {
 
     override val currentYearMonth: YearMonth
         get() = YearMonth.now()
+
+    override val lastMonth: YearMonth
+        get() = YearMonth.now().minusMonths(1)
 }

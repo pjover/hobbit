@@ -91,9 +91,7 @@ class ConsumptionsServiceImpl(
         )
     }
 
-    private fun isLastMonth(yearMonth: String) = getYearMonth(yearMonth) == getLastMonth()
-
-    private fun getLastMonth() = timeService.currentYearMonth.minusMonths(1)
+    private fun isLastMonth(yearMonth: String) = getYearMonth(yearMonth) == timeService.lastMonth
 
     private fun getSetYearMonthConsumptionsDTO(dto: YearMonthConsumptionsDTO) = SetYearMonthConsumptionsDTO(
         yearMonth = dto.yearMonth,

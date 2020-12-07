@@ -121,7 +121,7 @@ class ConsumptionsServiceImplTest : DescribeSpec() {
                     invoicedOn = null
                 ))
             )
-            every { timeService.currentYearMonth } returns YEAR_MONTH.plusMonths(1)
+            every { timeService.lastMonth } returns YEAR_MONTH
 
             val actual = sut.getLastMonthConsumptions()
 
