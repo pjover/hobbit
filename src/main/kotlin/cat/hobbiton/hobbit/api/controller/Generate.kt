@@ -19,21 +19,21 @@ class GenerateController(@Autowired(required = true) val service: GenerateServic
 
 
     @RequestMapping(
-        value = ["/generate/sepa"],
+        value = ["/generate/bdd"],
         produces = ["application/xml"],
         method = [RequestMethod.POST])
-    fun generateSepa(@RequestParam(value = "yearMonth", required = false) yearMonth: String?
+    fun generateBDD(@RequestParam(value = "yearMonth", required = false) yearMonth: String?
     ): ResponseEntity<org.springframework.core.io.Resource> {
-        return ResponseEntity(service.generateSepa(yearMonth), HttpStatus.valueOf(200))
+        return ResponseEntity(service.generateBDD(yearMonth), HttpStatus.valueOf(200))
     }
 
 
     @RequestMapping(
-        value = ["/generate/sepa"],
+        value = ["/generate/bdd"],
         produces = ["application/json"],
         method = [RequestMethod.GET])
-    fun simulateSepa(@RequestParam(value = "yearMonth", required = false) yearMonth: String?
+    fun simulateBDD(@RequestParam(value = "yearMonth", required = false) yearMonth: String?
     ): ResponseEntity<PaymentTypeInvoicesDTO> {
-        return ResponseEntity(service.simulateSepa(yearMonth), HttpStatus.valueOf(200))
+        return ResponseEntity(service.simulateBDD(yearMonth), HttpStatus.valueOf(200))
     }
 }

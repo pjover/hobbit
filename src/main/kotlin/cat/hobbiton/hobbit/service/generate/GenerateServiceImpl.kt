@@ -23,11 +23,11 @@ class GenerateServiceImpl(
     private val timeService: TimeService
 ) : GenerateService {
 
-    override fun generateSepa(yearMonth: String?): Resource {
+    override fun generateBDD(yearMonth: String?): Resource {
         TODO("Not yet implemented")
     }
 
-    override fun simulateSepa(yearMonth: String?): PaymentTypeInvoicesDTO {
+    override fun simulateBDD(yearMonth: String?): PaymentTypeInvoicesDTO {
         val invoices = getInvoices(yearMonth)
         return PaymentTypeInvoicesDTO(
             PaymentTypeDTO.BANK_DIRECT_DEBIT,

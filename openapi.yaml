@@ -214,12 +214,12 @@ paths:
                 type: integer
                 format: int32
 
-  /generate/sepa:
+  /generate/bdd:
     get:
       tags:
         - Generate
-      description: Simulates generating the bank direct debit file (SEPA XML) for the pending invoices (not generated previously)
-      operationId: simulateSepa
+      description: Simulates generating the bank direct debit (BDD) file (SEPA XML compatible) for the pending invoices (not generated previously)
+      operationId: simulateBDD
       parameters:
         - name: yearMonth
           in: query
@@ -236,8 +236,8 @@ paths:
     post:
       tags:
         - Generate
-      description: Generates the bank direct debit file (SEPA XML) for the pending invoices (not generated previously)
-      operationId: generateSepa
+      description: Generates the bank direct debit (BDD) file (SEPA XML compatible) for the pending invoices (not generated previously)
+      operationId: generateBDD
       parameters:
         - name: yearMonth
           in: query

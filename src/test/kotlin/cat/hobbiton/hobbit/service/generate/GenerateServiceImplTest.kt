@@ -1,8 +1,6 @@
 package cat.hobbiton.hobbit.service.generate
 
 import cat.hobbiton.hobbit.YEAR_MONTH
-import cat.hobbiton.hobbit.api.model.PaymentTypeDTO
-import cat.hobbiton.hobbit.api.model.PaymentTypeInvoicesDTO
 import cat.hobbiton.hobbit.db.repository.CachedCustomerRepository
 import cat.hobbiton.hobbit.db.repository.InvoiceRepository
 import cat.hobbiton.hobbit.model.PaymentType
@@ -29,12 +27,12 @@ class GenerateServiceImplTest : DescribeSpec() {
 
         every { timeService.currentYearMonth } returns YEAR_MONTH
 
-        describe("generateSepa") { }
+        describe("generateBDD") { }
 
-        describe("simulateSepa") {
+        describe("simulateBDD") {
             mockReaders(invoiceRepository, customerRepository)
 
-            val actual = sut.simulateSepa(null)
+            val actual = sut.simulateBDD(null)
 
             it("should be the pending invoices for BANK_DIRECT_DEBIT") {
                 actual shouldBe expectedInvoices("??")[0]
@@ -48,7 +46,6 @@ class GenerateServiceImplTest : DescribeSpec() {
                     customerRepository.getCustomer(186)
                 }
             }
-
         }
     }
 
