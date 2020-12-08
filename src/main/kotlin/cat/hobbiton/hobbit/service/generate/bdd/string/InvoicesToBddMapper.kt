@@ -1,16 +1,13 @@
 package cat.hobbiton.hobbit.service.generate.bdd.string
 
 
-import cat.hobbiton.hobbit.db.repository.CustomerRepository
-import cat.hobbiton.hobbit.db.repository.ProductRepository
+import cat.hobbiton.hobbit.db.repository.CachedCustomerRepository
+import cat.hobbiton.hobbit.db.repository.CachedProductRepository
 import cat.hobbiton.hobbit.model.Customer
 import cat.hobbiton.hobbit.model.Invoice
-import cat.hobbiton.hobbit.model.InvoiceLine
-import cat.hobbiton.hobbit.model.Product
 import cat.hobbiton.hobbit.model.extension.calculateControlCode
 import cat.hobbiton.hobbit.model.extension.getSepaIndentifier
 import cat.hobbiton.hobbit.model.extension.totalAmount
-import cat.hobbiton.hobbit.service.generate.bdd.BddException
 import cat.hobbiton.hobbit.service.generate.bdd.BddProperties
 import org.apache.commons.lang3.StringUtils
 import org.springframework.stereotype.Component
@@ -25,8 +22,8 @@ import java.util.*
 @Component
 class InvoicesToBddMapper(
     private val bddProperties: BddProperties,
-    private val customerRepository: CustomerRepository,
-    private val productRepository: ProductRepository) {
+    private val customerRepository: CachedCustomerRepository,
+    private val productRepository: CachedProductRepository) {
 
     companion object {
         private val messageIdentificationFormatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS")
@@ -94,7 +91,7 @@ class InvoicesToBddMapper(
     }
 
     private fun mapInvoiceToDetail(dateTime: LocalDateTime, invoice: Invoice): BddDetail {
-        val customer = getCustomer(invoice)
+        val customer = customerRepository.getCustomer(invoice.customerId)
         return BddDetail(endToEndIdentifier = getDetailEndToEndIdentifier(dateTime, invoice),
             instructedAmount = getDetailInstructedAmount(invoice),
             dateOfSignature = getDetailDateOfSignature(dateTime),
@@ -149,16 +146,9 @@ class InvoicesToBddMapper(
     }
 
     private fun getShortNameInvoiceDescription(invoice: Invoice): String {
-        return invoice.lines.joinToString(", ") { numberFormatter.format(it.units) + "x" + getProduct(it).shortName }
-    }
-
-    private fun getCustomer(invoice: Invoice): Customer {
-        return customerRepository.findById(invoice.customerId)
-            .orElseThrow { BddException("Error al generar la remesa de rebuts, no es troba el client ${invoice.customerId}") }
-    }
-
-    private fun getProduct(line: InvoiceLine): Product {
-        return productRepository.findById(line.productId)
-            .orElseThrow { BddException("Error al generar la remesa de rebuts, no es troba el producte ${line.productId}") }
+        return invoice.lines.joinToString(", ") {
+            numberFormatter.format(it.units) + "x" +
+                productRepository.getProduct(it.productId).shortName
+        }
     }
 }

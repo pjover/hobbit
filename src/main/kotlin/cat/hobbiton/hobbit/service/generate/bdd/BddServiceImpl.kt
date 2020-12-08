@@ -2,6 +2,7 @@ package cat.hobbiton.hobbit.service.generate.bdd
 
 import cat.hobbiton.hobbit.model.Invoice
 import cat.hobbiton.hobbit.service.aux.TimeService
+import cat.hobbiton.hobbit.service.generate.bdd.string.BddBuilder
 import cat.hobbiton.hobbit.service.generate.bdd.string.InvoicesToBddMapper
 import org.springframework.stereotype.Service
 

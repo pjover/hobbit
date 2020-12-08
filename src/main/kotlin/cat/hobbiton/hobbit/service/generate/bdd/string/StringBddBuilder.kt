@@ -1,7 +1,5 @@
 package cat.hobbiton.hobbit.service.generate.bdd.string
 
-import cat.hobbiton.hobbit.service.generate.bdd.BddBuilder
-
 class StringBddBuilder : BddBuilder {
     override fun build(bdd: Bdd): String {
         return String.format(CONTENT,

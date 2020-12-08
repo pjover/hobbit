@@ -1,6 +1,8 @@
 package cat.hobbiton.hobbit.service.generate.bdd.string
 
 import cat.hobbiton.hobbit.DATE
+import cat.hobbiton.hobbit.db.repository.CachedCustomerRepository
+import cat.hobbiton.hobbit.db.repository.CachedProductRepository
 import cat.hobbiton.hobbit.db.repository.CustomerRepository
 import cat.hobbiton.hobbit.db.repository.ProductRepository
 import cat.hobbiton.hobbit.model.*
@@ -19,8 +21,8 @@ class InvoicesToBddMapperTest : DescribeSpec() {
 
     init {
         val bddProperties = mockk<BddProperties>()
-        val customerRepository = mockk<CustomerRepository>()
-        val productRepository = mockk<ProductRepository>()
+        val customerRepository = mockk<CachedCustomerRepository>()
+        val productRepository = mockk<CachedProductRepository>()
         val sut = InvoicesToBddMapper(bddProperties, customerRepository, productRepository)
 
         describe("map()") {
@@ -36,9 +38,9 @@ class InvoicesToBddMapperTest : DescribeSpec() {
             every { bddProperties.bddCountry } returns "ES"
             every { bddProperties.bddBankBic } returns "GBMNESMMXXX"
             every { bddProperties.bddPurposeCode } returns "OTHR"
-            every { customerRepository.findById(148) } returns Optional.of(bddTestCustomer())
-            every { customerRepository.findById(149) } returns Optional.of(bddTestBusinessCustomer())
-            for(product in bddTestProducts()) every { productRepository.findById(product.id) } returns Optional.of(product)
+            every { customerRepository.getCustomer(148) } returns bddTestCustomer()
+            every { customerRepository.getCustomer(149) } returns bddTestBusinessCustomer()
+            for(product in bddTestProducts()) every { productRepository.getProduct(product.id) } returns product
 
             val invoices = bddTestInvoices()
             val actual = sut.map(LocalDateTime.of(2018, 7, 7, 20, 43, 8), invoices)
