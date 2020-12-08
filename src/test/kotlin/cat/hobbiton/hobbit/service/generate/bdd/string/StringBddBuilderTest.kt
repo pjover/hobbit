@@ -33,7 +33,9 @@ class StringBddBuilderTest : DescribeSpec() {
             val actual: String = sut.build(bdd)
 
             it("return the correct q1x") {
-                actual shouldBe expected
+                val actualLines = actual.lines().map { it.trim() }
+                val expectedLines = expected.lines().map { it.trim() }
+                actualLines.shouldBe(expectedLines)
             }
         }
     }
