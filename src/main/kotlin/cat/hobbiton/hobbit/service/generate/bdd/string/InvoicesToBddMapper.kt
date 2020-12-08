@@ -7,11 +7,11 @@ import cat.hobbiton.hobbit.model.Customer
 import cat.hobbiton.hobbit.model.Invoice
 import cat.hobbiton.hobbit.model.InvoiceLine
 import cat.hobbiton.hobbit.model.Product
+import cat.hobbiton.hobbit.model.extension.calculateControlCode
 import cat.hobbiton.hobbit.model.extension.getSepaIndentifier
 import cat.hobbiton.hobbit.model.extension.totalAmount
 import cat.hobbiton.hobbit.service.generate.bdd.BddException
 import cat.hobbiton.hobbit.service.generate.bdd.BddProperties
-import cat.hobbiton.hobbit.service.generate.bdd.SepaUtils
 import org.apache.commons.lang3.StringUtils
 import org.springframework.stereotype.Component
 import java.math.BigDecimal
@@ -26,8 +26,7 @@ import java.util.*
 class InvoicesToBddMapper(
     private val bddProperties: BddProperties,
     private val customerRepository: CustomerRepository,
-    private val productRepository: ProductRepository,
-    private val sepaUtils: SepaUtils) {
+    private val productRepository: ProductRepository) {
 
     companion object {
         private val messageIdentificationFormatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS")
@@ -66,7 +65,7 @@ class InvoicesToBddMapper(
 
     private fun getMessageIdentification(dateTime: LocalDateTime): String {
         val datetime = messageIdentificationFormatter.format(dateTime)
-        val suffix = sepaUtils.calculateControlCode(bddProperties.bddBusinessPrefix, datetime)
+        val suffix = calculateControlCode(bddProperties.bddBusinessPrefix, datetime)
         return String.format("%s-%s-%s", bddProperties.bddBusinessPrefix, datetime, suffix)
     }
 

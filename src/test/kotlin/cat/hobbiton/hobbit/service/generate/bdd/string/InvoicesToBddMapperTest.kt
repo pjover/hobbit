@@ -6,7 +6,6 @@ import cat.hobbiton.hobbit.db.repository.ProductRepository
 import cat.hobbiton.hobbit.model.*
 import cat.hobbiton.hobbit.model.extension.totalAmount
 import cat.hobbiton.hobbit.service.generate.bdd.BddProperties
-import cat.hobbiton.hobbit.service.generate.bdd.SepaUtils
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.DescribeSpec
 import io.mockk.every
@@ -22,8 +21,7 @@ class InvoicesToBddMapperTest : DescribeSpec() {
         val bddProperties = mockk<BddProperties>()
         val customerRepository = mockk<CustomerRepository>()
         val productRepository = mockk<ProductRepository>()
-        val sepaUtils = mockk<SepaUtils>()
-        val sut = InvoicesToBddMapper(bddProperties, customerRepository, productRepository, sepaUtils)
+        val sut = InvoicesToBddMapper(bddProperties, customerRepository, productRepository)
 
         describe("map()") {
             every { bddProperties.businessName } returns "Centre d'Educació Infantil Hobbiton, S.L."
@@ -41,7 +39,6 @@ class InvoicesToBddMapperTest : DescribeSpec() {
             every { customerRepository.findById(148) } returns Optional.of(bddTestCustomer())
             every { customerRepository.findById(149) } returns Optional.of(bddTestBusinessCustomer())
             for(product in bddTestProducts()) every { productRepository.findById(product.id) } returns Optional.of(product)
-            every { sepaUtils.calculateControlCode("HOBB", "20180707204308000") } returns "24"
 
             val invoices = bddTestInvoices()
             val actual = sut.map(LocalDateTime.of(2018, 7, 7, 20, 43, 8), invoices)
