@@ -1,6 +1,10 @@
 package cat.hobbiton.hobbit.service.generate.bdd.string
 
+import org.springframework.stereotype.Component
+
+@Component
 class StringBddBuilder : BddBuilder {
+
     override fun build(bdd: Bdd): String {
         return String.format(CONTENT,
             bdd.messageIdentification,

@@ -5,10 +5,11 @@ import cat.hobbiton.hobbit.db.repository.CachedCustomerRepository
 import cat.hobbiton.hobbit.db.repository.CachedProductRepository
 import cat.hobbiton.hobbit.model.Customer
 import cat.hobbiton.hobbit.model.Invoice
+import cat.hobbiton.hobbit.model.PaymentType
 import cat.hobbiton.hobbit.model.extension.calculateControlCode
 import cat.hobbiton.hobbit.model.extension.getSepaIndentifier
 import cat.hobbiton.hobbit.model.extension.totalAmount
-import cat.hobbiton.hobbit.service.generate.bdd.BddProperties
+import cat.hobbiton.hobbit.service.init.BusinessProperties
 import org.apache.commons.lang3.StringUtils
 import org.springframework.stereotype.Component
 import java.math.BigDecimal
@@ -17,11 +18,12 @@ import java.text.NumberFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
+import javax.annotation.PostConstruct
 
 @Suppress("SpringJavaInjectionPointsAutowiringInspection")
 @Component
 class InvoicesToBddMapper(
-    private val bddProperties: BddProperties,
+    private val businessProperties: BusinessProperties,
     private val customerRepository: CachedCustomerRepository,
     private val productRepository: CachedProductRepository) {
 
@@ -38,10 +40,10 @@ class InvoicesToBddMapper(
     }
 
     private val addressLine1: String
-        get() = bddProperties.addressLine1
+        get() = businessProperties.addressLine1
 
     private val addressLine2: String
-        get() = bddProperties.addressLine2
+        get() = businessProperties.addressLine2
 
     fun map(dateTime: LocalDateTime, invoices: List<Invoice>): Bdd? {
         return Bdd(
@@ -49,21 +51,21 @@ class InvoicesToBddMapper(
             creationDateTime = getCreationDateTime(dateTime),
             numberOfTransactions = getNumberOfTransactions(invoices),
             controlSum = getControlSum(invoices),
-            name = bddProperties.businessName,
-            identification = bddProperties.bddBusinessId,
+            name = businessProperties.businessName,
+            identification = businessProperties.bddBusinessId,
             requestedCollectionDate = getRequestedCollectionDate(dateTime),
-            country = bddProperties.bddCountry,
+            country = businessProperties.bddCountry,
             addressLine1 = addressLine1,
             addressLine2 = addressLine2,
-            iban = bddProperties.bddBusinessIban,
-            bic = bddProperties.bddBankBic,
+            iban = businessProperties.bddBusinessIban,
+            bic = businessProperties.bddBankBic,
             details = getDetails(dateTime, invoices))
     }
 
     private fun getMessageIdentification(dateTime: LocalDateTime): String {
         val datetime = messageIdentificationFormatter.format(dateTime)
-        val suffix = calculateControlCode(bddProperties.bddBusinessPrefix, datetime)
-        return String.format("%s-%s-%s", bddProperties.bddBusinessPrefix, datetime, suffix)
+        val suffix = calculateControlCode(businessProperties.bddBusinessPrefix, datetime)
+        return String.format("%s-%s-%s", businessProperties.bddBusinessPrefix, datetime, suffix)
     }
 
     private fun getCreationDateTime(dateTime: LocalDateTime): String {
@@ -98,7 +100,7 @@ class InvoicesToBddMapper(
             name = getDetailName(customer),
             identification = getDetailIdentification(customer),
             iban = getDetailCustomerBankAccount(customer)!!,
-            purposeCode = bddProperties.bddPurposeCode,
+            purposeCode = businessProperties.bddPurposeCode,
             remittanceInformation = getDetailRemittanceInformation(invoice),
             isBusiness = getDetailIsBusiness(customer))
     }
@@ -120,7 +122,7 @@ class InvoicesToBddMapper(
     }
 
     private fun getDetailIdentification(customer: Customer): String {
-        return customer.invoiceHolder.taxId.getSepaIndentifier(bddProperties.bddCountry, "000")
+        return customer.invoiceHolder.taxId.getSepaIndentifier(businessProperties.bddCountry, "000")
     }
 
     private fun getDetailCustomerBankAccount(customer: Customer): String? {

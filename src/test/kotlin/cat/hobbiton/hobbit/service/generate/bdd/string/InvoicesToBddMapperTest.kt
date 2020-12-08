@@ -3,11 +3,9 @@ package cat.hobbiton.hobbit.service.generate.bdd.string
 import cat.hobbiton.hobbit.DATE
 import cat.hobbiton.hobbit.db.repository.CachedCustomerRepository
 import cat.hobbiton.hobbit.db.repository.CachedProductRepository
-import cat.hobbiton.hobbit.db.repository.CustomerRepository
-import cat.hobbiton.hobbit.db.repository.ProductRepository
 import cat.hobbiton.hobbit.model.*
 import cat.hobbiton.hobbit.model.extension.totalAmount
-import cat.hobbiton.hobbit.service.generate.bdd.BddProperties
+import cat.hobbiton.hobbit.service.init.BusinessProperties
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.DescribeSpec
 import io.mockk.every
@@ -15,12 +13,11 @@ import io.mockk.mockk
 import java.math.BigDecimal
 import java.time.LocalDate
 import java.time.LocalDateTime
-import java.util.*
 
 class InvoicesToBddMapperTest : DescribeSpec() {
 
     init {
-        val bddProperties = mockk<BddProperties>()
+        val bddProperties = mockk<BusinessProperties>()
         val customerRepository = mockk<CachedCustomerRepository>()
         val productRepository = mockk<CachedProductRepository>()
         val sut = InvoicesToBddMapper(bddProperties, customerRepository, productRepository)
