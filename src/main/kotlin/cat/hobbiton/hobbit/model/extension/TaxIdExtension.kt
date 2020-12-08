@@ -118,7 +118,7 @@ fun String.getSepaIndentifier(countryCode: String, suffix: String): String {
         StringUtils.leftPad(this.toUpperCase(), 9, '0')
 }
 
-private fun calculateControlCode(vararg params: String): String {
+fun calculateControlCode(vararg params: String): String {
     return apply9710Model(assignWeightsToLetters(prepareParams(*params)))
 }
 

@@ -69,5 +69,16 @@ class TaxIdExtensionTest : DescribeSpec() {
                 "37866397W".getSepaIndentifier("ES", "000") shouldBe "ES5500037866397W"
             }
         }
+
+        describe("calculateControlCode()") {
+
+            it("should calculate the Control Code") {
+                calculateControlCode("3066 8859 9782 5852 9057ES") shouldBe "28"
+                calculateControlCode("3001 2859 0880 2660 6142ES") shouldBe "02"
+                calculateControlCode("31795040719243310258ES") shouldBe "87"
+                calculateControlCode("3118-2176-0723-9984-7410ES") shouldBe "60"
+                calculateControlCode("HOBB", "20180707204308000") shouldBe "24"
+            }
+        }
     }
 }

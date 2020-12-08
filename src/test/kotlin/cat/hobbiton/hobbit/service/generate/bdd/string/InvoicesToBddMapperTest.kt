@@ -41,14 +41,14 @@ class InvoicesToBddMapperTest : DescribeSpec() {
             every { customerRepository.findById(148) } returns Optional.of(bddTestCustomer())
             every { customerRepository.findById(149) } returns Optional.of(bddTestBusinessCustomer())
             for(product in bddTestProducts()) every { productRepository.findById(product.id) } returns Optional.of(product)
-            every { sepaUtils.calculateControlCode(any(), any()) } returns "2018-10-27T10:01"
+            every { sepaUtils.calculateControlCode("HOBB", "20180707204308000") } returns "24"
 
             val invoices = bddTestInvoices()
             val actual = sut.map(LocalDateTime.of(2018, 7, 7, 20, 43, 8), invoices)
 
             it("returns the complete Bdd object") {
                 actual shouldBe Bdd(
-                    messageIdentification = "HOBB-20180707204308000-2018-10-27T10:01",
+                    messageIdentification = "HOBB-20180707204308000-24",
                     creationDateTime = "2018-07-07T20:43:08",
                     numberOfTransactions = 4,
                     controlSum = "146.60",
@@ -60,7 +60,7 @@ class InvoicesToBddMapperTest : DescribeSpec() {
                     addressLine2 = "07010 Palma, Illes Balears",
                     iban = "ES8004872157762000009714",
                     bic = "GBMNESMMXXX",
-                    details = buildTestBddDetailList("HOBB-20180707204308000-2018-10-27T10:01", invoices))
+                    details = buildTestBddDetailList("HOBB-20180707204308000-24", invoices))
             }
         }
     }

@@ -28,6 +28,7 @@ class SepaUtilsTest : DescribeSpec() {
                 sut.calculateControlCode("3001 2859 0880 2660 6142ES") shouldBe "02"
                 sut.calculateControlCode("31795040719243310258ES") shouldBe "87"
                 sut.calculateControlCode("3118-2176-0723-9984-7410ES") shouldBe "60"
+                sut.calculateControlCode("HOBB", "20180707204308000") shouldBe "24"
             }
         }
     }
