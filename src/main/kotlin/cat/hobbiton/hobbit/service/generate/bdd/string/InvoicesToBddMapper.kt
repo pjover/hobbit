@@ -7,6 +7,7 @@ import cat.hobbiton.hobbit.model.Customer
 import cat.hobbiton.hobbit.model.Invoice
 import cat.hobbiton.hobbit.model.InvoiceLine
 import cat.hobbiton.hobbit.model.Product
+import cat.hobbiton.hobbit.model.extension.getSepaIndentifier
 import cat.hobbiton.hobbit.model.extension.totalAmount
 import cat.hobbiton.hobbit.service.generate.bdd.BddException
 import cat.hobbiton.hobbit.service.generate.bdd.BddProperties
@@ -123,7 +124,7 @@ class InvoicesToBddMapper(
     }
 
     private fun getDetailIdentification(customer: Customer): String {
-        return sepaUtils.getSepaIndentifier(customer.invoiceHolder.taxId)
+        return customer.invoiceHolder.taxId.getSepaIndentifier(bddProperties.bddCountry, "000")
     }
 
     private fun getDetailCustomerBankAccount(customer: Customer): String? {

@@ -42,8 +42,6 @@ class InvoicesToBddMapperTest : DescribeSpec() {
             every { customerRepository.findById(149) } returns Optional.of(bddTestBusinessCustomer())
             for(product in bddTestProducts()) every { productRepository.findById(product.id) } returns Optional.of(product)
             every { sepaUtils.calculateControlCode(any(), any()) } returns "2018-10-27T10:01"
-            every { sepaUtils.getSepaIndentifier("36361882D") } returns "ES4200036361882D"
-            every { sepaUtils.getSepaIndentifier("37866397W") } returns "ES3100037866397W"
 
             val invoices = bddTestInvoices()
             val actual = sut.map(LocalDateTime.of(2018, 7, 7, 20, 43, 8), invoices)
@@ -82,12 +80,12 @@ class InvoicesToBddMapperTest : DescribeSpec() {
                     false,
                     invoices[1]),
                 buildTestBddDetail(messageIdentification,
-                    "ES3100037866397W",
+                    "ES5500037866397W",
                     "Nom empresa",
                     true,
                     invoices[2]),
                 buildTestBddDetail(messageIdentification,
-                    "ES3100037866397W",
+                    "ES5500037866397W",
                     "Nom empresa",
                     true,
                     invoices[3]))

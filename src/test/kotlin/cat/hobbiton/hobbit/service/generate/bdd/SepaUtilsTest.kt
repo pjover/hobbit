@@ -21,14 +21,6 @@ class SepaUtilsTest : DescribeSpec() {
             }
         }
 
-        describe("getSepaIndentifier()") {
-
-            it("should format the IBAN code") {
-                sut.getSepaIndentifier("ES", "000", "37866397W") shouldBe sut.getSepaIndentifier("37866397W")
-                sut.getSepaIndentifier("ES", "000", "37866397W") shouldBe "ES5500037866397W"
-            }
-        }
-
         describe("calculateControlCode()") {
 
             it("should calculate the Control Code") {

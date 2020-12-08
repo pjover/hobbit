@@ -8,17 +8,6 @@ import java.math.BigInteger
 @Component
 class SepaUtils {
 
-    fun getSepaIndentifier(taxId: String): String {
-        return getSepaIndentifier("ES", "000", taxId)
-    }
-
-    fun getSepaIndentifier(countryCode: String, suffix: String?, taxId: String): String {
-        return countryCode.toUpperCase() +
-            calculateControlCode(taxId, countryCode) +
-            StringUtils.leftPad(suffix, 3, '0') +
-            StringUtils.leftPad(taxId.toUpperCase(), 9, '0')
-    }
-
     fun calculateControlCode(vararg params: String): String {
         return apply9710Model(assignWeightsToLetters(prepareParams(*params)))
     }

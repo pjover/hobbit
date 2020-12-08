@@ -61,5 +61,13 @@ class TaxIdExtensionTest : DescribeSpec() {
                 }
             }
         }
+
+        describe("getSepaIndentifier()") {
+
+            it("should format the IBAN code") {
+                "36361882D".getSepaIndentifier("ES", "000") shouldBe "ES4200036361882D"
+                "37866397W".getSepaIndentifier("ES", "000") shouldBe "ES5500037866397W"
+            }
+        }
     }
 }
