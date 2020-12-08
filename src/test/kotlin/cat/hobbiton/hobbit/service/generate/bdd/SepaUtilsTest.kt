@@ -8,28 +8,6 @@ class SepaUtilsTest : DescribeSpec() {
     init {
         val sut = SepaUtils()
 
-        describe("IBAN") {
-            context("isValidIban()") {
-
-                it("returns true with valid IBAN") {
-                    sut.isValidIban("ES28 3066 8859 9782 5852 9057") shouldBe true
-                    sut.isValidIban("ES02 3001 2859 0880 2660 6142") shouldBe true
-                    sut.isValidIban("ES8731795040719243310258") shouldBe true
-                    sut.isValidIban("ES60-3118-2176-0723-9984-7410") shouldBe true
-                }
-
-                it("returns false with invalid IBAN") {
-                    sut.isValidIban(null) shouldBe false
-                    sut.isValidIban("") shouldBe false
-                    sut.isValidIban("ES873179504071924331025") shouldBe false
-                    sut.isValidIban("3460-3118-2176-0723-9984-7410") shouldBe false
-                    sut.isValidIban("ES50-3118-2176-0723-9984-7410") shouldBe false
-                    sut.isValidIban("ES61-3118-2176-0723-9984-7410") shouldBe false
-                    sut.isValidIban("ES60-3118-2176-0623-9984-7410") shouldBe false
-                }
-            }
-        }
-
         describe("formatCode()") {
 
             it("should format the IBAN code") {

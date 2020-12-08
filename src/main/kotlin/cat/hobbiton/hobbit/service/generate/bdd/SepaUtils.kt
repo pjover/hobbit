@@ -8,25 +8,6 @@ import java.math.BigInteger
 @Component
 class SepaUtils {
 
-    fun isValidIban(iban: String?): Boolean {
-        return if(iban == null || iban.isEmpty()) {
-            false
-        } else calculateControlCode(moveCountryCodeToTheEnd(iban)) == getControlCode(iban)
-    }
-
-    private fun moveCountryCodeToTheEnd(iban: String): String {
-        val formattedCode = formatCode(iban)
-        return formattedCode.substring(4) + getCountryCode(formattedCode)
-    }
-
-    private fun getCountryCode(iban: String): String {
-        return iban.substring(0, 2)
-    }
-
-    private fun getControlCode(iban: String): String {
-        return iban.substring(2, 4)
-    }
-
     fun getSepaIndentifier(taxId: String): String {
         return getSepaIndentifier("ES", "000", taxId)
     }

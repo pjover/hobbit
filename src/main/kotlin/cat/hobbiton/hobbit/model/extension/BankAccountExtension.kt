@@ -17,7 +17,7 @@ private fun prepare(code: String): String {
             .replace("-", "")
 }
 
-fun isCodeValid(code: String): Boolean {
+private fun isCodeValid(code: String): Boolean {
     return getControlCode(code) == computeControlCode(moveCountryCodeToTheEnd(code))
 }
 
@@ -30,15 +30,15 @@ private fun moveCountryCodeToTheEnd(code: String): String {
     return formattedCode.substring(4) + getCountryCode(formattedCode)
 }
 
-fun formatCode(rawCode: String?): String {
-    return if (rawCode == null || rawCode.isBlank()) "" else RegExUtils.removeAll(rawCode.toUpperCase(), "[\\s-]")
+private fun formatCode(rawCode: String?): String {
+    return if(rawCode == null || rawCode.isBlank()) "" else RegExUtils.removeAll(rawCode.toUpperCase(), "[\\s-]")
 }
 
 private fun getCountryCode(code: String): String {
     return code.substring(0, 2)
 }
 
-fun computeControlCode(code: String): String {
+private fun computeControlCode(code: String): String {
     return apply9710Model(assignWeightsToLetters(prepareParam(code)))
 }
 
