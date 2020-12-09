@@ -12,19 +12,25 @@ import cat.hobbiton.hobbit.model.extension.shortName
 import cat.hobbiton.hobbit.model.extension.totalAmount
 import cat.hobbiton.hobbit.service.aux.TimeService
 import cat.hobbiton.hobbit.service.billing.getInvoiceDto
+import cat.hobbiton.hobbit.service.generate.bdd.BddService
+import org.springframework.core.io.InputStreamResource
 import org.springframework.core.io.Resource
 import org.springframework.stereotype.Service
+import java.nio.charset.StandardCharsets
 import java.time.YearMonth
 
 @Service
 class GenerateServiceImpl(
+    private val bddService: BddService,
     private val invoiceRepository: InvoiceRepository,
     private val customerRepository: CachedCustomerRepository,
     private val timeService: TimeService
 ) : GenerateService {
 
     override fun generateBDD(yearMonth: String?): Resource {
-        TODO("Not yet implemented")
+        val invoices = getInvoices(yearMonth)
+        val bdd = bddService.generate(invoices)
+        return InputStreamResource(bdd.byteInputStream(StandardCharsets.UTF_8))
     }
 
     override fun simulateBDD(yearMonth: String?): PaymentTypeInvoicesDTO {
