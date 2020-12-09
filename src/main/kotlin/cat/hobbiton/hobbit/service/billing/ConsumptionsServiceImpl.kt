@@ -86,6 +86,11 @@ class ConsumptionsServiceImpl(
     }
 
     override fun getLastMonthConsumptions(): SetYearMonthConsumptionsDTO {
+        val consumptions = getConsumptions()
+        if(consumptions.isEmpty()) return SetYearMonthConsumptionsDTO(
+            yearMonth = timeService.lastMonth.toString(),
+            children = emptyList()
+        )
         return getSetYearMonthConsumptionsDTO(
             getConsumptions().last { isLastMonth(it.yearMonth) }
         )
