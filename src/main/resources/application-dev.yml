@@ -2,12 +2,12 @@ db:
   name: hobbit_dev
 
 business:
-  businessName: "Test businessName"
-  addressLine1: "Test addressLine1"
-  addressLine2: "Test addressLine2"
-  addressLine3: "Test addressLine3"
-  addressLine4: "Test addressLine4"
-  taxIdLine: "Test taxIdLine"
+  businessName: "BusinessName"
+  addressLine1: "AddressLine1"
+  addressLine2: "AddressLine2"
+  addressLine3: "AddressLine3"
+  addressLine4: "AddressLine4"
+  taxIdLine: "TaxIdLine"
 
   bddBusinessPrefix: TEST
   bddBusinessId: ES92000A22316012
