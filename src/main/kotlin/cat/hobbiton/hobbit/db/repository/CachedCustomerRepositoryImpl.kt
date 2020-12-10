@@ -15,7 +15,7 @@ class CachedCustomerRepositoryImpl(
 
     override fun getChild(childCode: Int): Child {
         val customer = getCustomerByChildCode(childCode)
-        return customer.getChild(childCode)!!
+        return customer.getChild(childCode)
     }
 
     @Cacheable("customerById")

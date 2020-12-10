@@ -7,5 +7,5 @@ import org.springframework.boot.runApplication
 class HobbitApplication
 
 fun main(args: Array<String>) {
-	runApplication<HobbitApplication>(*args)
+    runApplication<HobbitApplication>(*args)
 }

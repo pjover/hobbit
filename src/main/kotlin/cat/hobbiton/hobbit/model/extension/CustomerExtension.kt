@@ -1,10 +1,12 @@
 package cat.hobbiton.hobbit.model.extension
 
+import cat.hobbiton.hobbit.messages.ErrorMessages
 import cat.hobbiton.hobbit.messages.ValidationMessages
 import cat.hobbiton.hobbit.model.Adult
 import cat.hobbiton.hobbit.model.AdultRole
 import cat.hobbiton.hobbit.model.Child
 import cat.hobbiton.hobbit.model.Customer
+import cat.hobbiton.hobbit.util.AppException
 import cat.hobbiton.hobbit.util.translate
 
 
@@ -12,18 +14,18 @@ fun Customer.getActiveChildren(): List<Child> = children.filter { it.active }
 
 fun Customer.getActiveChildrenCodes(): List<Int> {
     return children.filter { it.active }
-            .map { child -> child.code }
+        .map { child -> child.code }
 }
 
-fun Customer.getChild(code: Int): Child? {
+fun Customer.getChild(code: Int): Child {
     val list = children.filter { it.code == code }
-    return if (list.isEmpty()) null
-    else list.first()
+    if(list.isEmpty()) throw AppException(ErrorMessages.ERROR_CHILD_NOT_FOUND, id)
+    return list.first()
 }
 
 fun Customer.getAdult(role: AdultRole): Adult? {
     val list = adults.filter { it.role == role }
-    return if (list.isEmpty()) null
+    return if(list.isEmpty()) null
     else list.first()
 }
 

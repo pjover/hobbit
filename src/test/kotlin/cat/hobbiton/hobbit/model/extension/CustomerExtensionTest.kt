@@ -2,6 +2,7 @@ package cat.hobbiton.hobbit.model.extension
 
 import cat.hobbiton.hobbit.*
 import cat.hobbiton.hobbit.model.AdultRole
+import cat.hobbiton.hobbit.util.AppException
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.DescribeSpec
 import kotlin.test.assertFailsWith
@@ -41,11 +42,15 @@ internal class CustomerExtensionTest : DescribeSpec() {
 
                 context("and the code does not exists") {
 
-                    val actual = sut.getChild(1852)
-
-                    it("returns null") {
-                        actual shouldBe null
+                    val executor = {
+                        sut.getChild(1852)
                     }
+
+                    it("throws an error") {
+                        val exception = assertFailsWith<AppException> { executor.invoke() }
+                        exception.message shouldBe "Cannot find child with id 185"
+                    }
+
                 }
             }
 

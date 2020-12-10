@@ -47,5 +47,7 @@ enum class ValidationMessages(
     ERROR_INVOICE_LINE_PRODUCT_ID_BLANK("error.invoice_line.product_id.blank"),
     ERROR_INVOICE_LINE_PRODUCT_UNITS_ZERO("error.invoice_line.product_units.zero"),
 
-    ERROR_YEAR_MONTH_INVALID("error.year_month.invalid")
+    ERROR_YEAR_MONTH_INVALID("error.year_month.invalid"),
+
+    ERROR_PAYMENT_TYPE_CONFIGURATION_UNDEFINED("error.payment_type.configuration.undefined")
 }

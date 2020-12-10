@@ -214,9 +214,47 @@ paths:
                 type: integer
                 format: int32
 
+  /generate/bdd:
+    get:
+      tags:
+        - Generate
+      description: Simulates generating the bank direct debit (BDD) file (SEPA XML compatible) for the pending invoices (not generated previously)
+      operationId: simulateBDD
+      parameters:
+        - name: yearMonth
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentTypeInvoicesDTO'
+    post:
+      tags:
+        - Generate
+      description: Generates the bank direct debit (BDD) file (SEPA XML compatible) for the pending invoices (not generated previously)
+      operationId: generateBDD
+      parameters:
+        - name: yearMonth
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/xml:
+              schema:
+                type: string
+                format: binary
+
 components:
   schemas:
-
     ChildrenGroupDTO:
       description: List of children's basic info for a concrete group
       type: object
