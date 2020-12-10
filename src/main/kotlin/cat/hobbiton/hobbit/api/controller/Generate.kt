@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.validation.annotation.Validated
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.HttpHeaders
+import org.springframework.http.MediaType
 
 @RestController
 @Validated
@@ -24,9 +26,16 @@ class GenerateController(@Autowired(required = true) val service: GenerateServic
         method = [RequestMethod.POST])
     fun generateBDD(@RequestParam(value = "yearMonth", required = false) yearMonth: String?
     ): ResponseEntity<org.springframework.core.io.Resource> {
-        return ResponseEntity(service.generateBDD(yearMonth), HttpStatus.valueOf(200))
-    }
 
+        val bdd = service.generateBDD(yearMonth)
+
+        val headers = HttpHeaders()
+        headers.contentType = MediaType.APPLICATION_XML
+        headers.contentLength = bdd.contentLength()
+        headers.setContentDispositionFormData("attachment", "bdd.q1x")
+
+        return ResponseEntity(service.generateBDD(yearMonth), headers, HttpStatus.valueOf(200))
+    }
 
     @RequestMapping(
         value = ["/generate/bdd"],
