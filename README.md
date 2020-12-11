@@ -30,7 +30,7 @@ Run the MongoDB server
 docker run -d \
     --name mongo-server \
     --network mongo-network \
-    -v $HOME/hobbit_db:/data/db \
+    -v $HOME/mongodb_data:/data/db \
     -p 27017:27017 \
     mongo
 ```
