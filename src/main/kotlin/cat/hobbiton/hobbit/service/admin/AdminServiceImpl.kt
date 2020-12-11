@@ -1,7 +1,7 @@
 package cat.hobbiton.hobbit.service.admin
 
-import cat.hobbiton.hobbit.db.repository.*
-import cat.hobbiton.hobbit.model.Invoice
+import cat.hobbiton.hobbit.api.model.EntityTypeDTO
+import cat.hobbiton.hobbit.db.repository.InvoiceRepository
 import org.springframework.stereotype.Service
 
 @Service
@@ -9,14 +9,13 @@ class AdminServiceImpl(
     private val invoiceRepository: InvoiceRepository,
 ) : AdminService {
 
-    override fun modifyEntity(entity: String): Int {
+    override fun modifyEntity(entity: EntityTypeDTO): Int {
         return when(entity) {
-            "Consumption" -> modifyConsumption()
-            "Customer" -> modifyCustomer()
-            "Invoice" -> modifyInvoice()
-            "Product" -> modifyProduct()
-            "Sequence" -> modifySequence()
-            else -> 0
+            EntityTypeDTO.Consumption -> modifyConsumption()
+            EntityTypeDTO.Customer -> modifyCustomer()
+            EntityTypeDTO.Invoice -> modifyInvoice()
+            EntityTypeDTO.Product -> modifyProduct()
+            EntityTypeDTO.Sequence -> modifySequence()
         }
     }
 

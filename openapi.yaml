@@ -191,20 +191,14 @@ paths:
     post:
       tags:
         - Admin
-      description: Modifies database entities
+      description: Applies a pre defined process to modify database entities (for Consumption, Customer, Invoice, Product, Sequence)
       operationId: modifyEntity
       parameters:
         - name: entity
           in: path
           required: true
           schema:
-            type: string
-            enum:
-              - Consumption
-              - Customer
-              - Invoice
-              - Product
-              - Sequence
+            $ref: '#/components/schemas/EntityTypeDTO'
       responses:
         '200':
           description: OK, number of modified entities
@@ -255,6 +249,17 @@ paths:
 
 components:
   schemas:
+
+    EntityTypeDTO:
+      description: Entity type
+      type: string
+      enum:
+        - Consumption
+        - Customer
+        - Invoice
+        - Product
+        - Sequence
+
     ChildrenGroupDTO:
       description: List of children's basic info for a concrete group
       type: object
