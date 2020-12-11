@@ -46,7 +46,6 @@ dependencies {
 	testImplementation("org.jetbrains.kotlin:kotlin-test:1.4.10")
 	testImplementation("io.kotlintest:kotlintest-runner-junit5:3.4.2")
 	testImplementation("io.mockk:mockk:1.10.0")
-
 }
 
 tasks.withType<Test> {
@@ -102,13 +101,10 @@ fun tags(): Set<String> {
 }
 
 pitest {
-	threads.set(4)
 	outputFormats.add("HTML")
 	timestampedReports.set(true)
 	useClasspathFile.set(true)
 	junit5PluginVersion.set("0.12")
-	avoidCallsTo.add("kotlin.jvm.internal")
-	avoidCallsTo.add("kotlinx.coroutines")
 	excludedClasses.add("cat.hobbiton.hobbit.HobitApplication*")
 	excludedClasses.add("cat.hobbiton.hobbit.api.*")
 }
