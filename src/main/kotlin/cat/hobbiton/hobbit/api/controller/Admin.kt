@@ -18,6 +18,10 @@ import org.springframework.web.bind.annotation.RestController
 class AdminController(@Autowired(required = true) val service: AdminService) {
 
 
+    @Operation(
+        description = "Modifies database entities (Consumption, Customer, Invoice, Product, Sequence)",
+        operationId = "modifyEntity"
+    )
     @RequestMapping(
         value = ["/admin/modifyEntity/{entity}"],
         produces = ["application/json"],

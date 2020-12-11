@@ -42,7 +42,7 @@ class BillingServiceImplTest : DescribeSpec() {
         }
 
         describe("setInvoices") {
-            mockAuxReaders(customerRepository, productRepository)
+            mockReaders(customerRepository, productRepository)
             mockConsumptionsReader(consumptionRepository)
             val slot = slot<Invoice>()
             every { invoiceService.saveInvoice(capture(slot)) } answers { slot.captured.copy(id = "F-1") }

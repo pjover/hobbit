@@ -1,18 +1,18 @@
 package cat.hobbiton.hobbit.api.controller
 
-import cat.hobbiton.hobbit.service.generate.GenerateService
 import cat.hobbiton.hobbit.api.model.PaymentTypeInvoicesDTO
-import org.springframework.http.HttpStatus
-import org.springframework.http.ResponseEntity
-
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RequestMethod
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
-import org.springframework.validation.annotation.Validated
+import cat.hobbiton.hobbit.service.generate.GenerateService
+import io.swagger.v3.oas.annotations.Operation
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpHeaders
+import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
+import org.springframework.http.ResponseEntity
+import org.springframework.validation.annotation.Validated
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestMethod
+import org.springframework.web.bind.annotation.RequestParam
+import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @Validated
@@ -20,6 +20,11 @@ import org.springframework.http.MediaType
 class GenerateController(@Autowired(required = true) val service: GenerateService) {
 
 
+    @Operation(
+        description = "Generates the bank direct debit (BDD) file (SEPA XML compatible)" +
+            " for the pending invoices (not generated previously)",
+        operationId = "generateBDD"
+    )
     @RequestMapping(
         value = ["/generate/bdd"],
         produces = ["application/xml"],
@@ -37,6 +42,11 @@ class GenerateController(@Autowired(required = true) val service: GenerateServic
         return ResponseEntity(service.generateBDD(yearMonth), headers, HttpStatus.valueOf(200))
     }
 
+    @Operation(
+        description = "Simulates generating the bank direct debit (BDD) file (SEPA XML compatible)" +
+            " for the pending invoices (not generated previously)",
+        operationId = "simulateBDD"
+    )
     @RequestMapping(
         value = ["/generate/bdd"],
         produces = ["application/json"],
