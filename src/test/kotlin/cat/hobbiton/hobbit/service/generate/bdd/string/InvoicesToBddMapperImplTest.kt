@@ -144,7 +144,7 @@ class InvoicesToBddMapperImplTest : DescribeSpec() {
             )
         }
 
-        fun bddChild0() = Child(
+        private fun bddChild0() = Child(
             code = 1800,
             name = "Nin0",
             surname = "1er llinatge_nin0",
@@ -156,7 +156,7 @@ class InvoicesToBddMapperImplTest : DescribeSpec() {
             group = GroupType.EI_1
         )
 
-        fun bddChild1() = Child(
+        private fun bddChild1() = Child(
             code = 1801,
             name = "Nina1",
             surname = "1er llinatge_nina1",
@@ -195,7 +195,7 @@ class InvoicesToBddMapperImplTest : DescribeSpec() {
             )
         }
 
-        fun bddTestInvoiceHolder(paymentType: PaymentType = PaymentType.BANK_DIRECT_DEBIT) = InvoiceHolder(
+        private fun bddTestInvoiceHolder(paymentType: PaymentType = PaymentType.BANK_DIRECT_DEBIT) = InvoiceHolder(
             name = "Nom de la mare 1er llinatge_mare 2on llinatge_mare",
             taxId = "36361882D",
             address = Address(
