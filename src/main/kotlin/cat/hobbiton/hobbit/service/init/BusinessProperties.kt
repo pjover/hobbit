@@ -30,7 +30,7 @@ class BusinessProperties {
     @PostConstruct
     private fun init() {
         enumValues<PaymentType>().forEach {
-            require(paymentTypeNotes.containsKey(it.name)) { ValidationMessages.ERROR_INVOICE_HOLDER_EMAIL_INVALID.translate(it.name) }
+            require(paymentTypeNotes.containsKey(it.name)) { ValidationMessages.ERROR_PAYMENT_TYPE_CONFIGURATION_UNDEFINED.translate(it.name) }
         }
         logger.info("Loaded business info for '$businessName'")
     }

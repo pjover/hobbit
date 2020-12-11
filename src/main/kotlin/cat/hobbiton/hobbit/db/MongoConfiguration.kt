@@ -2,7 +2,9 @@ package cat.hobbiton.hobbit.db
 
 import cat.hobbiton.hobbit.db.converter.YearMonthReadConverter
 import cat.hobbiton.hobbit.db.converter.YearMonthWriteConverter
+import cat.hobbiton.hobbit.messages.ValidationMessages
 import cat.hobbiton.hobbit.util.Logging
+import cat.hobbiton.hobbit.util.translate
 import com.mongodb.MongoClientSettings
 import com.mongodb.ServerAddress
 import org.springframework.beans.factory.annotation.Value
@@ -25,7 +27,10 @@ class MongoConfiguration(
         logger.info("Working with '$dbHost:$dbPort' MongoDB server on database '$dbName'")
     }
 
-    override fun getDatabaseName() = dbName
+    override fun getDatabaseName(): String {
+        require(dbName.isNotEmpty()) { ValidationMessages.ERROR_DB_NAME_CONFIGURATION_UNDEFINED.translate() }
+        return dbName
+    }
 
     override fun configureClientSettings(builder: MongoClientSettings.Builder) {
         builder
