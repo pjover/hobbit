@@ -128,13 +128,28 @@ internal class CustomerExtensionTest : DescribeSpec() {
 
             context("not valid") {
 
-                val executor = {
-                    sut.copy(children = emptyList()).validate()
+                context("no children") {
+
+                    val executor = {
+                        sut.copy(children = emptyList()).validate()
+                    }
+
+                    it("throws an error") {
+                        val exception = assertFailsWith<IllegalArgumentException> { executor.invoke() }
+                        exception.message shouldBe "Customer must have al least one child"
+                    }
                 }
 
-                it("throws an error") {
-                    val exception = assertFailsWith<IllegalArgumentException> { executor.invoke() }
-                    exception.message shouldBe "Customer must have al least one child"
+                context("no adults") {
+
+                    val executor = {
+                        sut.copy(adults = emptyList()).validate()
+                    }
+
+                    it("throws an error") {
+                        val exception = assertFailsWith<IllegalArgumentException> { executor.invoke() }
+                        exception.message shouldBe "Customer must have al least one adult"
+                    }
                 }
             }
         }

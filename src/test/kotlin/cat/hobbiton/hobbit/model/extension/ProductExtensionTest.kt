@@ -96,6 +96,19 @@ class ProductExtensionTest : DescribeSpec() {
                     }
                 }
 
+                context("and the name is 150 characters long") {
+                    Product(
+                        "AAA",
+                        "12345678901234567890123456789012345678901234567890123456789012345678901234567890" +
+                            "1234567890123456789012345678901234567890123456789012345678901234567890",
+                        "TST product",
+                        BigDecimal.TEN
+                    ).validate()
+
+                    it("do not throw any error") {
+                    }
+                }
+
                 context("and the name is longer than 150 characters") {
                     val executor = {
                         Product(
@@ -129,6 +142,20 @@ class ProductExtensionTest : DescribeSpec() {
                     it("throws an error") {
                         val exception = assertFailsWith<IllegalArgumentException> { executor.invoke() }
                         exception.message shouldBe "Product short name cannot be blank"
+                    }
+                }
+
+                context("and the shortName is12 characters long") {
+                    val executor = {
+                        Product(
+                            "AAA",
+                            "TST product",
+                            "123456789012",
+                            BigDecimal.TEN
+                        ).validate()
+                    }
+
+                    it("do not throw any error") {
                     }
                 }
 

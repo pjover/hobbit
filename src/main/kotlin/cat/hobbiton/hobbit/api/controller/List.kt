@@ -5,6 +5,7 @@ import cat.hobbiton.hobbit.api.model.CustomerListDTO
 import cat.hobbiton.hobbit.api.model.EmailsGroupDTO
 import cat.hobbiton.hobbit.api.model.GroupDTO
 import cat.hobbiton.hobbit.service.list.ListService
+import io.swagger.v3.oas.annotations.Operation
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -20,28 +21,40 @@ import org.springframework.web.bind.annotation.RestController
 class ListController(@Autowired(required = true) val service: ListService) {
 
 
+    @Operation(
+        description = "Return the active children list",
+        operationId = "getChildrenList"
+    )
     @RequestMapping(
-            value = ["/lists/children"],
-            produces = ["application/json"],
-            method = [RequestMethod.GET])
+        value = ["/lists/children"],
+        produces = ["application/json"],
+        method = [RequestMethod.GET])
     fun getChildrenList(): ResponseEntity<List<ChildrenGroupDTO>> {
         return ResponseEntity(service.getChildrenList(), HttpStatus.valueOf(200))
     }
 
 
+    @Operation(
+        description = "Return the active customers list",
+        operationId = "getCustomersList"
+    )
     @RequestMapping(
-            value = ["/lists/customers"],
-            produces = ["application/json"],
-            method = [RequestMethod.GET])
+        value = ["/lists/customers"],
+        produces = ["application/json"],
+        method = [RequestMethod.GET])
     fun getCustomersList(): ResponseEntity<List<CustomerListDTO>> {
         return ResponseEntity(service.getCustomersList(), HttpStatus.valueOf(200))
     }
 
 
+    @Operation(
+        description = "Return the active customers list emails by group",
+        operationId = "getEmailsList"
+    )
     @RequestMapping(
-            value = ["/lists/emails/{group}"],
-            produces = ["application/json"],
-            method = [RequestMethod.GET])
+        value = ["/lists/emails/{group}"],
+        produces = ["application/json"],
+        method = [RequestMethod.GET])
     fun getEmailsList(@PathVariable("group") group: GroupDTO
     ): ResponseEntity<EmailsGroupDTO> {
         return ResponseEntity(service.getEmailsList(group), HttpStatus.valueOf(200))

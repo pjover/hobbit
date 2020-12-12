@@ -14,13 +14,16 @@ import cat.hobbiton.hobbit.testChild3
 import cat.hobbiton.hobbit.testCustomer
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.DescribeSpec
-import io.mockk.clearAllMocks
+import io.mockk.clearMocks
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import java.io.InputStream
 import java.nio.charset.StandardCharsets
 import java.util.stream.Collectors
+
+val bdd = GenerateServiceImplTest::class.java.getResource("/Test_bdd.q1x")
+    .readText(charset(StandardCharsets.UTF_8.name()))
 
 class GenerateServiceImplTest : DescribeSpec() {
 
@@ -32,55 +35,107 @@ class GenerateServiceImplTest : DescribeSpec() {
         val sut = GenerateServiceImpl(bddService, invoiceRepository, customerRepository, timeService)
 
         describe("generateBDD") {
-            mockReaders(invoiceRepository, customerRepository)
-            every { timeService.currentYearMonth } returns YEAR_MONTH
 
-            val bdd = this::class.java.getResource("/Test_bdd.q1x")
-                .readText(charset(StandardCharsets.UTF_8.name()))
-            every { bddService.generate(any()) } returns bdd
+            context("with yearMonth") {
+                mockReaders(invoiceRepository, customerRepository, timeService, bddService)
 
-            val actual = sut.generateBDD(YEAR_MONTH.toString())
+                val actual = sut.generateBDD(YEAR_MONTH.toString())
 
-            it("return the BDD") {
-                val content = actual.inputStream.use { it.readUpToChar() }
-                val actualLines = content.lines().map { it.trim() }
-                val expectedLines = bdd.lines().map { it.trim() }
-                for(i in actualLines.indices) {
-                    expectedLines[i] shouldBe actualLines[i]
+                it("return the BDD") {
+                    val content = actual.inputStream.use { it.readUpToChar() }
+                    val actualLines = content.lines().map { it.trim() }
+                    val expectedLines = bdd.lines().map { it.trim() }
+                    for(i in actualLines.indices) {
+                        expectedLines[i] shouldBe actualLines[i]
+                    }
+                }
+
+                it("call collaborators") {
+                    verify(exactly = 1) {
+                        invoiceRepository.findByPaymentTypeAndYearMonthAndSentToBank(PaymentType.BANK_DIRECT_DEBIT, YEAR_MONTH, false)
+                        bddService.generate(listOf(invoice1(), invoice2()))
+                    }
+
+                    verify(exactly = 0) {
+                        timeService.currentYearMonth
+                    }
                 }
             }
 
-            it("call collaborators") {
-                verify(exactly = 1) {
-                    invoiceRepository.findByPaymentTypeAndYearMonthAndSentToBank(PaymentType.BANK_DIRECT_DEBIT, YEAR_MONTH, false)
-                    bddService.generate(listOf(invoice1(), invoice2()))
+            context("without yearMonth") {
+                mockReaders(invoiceRepository, customerRepository, timeService, bddService)
+
+                val actual = sut.generateBDD(null)
+
+                it("return the BDD") {
+                    val content = actual.inputStream.use { it.readUpToChar() }
+                    val actualLines = content.lines().map { it.trim() }
+                    val expectedLines = bdd.lines().map { it.trim() }
+                    for(i in actualLines.indices) {
+                        expectedLines[i] shouldBe actualLines[i]
+                    }
+                }
+
+                it("call collaborators") {
+                    verify(exactly = 1) {
+                        invoiceRepository.findByPaymentTypeAndYearMonthAndSentToBank(PaymentType.BANK_DIRECT_DEBIT, YEAR_MONTH, false)
+                        bddService.generate(listOf(invoice1(), invoice2()))
+                        timeService.currentYearMonth
+                    }
                 }
             }
         }
 
         describe("simulateBDD") {
-            mockReaders(invoiceRepository, customerRepository)
             every { timeService.currentYearMonth } returns YEAR_MONTH
 
-            val actual = sut.simulateBDD(null)
+            context("with yearMonth") {
+                mockReaders(invoiceRepository, customerRepository, timeService, bddService)
 
-            it("should be the pending invoices for BANK_DIRECT_DEBIT") {
-                actual shouldBe expectedInvoices("??")[0]
+                val actual = sut.simulateBDD(YEAR_MONTH.toString())
+
+                it("should be the pending invoices for BANK_DIRECT_DEBIT") {
+                    actual shouldBe expectedInvoices("??")[0]
+                }
+
+                it("call the collaborators") {
+                    verify(exactly = 1) {
+                        invoiceRepository.findByPaymentTypeAndYearMonthAndSentToBank(PaymentType.BANK_DIRECT_DEBIT, YEAR_MONTH, false)
+                        customerRepository.getCustomer(185)
+                        customerRepository.getCustomer(186)
+                    }
+
+                    verify(exactly = 0) {
+                        timeService.currentYearMonth
+                    }
+                }
             }
 
-            it("call the collaborators") {
-                verify(exactly = 1) {
-                    timeService.currentYearMonth
-                    invoiceRepository.findByPaymentTypeAndYearMonthAndSentToBank(PaymentType.BANK_DIRECT_DEBIT, YEAR_MONTH, false)
-                    customerRepository.getCustomer(185)
-                    customerRepository.getCustomer(186)
+            context("without yearMonth") {
+                mockReaders(invoiceRepository, customerRepository, timeService, bddService)
+
+                val actual = sut.simulateBDD(null)
+
+                it("should be the pending invoices for BANK_DIRECT_DEBIT") {
+                    actual shouldBe expectedInvoices("??")[0]
+                }
+
+                it("call the collaborators") {
+                    verify(exactly = 1) {
+                        timeService.currentYearMonth
+                        invoiceRepository.findByPaymentTypeAndYearMonthAndSentToBank(PaymentType.BANK_DIRECT_DEBIT, YEAR_MONTH, false)
+                        customerRepository.getCustomer(185)
+                        customerRepository.getCustomer(186)
+                        timeService.currentYearMonth
+                    }
                 }
             }
         }
     }
 
-    private fun mockReaders(invoiceRepository: InvoiceRepository, customerRepository: CachedCustomerRepository) {
-        clearAllMocks()
+    private fun mockReaders(invoiceRepository: InvoiceRepository, customerRepository: CachedCustomerRepository, timeService: TimeService,
+                            bddService: BddService) {
+        clearMocks(invoiceRepository, customerRepository, timeService, bddService)
 
         every { invoiceRepository.findByPaymentTypeAndYearMonthAndSentToBank(PaymentType.BANK_DIRECT_DEBIT, YEAR_MONTH, false) } returns listOf(
             invoice1(),
@@ -92,6 +147,10 @@ class GenerateServiceImplTest : DescribeSpec() {
             id = 186,
             adults = listOf(testAdultMother().copy(name = "Silvia", surname = "Mayol")),
             children = listOf(testChild3()))
+
+        every { timeService.currentYearMonth } returns YEAR_MONTH
+
+        every { bddService.generate(any()) } returns bdd
     }
 
     private fun InputStream.readUpToChar(): String {

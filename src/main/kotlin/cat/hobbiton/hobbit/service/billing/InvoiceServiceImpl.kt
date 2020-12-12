@@ -19,7 +19,7 @@ class InvoiceServiceImpl(
             invoiceRepository.save(invoice.copy(id = sequence.formattedText()))
         } catch(t: Throwable) {
             sequenceService.decrement(invoice.paymentType.sequenceType)
-            throw AppException(ErrorMessages.ERROR_SAVING_INVOICE, t.message ?: sequence.formattedText())
+            throw AppException(ErrorMessages.ERROR_SAVING_INVOICE, sequence.formattedText())
         }
     }
 }

@@ -2,16 +2,14 @@ package cat.hobbiton.hobbit.api.controller
 
 import cat.hobbiton.hobbit.api.model.PaymentTypeInvoicesDTO
 import cat.hobbiton.hobbit.service.billing.BillingService
+import io.swagger.v3.oas.annotations.Operation
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-
-import org.springframework.web.bind.annotation.RequestMethod
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
 import org.springframework.validation.annotation.Validated
-import org.springframework.beans.factory.annotation.Autowired
-
-import kotlin.collections.List
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestMethod
+import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @Validated
@@ -19,6 +17,10 @@ import kotlin.collections.List
 class BillingController(@Autowired(required = true) val service: BillingService) {
 
 
+    @Operation(
+        description = "Simulates billing the current consumption before generating the invoices",
+        operationId = "getInvoices"
+    )
     @RequestMapping(
         value = ["/billing/billConsumptions"],
         produces = ["application/json"],
@@ -28,6 +30,10 @@ class BillingController(@Autowired(required = true) val service: BillingService)
     }
 
 
+    @Operation(
+        description = "Bills the current consumption and generates the invoices into the system",
+        operationId = "setInvoices"
+    )
     @RequestMapping(
         value = ["/billing/billConsumptions"],
         produces = ["application/json"],

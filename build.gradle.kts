@@ -6,6 +6,7 @@ plugins {
 	kotlin("jvm") version "1.4.10"
 	kotlin("plugin.spring") version "1.4.10"
 	id("com.google.cloud.tools.jib") version "1.3.0"
+	id("info.solidsoft.pitest") version "1.5.2"
 }
 
 group = "cat.hobbiton"
@@ -45,7 +46,6 @@ dependencies {
 	testImplementation("org.jetbrains.kotlin:kotlin-test:1.4.10")
 	testImplementation("io.kotlintest:kotlintest-runner-junit5:3.4.2")
 	testImplementation("io.mockk:mockk:1.10.0")
-
 }
 
 tasks.withType<Test> {
@@ -98,4 +98,13 @@ fun tags(): Set<String> {
 	} else {
 		setOf("$version", "latest")
 	}
+}
+
+pitest {
+	outputFormats.add("HTML")
+	timestampedReports.set(true)
+	useClasspathFile.set(true)
+	junit5PluginVersion.set("0.12")
+	excludedClasses.add("cat.hobbiton.hobbit.HobitApplication*")
+	excludedClasses.add("cat.hobbiton.hobbit.api.*")
 }

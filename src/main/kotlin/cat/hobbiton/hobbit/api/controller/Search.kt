@@ -2,6 +2,7 @@ package cat.hobbiton.hobbit.api.controller
 
 import cat.hobbiton.hobbit.api.model.CustomerListDTO
 import cat.hobbiton.hobbit.service.search.SearchService
+import io.swagger.v3.oas.annotations.Operation
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -18,10 +19,14 @@ import javax.validation.constraints.NotNull
 class SearchController(@Autowired(required = true) val service: SearchService) {
 
 
+    @Operation(
+        description = "Search customers by adult or child name, surame, taxid, email or mobile",
+        operationId = "searchCustomer"
+    )
     @RequestMapping(
-            value = ["/search/customer"],
-            produces = ["application/json"],
-            method = [RequestMethod.GET])
+        value = ["/search/customer"],
+        produces = ["application/json"],
+        method = [RequestMethod.GET])
     fun searchCustomer(@NotNull @RequestParam(value = "text", required = true) text: String
     ): ResponseEntity<List<CustomerListDTO>> {
         return ResponseEntity(service.searchCustomer(text), HttpStatus.valueOf(200))

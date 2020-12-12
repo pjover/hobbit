@@ -17,6 +17,8 @@ class TaxIdExtensionTest : DescribeSpec() {
                     "S2910252B".isValidTaxId() shouldBe true
                     "R2305254A".isValidTaxId() shouldBe true
                     "A58818501".isValidTaxId() shouldBe true
+                    "Z4614782K".isValidTaxId() shouldBe true
+                    "Q8453568A".isValidTaxId() shouldBe true
                 }
             }
 
@@ -30,6 +32,7 @@ class TaxIdExtensionTest : DescribeSpec() {
                     "S2919252B".isValidTaxId() shouldBe false
                     "R2306254A".isValidTaxId() shouldBe false
                     "A58838501".isValidTaxId() shouldBe false
+                    "Y58838501".isValidTaxId() shouldBe false
                 }
             }
         }
@@ -44,6 +47,9 @@ class TaxIdExtensionTest : DescribeSpec() {
             context("an incorrect NIE") {
                 it("should return false") {
                     "X2010159K".isValidTaxId() shouldBe false
+                    "Y2010159K".isValidTaxId() shouldBe false
+                    "Z2010159K".isValidTaxId() shouldBe false
+                    "Z2010159".isValidTaxId() shouldBe false
                 }
             }
         }
