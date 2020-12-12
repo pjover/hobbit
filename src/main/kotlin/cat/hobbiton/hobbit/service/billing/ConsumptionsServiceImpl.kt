@@ -23,7 +23,7 @@ class ConsumptionsServiceImpl(
 ) : ConsumptionsService {
 
     override fun getChildConsumptions(childCode: Int): List<YearMonthConsumptionsDTO> {
-        return consumptionRepository.findByInvoicedOnNullAndChildCode(childCode)
+        return consumptionRepository.findByInvoiceIdNullAndChildCode(childCode)
             .groupBy { it.yearMonth }
             .map { (yearMonth, consumptions) ->
                 YearMonthConsumptionsDTO(
@@ -74,7 +74,7 @@ class ConsumptionsServiceImpl(
     }
 
     override fun getConsumptions(): List<YearMonthConsumptionsDTO> {
-        return consumptionRepository.findByInvoicedOnNull()
+        return consumptionRepository.findByInvoiceIdNull()
             .groupBy { it.yearMonth }
             .map { (yearMonth, consumptions) ->
                 YearMonthConsumptionsDTO(

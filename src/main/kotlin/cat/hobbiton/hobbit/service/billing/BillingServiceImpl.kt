@@ -32,7 +32,7 @@ class BillingServiceImpl(
     }
 
     fun invoices(save: Boolean): List<PaymentTypeInvoicesDTO> {
-        val consumptions = consumptionRepository.findByInvoicedOnNull()
+        val consumptions = consumptionRepository.findByInvoiceIdNull()
         return consumptions
             .map { Pair(customerRepository.getCustomerByChildCode(it.childCode), it) }
             .groupBy { it.first.invoiceHolder.paymentType }

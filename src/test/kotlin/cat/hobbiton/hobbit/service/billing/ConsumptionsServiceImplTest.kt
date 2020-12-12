@@ -33,7 +33,7 @@ class ConsumptionsServiceImplTest : DescribeSpec() {
         describe("getChildConsumptions") {
 
             context("with no consumptions") {
-                every { consumptionRepository.findByInvoicedOnNullAndChildCode(1) } returns emptyList()
+                every { consumptionRepository.findByInvoiceIdNullAndChildCode(1) } returns emptyList()
 
                 val actual = sut.getChildConsumptions(1)
 
@@ -45,7 +45,7 @@ class ConsumptionsServiceImplTest : DescribeSpec() {
             context("with consumptions") {
 
                 mockAuxReaders(customerRepository, productRepository)
-                every { consumptionRepository.findByInvoicedOnNullAndChildCode(1) } returns listOf(
+                every { consumptionRepository.findByInvoiceIdNullAndChildCode(1) } returns listOf(
                     Consumption(
                         id = "AA1",
                         childCode = 1850,
@@ -128,7 +128,7 @@ class ConsumptionsServiceImplTest : DescribeSpec() {
 
             context("with no consumptions") {
                 clearMocks(customerRepository)
-                every { consumptionRepository.findByInvoicedOnNull() } returns emptyList()
+                every { consumptionRepository.findByInvoiceIdNull() } returns emptyList()
 
                 val actual = sut.getLastMonthConsumptions()
 
@@ -281,7 +281,7 @@ fun mockAuxReaders(customerRepository: CachedCustomerRepository, productReposito
 
 fun mockConsumptionsReader(consumptionRepository: ConsumptionRepository, additionalList: List<Consumption> = emptyList()) {
     clearMocks(consumptionRepository)
-    every { consumptionRepository.findByInvoicedOnNull() } returns listOf(
+    every { consumptionRepository.findByInvoiceIdNull() } returns listOf(
         Consumption(
             id = "AA1",
             childCode = 1850,
