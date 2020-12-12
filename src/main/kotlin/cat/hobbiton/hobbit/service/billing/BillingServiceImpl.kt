@@ -92,7 +92,7 @@ class BillingServiceImpl(
             note = getNotes(consumptions),
             lines = getInvoiceLines(consumptions)
         )
-        return if(save) invoiceService.saveInvoice(invoice)
+        return if(save) invoiceService.saveInvoice(invoice, consumptions)
         else invoice
     }
 

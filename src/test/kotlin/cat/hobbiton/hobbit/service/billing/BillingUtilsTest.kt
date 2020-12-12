@@ -25,8 +25,7 @@ class BillingUtilsTest : DescribeSpec() {
                         productId = "TST",
                         units = BigDecimal.valueOf(2),
                         yearMonth = YEAR_MONTH,
-                        note = "Note 1",
-                        invoicedOn = null
+                        note = "Note 1"
                     ),
                     Consumption(
                         id = "AA2",
@@ -34,8 +33,7 @@ class BillingUtilsTest : DescribeSpec() {
                         productId = "TST",
                         units = BigDecimal.valueOf(2),
                         yearMonth = YEAR_MONTH,
-                        note = "Note 2",
-                        invoicedOn = null
+                        note = "Note 2"
                     ),
                     Consumption(
                         id = "AA3",
@@ -43,8 +41,7 @@ class BillingUtilsTest : DescribeSpec() {
                         productId = "TST",
                         units = BigDecimal.valueOf(2),
                         yearMonth = YEAR_MONTH,
-                        note = "Note 3",
-                        invoicedOn = null
+                        note = "Note 3"
                     ),
                     Consumption(
                         id = "AA4",
@@ -52,8 +49,7 @@ class BillingUtilsTest : DescribeSpec() {
                         productId = "XXX",
                         units = BigDecimal.valueOf(2),
                         yearMonth = YEAR_MONTH,
-                        note = "Note 4",
-                        invoicedOn = null
+                        note = "Note 4"
                     ),
                     Consumption(
                         id = "AA5",
@@ -61,8 +57,7 @@ class BillingUtilsTest : DescribeSpec() {
                         productId = "TST",
                         units = BigDecimal.valueOf(2),
                         yearMonth = YEAR_MONTH,
-                        note = "Note 5",
-                        invoicedOn = null
+                        note = "Note 5"
                     )
                 )
             )

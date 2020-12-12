@@ -2,6 +2,7 @@ package cat.hobbiton.hobbit.service.billing
 
 import cat.hobbiton.hobbit.DATE
 import cat.hobbiton.hobbit.YEAR_MONTH
+import cat.hobbiton.hobbit.db.repository.ConsumptionRepository
 import cat.hobbiton.hobbit.db.repository.InvoiceRepository
 import cat.hobbiton.hobbit.model.*
 import cat.hobbiton.hobbit.util.AppException
@@ -19,9 +20,10 @@ class InvoiceServiceImplTest : DescribeSpec() {
     init {
         val invoiceRepository = mockk<InvoiceRepository>()
         val sequenceService = mockk<SequenceService>()
-        val sut = InvoiceServiceImpl(invoiceRepository, sequenceService)
+        val consumptionRepository = mockk<ConsumptionRepository>()
+        val sut = InvoiceServiceImpl(invoiceRepository, sequenceService, consumptionRepository)
 
-        val slot = slot<Invoice>()
+        val invoiceSlot = slot<Invoice>()
 
         val invoice = Invoice(
             id = "??",
@@ -56,13 +58,56 @@ class InvoiceServiceImplTest : DescribeSpec() {
             note = "Note 1, Note 2, Note 3, Note 4"
         )
 
+        val consumptions = listOf(
+            Consumption(
+                id = "AA1",
+                childCode = 1850,
+                productId = "TST",
+                units = BigDecimal.valueOf(2),
+                yearMonth = YEAR_MONTH,
+                note = "Note 1"
+            ),
+            Consumption(
+                id = "AA2",
+                childCode = 1850,
+                productId = "TST",
+                units = BigDecimal.valueOf(2),
+                yearMonth = YEAR_MONTH,
+                note = "Note 2"
+            ),
+            Consumption(
+                id = "AA3",
+                childCode = 1850,
+                productId = "TST",
+                units = BigDecimal.valueOf(2),
+                yearMonth = YEAR_MONTH,
+                note = "Note 3"
+            ),
+            Consumption(
+                id = "AA4",
+                childCode = 1850,
+                productId = "XXX",
+                units = BigDecimal.valueOf(2),
+                yearMonth = YEAR_MONTH,
+                note = "Note 4"
+            ),
+            Consumption(
+                id = "AA5",
+                childCode = 1850,
+                productId = "TST",
+                units = BigDecimal.valueOf(2),
+                yearMonth = YEAR_MONTH,
+                note = "Note 5"
+            )
+        )
+
         describe("saveInvoice") {
 
             context("the sequence can be saved") {
-                every { invoiceRepository.save(capture(slot)) } answers { slot.captured }
-                every { sequenceService.increment(any()) } returns cat.hobbiton.hobbit.model.Sequence(SequenceType.STANDARD_INVOICE, 1)
+                every { invoiceRepository.save(capture(invoiceSlot)) } answers { invoiceSlot.captured }
+                every { sequenceService.increment(any()) } returns Sequence(SequenceType.STANDARD_INVOICE, 1)
 
-                val actual = sut.saveInvoice(invoice)
+                val actual = sut.saveInvoice(invoice, consumptions)
 
                 it("Changes the sequence") {
                     actual shouldBe invoice.copy(id = "F-1")
@@ -84,7 +129,7 @@ class InvoiceServiceImplTest : DescribeSpec() {
                 every { invoiceRepository.save(any()) } throws Exception("Any message")
 
                 val executor = {
-                    sut.saveInvoice(invoice)
+                    sut.saveInvoice(invoice, consumptions)
                 }
 
                 it("throws an error") {

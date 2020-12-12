@@ -45,7 +45,7 @@ class BillingServiceImplTest : DescribeSpec() {
             mockReaders(customerRepository, productRepository)
             mockConsumptionsReader(consumptionRepository)
             val slot = slot<Invoice>()
-            every { invoiceService.saveInvoice(capture(slot)) } answers { slot.captured.copy(id = "F-1") }
+            every { invoiceService.saveInvoice(capture(slot), any()) } answers { slot.captured.copy(id = "F-1") }
 
             val actual = sut.setInvoices()
 
@@ -55,8 +55,8 @@ class BillingServiceImplTest : DescribeSpec() {
 
             it("saves the invoices") {
                 verify(exactly = 1) {
-                    invoiceService.saveInvoice(invoice1())
-                    invoiceService.saveInvoice(invoice2())
+                    invoiceService.saveInvoice(invoice1(), any())
+                    invoiceService.saveInvoice(invoice2(), any())
                 }
             }
         }
