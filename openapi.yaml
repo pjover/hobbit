@@ -212,7 +212,7 @@ paths:
     get:
       tags:
         - Generate
-      description: Simulates generating the bank direct debit (BDD) file (SEPA XML compatible) for the pending invoices (not generated previously)
+      description: Return the pending invoices (not sent to bank) that will generate the bank direct debit (BDD) file
       operationId: simulateBDD
       parameters:
         - name: yearMonth
@@ -230,7 +230,7 @@ paths:
     post:
       tags:
         - Generate
-      description: Generates the bank direct debit (BDD) file (SEPA XML compatible) for the pending invoices (not generated previously)
+      description: Generates the bank direct debit (BDD) file (SEPA XML compatible) for the pending invoices (not sent to bank)
       operationId: generateBDD
       parameters:
         - name: yearMonth
@@ -246,6 +246,67 @@ paths:
               schema:
                 type: string
                 format: binary
+
+  /generate/pdf:
+    get:
+      tags:
+        - Generate
+      description: Return the pending invoices (no printed to PDF) that will generate the invoice PDF file
+      operationId: simulatePDFs
+      parameters:
+        - name: yearMonth
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentTypeInvoicesDTO'
+    post:
+      tags:
+        - Generate
+      description: Generates the PDF invoice files for the pending invoices (no printed to PDF)
+      operationId: generatePDFs
+      parameters:
+        - name: yearMonth
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/zip:
+              schema:
+                type: string
+                format: binary
+
+  /generate/pdf/{invoiceId}:
+    post:
+      tags:
+        - Generate
+      description: Generates the PDF invoice file
+      operationId: generatePDF
+      parameters:
+        - name: invoiceId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+
 
 components:
   schemas:

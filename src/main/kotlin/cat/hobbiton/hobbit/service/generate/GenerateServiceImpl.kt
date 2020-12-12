@@ -28,13 +28,14 @@ class GenerateServiceImpl(
 ) : GenerateService {
 
     override fun generateBDD(yearMonth: String?): Resource {
-        val invoices = getInvoices(yearMonth)
+        val invoices = getBddInvoices(yearMonth)
         val bdd = bddService.generate(invoices)
-        updateInvoices(invoices)
+        updateBddInvoices(invoices)
         return InputStreamResource(bdd.byteInputStream(StandardCharsets.UTF_8))
     }
 
-    private fun getInvoices(yearMonth: String?): List<Invoice> {
+
+    private fun getBddInvoices(yearMonth: String?): List<Invoice> {
         val ym = if(yearMonth == null) timeService.currentYearMonth else YearMonth.parse(yearMonth)
         return invoiceRepository.findByPaymentTypeAndYearMonthAndSentToBank(
             PaymentType.BANK_DIRECT_DEBIT,
@@ -42,12 +43,12 @@ class GenerateServiceImpl(
             false)
     }
 
-    private fun updateInvoices(invoices: List<Invoice>) {
+    private fun updateBddInvoices(invoices: List<Invoice>) {
         invoiceRepository.saveAll(invoices.map { it.copy(sentToBank = true) })
     }
 
     override fun simulateBDD(yearMonth: String?): PaymentTypeInvoicesDTO {
-        val invoices = getInvoices(yearMonth)
+        val invoices = getBddInvoices(yearMonth)
         return PaymentTypeInvoicesDTO(
             PaymentTypeDTO.BANK_DIRECT_DEBIT,
             invoices.totalAmount().toDouble(),
@@ -67,5 +68,18 @@ class GenerateServiceImpl(
                     invoices = customerInvoices.map { getInvoiceDto(customer, it) }
                 )
             }
+    }
+
+    override fun simulatePDFs(yearMonth: String?): PaymentTypeInvoicesDTO {
+        TODO("not implemented")
+    }
+
+
+    override fun generatePDFs(yearMonth: String?): Resource {
+        TODO("not implemented")
+    }
+
+    override fun generatePDF(invoiceId: String): Resource {
+        TODO("not implemented")
     }
 }

@@ -3,7 +3,13 @@ package cat.hobbiton.hobbit.service.generate
 import cat.hobbiton.hobbit.api.model.PaymentTypeInvoicesDTO
 interface GenerateService {
 
-    fun generateBDD(yearMonth: String?): org.springframework.core.io.Resource
+	fun generateBDD(yearMonth: kotlin.String?): org.springframework.core.io.Resource
 
-    fun simulateBDD(yearMonth: String?): PaymentTypeInvoicesDTO
+	fun generatePDF(invoiceId: kotlin.String): org.springframework.core.io.Resource
+
+	fun generatePDFs(yearMonth: kotlin.String?): org.springframework.core.io.Resource
+
+	fun simulateBDD(yearMonth: kotlin.String?): PaymentTypeInvoicesDTO
+
+	fun simulatePDFs(yearMonth: kotlin.String?): PaymentTypeInvoicesDTO
 }

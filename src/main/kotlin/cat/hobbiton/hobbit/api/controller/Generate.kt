@@ -9,10 +9,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestMethod
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @Validated
@@ -54,5 +51,44 @@ class GenerateController(@Autowired(required = true) val service: GenerateServic
     fun simulateBDD(@RequestParam(value = "yearMonth", required = false) yearMonth: String?
     ): ResponseEntity<PaymentTypeInvoicesDTO> {
         return ResponseEntity(service.simulateBDD(yearMonth), HttpStatus.valueOf(200))
+    }
+
+    @Operation(
+        description = "Return the pending invoices (no printed to PDF) that will generate the invoice PDF file",
+        operationId = "simulatePDFs"
+    )
+    @RequestMapping(
+        value = ["/generate/pdf"],
+        produces = ["application/json"],
+        method = [RequestMethod.GET])
+    fun simulatePDFs(@RequestParam(value = "yearMonth", required = false) yearMonth: kotlin.String?
+    ): ResponseEntity<PaymentTypeInvoicesDTO> {
+        return ResponseEntity(service.simulatePDFs(yearMonth), HttpStatus.valueOf(200))
+    }
+
+    @Operation(
+        description = "Generates the PDF invoice files for the pending invoices (no printed to PDF)",
+        operationId = "generatePDFs"
+    )
+    @RequestMapping(
+        value = ["/generate/pdf"],
+        produces = ["application/zip"],
+        method = [RequestMethod.POST])
+    fun generatePDFs(@RequestParam(value = "yearMonth", required = false) yearMonth: kotlin.String?
+    ): ResponseEntity<org.springframework.core.io.Resource> {
+        return ResponseEntity(service.generatePDFs(yearMonth), HttpStatus.valueOf(200))
+    }
+
+    @Operation(
+        description = "Generates the PDF invoice file",
+        operationId = "generatePDF"
+    )
+    @RequestMapping(
+        value = ["/generate/pdf/{invoiceId}"],
+        produces = ["application/pdf"],
+        method = [RequestMethod.POST])
+    fun generatePDF(@PathVariable("invoiceId") invoiceId: kotlin.String
+    ): ResponseEntity<org.springframework.core.io.Resource> {
+        return ResponseEntity(service.generatePDF(invoiceId), HttpStatus.valueOf(200))
     }
 }
