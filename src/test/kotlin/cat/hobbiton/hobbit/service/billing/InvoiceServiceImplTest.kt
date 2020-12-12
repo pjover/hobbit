@@ -8,10 +8,7 @@ import cat.hobbiton.hobbit.model.*
 import cat.hobbiton.hobbit.util.AppException
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.DescribeSpec
-import io.mockk.every
-import io.mockk.mockk
-import io.mockk.slot
-import io.mockk.verify
+import io.mockk.*
 import java.math.BigDecimal
 import kotlin.test.assertFailsWith
 
@@ -24,6 +21,7 @@ class InvoiceServiceImplTest : DescribeSpec() {
         val sut = InvoiceServiceImpl(invoiceRepository, sequenceService, consumptionRepository)
 
         val invoiceSlot = slot<Invoice>()
+        val consumptionsSlot = slot<List<Consumption>>()
 
         val invoice = Invoice(
             id = "??",
@@ -101,32 +99,41 @@ class InvoiceServiceImplTest : DescribeSpec() {
             )
         )
 
-        describe("saveInvoice") {
+        describe("the sequence is saved") {
+            clearMocks(sequenceService, consumptionRepository, invoiceRepository)
+            every { sequenceService.increment(any()) } returns Sequence(SequenceType.STANDARD_INVOICE, 2)
+            every { consumptionRepository.saveAll(capture(consumptionsSlot)) } answers { consumptionsSlot.captured }
+            every { invoiceRepository.save(capture(invoiceSlot)) } answers { invoiceSlot.captured }
 
-            context("the sequence can be saved") {
-                every { invoiceRepository.save(capture(invoiceSlot)) } answers { invoiceSlot.captured }
-                every { sequenceService.increment(any()) } returns Sequence(SequenceType.STANDARD_INVOICE, 1)
+            val actual = sut.saveInvoice(invoice, consumptions)
 
-                val actual = sut.saveInvoice(invoice, consumptions)
+            it("Changes the sequence") {
+                actual shouldBe invoice.copy(id = "F-2")
+            }
 
-                it("Changes the sequence") {
-                    actual shouldBe invoice.copy(id = "F-1")
-                }
-
-                it("Saves the invoice") {
-                    verify(exactly = 1) {
-                        sequenceService.increment(any())
-                        invoiceRepository.save(invoice.copy(id = "F-1"))
-                    }
+            it("Increments the sequence") {
+                verify(exactly = 1) {
+                    sequenceService.increment(PaymentType.BANK_DIRECT_DEBIT.sequenceType)
                 }
             }
 
-            context("the sequence cannot be saved") {
+            it("Saves the invoice and the consumptions") {
+                verify(exactly = 1) {
+                    consumptionRepository.saveAll(consumptions.map { it.copy(invoiceId = "F-2") })
+                    invoiceRepository.save(invoice.copy(id = "F-2"))
+                }
+            }
 
+        }
+
+        describe("the invoice cannot be saved") {
+
+            context("fails while saving the invoice") {
+                clearMocks(sequenceService, consumptionRepository, invoiceRepository)
                 every { sequenceService.increment(any()) } returns Sequence(SequenceType.STANDARD_INVOICE, 2)
                 every { sequenceService.decrement(any()) } returns Sequence(SequenceType.STANDARD_INVOICE, 1)
-
-                every { invoiceRepository.save(any()) } throws Exception("Any message")
+                every { consumptionRepository.saveAll(capture(consumptionsSlot)) } answers { consumptionsSlot.captured }
+                every { invoiceRepository.save(invoice.copy(id = "F-2")) } throws Exception("Any message")
 
                 val executor = {
                     sut.saveInvoice(invoice, consumptions)
@@ -134,7 +141,84 @@ class InvoiceServiceImplTest : DescribeSpec() {
 
                 it("throws an error") {
                     val exception = assertFailsWith<AppException> { executor.invoke() }
-                    exception.message shouldBe "Error while saving invoice: F-2"
+                    exception.message shouldBe "Error while saving invoice: STANDARD_INVOICE"
+                }
+
+                it("Increments and decrements the sequence") {
+                    verify(exactly = 1) {
+                        sequenceService.increment(PaymentType.BANK_DIRECT_DEBIT.sequenceType)
+                        sequenceService.decrement(PaymentType.BANK_DIRECT_DEBIT.sequenceType)
+                    }
+                }
+
+                it("Saves and restores the consumptions") {
+                    verify(exactly = 1) {
+                        consumptionRepository.saveAll(consumptions.map { it.copy(invoiceId = "F-2") })
+                        consumptionRepository.saveAll(consumptions)
+                    }
+                }
+            }
+
+            context("fails while incrementing the sequence") {
+                clearMocks(sequenceService, consumptionRepository, invoiceRepository)
+                every { sequenceService.increment(any()) } throws Exception("Any message")
+
+                val executor = {
+                    sut.saveInvoice(invoice, consumptions)
+                }
+
+                it("throws an error") {
+                    val exception = assertFailsWith<AppException> { executor.invoke() }
+                    exception.message shouldBe "Error while saving invoice: STANDARD_INVOICE"
+                }
+
+                it("Increments the sequence") {
+                    verify(exactly = 1) {
+                        sequenceService.increment(PaymentType.BANK_DIRECT_DEBIT.sequenceType)
+                    }
+                }
+
+                it("Do not call the others collaborators") {
+                    verify(exactly = 0) {
+                        invoiceRepository.save(any())
+                        sequenceService.decrement(any())
+                        consumptionRepository.saveAll(any())
+                    }
+                }
+            }
+
+            context("fails while saving the consumptions") {
+                clearMocks(sequenceService, consumptionRepository, invoiceRepository)
+                every { sequenceService.increment(any()) } returns Sequence(SequenceType.STANDARD_INVOICE, 2)
+                every { sequenceService.decrement(any()) } returns Sequence(SequenceType.STANDARD_INVOICE, 1)
+                every { consumptionRepository.saveAll(capture(consumptionsSlot)) } throws Exception("Any message")
+
+                val executor = {
+                    sut.saveInvoice(invoice, consumptions)
+                }
+
+                it("throws an error") {
+                    val exception = assertFailsWith<AppException> { executor.invoke() }
+                    exception.message shouldBe "Error while saving invoice: STANDARD_INVOICE"
+                }
+
+                it("increments the sequence and saves the consumptions") {
+                    verify(exactly = 1) {
+                        sequenceService.increment(PaymentType.BANK_DIRECT_DEBIT.sequenceType)
+                        consumptionRepository.saveAll(consumptions.map { it.copy(invoiceId = "F-2") })
+                    }
+                }
+
+                it("decrements the sequence") {
+                    verify(exactly = 1) {
+                        sequenceService.decrement(any())
+                    }
+                }
+
+                it("do not save the invoice") {
+                    verify(exactly = 0) {
+                        invoiceRepository.save(any())
+                    }
                 }
             }
         }
