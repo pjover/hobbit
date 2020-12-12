@@ -30,7 +30,20 @@ class GenerateServiceImpl(
     override fun generateBDD(yearMonth: String?): Resource {
         val invoices = getInvoices(yearMonth)
         val bdd = bddService.generate(invoices)
+        updateInvoices(invoices)
         return InputStreamResource(bdd.byteInputStream(StandardCharsets.UTF_8))
+    }
+
+    private fun getInvoices(yearMonth: String?): List<Invoice> {
+        val ym = if(yearMonth == null) timeService.currentYearMonth else YearMonth.parse(yearMonth)
+        return invoiceRepository.findByPaymentTypeAndYearMonthAndSentToBank(
+            PaymentType.BANK_DIRECT_DEBIT,
+            ym,
+            false)
+    }
+
+    private fun updateInvoices(invoices: List<Invoice>) {
+        invoiceRepository.saveAll(invoices.map { it.copy(sentToBank = true) })
     }
 
     override fun simulateBDD(yearMonth: String?): PaymentTypeInvoicesDTO {
@@ -40,14 +53,6 @@ class GenerateServiceImpl(
             invoices.totalAmount().toDouble(),
             getCustomerInvoicesDTOs(invoices)
         )
-    }
-
-    private fun getInvoices(yearMonth: String?): List<Invoice> {
-        val ym = if(yearMonth == null) timeService.currentYearMonth else YearMonth.parse(yearMonth)
-        return invoiceRepository.findByPaymentTypeAndYearMonthAndSentToBank(
-            PaymentType.BANK_DIRECT_DEBIT,
-            ym,
-            false)
     }
 
     private fun getCustomerInvoicesDTOs(invoices: List<Invoice>): List<CustomerInvoicesDTO> {
