@@ -235,7 +235,7 @@ paths:
       parameters:
         - name: yearMonth
           in: query
-          required: false
+          required: true
           schema:
             type: string
       responses:
@@ -256,7 +256,7 @@ paths:
       parameters:
         - name: yearMonth
           in: query
-          required: false
+          required: true
           schema:
             type: string
       responses:
@@ -274,7 +274,7 @@ paths:
       parameters:
         - name: yearMonth
           in: query
-          required: false
+          required: true
           schema:
             type: string
       responses:

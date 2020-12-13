@@ -10,6 +10,7 @@ import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
+import javax.validation.constraints.NotNull
 
 @RestController
 @Validated
@@ -26,7 +27,7 @@ class GenerateController(@Autowired(required = true) val service: GenerateServic
         value = ["/generate/bdd"],
         produces = ["application/xml"],
         method = [RequestMethod.POST])
-    fun generateBDD(@RequestParam(value = "yearMonth", required = false) yearMonth: String?
+    fun generateBDD(@NotNull @RequestParam(value = "yearMonth", required = true) yearMonth: String
     ): ResponseEntity<org.springframework.core.io.Resource> {
 
         val bdd = service.generateBDD(yearMonth)
@@ -61,7 +62,7 @@ class GenerateController(@Autowired(required = true) val service: GenerateServic
         value = ["/generate/pdf"],
         produces = ["application/json"],
         method = [RequestMethod.GET])
-    fun simulatePDFs(@RequestParam(value = "yearMonth", required = false) yearMonth: kotlin.String?
+    fun simulatePDFs(@NotNull @RequestParam(value = "yearMonth", required = true) yearMonth: String
     ): ResponseEntity<PaymentTypeInvoicesDTO> {
         return ResponseEntity(service.simulatePDFs(yearMonth), HttpStatus.valueOf(200))
     }
@@ -74,7 +75,7 @@ class GenerateController(@Autowired(required = true) val service: GenerateServic
         value = ["/generate/pdf"],
         produces = ["application/zip"],
         method = [RequestMethod.POST])
-    fun generatePDFs(@RequestParam(value = "yearMonth", required = false) yearMonth: kotlin.String?
+    fun generatePDFs(@NotNull @RequestParam(value = "yearMonth", required = true) yearMonth: String
     ): ResponseEntity<org.springframework.core.io.Resource> {
         return ResponseEntity(service.generatePDFs(yearMonth), HttpStatus.valueOf(200))
     }
@@ -87,7 +88,7 @@ class GenerateController(@Autowired(required = true) val service: GenerateServic
         value = ["/generate/pdf/{invoiceId}"],
         produces = ["application/pdf"],
         method = [RequestMethod.POST])
-    fun generatePDF(@PathVariable("invoiceId") invoiceId: kotlin.String
+    fun generatePDF(@PathVariable("invoiceId") invoiceId: String
     ): ResponseEntity<org.springframework.core.io.Resource> {
         return ResponseEntity(service.generatePDF(invoiceId), HttpStatus.valueOf(200))
     }

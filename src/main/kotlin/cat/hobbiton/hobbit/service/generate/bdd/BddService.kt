@@ -1,9 +1,11 @@
 package cat.hobbiton.hobbit.service.generate.bdd
 
 import cat.hobbiton.hobbit.api.model.PaymentTypeInvoicesDTO
+import org.springframework.core.io.Resource
+
 interface BddService {
 
-	fun generateBDD(yearMonth: kotlin.String?): org.springframework.core.io.Resource
+	fun simulateBDD(yearMonth: String?): PaymentTypeInvoicesDTO
 
-	fun simulateBDD(yearMonth: kotlin.String?): PaymentTypeInvoicesDTO
+	fun generateBDD(yearMonth: String): Resource
 }

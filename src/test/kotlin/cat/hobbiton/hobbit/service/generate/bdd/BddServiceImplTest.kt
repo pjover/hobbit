@@ -77,51 +77,6 @@ class BddServiceImplTest : DescribeSpec() {
                     }
                 }
             }
-
-            context("without yearMonth") {
-                mockReaders(invoiceRepository, customerRepository, timeService, bddBuilderService)
-                mockWriters(invoiceRepository)
-
-                val actual = sut.generateBDD(null)
-
-                it("retrieves the current yearMonth") {
-                    verify(exactly = 1) {
-                        timeService.currentYearMonth
-                    }
-                }
-
-                it("retrieves all the invoices") {
-                    verify(exactly = 1) {
-                        invoiceRepository.findByPaymentTypeAndYearMonthAndSentToBank(PaymentType.BANK_DIRECT_DEBIT, YEAR_MONTH, false)
-                    }
-                }
-
-                it("updates the invoices") {
-                    verify {
-                        invoiceRepository.saveAll(
-                            listOf(
-                                invoice1().copy(sentToBank = true),
-                                invoice2().copy(sentToBank = true)
-                            )
-                        )
-                    }
-                }
-
-                it("generates the BDD XML") {
-                    verify(exactly = 1) {
-                        bddBuilderService.generate(listOf(invoice1(), invoice2()))
-                    }
-                }
-
-                it("returns the BDD file") {
-                    val content = actual.inputStream.use { it.readUpToChar() }
-                    val actualLines = content.lines().map { it.trim() }
-                    val expectedLines = bdd.lines().map { it.trim() }
-                    for(i in actualLines.indices) {
-                        expectedLines[i] shouldBe actualLines[i]
-                    }
-                }
-            }
         }
 
         describe("simulateBDD") {

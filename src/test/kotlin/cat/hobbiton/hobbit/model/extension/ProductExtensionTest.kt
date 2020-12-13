@@ -146,14 +146,12 @@ class ProductExtensionTest : DescribeSpec() {
                 }
 
                 context("and the shortName is12 characters long") {
-                    val executor = {
-                        Product(
-                            "AAA",
-                            "TST product",
-                            "123456789012",
-                            BigDecimal.TEN
-                        ).validate()
-                    }
+                    Product(
+                        "AAA",
+                        "TST product",
+                        "123456789012",
+                        BigDecimal.TEN
+                    ).validate()
 
                     it("do not throw any error") {
                     }

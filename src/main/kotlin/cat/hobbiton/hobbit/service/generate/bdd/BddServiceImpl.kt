@@ -26,13 +26,14 @@ class BddServiceImpl(
     private val timeService: TimeService
 ) : BddService {
 
-    override fun generateBDD(yearMonth: String?): Resource {
+    override fun simulateBDD(yearMonth: String?): PaymentTypeInvoicesDTO {
         val invoices = getBddInvoices(yearMonth)
-        val bdd = bddBuilderService.generate(invoices)
-        updateBddInvoices(invoices)
-        return InputStreamResource(bdd.byteInputStream(StandardCharsets.UTF_8))
+        return PaymentTypeInvoicesDTO(
+            PaymentTypeDTO.BANK_DIRECT_DEBIT,
+            invoices.totalAmount().toDouble(),
+            getCustomerInvoicesDTOs(invoices)
+        )
     }
-
 
     private fun getBddInvoices(yearMonth: String?): List<Invoice> {
         val ym = if(yearMonth == null) timeService.currentYearMonth else YearMonth.parse(yearMonth)
@@ -42,18 +43,6 @@ class BddServiceImpl(
             false)
     }
 
-    private fun updateBddInvoices(invoices: List<Invoice>) {
-        invoiceRepository.saveAll(invoices.map { it.copy(sentToBank = true) })
-    }
-
-    override fun simulateBDD(yearMonth: String?): PaymentTypeInvoicesDTO {
-        val invoices = getBddInvoices(yearMonth)
-        return PaymentTypeInvoicesDTO(
-            PaymentTypeDTO.BANK_DIRECT_DEBIT,
-            invoices.totalAmount().toDouble(),
-            getCustomerInvoicesDTOs(invoices)
-        )
-    }
 
     private fun getCustomerInvoicesDTOs(invoices: List<Invoice>): List<CustomerInvoicesDTO> {
         return invoices
@@ -67,5 +56,16 @@ class BddServiceImpl(
                     invoices = customerInvoices.map { getInvoiceDto(customer, it) }
                 )
             }
+    }
+
+    override fun generateBDD(yearMonth: String): Resource {
+        val invoices = getBddInvoices(yearMonth)
+        val bdd = bddBuilderService.generate(invoices)
+        updateBddInvoices(invoices)
+        return InputStreamResource(bdd.byteInputStream(StandardCharsets.UTF_8))
+    }
+
+    private fun updateBddInvoices(invoices: List<Invoice>) {
+        invoiceRepository.saveAll(invoices.map { it.copy(sentToBank = true) })
     }
 }
