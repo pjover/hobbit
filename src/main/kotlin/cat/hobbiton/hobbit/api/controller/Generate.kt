@@ -19,6 +19,21 @@ class GenerateController(@Autowired(required = true) val service: GenerateServic
 
 
     @Operation(
+        description = "Simulates generating the bank direct debit (BDD) file (SEPA XML compatible)" +
+            " for the pending invoices (not generated previously)",
+        operationId = "simulateBDD"
+    )
+    @RequestMapping(
+        value = ["/generate/bdd"],
+        produces = ["application/json"],
+        method = [RequestMethod.GET])
+    fun simulateBDD(@RequestParam(value = "yearMonth", required = false) yearMonth: String?
+    ): ResponseEntity<PaymentTypeInvoicesDTO> {
+        return ResponseEntity(service.simulateBDD(yearMonth), HttpStatus.valueOf(200))
+    }
+
+
+    @Operation(
         description = "Generates the bank direct debit (BDD) file (SEPA XML compatible)" +
             " for the pending invoices (not generated previously)",
         operationId = "generateBDD"
@@ -41,20 +56,6 @@ class GenerateController(@Autowired(required = true) val service: GenerateServic
     }
 
     @Operation(
-        description = "Simulates generating the bank direct debit (BDD) file (SEPA XML compatible)" +
-            " for the pending invoices (not generated previously)",
-        operationId = "simulateBDD"
-    )
-    @RequestMapping(
-        value = ["/generate/bdd"],
-        produces = ["application/json"],
-        method = [RequestMethod.GET])
-    fun simulateBDD(@RequestParam(value = "yearMonth", required = false) yearMonth: String?
-    ): ResponseEntity<PaymentTypeInvoicesDTO> {
-        return ResponseEntity(service.simulateBDD(yearMonth), HttpStatus.valueOf(200))
-    }
-
-    @Operation(
         description = "Return the pending invoices (no printed to PDF) that will generate the invoice PDF file",
         operationId = "simulatePDFs"
     )
@@ -63,7 +64,7 @@ class GenerateController(@Autowired(required = true) val service: GenerateServic
         produces = ["application/json"],
         method = [RequestMethod.GET])
     fun simulatePDFs(@NotNull @RequestParam(value = "yearMonth", required = true) yearMonth: String
-    ): ResponseEntity<PaymentTypeInvoicesDTO> {
+    ): ResponseEntity<List<PaymentTypeInvoicesDTO>> {
         return ResponseEntity(service.simulatePDFs(yearMonth), HttpStatus.valueOf(200))
     }
 

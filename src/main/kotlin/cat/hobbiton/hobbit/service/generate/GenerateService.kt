@@ -10,7 +10,7 @@ interface GenerateService {
 
 	fun generateBDD(yearMonth: String): Resource
 
-	fun simulatePDFs(yearMonth: String): PaymentTypeInvoicesDTO
+	fun simulatePDFs(yearMonth: String): List<PaymentTypeInvoicesDTO>
 
 	fun generatePDFs(yearMonth: String): Resource
 

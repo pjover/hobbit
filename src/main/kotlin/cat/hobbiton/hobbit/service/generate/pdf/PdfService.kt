@@ -6,7 +6,7 @@ import org.springframework.core.io.Resource
 
 interface PdfService {
 
-	fun simulatePDFs(yearMonth: String): PaymentTypeInvoicesDTO
+	fun simulatePDFs(yearMonth: String): List<PaymentTypeInvoicesDTO>
 
 	fun generatePDFs(yearMonth: String): Resource
 

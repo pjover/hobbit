@@ -19,7 +19,7 @@ class GenerateServiceImplTest : DescribeSpec() {
         val sut = GenerateServiceImpl(bddService, pdfService)
 
         val expectedResource = InputStreamResource("Test resource".byteInputStream(StandardCharsets.UTF_8))
-        val expectedInvoice = expectedInvoices("??")[0]
+        val expectedInvoice = expectedInvoices("??")
 
         describe("BDD") {
             context("generateBDD") {
@@ -34,12 +34,12 @@ class GenerateServiceImplTest : DescribeSpec() {
 
 
             context("simulateBDD") {
-                every { bddService.simulateBDD(any()) } returns expectedInvoice
+                every { bddService.simulateBDD(any()) } returns expectedInvoice[0]
 
                 val actual = sut.simulateBDD(YEAR_MONTH.toString())
 
                 it("should return the correct invoice") {
-                    actual shouldBe expectedInvoice
+                    actual shouldBe expectedInvoice[0]
                 }
             }
         }
