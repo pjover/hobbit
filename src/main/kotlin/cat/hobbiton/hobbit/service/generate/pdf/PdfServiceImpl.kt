@@ -3,8 +3,10 @@ package cat.hobbiton.hobbit.service.generate.pdf
 import cat.hobbiton.hobbit.api.model.PaymentTypeDTO
 import cat.hobbiton.hobbit.api.model.PaymentTypeInvoicesDTO
 import cat.hobbiton.hobbit.db.repository.CachedCustomerRepository
+import cat.hobbiton.hobbit.db.repository.CachedProductRepository
 import cat.hobbiton.hobbit.db.repository.InvoiceRepository
 import cat.hobbiton.hobbit.messages.ErrorMessages
+import cat.hobbiton.hobbit.model.Customer
 import cat.hobbiton.hobbit.model.Invoice
 import cat.hobbiton.hobbit.model.extension.totalAmount
 import cat.hobbiton.hobbit.service.generate.getCustomerInvoicesDTOs
@@ -17,6 +19,7 @@ import java.time.YearMonth
 class PdfServiceImpl(
     private val invoiceRepository: InvoiceRepository,
     private val customerRepository: CachedCustomerRepository,
+    private val productRepository: CachedProductRepository,
     private val pdfBuilderService: PdfBuilderService,
     private val zipService: ZipService
 ) : PdfService {
@@ -44,11 +47,9 @@ class PdfServiceImpl(
     }
 
     private fun getZipFile(invoice: Invoice): ZipFile {
-        return ZipFile("${invoice.id}.pdf", getPdf(invoice).inputStream)
-    }
-
-    private fun getPdf(invoice: Invoice): Resource {
-        return pdfBuilderService.generate(invoice, customerRepository.getCustomer(invoice.customerId))
+        val customer = customerRepository.getCustomer(invoice.customerId)
+        val pdfName = "${invoice.id} (${customer.id}).pdf"
+        return ZipFile(pdfName, getPdf(invoice, customer).inputStream)
     }
 
     override fun generatePDF(invoiceId: String): Resource {
