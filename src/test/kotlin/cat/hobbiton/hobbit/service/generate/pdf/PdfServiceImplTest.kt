@@ -16,10 +16,7 @@ import cat.hobbiton.hobbit.util.AppException
 import cat.hobbiton.hobbit.util.ZipService
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.DescribeSpec
-import io.mockk.clearMocks
-import io.mockk.every
-import io.mockk.mockk
-import io.mockk.verify
+import io.mockk.*
 import org.springframework.core.io.InputStreamResource
 import java.math.BigDecimal
 import java.nio.charset.StandardCharsets
@@ -97,13 +94,20 @@ class PdfServiceImplTest : DescribeSpec() {
                 }
 
                 it("call the collaborators") {
-                    verify(exactly = 1) {
+                    verify {
                         invoiceRepository.findByPrintedAndYearMonth(false, YEAR_MONTH)
                         customerRepository.getCustomer(185)
                         customerRepository.getCustomer(186)
                         pdfBuilderService.generate(invoice1(), customer1, productMap1)
                         pdfBuilderService.generate(invoice2(), customer2, productMap2)
                         zipService.zipFiles(any())
+                    }
+                }
+
+                it("updates the invoices") {
+                    verify {
+                        invoiceRepository.save(invoice1().copy(printed = true))
+                        invoiceRepository.save(invoice2().copy(printed = true))
                     }
                 }
             }
@@ -138,8 +142,9 @@ class PdfServiceImplTest : DescribeSpec() {
 
         describe("generatePDF") {
 
-            context("there are invoices") {
+            context("invoice found") {
                 clearMocks(invoiceRepository, customerRepository, pdfBuilderService)
+                mockWriters(invoiceRepository)
                 every { customerRepository.getCustomer(185) } returns customer1
                 every { invoiceRepository.findById(any()) } returns Optional.of(invoice1())
                 val pdf = InputStreamResource("PDF1".byteInputStream(StandardCharsets.UTF_8))
@@ -156,6 +161,11 @@ class PdfServiceImplTest : DescribeSpec() {
                         invoiceRepository.findById("XX")
                         customerRepository.getCustomer(185)
                         pdfBuilderService.generate(invoice1(), customer1, productMap1)
+                    }
+                }
+                it("updates the invoice") {
+                    verify {
+                        invoiceRepository.save(invoice1().copy(printed = true))
                     }
                 }
             }
@@ -217,4 +227,9 @@ private fun mockReaders(invoiceRepository: InvoiceRepository, customerRepository
 
     every { productRepository.getProduct("TST") } returns product1
     every { productRepository.getProduct("XXX") } returns product2
+}
+
+private fun mockWriters(invoiceRepository: InvoiceRepository) {
+    val invoiceSlot = slot<Invoice>()
+    every { invoiceRepository.save(capture(invoiceSlot)) } answers { invoiceSlot.captured }
 }

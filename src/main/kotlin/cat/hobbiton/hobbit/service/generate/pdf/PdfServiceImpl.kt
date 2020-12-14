@@ -55,9 +55,21 @@ class PdfServiceImpl(
         return ZipFile(pdfName, getPdf(invoice, customer).inputStream)
     }
 
+    private fun getPdf(invoice: Invoice, customer: Customer): Resource {
+        val products = invoice.lines.map { it.productId to productRepository.getProduct(it.productId) }.toMap()
+        return pdfBuilderService.generate(invoice, customer, products)
+    }
+
     override fun generatePDF(invoiceId: String): Resource {
         val invoice = invoiceRepository.findById(invoiceId)
             .orElseThrow { AppException(ErrorMessages.ERROR_INVOICE_NOT_FOUND, invoiceId) }
-        return getPdf(invoice)
+        val customer = customerRepository.getCustomer(invoice.customerId)
+        val pdf = getPdf(invoice, customer)
+        updateInvoice(invoice)
+        return pdf
+    }
+
+    private fun updateInvoice(invoice: Invoice) {
+        invoiceRepository.save(invoice.copy(printed = true))
     }
 }
