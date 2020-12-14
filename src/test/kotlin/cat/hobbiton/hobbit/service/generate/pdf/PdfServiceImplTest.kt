@@ -157,7 +157,7 @@ class PdfServiceImplTest : DescribeSpec() {
                 }
 
                 it("call the collaborators") {
-                    verify(exactly = 1) {
+                    verify {
                         invoiceRepository.findById("XX")
                         customerRepository.getCustomer(185)
                         pdfBuilderService.generate(invoice1(), customer1, productMap1)

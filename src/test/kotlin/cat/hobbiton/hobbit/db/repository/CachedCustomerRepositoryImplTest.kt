@@ -31,7 +31,7 @@ class CachedCustomerRepositoryImplTest : DescribeSpec() {
                 }
 
                 it("calls the repository once") {
-                    verify(exactly = 1) {
+                    verify {
                         customerRepository.findByChildCode(1850)
                     }
                 }
@@ -64,7 +64,7 @@ class CachedCustomerRepositoryImplTest : DescribeSpec() {
                 }
 
                 it("calls the repository once") {
-                    verify(exactly = 1) {
+                    verify {
                         customerRepository.findById(11)
                     }
                 }
@@ -97,7 +97,7 @@ class CachedCustomerRepositoryImplTest : DescribeSpec() {
                 }
 
                 it("calls the repository once") {
-                    verify(exactly = 1) {
+                    verify {
                         customerRepository.findByChildCode(1)
                     }
                 }

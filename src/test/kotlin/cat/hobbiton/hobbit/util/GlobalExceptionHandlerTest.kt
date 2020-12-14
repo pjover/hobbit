@@ -21,10 +21,10 @@ class GlobalExceptionHandlerTest : DescribeSpec() {
             sut.onAppException(AppException(ErrorMessages.ERROR_PRODUCT_NOT_FOUND, "TST"), response)
 
             it("returns the correct response") {
-                verify(exactly = 1) {
+                verify {
                     response.sendError(
-                            ErrorMessages.ERROR_PRODUCT_NOT_FOUND.httpStatus.value(),
-                            "Cannot find product with id TST"
+                        ErrorMessages.ERROR_PRODUCT_NOT_FOUND.httpStatus.value(),
+                        "Cannot find product with id TST"
                     )
                 }
             }
@@ -35,9 +35,9 @@ class GlobalExceptionHandlerTest : DescribeSpec() {
             sut.onNotImplemented(NotImplementedError(), response)
 
             it("returns the correct response") {
-                verify(exactly = 1) {
+                verify {
                     response.sendError(
-                            HttpStatus.NOT_IMPLEMENTED.value()
+                        HttpStatus.NOT_IMPLEMENTED.value()
                     )
                 }
             }
@@ -48,10 +48,10 @@ class GlobalExceptionHandlerTest : DescribeSpec() {
             sut.onIllegalArgumentException(IllegalArgumentException("Error message"), response)
 
             it("returns the correct response") {
-                verify(exactly = 1) {
+                verify {
                     response.sendError(
-                            HttpStatus.BAD_REQUEST.value(),
-                            "Error message"
+                        HttpStatus.BAD_REQUEST.value(),
+                        "Error message"
                     )
                 }
             }
@@ -62,10 +62,10 @@ class GlobalExceptionHandlerTest : DescribeSpec() {
             sut.onConstraintViolation(ConstraintViolationException(setOf()), response)
 
             it("returns the correct response") {
-                verify(exactly = 1) {
+                verify {
                     response.sendError(
-                            HttpStatus.BAD_REQUEST.value(),
-                            "Error message"
+                        HttpStatus.BAD_REQUEST.value(),
+                        "Error message"
                     )
                 }
             }

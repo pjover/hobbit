@@ -54,7 +54,7 @@ class BillingServiceImplTest : DescribeSpec() {
             }
 
             it("saves the invoices") {
-                verify(exactly = 1) {
+                verify {
                     invoiceService.saveInvoice(invoice1(), any())
                     invoiceService.saveInvoice(invoice2(), any())
                 }

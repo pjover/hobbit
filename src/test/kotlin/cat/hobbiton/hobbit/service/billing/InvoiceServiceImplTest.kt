@@ -112,13 +112,13 @@ class InvoiceServiceImplTest : DescribeSpec() {
             }
 
             it("Increments the sequence") {
-                verify(exactly = 1) {
+                verify {
                     sequenceService.increment(PaymentType.BANK_DIRECT_DEBIT.sequenceType)
                 }
             }
 
             it("Saves the invoice and the consumptions") {
-                verify(exactly = 1) {
+                verify {
                     consumptionRepository.saveAll(consumptions.map { it.copy(invoiceId = "F-2") })
                     invoiceRepository.save(invoice.copy(id = "F-2"))
                 }
@@ -145,14 +145,14 @@ class InvoiceServiceImplTest : DescribeSpec() {
                 }
 
                 it("Increments and decrements the sequence") {
-                    verify(exactly = 1) {
+                    verify {
                         sequenceService.increment(PaymentType.BANK_DIRECT_DEBIT.sequenceType)
                         sequenceService.decrement(PaymentType.BANK_DIRECT_DEBIT.sequenceType)
                     }
                 }
 
                 it("Saves and restores the consumptions") {
-                    verify(exactly = 1) {
+                    verify {
                         consumptionRepository.saveAll(consumptions.map { it.copy(invoiceId = "F-2") })
                         consumptionRepository.saveAll(consumptions)
                     }
@@ -173,7 +173,7 @@ class InvoiceServiceImplTest : DescribeSpec() {
                 }
 
                 it("Increments the sequence") {
-                    verify(exactly = 1) {
+                    verify {
                         sequenceService.increment(PaymentType.BANK_DIRECT_DEBIT.sequenceType)
                     }
                 }
@@ -203,14 +203,14 @@ class InvoiceServiceImplTest : DescribeSpec() {
                 }
 
                 it("increments the sequence and saves the consumptions") {
-                    verify(exactly = 1) {
+                    verify {
                         sequenceService.increment(PaymentType.BANK_DIRECT_DEBIT.sequenceType)
                         consumptionRepository.saveAll(consumptions.map { it.copy(invoiceId = "F-2") })
                     }
                 }
 
                 it("decrements the sequence") {
-                    verify(exactly = 1) {
+                    verify {
                         sequenceService.decrement(any())
                     }
                 }

@@ -2,8 +2,8 @@ package cat.hobbiton.hobbit.db.repository
 
 import cat.hobbiton.hobbit.testProduct
 import cat.hobbiton.hobbit.util.AppException
-import io.kotlintest.specs.DescribeSpec
 import io.kotlintest.shouldBe
+import io.kotlintest.specs.DescribeSpec
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
@@ -27,7 +27,7 @@ class CachedProductRepositoryImplTest : DescribeSpec() {
                 }
 
                 it("calls the repository once") {
-                    verify(exactly = 1) {
+                    verify {
                         productRepository.findById("TST")
                     }
                 }

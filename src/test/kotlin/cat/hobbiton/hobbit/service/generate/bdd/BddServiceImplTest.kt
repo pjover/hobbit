@@ -46,7 +46,7 @@ class BddServiceImplTest : DescribeSpec() {
                 }
 
                 it("retrieves all the invoices") {
-                    verify(exactly = 1) {
+                    verify {
                         invoiceRepository.findByPaymentTypeAndYearMonthAndSentToBank(PaymentType.BANK_DIRECT_DEBIT, YEAR_MONTH, false)
                     }
                 }
@@ -63,7 +63,7 @@ class BddServiceImplTest : DescribeSpec() {
                 }
 
                 it("generates the BDD XML") {
-                    verify(exactly = 1) {
+                    verify {
                         bddBuilderService.generate(listOf(invoice1(), invoice2()))
                     }
                 }
@@ -92,7 +92,7 @@ class BddServiceImplTest : DescribeSpec() {
                 }
 
                 it("call the collaborators") {
-                    verify(exactly = 1) {
+                    verify {
                         invoiceRepository.findByPaymentTypeAndYearMonthAndSentToBank(PaymentType.BANK_DIRECT_DEBIT, YEAR_MONTH, false)
                         customerRepository.getCustomer(185)
                         customerRepository.getCustomer(186)
@@ -110,7 +110,7 @@ class BddServiceImplTest : DescribeSpec() {
                 val actual = sut.simulateBDD(null)
 
                 it("retrieves the current yearMonth") {
-                    verify(exactly = 1) {
+                    verify {
                         timeService.currentYearMonth
                     }
                 }
@@ -120,7 +120,7 @@ class BddServiceImplTest : DescribeSpec() {
                 }
 
                 it("call the collaborators") {
-                    verify(exactly = 1) {
+                    verify {
                         timeService.currentYearMonth
                         invoiceRepository.findByPaymentTypeAndYearMonthAndSentToBank(PaymentType.BANK_DIRECT_DEBIT, YEAR_MONTH, false)
                         customerRepository.getCustomer(185)

@@ -38,7 +38,7 @@ internal class SequenceCheckerImplTest : DescribeSpec() {
                 sut.checkSequences()
 
                 it("creates all sequences") {
-                    verify(exactly = 1) {
+                    verify {
                         sequenceRepository.findAll()
                         sequenceRepository.save(Sequence(SequenceType.CUSTOMER, 1))
                         sequenceRepository.save(Sequence(SequenceType.STANDARD_INVOICE, 1))
@@ -67,7 +67,7 @@ internal class SequenceCheckerImplTest : DescribeSpec() {
                 sut.checkSequences()
 
                 it("creates the missed sequence") {
-                    verify(exactly = 1) {
+                    verify {
                         sequenceRepository.findAll()
                         sequenceRepository.save(Sequence(SequenceType.CUSTOMER, 1))
                     }
@@ -101,7 +101,7 @@ internal class SequenceCheckerImplTest : DescribeSpec() {
             sut.checkSequences()
 
             it("don't throw any error") {
-                verify(exactly = 1) {
+                verify {
                     sequenceRepository.findAll()
                     customerRepository.findAll()
                     invoiceRepository.findByIdStartingWith("F")
@@ -137,7 +137,7 @@ internal class SequenceCheckerImplTest : DescribeSpec() {
                 sut.checkSequences()
 
                 it("updates the sequence") {
-                    verify(exactly = 1) {
+                    verify {
                         sequenceRepository.findAll()
                         customerRepository.findAll()
                         invoiceRepository.findByIdStartingWith("F")
@@ -174,7 +174,7 @@ internal class SequenceCheckerImplTest : DescribeSpec() {
                 sut.checkSequences()
 
                 it("updates the sequence") {
-                    verify(exactly = 1) {
+                    verify {
                         sequenceRepository.findAll()
                         customerRepository.findAll()
                         invoiceRepository.findByIdStartingWith("F")
@@ -212,7 +212,7 @@ internal class SequenceCheckerImplTest : DescribeSpec() {
                 sut.checkSequences()
 
                 it("updates the sequence") {
-                    verify(exactly = 1) {
+                    verify {
                         sequenceRepository.findAll()
                         customerRepository.findAll()
                         invoiceRepository.findByIdStartingWith("F")
