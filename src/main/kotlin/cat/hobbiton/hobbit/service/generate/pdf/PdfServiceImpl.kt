@@ -37,13 +37,16 @@ class PdfServiceImpl(
     }
 
     private fun getInvoices(yearMonth: String): List<Invoice> {
-        return invoiceRepository.findByPrintedAndYearMonth(printed = false, yearMonth = YearMonth.parse(yearMonth))
+        val invoices = invoiceRepository.findByPrintedAndYearMonth(printed = false, yearMonth = YearMonth.parse(yearMonth))
+        if(invoices.isEmpty()) throw AppException(ErrorMessages.ERROR_PDFS_TO_GENERATE_NOT_FOUND)
+        return invoices
     }
 
     override fun generatePDFs(yearMonth: String): Resource {
-        return zipService.zipFiles(
-            getInvoices(yearMonth)
-                .map { getZipFile(it) })
+        val invoices = getInvoices(yearMonth)
+        val pdfs = zipService.zipFiles(invoices.map { getZipFile(it) })
+        invoices.forEach { updateInvoice(it) }
+        return pdfs
     }
 
     private fun getZipFile(invoice: Invoice): ZipFile {

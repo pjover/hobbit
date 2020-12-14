@@ -41,17 +41,40 @@ class PdfServiceImplTest : DescribeSpec() {
             context("there are invoices") {
                 mockReaders(invoiceRepository, customerRepository, productRepository)
 
-            val actual = sut.simulatePDFs(YEAR_MONTH.toString())
+                val actual = sut.simulatePDFs(YEAR_MONTH.toString())
 
-            it("should be the pending invoices") {
-                actual shouldBe expectedInvoices("??")
+                it("should be the pending invoices") {
+                    actual shouldBe expectedInvoices("??")
+                }
+
+                it("call the collaborators") {
+                    verify {
+                        invoiceRepository.findByPrintedAndYearMonth(false, YEAR_MONTH)
+                        customerRepository.getCustomer(185)
+                        customerRepository.getCustomer(186)
+                    }
+                }
             }
 
-            it("call the collaborators") {
-                verify(exactly = 1) {
-                    invoiceRepository.findByPrintedAndYearMonth(false, YEAR_MONTH)
-                    customerRepository.getCustomer(185)
-                    customerRepository.getCustomer(186)
+            context("there are no invoices") {
+                clearMocks(invoiceRepository, customerRepository, pdfBuilderService, zipService)
+                every { invoiceRepository.findByPrintedAndYearMonth(false, YEAR_MONTH) } returns emptyList()
+                val zipResource = InputStreamResource("ZIP".byteInputStream(StandardCharsets.UTF_8))
+                every { zipService.zipFiles(any()) } returns zipResource
+
+                val executor = {
+                    sut.simulatePDFs(YEAR_MONTH.toString())
+                }
+
+                it("throws an error") {
+                    val exception = assertFailsWith<AppException> { executor.invoke() }
+                    exception.message shouldBe "There are no pending PDFs to generate"
+                }
+
+                it("calls invoiceRepository") {
+                    verify {
+                        invoiceRepository.findByPrintedAndYearMonth(false, YEAR_MONTH)
+                    }
                 }
             }
         }
@@ -91,15 +114,22 @@ class PdfServiceImplTest : DescribeSpec() {
                 val zipResource = InputStreamResource("ZIP".byteInputStream(StandardCharsets.UTF_8))
                 every { zipService.zipFiles(any()) } returns zipResource
 
-                val actual = sut.generatePDFs(YEAR_MONTH.toString())
-
-                it("returns the zip resource") {
-                    actual shouldBe zipResource
+                val executor = {
+                    sut.generatePDFs(YEAR_MONTH.toString())
                 }
 
-                it("call the collaborators") {
-                    verify(exactly = 1) {
+                it("throws an error") {
+                    val exception = assertFailsWith<AppException> { executor.invoke() }
+                    exception.message shouldBe "There are no pending PDFs to generate"
+                }
+
+                it("calls invoiceRepository") {
+                    verify {
                         invoiceRepository.findByPrintedAndYearMonth(false, YEAR_MONTH)
+                    }
+                }
+                it("does not call zipService") {
+                    verify(exactly = 0) {
                         zipService.zipFiles(any())
                     }
                 }
