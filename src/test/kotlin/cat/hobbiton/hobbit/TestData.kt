@@ -142,3 +142,23 @@ fun testInvoices(firstId: Int = 100, paymentType: PaymentType = PaymentType.BANK
     testInvoice(firstId + 2, paymentType, invoiceDate, listOf(1850, 1851, 1852)),
     testInvoice(firstId + 3, paymentType, invoiceDate, listOf(1850))
 )
+
+fun testProducts() = listOf(
+    Product(
+        "AAA",
+        "AAA product long name",
+        "AAA product",
+        price = BigDecimal.valueOf(11)
+    ),
+    Product(
+        "BBB",
+        "BBB product long name",
+        "BBB product",
+        price = BigDecimal.valueOf(5.5),
+        taxPercentage = BigDecimal.valueOf(0.1)),
+    Product(
+        "CCC",
+        "CCC product long name",
+        "CCC product",
+        price = BigDecimal.valueOf(5)
+    ))

@@ -45,10 +45,10 @@ class ItextPdfBuilderServiceImpl(
         private val normal: Font = Font(FontFamily.HELVETICA, 10f, Font.NORMAL)
         private val italic: Font = Font(FontFamily.HELVETICA, 10f, Font.ITALIC)
         private val small: Font = Font(FontFamily.HELVETICA, 9f, Font.NORMAL)
-        private val catLocale = Locale("CA", "es") //TODO move to configuration
-        private val oneDecimalFormat = NumberFormat.getNumberInstance(catLocale)
-        private val twoDecimalFormat = NumberFormat.getNumberInstance(catLocale)
-        private val longDateFormat = DateTimeFormatter.ofPattern("d MMMM yyyy", catLocale) //TODO move to configuration
+        private val locale = Locale("CA", "es") //TODO move to configuration
+        private val oneDecimalFormat = NumberFormat.getNumberInstance(locale)
+        private val twoDecimalFormat = NumberFormat.getNumberInstance(locale)
+        private val longDateFormat = DateTimeFormatter.ofPattern("d MMMM yyyy", locale) //TODO move to configuration
 
         init {
             oneDecimalFormat.minimumFractionDigits = 0
@@ -70,7 +70,7 @@ class ItextPdfBuilderServiceImpl(
     }
 
     private fun generate(outputStream: OutputStream, invoice: Invoice, customer: Customer, products: Map<String, Product>) {
-        val doc = Document()
+        val doc = Document(PageSize.A4)
         try {
             val writer = PdfWriter.getInstance(doc, outputStream)
             writer.pageEvent = Footer(invoice)
@@ -82,12 +82,13 @@ class ItextPdfBuilderServiceImpl(
     }
 
     private fun fillDocument(doc: Document, invoice: Invoice, customer: Customer, products: Map<String, Product>) {
-//        logo(doc)
-//        headerGroup(doc, invoice)
-//        businessGroup(doc)
-//        clientGroup(doc, invoice, customer)
-//        detailsTable(doc, invoice, products)
-//        totalsTable(doc, invoice)
+        doc.newPage()
+        logo(doc)
+        headerGroup(doc, invoice)
+        businessGroup(doc)
+        clientGroup(doc, invoice, customer)
+        detailsTable(doc, invoice, products)
+        totalsTable(doc, invoice)
         notesGroup(doc, invoice, customer)
     }
 
@@ -118,11 +119,11 @@ class ItextPdfBuilderServiceImpl(
     }
 
     private fun getLogoImage(): Image {
-        val file = File(this::class.java.getResource(logoResourcePath).file)
         return try {
+            val file = File(this::class.java.getResource(logoResourcePath).file)
             Image.getInstance(file.absolutePath)
         } catch(e: IOException) {
-            throw IllegalArgumentException(ValidationMessages.ERROR_LOGO_FILE_NOT_FOUND.translate(file.absolutePath), e)
+            throw IllegalArgumentException(ValidationMessages.ERROR_LOGO_FILE_NOT_FOUND.translate(logoResourcePath), e)
         }
     }
 
