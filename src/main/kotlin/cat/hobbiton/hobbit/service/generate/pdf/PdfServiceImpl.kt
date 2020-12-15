@@ -11,6 +11,7 @@ import cat.hobbiton.hobbit.model.Invoice
 import cat.hobbiton.hobbit.model.extension.totalAmount
 import cat.hobbiton.hobbit.service.generate.getCustomerInvoicesDTOs
 import cat.hobbiton.hobbit.util.AppException
+import cat.hobbiton.hobbit.util.InputStreamFilenameResource
 import cat.hobbiton.hobbit.util.ZipFile
 import cat.hobbiton.hobbit.util.ZipService
 import org.springframework.core.io.Resource
@@ -46,7 +47,7 @@ class PdfServiceImpl(
 
     override fun generatePDFs(yearMonth: String): Resource {
         val invoices = getInvoices(yearMonth)
-        val pdfs = zipService.zipFiles(invoices.map { getZipFile(it) })
+        val pdfs = zipService.zipFiles(invoices.map { getZipFile(it) }, pdfsZipFilename)
         invoices.forEach { updateInvoice(it) }
         return pdfs
     }
@@ -56,7 +57,7 @@ class PdfServiceImpl(
         return ZipFile(invoice.getPdfName(), getPdf(invoice, customer).inputStream)
     }
 
-    private fun getPdf(invoice: Invoice, customer: Customer): Resource {
+    private fun getPdf(invoice: Invoice, customer: Customer): InputStreamFilenameResource {
         val products = invoice.lines.map { it.productId to productRepository.getProduct(it.productId) }.toMap()
         return pdfBuilderService.generate(invoice, customer, products)
     }

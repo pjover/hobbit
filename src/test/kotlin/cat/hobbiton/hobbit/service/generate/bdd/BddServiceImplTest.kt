@@ -69,6 +69,7 @@ class BddServiceImplTest : DescribeSpec() {
                 }
 
                 it("returns the BDD file") {
+                    actual.filename shouldBe bbdFilename
                     val content = actual.inputStream.use { it.readUpToChar() }
                     val actualLines = content.lines().map { it.trim() }
                     val expectedLines = bdd.lines().map { it.trim() }

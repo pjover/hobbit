@@ -3,8 +3,8 @@ package cat.hobbiton.hobbit.service.generate.pdf
 import cat.hobbiton.hobbit.model.Customer
 import cat.hobbiton.hobbit.model.Invoice
 import cat.hobbiton.hobbit.model.Product
-import org.springframework.core.io.Resource
+import cat.hobbiton.hobbit.util.InputStreamFilenameResource
 
 interface PdfBuilderService {
-    fun generate(invoice: Invoice, customer: Customer, products: Map<String, Product>): Resource
+    fun generate(invoice: Invoice, customer: Customer, products: Map<String, Product>): InputStreamFilenameResource
 }

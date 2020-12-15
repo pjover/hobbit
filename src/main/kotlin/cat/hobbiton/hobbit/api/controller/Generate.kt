@@ -2,9 +2,10 @@ package cat.hobbiton.hobbit.api.controller
 
 import cat.hobbiton.hobbit.api.model.PaymentTypeInvoicesDTO
 import cat.hobbiton.hobbit.service.generate.GenerateService
+import cat.hobbiton.hobbit.util.getResponseHeaders
 import io.swagger.v3.oas.annotations.Operation
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.http.HttpHeaders
+import org.springframework.core.io.Resource
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
@@ -27,8 +28,7 @@ class GenerateController(@Autowired(required = true) val service: GenerateServic
         value = ["/generate/bdd"],
         produces = ["application/json"],
         method = [RequestMethod.GET])
-    fun simulateBDD(@RequestParam(value = "yearMonth", required = false) yearMonth: String?
-    ): ResponseEntity<PaymentTypeInvoicesDTO> {
+    fun simulateBDD(@RequestParam(value = "yearMonth", required = false) yearMonth: String?): ResponseEntity<PaymentTypeInvoicesDTO> {
         return ResponseEntity(service.simulateBDD(yearMonth), HttpStatus.valueOf(200))
     }
 
@@ -42,17 +42,14 @@ class GenerateController(@Autowired(required = true) val service: GenerateServic
         value = ["/generate/bdd"],
         produces = ["application/xml"],
         method = [RequestMethod.POST])
-    fun generateBDD(@NotNull @RequestParam(value = "yearMonth", required = true) yearMonth: String
-    ): ResponseEntity<org.springframework.core.io.Resource> {
+    fun generateBDD(@NotNull @RequestParam(value = "yearMonth", required = true) yearMonth: String): ResponseEntity<Resource> {
 
         val bdd = service.generateBDD(yearMonth)
-
-        val headers = HttpHeaders()
-        headers.contentType = MediaType.APPLICATION_XML
-        headers.contentLength = bdd.contentLength()
-        headers.setContentDispositionFormData("attachment", "bdd.q1x")
-
-        return ResponseEntity(service.generateBDD(yearMonth), headers, HttpStatus.valueOf(200))
+        return ResponseEntity(
+            bdd,
+            bdd.getResponseHeaders(MediaType.APPLICATION_XML),
+            HttpStatus.valueOf(200)
+        )
     }
 
     @Operation(
@@ -63,8 +60,7 @@ class GenerateController(@Autowired(required = true) val service: GenerateServic
         value = ["/generate/pdf"],
         produces = ["application/json"],
         method = [RequestMethod.GET])
-    fun simulatePDFs(@NotNull @RequestParam(value = "yearMonth", required = true) yearMonth: String
-    ): ResponseEntity<List<PaymentTypeInvoicesDTO>> {
+    fun simulatePDFs(@NotNull @RequestParam(value = "yearMonth", required = true) yearMonth: String): ResponseEntity<List<PaymentTypeInvoicesDTO>> {
         return ResponseEntity(service.simulatePDFs(yearMonth), HttpStatus.valueOf(200))
     }
 
@@ -76,9 +72,14 @@ class GenerateController(@Autowired(required = true) val service: GenerateServic
         value = ["/generate/pdf"],
         produces = ["application/zip"],
         method = [RequestMethod.POST])
-    fun generatePDFs(@NotNull @RequestParam(value = "yearMonth", required = true) yearMonth: String
-    ): ResponseEntity<org.springframework.core.io.Resource> {
-        return ResponseEntity(service.generatePDFs(yearMonth), HttpStatus.valueOf(200))
+    fun generatePDFs(@NotNull @RequestParam(value = "yearMonth", required = true) yearMonth: String): ResponseEntity<Resource> {
+
+        val zip = service.generatePDFs(yearMonth)
+        return ResponseEntity(
+            zip,
+            zip.getResponseHeaders(MediaType.parseMediaType("application/zip")),
+            HttpStatus.valueOf(200)
+        )
     }
 
     @Operation(
@@ -89,8 +90,13 @@ class GenerateController(@Autowired(required = true) val service: GenerateServic
         value = ["/generate/pdf/{invoiceId}"],
         produces = ["application/pdf"],
         method = [RequestMethod.POST])
-    fun generatePDF(@PathVariable("invoiceId") invoiceId: String
-    ): ResponseEntity<org.springframework.core.io.Resource> {
-        return ResponseEntity(service.generatePDF(invoiceId), HttpStatus.valueOf(200))
+    fun generatePDF(@PathVariable("invoiceId") invoiceId: String): ResponseEntity<Resource> {
+
+        val pdf = service.generatePDF(invoiceId)
+        return ResponseEntity(
+            pdf,
+            pdf.getResponseHeaders(MediaType.APPLICATION_PDF),
+            HttpStatus.valueOf(200)
+        )
     }
 }

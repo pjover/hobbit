@@ -13,11 +13,11 @@ import cat.hobbiton.hobbit.testAdultMother
 import cat.hobbiton.hobbit.testChild3
 import cat.hobbiton.hobbit.testCustomer
 import cat.hobbiton.hobbit.util.AppException
+import cat.hobbiton.hobbit.util.InputStreamFilenameResource
 import cat.hobbiton.hobbit.util.ZipService
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.DescribeSpec
 import io.mockk.*
-import org.springframework.core.io.InputStreamResource
 import java.math.BigDecimal
 import java.nio.charset.StandardCharsets
 import java.util.*
@@ -56,8 +56,6 @@ class PdfServiceImplTest : DescribeSpec() {
             context("there are no invoices") {
                 clearMocks(invoiceRepository, customerRepository, pdfBuilderService, zipService)
                 every { invoiceRepository.findByPrintedAndYearMonth(false, YEAR_MONTH) } returns emptyList()
-                val zipResource = InputStreamResource("ZIP".byteInputStream(StandardCharsets.UTF_8))
-                every { zipService.zipFiles(any()) } returns zipResource
 
                 val executor = {
                     sut.simulatePDFs(YEAR_MONTH.toString())
@@ -79,18 +77,17 @@ class PdfServiceImplTest : DescribeSpec() {
         describe("generatePDFs") {
 
             context("there are invoices") {
-                clearMocks(pdfBuilderService, zipService)
+                clearMocks(pdfBuilderService)
                 mockReaders(invoiceRepository, customerRepository, productRepository)
                 mockWriters(invoiceRepository)
-                val zipResource = InputStreamResource("ZIP".byteInputStream(StandardCharsets.UTF_8))
-                every { pdfBuilderService.generate(invoice1(), customer1, productMap1) } returns InputStreamResource("PDF1".byteInputStream(StandardCharsets.UTF_8))
-                every { pdfBuilderService.generate(invoice2(), customer2, productMap2) } returns InputStreamResource("PDF2".byteInputStream(StandardCharsets.UTF_8))
-                every { zipService.zipFiles(any()) } returns zipResource
+                mockZipService(zipService)
+                every { pdfBuilderService.generate(invoice1(), customer1, productMap1) } returns InputStreamFilenameResource("PDF1".byteInputStream(StandardCharsets.UTF_8), invoice1().getPdfName())
+                every { pdfBuilderService.generate(invoice2(), customer2, productMap2) } returns InputStreamFilenameResource("PDF2".byteInputStream(StandardCharsets.UTF_8), invoice2().getPdfName())
 
                 val actual = sut.generatePDFs(YEAR_MONTH.toString())
 
                 it("returns the zip resource") {
-                    actual shouldBe zipResource
+                    actual.filename shouldBe pdfsZipFilename
                 }
 
                 it("call the collaborators") {
@@ -100,7 +97,7 @@ class PdfServiceImplTest : DescribeSpec() {
                         customerRepository.getCustomer(186)
                         pdfBuilderService.generate(invoice1(), customer1, productMap1)
                         pdfBuilderService.generate(invoice2(), customer2, productMap2)
-                        zipService.zipFiles(any())
+                        zipService.zipFiles(any(), pdfsZipFilename)
                     }
                 }
 
@@ -113,10 +110,9 @@ class PdfServiceImplTest : DescribeSpec() {
             }
 
             context("there are no invoices") {
-                clearMocks(invoiceRepository, customerRepository, pdfBuilderService, zipService)
+                clearMocks(invoiceRepository, customerRepository, pdfBuilderService)
                 every { invoiceRepository.findByPrintedAndYearMonth(false, YEAR_MONTH) } returns emptyList()
-                val zipResource = InputStreamResource("ZIP".byteInputStream(StandardCharsets.UTF_8))
-                every { zipService.zipFiles(any()) } returns zipResource
+
 
                 val executor = {
                     sut.generatePDFs(YEAR_MONTH.toString())
@@ -132,11 +128,6 @@ class PdfServiceImplTest : DescribeSpec() {
                         invoiceRepository.findByPrintedAndYearMonth(false, YEAR_MONTH)
                     }
                 }
-                it("does not call zipService") {
-                    verify(exactly = 0) {
-                        zipService.zipFiles(any())
-                    }
-                }
             }
         }
 
@@ -145,9 +136,10 @@ class PdfServiceImplTest : DescribeSpec() {
             context("invoice found") {
                 clearMocks(invoiceRepository, customerRepository, pdfBuilderService)
                 mockWriters(invoiceRepository)
+                mockZipService(zipService)
                 every { customerRepository.getCustomer(185) } returns customer1
                 every { invoiceRepository.findById(any()) } returns Optional.of(invoice1())
-                val pdf = InputStreamResource("PDF1".byteInputStream(StandardCharsets.UTF_8))
+                val pdf = InputStreamFilenameResource("PDF1".byteInputStream(StandardCharsets.UTF_8), "XX (185).pdf")
                 every { pdfBuilderService.generate(invoice1(), customer1, productMap1) } returns pdf
 
                 val actual = sut.generatePDF("XX")
@@ -158,6 +150,7 @@ class PdfServiceImplTest : DescribeSpec() {
 
                 it("call the collaborators") {
                     verify {
+                        actual.filename shouldBe "XX (185).pdf"
                         invoiceRepository.findById("XX")
                         customerRepository.getCustomer(185)
                         pdfBuilderService.generate(invoice1(), customer1, productMap1)
@@ -232,4 +225,9 @@ private fun mockReaders(invoiceRepository: InvoiceRepository, customerRepository
 private fun mockWriters(invoiceRepository: InvoiceRepository) {
     val invoiceSlot = slot<Invoice>()
     every { invoiceRepository.save(capture(invoiceSlot)) } answers { invoiceSlot.captured }
+}
+
+private fun mockZipService(zipService: ZipService) {
+    val filenameSlot = slot<String>()
+    every { zipService.zipFiles(any(), capture(filenameSlot)) } answers { InputStreamFilenameResource("ZIP".byteInputStream(StandardCharsets.UTF_8), filenameSlot.captured) }
 }

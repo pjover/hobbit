@@ -3,6 +3,7 @@ package cat.hobbiton.hobbit.service.generate.pdf
 import cat.hobbiton.hobbit.api.model.PaymentTypeInvoicesDTO
 import org.springframework.core.io.Resource
 
+const val pdfsZipFilename = "pdfs.zip"
 
 interface PdfService {
 
