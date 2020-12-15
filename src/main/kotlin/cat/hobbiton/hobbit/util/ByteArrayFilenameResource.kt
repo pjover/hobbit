@@ -1,15 +1,14 @@
 package cat.hobbiton.hobbit.util
 
-import org.springframework.core.io.InputStreamResource
+import org.springframework.core.io.ByteArrayResource
 import org.springframework.core.io.Resource
 import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType
-import java.io.InputStream
 
-class InputStreamFilenameResource(
-    inputStream: InputStream,
+class ByteArrayFilenameResource(
+    byteArray: ByteArray,
     private val fileName: String
-) : InputStreamResource(inputStream, fileName) {
+) : ByteArrayResource(byteArray, fileName) {
 
     override fun getFilename() = fileName
 }

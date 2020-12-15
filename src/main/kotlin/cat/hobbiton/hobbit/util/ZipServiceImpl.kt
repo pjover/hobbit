@@ -1,7 +1,6 @@
 package cat.hobbiton.hobbit.util
 
 import org.springframework.stereotype.Service
-import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.util.zip.ZipEntry
 import java.util.zip.ZipOutputStream
@@ -9,7 +8,7 @@ import java.util.zip.ZipOutputStream
 @Service
 class ZipServiceImpl : ZipService {
 
-    override fun zipFiles(files: List<ZipFile>, zipFileName: String): InputStreamFilenameResource {
+    override fun zipFiles(files: List<ZipFile>, zipFileName: String): ByteArrayFilenameResource {
 
         val os = ByteArrayOutputStream()
         os.use {
@@ -26,7 +25,7 @@ class ZipServiceImpl : ZipService {
 
             }
         }
-        return InputStreamFilenameResource(ByteArrayInputStream(os.toByteArray()), zipFileName)
+        return ByteArrayFilenameResource(os.toByteArray(), zipFileName)
     }
 }
 

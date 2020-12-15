@@ -9,7 +9,7 @@ import cat.hobbiton.hobbit.model.PaymentType
 import cat.hobbiton.hobbit.model.extension.totalAmount
 import cat.hobbiton.hobbit.service.aux.TimeService
 import cat.hobbiton.hobbit.service.generate.getCustomerInvoicesDTOs
-import cat.hobbiton.hobbit.util.InputStreamFilenameResource
+import cat.hobbiton.hobbit.util.ByteArrayFilenameResource
 import org.springframework.core.io.Resource
 import org.springframework.stereotype.Service
 import java.nio.charset.StandardCharsets
@@ -45,7 +45,7 @@ class BddServiceImpl(
         val invoices = getInvoices(yearMonth)
         val bdd = bddBuilderService.generate(invoices)
         updateInvoices(invoices)
-        return InputStreamFilenameResource(bdd.byteInputStream(StandardCharsets.UTF_8), bbdFilename)
+        return ByteArrayFilenameResource(bdd.toByteArray(StandardCharsets.UTF_8), bbdFilename)
     }
 
     private fun updateInvoices(invoices: List<Invoice>) {

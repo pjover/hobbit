@@ -15,7 +15,7 @@ import cat.hobbiton.hobbit.service.generate.pdf.PdfBuilderService
 import cat.hobbiton.hobbit.service.generate.pdf.getPdfName
 import cat.hobbiton.hobbit.service.init.BusinessProperties
 import cat.hobbiton.hobbit.util.AppException
-import cat.hobbiton.hobbit.util.InputStreamFilenameResource
+import cat.hobbiton.hobbit.util.ByteArrayFilenameResource
 import cat.hobbiton.hobbit.util.translate
 import com.itextpdf.text.*
 import com.itextpdf.text.Font.FontFamily
@@ -24,7 +24,10 @@ import com.itextpdf.text.pdf.PdfPTable
 import com.itextpdf.text.pdf.PdfWriter
 import com.itextpdf.text.pdf.draw.LineSeparator
 import org.springframework.stereotype.Service
-import java.io.*
+import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.IOException
+import java.io.OutputStream
 import java.text.NumberFormat
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -55,14 +58,14 @@ class ItextPdfBuilderServiceImpl(
         }
     }
 
-    override fun generate(invoice: Invoice, customer: Customer, products: Map<String, Product>): Resource {
+    override fun generate(invoice: Invoice, customer: Customer, products: Map<String, Product>): ByteArrayFilenameResource {
         try {
             ByteArrayOutputStream().use {
                 generate(it, invoice, customer, products)
-                return ByteArrayResource(it.toByteArray())
+                return ByteArrayFilenameResource(it.toByteArray(), invoice.getPdfName())
             }
         } catch(e: Exception) {
-            throw AppException(ErrorMessages.ERROR_WHILE_BUILDING_PDF, e.message!!)
+            throw AppException(e, ErrorMessages.ERROR_WHILE_BUILDING_PDF, e.message!!)
         }
     }
 
@@ -79,12 +82,12 @@ class ItextPdfBuilderServiceImpl(
     }
 
     private fun fillDocument(doc: Document, invoice: Invoice, customer: Customer, products: Map<String, Product>) {
-        logo(doc)
-        headerGroup(doc, invoice)
-        businessGroup(doc)
-        clientGroup(doc, invoice, customer)
-        detailsTable(doc, invoice, products)
-        totalsTable(doc, invoice)
+//        logo(doc)
+//        headerGroup(doc, invoice)
+//        businessGroup(doc)
+//        clientGroup(doc, invoice, customer)
+//        detailsTable(doc, invoice, products)
+//        totalsTable(doc, invoice)
         notesGroup(doc, invoice, customer)
     }
 
