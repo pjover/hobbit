@@ -24,3 +24,7 @@ business:
     VOUCHER: Voucher payment type note
     CASH: Cash payment type note
     OTHER: Other payment type note
+
+formatting:
+  locale: "ca_ES"
+  longDateFormat: "d MMMM yyyy"

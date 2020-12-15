@@ -14,6 +14,7 @@ import cat.hobbiton.hobbit.model.extension.totalAmount
 import cat.hobbiton.hobbit.service.generate.pdf.PdfBuilderService
 import cat.hobbiton.hobbit.service.generate.pdf.getPdfName
 import cat.hobbiton.hobbit.service.init.BusinessProperties
+import cat.hobbiton.hobbit.service.init.FormattingProperties
 import cat.hobbiton.hobbit.util.AppException
 import cat.hobbiton.hobbit.util.ByteArrayFilenameResource
 import cat.hobbiton.hobbit.util.translate
@@ -23,6 +24,7 @@ import com.itextpdf.text.pdf.PdfPCell
 import com.itextpdf.text.pdf.PdfPTable
 import com.itextpdf.text.pdf.PdfWriter
 import com.itextpdf.text.pdf.draw.LineSeparator
+import org.apache.commons.lang3.LocaleUtils
 import org.springframework.stereotype.Service
 import java.io.ByteArrayOutputStream
 import java.io.File
@@ -31,10 +33,12 @@ import java.io.OutputStream
 import java.text.NumberFormat
 import java.time.format.DateTimeFormatter
 import java.util.*
+import javax.annotation.PostConstruct
 
 @Service
 class ItextPdfBuilderServiceImpl(
-    private val businessProperties: BusinessProperties
+    private val businessProperties: BusinessProperties,
+    private val formattingProperties: FormattingProperties
 ) : PdfBuilderService {
 
     companion object {
@@ -45,17 +49,22 @@ class ItextPdfBuilderServiceImpl(
         private val normal: Font = Font(FontFamily.HELVETICA, 10f, Font.NORMAL)
         private val italic: Font = Font(FontFamily.HELVETICA, 10f, Font.ITALIC)
         private val small: Font = Font(FontFamily.HELVETICA, 9f, Font.NORMAL)
-        private val locale = Locale("CA", "es") //TODO move to configuration
-        private val oneDecimalFormat = NumberFormat.getNumberInstance(locale)
-        private val twoDecimalFormat = NumberFormat.getNumberInstance(locale)
-        private val longDateFormat = DateTimeFormatter.ofPattern("d MMMM yyyy", locale) //TODO move to configuration
+        private lateinit var locale: Locale
+        private lateinit var oneDecimalFormat: NumberFormat
+        private lateinit var twoDecimalFormat: NumberFormat
+        private lateinit var longDateFormat: DateTimeFormatter
+    }
 
-        init {
-            oneDecimalFormat.minimumFractionDigits = 0
-            oneDecimalFormat.maximumFractionDigits = 1
-            twoDecimalFormat.minimumFractionDigits = 2
-            twoDecimalFormat.maximumFractionDigits = 2
-        }
+    @PostConstruct
+    fun init() {
+        locale = LocaleUtils.toLocale(formattingProperties.locale)
+        longDateFormat = DateTimeFormatter.ofPattern(formattingProperties.longDateFormat, locale)
+        oneDecimalFormat = NumberFormat.getNumberInstance(locale)
+        oneDecimalFormat.minimumFractionDigits = 0
+        oneDecimalFormat.maximumFractionDigits = 1
+        twoDecimalFormat = NumberFormat.getNumberInstance(locale)
+        twoDecimalFormat.minimumFractionDigits = 2
+        twoDecimalFormat.maximumFractionDigits = 2
     }
 
     override fun generate(invoice: Invoice, customer: Customer, products: Map<String, Product>): ByteArrayFilenameResource {
@@ -179,8 +188,6 @@ class ItextPdfBuilderServiceImpl(
 
             // concept
             cell = PdfPCell(Phrase(products[line.productId]?.name, small))
-            cell.setPadding(4f)
-            cell.horizontalAlignment = Element.ALIGN_LEFT
             table.addCell(cell)
 
             // price
@@ -194,9 +201,10 @@ class ItextPdfBuilderServiceImpl(
             // tax
             num = oneDecimalFormat.format(line.taxPercentage)
             cell = PdfPCell(Phrase("$num%", small))
-            cell.horizontalAlignment = Element.ALIGN_CENTER
             cell.setPadding(4f)
+            cell.horizontalAlignment = Element.ALIGN_CENTER
             table.addCell(cell)
+
             num = twoDecimalFormat.format(line.taxAmount())
             table.addCell(Phrase(num, small))
 

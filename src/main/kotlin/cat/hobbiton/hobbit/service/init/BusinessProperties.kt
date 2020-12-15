@@ -24,6 +24,8 @@ class BusinessProperties {
     lateinit var bddCountry: String
     lateinit var bddPurposeCode: String
     lateinit var paymentTypeNotes: MutableMap<String, String>
+    lateinit var locale: String
+    lateinit var longDateFormat: String
 
     private val logger by Logging()
 

@@ -1,6 +1,7 @@
 package cat.hobbiton.hobbit.service.generate.pdf.itext
 
 import cat.hobbiton.hobbit.service.init.BusinessProperties
+import cat.hobbiton.hobbit.service.init.FormattingProperties
 import cat.hobbiton.hobbit.testCustomer
 import cat.hobbiton.hobbit.testInvoice
 import cat.hobbiton.hobbit.testProducts
@@ -16,7 +17,8 @@ class ItextPdfBuilderServiceImplTest : DescribeSpec() {
 
     init {
         val businessProperties = mockk<BusinessProperties>()
-        val sut = ItextPdfBuilderServiceImpl(businessProperties)
+        val formattingProperties = mockk<FormattingProperties>()
+        val sut = ItextPdfBuilderServiceImpl(businessProperties, formattingProperties)
 
         every { businessProperties.businessName } returns "BusinessName"
         every { businessProperties.addressLine1 } returns "AddressLine1"
@@ -25,6 +27,11 @@ class ItextPdfBuilderServiceImplTest : DescribeSpec() {
         every { businessProperties.addressLine4 } returns "AddressLine4"
         every { businessProperties.taxIdLine } returns "TaxIdLine"
         every { businessProperties.getPaymentTypeNotes(any()) } returns "PaymentNote"
+
+        every { formattingProperties.locale } returns "en_US"
+        every { formattingProperties.longDateFormat } returns "MMMM d, yyyy"
+
+        sut.init()
 
         describe("generate") {
 
@@ -37,7 +44,7 @@ class ItextPdfBuilderServiceImplTest : DescribeSpec() {
                 actual.filename shouldBe "F-103 (148).pdf"
             }
 
-            var file = createTempFile(suffix = ".pdf")
+            val file = createTempFile(suffix = ".pdf")
             file.writeBytes(actual.byteArray)
 
             it("creates the tmp PDF file") {
