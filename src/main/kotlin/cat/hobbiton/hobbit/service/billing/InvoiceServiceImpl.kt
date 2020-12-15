@@ -27,7 +27,7 @@ class InvoiceServiceImpl(
             return invoiceRepository.save(invoice.copy(id = updatedSequence.formattedText()))
         } catch(t: Throwable) {
             restore(updatedConsumptions, updatedSequence, invoice.paymentType.sequenceType, consumptions)
-            throw AppException(ErrorMessages.ERROR_SAVING_INVOICE, invoice.paymentType.sequenceType)
+            throw AppException(t, ErrorMessages.ERROR_SAVING_INVOICE, invoice.paymentType.sequenceType)
         }
     }
 
