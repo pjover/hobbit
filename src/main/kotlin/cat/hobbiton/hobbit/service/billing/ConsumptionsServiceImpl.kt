@@ -8,7 +8,7 @@ import cat.hobbiton.hobbit.messages.ValidationMessages
 import cat.hobbiton.hobbit.model.Consumption
 import cat.hobbiton.hobbit.model.extension.shortName
 import cat.hobbiton.hobbit.service.aux.TimeService
-import cat.hobbiton.hobbit.util.translate
+import cat.hobbiton.hobbit.util.i18n.translate
 import org.springframework.stereotype.Service
 import java.math.BigDecimal
 import java.time.YearMonth

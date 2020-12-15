@@ -3,7 +3,7 @@ package cat.hobbiton.hobbit.model.extension
 import cat.hobbiton.hobbit.messages.ValidationMessages
 import cat.hobbiton.hobbit.model.Customer
 import cat.hobbiton.hobbit.model.Invoice
-import cat.hobbiton.hobbit.util.translate
+import cat.hobbiton.hobbit.util.i18n.translate
 import java.math.BigDecimal
 import kotlin.reflect.KFunction1
 

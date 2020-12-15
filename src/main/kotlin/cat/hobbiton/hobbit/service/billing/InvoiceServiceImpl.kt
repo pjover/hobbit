@@ -8,7 +8,7 @@ import cat.hobbiton.hobbit.model.Invoice
 import cat.hobbiton.hobbit.model.Sequence
 import cat.hobbiton.hobbit.model.SequenceType
 import cat.hobbiton.hobbit.model.extension.formattedText
-import cat.hobbiton.hobbit.util.AppException
+import cat.hobbiton.hobbit.util.error.AppException
 import org.springframework.stereotype.Service
 
 @Service

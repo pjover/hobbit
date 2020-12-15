@@ -5,7 +5,7 @@ import cat.hobbiton.hobbit.YEAR_MONTH
 import cat.hobbiton.hobbit.db.repository.ConsumptionRepository
 import cat.hobbiton.hobbit.db.repository.InvoiceRepository
 import cat.hobbiton.hobbit.model.*
-import cat.hobbiton.hobbit.util.AppException
+import cat.hobbiton.hobbit.util.error.AppException
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.DescribeSpec
 import io.mockk.*

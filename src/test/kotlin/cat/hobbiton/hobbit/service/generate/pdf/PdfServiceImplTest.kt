@@ -12,9 +12,9 @@ import cat.hobbiton.hobbit.service.billing.invoice2
 import cat.hobbiton.hobbit.testAdultMother
 import cat.hobbiton.hobbit.testChild3
 import cat.hobbiton.hobbit.testCustomer
-import cat.hobbiton.hobbit.util.AppException
 import cat.hobbiton.hobbit.util.ByteArrayFilenameResource
 import cat.hobbiton.hobbit.util.ZipService
+import cat.hobbiton.hobbit.util.error.NotFoundException
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.DescribeSpec
 import io.mockk.*
@@ -62,7 +62,7 @@ class PdfServiceImplTest : DescribeSpec() {
                 }
 
                 it("throws an error") {
-                    val exception = assertFailsWith<AppException> { executor.invoke() }
+                    val exception = assertFailsWith<NotFoundException> { executor.invoke() }
                     exception.message shouldBe "There are no pending PDFs to generate"
                 }
 
@@ -119,7 +119,7 @@ class PdfServiceImplTest : DescribeSpec() {
                 }
 
                 it("throws an error") {
-                    val exception = assertFailsWith<AppException> { executor.invoke() }
+                    val exception = assertFailsWith<NotFoundException> { executor.invoke() }
                     exception.message shouldBe "There are no pending PDFs to generate"
                 }
 
@@ -173,7 +173,7 @@ class PdfServiceImplTest : DescribeSpec() {
                 }
 
                 it("throws an error") {
-                    val exception = assertFailsWith<AppException> { executor.invoke() }
+                    val exception = assertFailsWith<NotFoundException> { executor.invoke() }
                     exception.message shouldBe "Cannot find invoice with id XX"
                 }
             }

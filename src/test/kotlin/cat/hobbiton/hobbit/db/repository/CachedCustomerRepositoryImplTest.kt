@@ -2,7 +2,7 @@ package cat.hobbiton.hobbit.db.repository
 
 import cat.hobbiton.hobbit.testChild1
 import cat.hobbiton.hobbit.testCustomer
-import cat.hobbiton.hobbit.util.AppException
+import cat.hobbiton.hobbit.util.error.NotFoundException
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.DescribeSpec
 import io.mockk.clearMocks
@@ -45,7 +45,7 @@ class CachedCustomerRepositoryImplTest : DescribeSpec() {
                 }
 
                 it("throws an error") {
-                    val exception = assertFailsWith<AppException> { executor.invoke() }
+                    val exception = assertFailsWith<NotFoundException> { executor.invoke() }
                     exception.message shouldBe "Cannot find child with id 1,850"
                 }
             }
@@ -78,7 +78,7 @@ class CachedCustomerRepositoryImplTest : DescribeSpec() {
                 }
 
                 it("throws an error") {
-                    val exception = assertFailsWith<AppException> { executor.invoke() }
+                    val exception = assertFailsWith<NotFoundException> { executor.invoke() }
                     exception.message shouldBe "Cannot find customer with id 11"
                 }
             }
@@ -111,7 +111,7 @@ class CachedCustomerRepositoryImplTest : DescribeSpec() {
                 }
 
                 it("throws an error") {
-                    val exception = assertFailsWith<AppException> { executor.invoke() }
+                    val exception = assertFailsWith<NotFoundException> { executor.invoke() }
                     exception.message shouldBe "Cannot find child with id 1"
                 }
             }

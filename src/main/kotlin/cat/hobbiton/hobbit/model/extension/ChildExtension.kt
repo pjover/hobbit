@@ -3,7 +3,7 @@ package cat.hobbiton.hobbit.model.extension
 import cat.hobbiton.hobbit.messages.ValidationMessages
 import cat.hobbiton.hobbit.model.Child
 import cat.hobbiton.hobbit.model.GroupType
-import cat.hobbiton.hobbit.util.translate
+import cat.hobbiton.hobbit.util.i18n.translate
 import java.time.LocalDate
 
 fun Child.shortName(): String = "$name $surname"

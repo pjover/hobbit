@@ -1,6 +1,6 @@
 package cat.hobbiton.hobbit.messages
 
-import cat.hobbiton.hobbit.util.I18nMessage
+import cat.hobbiton.hobbit.util.i18n.I18nMessage
 
 enum class TextMessages(
     override val code: String

@@ -6,8 +6,8 @@ import cat.hobbiton.hobbit.model.Adult
 import cat.hobbiton.hobbit.model.AdultRole
 import cat.hobbiton.hobbit.model.Child
 import cat.hobbiton.hobbit.model.Customer
-import cat.hobbiton.hobbit.util.AppException
-import cat.hobbiton.hobbit.util.translate
+import cat.hobbiton.hobbit.util.error.AppException
+import cat.hobbiton.hobbit.util.i18n.translate
 
 
 fun Customer.getActiveChildren(): List<Child> = children.filter { it.active }

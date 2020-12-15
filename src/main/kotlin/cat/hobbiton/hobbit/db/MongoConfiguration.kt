@@ -4,7 +4,7 @@ import cat.hobbiton.hobbit.db.converter.YearMonthReadConverter
 import cat.hobbiton.hobbit.db.converter.YearMonthWriteConverter
 import cat.hobbiton.hobbit.messages.ValidationMessages
 import cat.hobbiton.hobbit.util.Logging
-import cat.hobbiton.hobbit.util.translate
+import cat.hobbiton.hobbit.util.i18n.translate
 import com.mongodb.MongoClientSettings
 import com.mongodb.ServerAddress
 import org.springframework.beans.factory.annotation.Value

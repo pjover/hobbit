@@ -10,10 +10,10 @@ import cat.hobbiton.hobbit.model.Customer
 import cat.hobbiton.hobbit.model.Invoice
 import cat.hobbiton.hobbit.model.extension.totalAmount
 import cat.hobbiton.hobbit.service.generate.getCustomerInvoicesDTOs
-import cat.hobbiton.hobbit.util.AppException
 import cat.hobbiton.hobbit.util.ByteArrayFilenameResource
 import cat.hobbiton.hobbit.util.ZipFile
 import cat.hobbiton.hobbit.util.ZipService
+import cat.hobbiton.hobbit.util.error.NotFoundException
 import org.springframework.core.io.Resource
 import org.springframework.stereotype.Service
 import java.time.YearMonth
@@ -41,7 +41,7 @@ class PdfServiceImpl(
 
     private fun getInvoices(yearMonth: String): List<Invoice> {
         val invoices = invoiceRepository.findByPrintedAndYearMonth(printed = false, yearMonth = YearMonth.parse(yearMonth))
-        if(invoices.isEmpty()) throw AppException(ErrorMessages.ERROR_PDFS_TO_GENERATE_NOT_FOUND)
+        if(invoices.isEmpty()) throw NotFoundException(ErrorMessages.ERROR_PDFS_TO_GENERATE_NOT_FOUND)
         return invoices
     }
 
@@ -64,7 +64,7 @@ class PdfServiceImpl(
 
     override fun generatePDF(invoiceId: String): Resource {
         val invoice = invoiceRepository.findById(invoiceId)
-            .orElseThrow { AppException(ErrorMessages.ERROR_INVOICE_NOT_FOUND, invoiceId) }
+            .orElseThrow { NotFoundException(ErrorMessages.ERROR_INVOICE_NOT_FOUND, invoiceId) }
         val customer = customerRepository.getCustomer(invoice.customerId)
         val pdf = getPdf(invoice, customer)
         updateInvoice(invoice)
