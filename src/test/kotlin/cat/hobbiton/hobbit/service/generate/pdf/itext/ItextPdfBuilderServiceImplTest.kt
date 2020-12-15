@@ -6,8 +6,9 @@ import cat.hobbiton.hobbit.testCustomer
 import cat.hobbiton.hobbit.testInvoice
 import cat.hobbiton.hobbit.testProducts
 import com.itextpdf.text.pdf.PdfReader
-import io.kotlintest.matchers.file.shouldHaveFileSize
+import io.kotlintest.matchers.string.shouldStartWith
 import io.kotlintest.shouldBe
+import io.kotlintest.shouldNotBe
 import io.kotlintest.specs.DescribeSpec
 import io.mockk.every
 import io.mockk.mockk
@@ -40,29 +41,15 @@ class ItextPdfBuilderServiceImplTest : DescribeSpec() {
                 testCustomer(id = 148),
                 testProducts().map { it.id to it }.toMap())
 
-            it("has a correct filename") {
-                actual.filename shouldBe "F-103 (148).pdf"
-            }
-
-            val file = createTempFile(suffix = ".pdf")
-            file.writeBytes(actual.byteArray)
-
-            it("creates the tmp PDF file") {
-                file.exists() shouldBe true
-            }
-
-            it("has the right size") {
-                file shouldHaveFileSize actual.contentLength()
-            }
+            val reader = PdfReader(actual.byteArray)
+            val pages = reader.numberOfPages
+            val info = reader.info
+            reader.close()
 
             it("is a valid PDF file") {
-                val reader = PdfReader(file.absolutePath)
-                reader.close()
-            }
-
-            val deleted = file.delete()
-            it("deletes the tmp PDF file") {
-                deleted shouldBe true
+                pages shouldBe 1
+                info shouldNotBe null
+                info["Producer"] shouldStartWith "iText"
             }
         }
     }
