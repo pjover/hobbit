@@ -14,8 +14,10 @@ import cat.hobbiton.hobbit.util.AppException
 import cat.hobbiton.hobbit.util.ZipFile
 import cat.hobbiton.hobbit.util.ZipService
 import org.springframework.core.io.Resource
+import org.springframework.stereotype.Service
 import java.time.YearMonth
 
+@Service
 class PdfServiceImpl(
     private val invoiceRepository: InvoiceRepository,
     private val customerRepository: CachedCustomerRepository,
@@ -51,8 +53,7 @@ class PdfServiceImpl(
 
     private fun getZipFile(invoice: Invoice): ZipFile {
         val customer = customerRepository.getCustomer(invoice.customerId)
-        val pdfName = "${invoice.id} (${customer.id}).pdf"
-        return ZipFile(pdfName, getPdf(invoice, customer).inputStream)
+        return ZipFile(invoice.getPdfName(), getPdf(invoice, customer).inputStream)
     }
 
     private fun getPdf(invoice: Invoice, customer: Customer): Resource {

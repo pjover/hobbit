@@ -12,8 +12,10 @@ import cat.hobbiton.hobbit.model.extension.grossAmount
 import cat.hobbiton.hobbit.model.extension.taxAmount
 import cat.hobbiton.hobbit.model.extension.totalAmount
 import cat.hobbiton.hobbit.service.generate.pdf.PdfBuilderService
+import cat.hobbiton.hobbit.service.generate.pdf.getPdfName
 import cat.hobbiton.hobbit.service.init.BusinessProperties
 import cat.hobbiton.hobbit.util.AppException
+import cat.hobbiton.hobbit.util.InputStreamFilenameResource
 import cat.hobbiton.hobbit.util.translate
 import com.itextpdf.text.*
 import com.itextpdf.text.Font.FontFamily
@@ -21,13 +23,8 @@ import com.itextpdf.text.pdf.PdfPCell
 import com.itextpdf.text.pdf.PdfPTable
 import com.itextpdf.text.pdf.PdfWriter
 import com.itextpdf.text.pdf.draw.LineSeparator
-import org.springframework.core.io.ByteArrayResource
-import org.springframework.core.io.Resource
 import org.springframework.stereotype.Service
-import java.io.ByteArrayOutputStream
-import java.io.File
-import java.io.IOException
-import java.io.OutputStream
+import java.io.*
 import java.text.NumberFormat
 import java.time.format.DateTimeFormatter
 import java.util.*
