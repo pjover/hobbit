@@ -12,9 +12,9 @@ import cat.hobbiton.hobbit.service.billing.invoice2
 import cat.hobbiton.hobbit.testAdultMother
 import cat.hobbiton.hobbit.testChild3
 import cat.hobbiton.hobbit.testCustomer
-import cat.hobbiton.hobbit.util.ByteArrayFilenameResource
-import cat.hobbiton.hobbit.util.ZipService
 import cat.hobbiton.hobbit.util.error.NotFoundException
+import cat.hobbiton.hobbit.util.file.FileResource
+import cat.hobbiton.hobbit.util.file.ZipService
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.DescribeSpec
 import io.mockk.*
@@ -81,8 +81,10 @@ class PdfServiceImplTest : DescribeSpec() {
                 mockReaders(invoiceRepository, customerRepository, productRepository)
                 mockWriters(invoiceRepository)
                 mockZipService(zipService)
-                every { pdfBuilderService.generate(invoice1(), customer1, productMap1) } returns ByteArrayFilenameResource("PDF1".toByteArray(StandardCharsets.UTF_8), invoice1().getPdfName())
-                every { pdfBuilderService.generate(invoice2(), customer2, productMap2) } returns ByteArrayFilenameResource("PDF2".toByteArray(StandardCharsets.UTF_8), invoice2().getPdfName())
+                every { pdfBuilderService.generate(invoice1(), customer1, productMap1) } returns
+                    FileResource("PDF1".toByteArray(StandardCharsets.UTF_8), invoice1().getPdfName())
+                every { pdfBuilderService.generate(invoice2(), customer2, productMap2) } returns
+                    FileResource("PDF2".toByteArray(StandardCharsets.UTF_8), invoice2().getPdfName())
 
                 val actual = sut.generatePDFs(YEAR_MONTH.toString())
 
@@ -139,7 +141,7 @@ class PdfServiceImplTest : DescribeSpec() {
                 mockZipService(zipService)
                 every { customerRepository.getCustomer(185) } returns customer1
                 every { invoiceRepository.findById(any()) } returns Optional.of(invoice1())
-                val pdf = ByteArrayFilenameResource("PDF1".toByteArray(StandardCharsets.UTF_8), "XX (185).pdf")
+                val pdf = FileResource("PDF1".toByteArray(StandardCharsets.UTF_8), "XX (185).pdf")
                 every { pdfBuilderService.generate(invoice1(), customer1, productMap1) } returns pdf
 
                 val actual = sut.generatePDF("XX")
@@ -229,5 +231,7 @@ private fun mockWriters(invoiceRepository: InvoiceRepository) {
 
 private fun mockZipService(zipService: ZipService) {
     val filenameSlot = slot<String>()
-    every { zipService.zipFiles(any(), capture(filenameSlot)) } answers { ByteArrayFilenameResource("ZIP".toByteArray(StandardCharsets.UTF_8), filenameSlot.captured) }
+    every { zipService.zipFiles(any(), capture(filenameSlot)) } answers {
+        FileResource("ZIP".toByteArray(StandardCharsets.UTF_8), filenameSlot.captured)
+    }
 }

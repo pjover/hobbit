@@ -9,9 +9,9 @@ import cat.hobbiton.hobbit.messages.ErrorMessages
 import cat.hobbiton.hobbit.model.Invoice
 import cat.hobbiton.hobbit.model.extension.totalAmount
 import cat.hobbiton.hobbit.service.generate.getCustomerInvoicesDTOs
-import cat.hobbiton.hobbit.util.ByteArrayFilenameResource
-import cat.hobbiton.hobbit.util.ZipService
 import cat.hobbiton.hobbit.util.error.NotFoundException
+import cat.hobbiton.hobbit.util.file.FileResource
+import cat.hobbiton.hobbit.util.file.ZipService
 import org.springframework.core.io.Resource
 import org.springframework.stereotype.Service
 import java.time.YearMonth
@@ -50,7 +50,7 @@ class PdfServiceImpl(
         return pdfs
     }
 
-    private fun getPdf(invoice: Invoice): ByteArrayFilenameResource {
+    private fun getPdf(invoice: Invoice): FileResource {
         val customer = customerRepository.getCustomer(invoice.customerId)
         val products = invoice.lines.map { it.productId to productRepository.getProduct(it.productId) }.toMap()
         return pdfBuilderService.generate(invoice, customer, products)

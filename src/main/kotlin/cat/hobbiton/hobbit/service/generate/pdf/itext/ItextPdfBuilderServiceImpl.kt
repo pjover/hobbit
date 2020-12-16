@@ -15,8 +15,8 @@ import cat.hobbiton.hobbit.service.generate.pdf.PdfBuilderService
 import cat.hobbiton.hobbit.service.generate.pdf.getPdfName
 import cat.hobbiton.hobbit.service.init.BusinessProperties
 import cat.hobbiton.hobbit.service.init.FormattingProperties
-import cat.hobbiton.hobbit.util.ByteArrayFilenameResource
 import cat.hobbiton.hobbit.util.error.AppException
+import cat.hobbiton.hobbit.util.file.FileResource
 import cat.hobbiton.hobbit.util.i18n.translate
 import com.itextpdf.text.*
 import com.itextpdf.text.Font.FontFamily
@@ -67,11 +67,11 @@ class ItextPdfBuilderServiceImpl(
         twoDecimalFormat.maximumFractionDigits = 2
     }
 
-    override fun generate(invoice: Invoice, customer: Customer, products: Map<String, Product>): ByteArrayFilenameResource {
+    override fun generate(invoice: Invoice, customer: Customer, products: Map<String, Product>): FileResource {
         try {
             ByteArrayOutputStream().use {
                 generate(it, invoice, customer, products)
-                return ByteArrayFilenameResource(it.toByteArray(), invoice.getPdfName())
+                return FileResource(it.toByteArray(), invoice.getPdfName())
             }
         } catch(e: Exception) {
             throw AppException(e, ErrorMessages.ERROR_WHILE_BUILDING_PDF, e.message!!)

@@ -1,17 +1,9 @@
-package cat.hobbiton.hobbit.util
+package cat.hobbiton.hobbit.util.file
 
-import org.springframework.core.io.ByteArrayResource
 import org.springframework.core.io.Resource
 import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType
 
-class ByteArrayFilenameResource(
-    byteArray: ByteArray,
-    private val fileName: String
-) : ByteArrayResource(byteArray, fileName) {
-
-    override fun getFilename() = fileName
-}
 
 fun Resource.getResponseHeaders(mediaType: MediaType): HttpHeaders {
     val headers = HttpHeaders()

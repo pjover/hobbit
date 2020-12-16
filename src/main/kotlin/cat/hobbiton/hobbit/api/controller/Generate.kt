@@ -2,7 +2,7 @@ package cat.hobbiton.hobbit.api.controller
 
 import cat.hobbiton.hobbit.api.model.PaymentTypeInvoicesDTO
 import cat.hobbiton.hobbit.service.generate.GenerateService
-import cat.hobbiton.hobbit.util.getResponseHeaders
+import cat.hobbiton.hobbit.util.file.getResponseHeaders
 import io.swagger.v3.oas.annotations.Operation
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.core.io.Resource

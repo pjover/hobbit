@@ -1,4 +1,4 @@
-package cat.hobbiton.hobbit.util
+package cat.hobbiton.hobbit.util.file
 
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.DescribeSpec
@@ -12,9 +12,9 @@ class ZipServiceImplTest : DescribeSpec() {
 
         describe("zipFiles") {
             val files = listOf(
-                ByteArrayFilenameResource("test".toByteArray(StandardCharsets.UTF_8), "file.1"),
-                ByteArrayFilenameResource("test".toByteArray(StandardCharsets.UTF_8), "file.2"),
-                ByteArrayFilenameResource("test".toByteArray(StandardCharsets.UTF_8), "file.3")
+                FileResource("test".toByteArray(StandardCharsets.UTF_8), "file.1"),
+                FileResource("test".toByteArray(StandardCharsets.UTF_8), "file.2"),
+                FileResource("test".toByteArray(StandardCharsets.UTF_8), "file.3")
             )
 
             val actual = sut.zipFiles(files, "file.zip")
