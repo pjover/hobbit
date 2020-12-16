@@ -3,6 +3,7 @@ package cat.hobbiton.hobbit.service.generate
 import cat.hobbiton.hobbit.YEAR_MONTH
 import cat.hobbiton.hobbit.service.billing.expectedInvoices
 import cat.hobbiton.hobbit.service.generate.bdd.BddService
+import cat.hobbiton.hobbit.service.generate.email.EmailService
 import cat.hobbiton.hobbit.service.generate.pdf.PdfService
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.DescribeSpec
@@ -16,7 +17,8 @@ class GenerateServiceImplTest : DescribeSpec() {
     init {
         val bddService = mockk<BddService>()
         val pdfService = mockk<PdfService>()
-        val sut = GenerateServiceImpl(bddService, pdfService)
+        val emailService = mockk<EmailService>()
+        val sut = GenerateServiceImpl(bddService, pdfService, emailService)
 
         val expectedResource = InputStreamResource("Test resource".byteInputStream(StandardCharsets.UTF_8))
         val expectedInvoice = expectedInvoices("??")
@@ -44,34 +46,61 @@ class GenerateServiceImplTest : DescribeSpec() {
             }
         }
 
-        describe("simulatePDFs") {
-            every { pdfService.simulatePDFs(any()) } returns expectedInvoice
+        describe("PDF") {
 
-            val actual = sut.simulatePDFs(YEAR_MONTH.toString())
+            context("simulatePDFs") {
+                every { pdfService.simulatePDFs(any()) } returns expectedInvoice
 
-            it("should return the correct invoice") {
-                actual shouldBe expectedInvoice
+                val actual = sut.simulatePDFs(YEAR_MONTH.toString())
+
+                it("should return the correct invoice") {
+                    actual shouldBe expectedInvoice
+                }
+            }
+
+            context("generatePDFs") {
+                every { pdfService.generatePDFs(any()) } returns expectedResource
+
+                val actual = sut.generatePDFs(YEAR_MONTH.toString())
+
+                it("should return the correct resource") {
+                    actual shouldBe expectedResource
+                }
+            }
+
+            context("generatePDF") {
+                every { pdfService.generatePDF(any()) } returns expectedResource
+
+                val actual = sut.generatePDF("F-1")
+
+                it("should return the correct PaymentTypeInvoicesDTO") {
+                    actual shouldBe expectedResource
+                }
             }
         }
 
-        describe("generatePDFs") {
-            every { pdfService.generatePDFs(any()) } returns expectedResource
+        describe("Email") {
 
-            val actual = sut.generatePDFs(YEAR_MONTH.toString())
+            context("simulateEmails") {
+                every { emailService.simulateEmails(any()) } returns expectedInvoice[0]
 
-            it("should return the correct resource") {
-                actual shouldBe expectedResource
+                val actual = sut.simulateEmails(YEAR_MONTH.toString())
+
+                it("should return the correct invoice") {
+                    actual shouldBe expectedInvoice[0]
+                }
             }
-        }
 
-        describe("generatePDF") {
-            every { pdfService.generatePDF(any()) } returns expectedResource
+            context("generateEmails") {
+                every { emailService.generateEmails(any()) } returns expectedInvoice[0]
 
-            val actual = sut.generatePDF("F-1")
+                val actual = sut.generateEmails(YEAR_MONTH.toString())
 
-            it("should return the correct PaymentTypeInvoicesDTO") {
-                actual shouldBe expectedResource
+                it("should return the correct resource") {
+                    actual shouldBe expectedInvoice[0]
+                }
             }
+
         }
     }
 
