@@ -1,5 +1,6 @@
 package cat.hobbiton.hobbit.service.generate
 
+import cat.hobbiton.hobbit.api.model.PaymentTypeInvoicesDTO
 import cat.hobbiton.hobbit.service.generate.bdd.BddService
 import cat.hobbiton.hobbit.service.generate.pdf.PdfService
 import org.springframework.stereotype.Service
@@ -19,4 +20,12 @@ class GenerateServiceImpl(
     override fun generatePDFs(yearMonth: String) = pdfService.generatePDFs(yearMonth)
 
     override fun generatePDF(invoiceId: String) = pdfService.generatePDF(invoiceId)
+
+    override fun simulateEmails(yearMonth: String): PaymentTypeInvoicesDTO {
+        TODO("Not yet implemented")
+    }
+
+    override fun generateEmails(yearMonth: String): PaymentTypeInvoicesDTO {
+        TODO("Not yet implemented")
+    }
 }
