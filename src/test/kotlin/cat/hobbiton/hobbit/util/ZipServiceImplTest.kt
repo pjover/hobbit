@@ -12,19 +12,18 @@ class ZipServiceImplTest : DescribeSpec() {
 
         describe("zipFiles") {
             val files = listOf(
-                ZipFile("file.1", "test".byteInputStream(StandardCharsets.UTF_8)),
-                ZipFile("file.2", "test".byteInputStream(StandardCharsets.UTF_8)),
-                ZipFile("file.3", "test".byteInputStream(StandardCharsets.UTF_8))
+                ByteArrayFilenameResource("test".toByteArray(StandardCharsets.UTF_8), "file.1"),
+                ByteArrayFilenameResource("test".toByteArray(StandardCharsets.UTF_8), "file.2"),
+                ByteArrayFilenameResource("test".toByteArray(StandardCharsets.UTF_8), "file.3")
             )
 
             val actual = sut.zipFiles(files, "file.zip")
-
-            val zis = ZipInputStream(actual.inputStream)
 
             it("returns the filename") {
                 actual.filename shouldBe "file.zip"
             }
 
+            val zis = ZipInputStream(actual.inputStream)
             it("contains the files") {
                 zis.nextEntry.name shouldBe "file.1"
                 zis.nextEntry.name shouldBe "file.2"

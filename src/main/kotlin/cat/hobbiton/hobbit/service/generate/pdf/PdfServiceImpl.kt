@@ -6,12 +6,10 @@ import cat.hobbiton.hobbit.db.repository.CachedCustomerRepository
 import cat.hobbiton.hobbit.db.repository.CachedProductRepository
 import cat.hobbiton.hobbit.db.repository.InvoiceRepository
 import cat.hobbiton.hobbit.messages.ErrorMessages
-import cat.hobbiton.hobbit.model.Customer
 import cat.hobbiton.hobbit.model.Invoice
 import cat.hobbiton.hobbit.model.extension.totalAmount
 import cat.hobbiton.hobbit.service.generate.getCustomerInvoicesDTOs
 import cat.hobbiton.hobbit.util.ByteArrayFilenameResource
-import cat.hobbiton.hobbit.util.ZipFile
 import cat.hobbiton.hobbit.util.ZipService
 import cat.hobbiton.hobbit.util.error.NotFoundException
 import org.springframework.core.io.Resource
@@ -47,17 +45,13 @@ class PdfServiceImpl(
 
     override fun generatePDFs(yearMonth: String): Resource {
         val invoices = getInvoices(yearMonth)
-        val pdfs = zipService.zipFiles(invoices.map { getZipFile(it) }, pdfsZipFilename)
+        val pdfs = zipService.zipFiles(invoices.map { getPdf(it) }, pdfsZipFilename)
         invoices.forEach { updateInvoice(it) }
         return pdfs
     }
 
-    private fun getZipFile(invoice: Invoice): ZipFile {
+    private fun getPdf(invoice: Invoice): ByteArrayFilenameResource {
         val customer = customerRepository.getCustomer(invoice.customerId)
-        return ZipFile(invoice.getPdfName(), getPdf(invoice, customer).inputStream)
-    }
-
-    private fun getPdf(invoice: Invoice, customer: Customer): ByteArrayFilenameResource {
         val products = invoice.lines.map { it.productId to productRepository.getProduct(it.productId) }.toMap()
         return pdfBuilderService.generate(invoice, customer, products)
     }
@@ -65,8 +59,7 @@ class PdfServiceImpl(
     override fun generatePDF(invoiceId: String): Resource {
         val invoice = invoiceRepository.findById(invoiceId)
             .orElseThrow { NotFoundException(ErrorMessages.ERROR_INVOICE_NOT_FOUND, invoiceId) }
-        val customer = customerRepository.getCustomer(invoice.customerId)
-        val pdf = getPdf(invoice, customer)
+        val pdf = getPdf(invoice)
         updateInvoice(invoice)
         return pdf
     }
