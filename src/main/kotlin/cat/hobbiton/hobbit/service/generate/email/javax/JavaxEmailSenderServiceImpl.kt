@@ -12,7 +12,7 @@ class JavaxEmailSenderServiceImpl : EmailSenderService {
         TODO("Not yet implemented")
     }
 
-    override fun send(batchCode: String) {
+    override fun send(batchCodes: List<String>) {
         TODO("Not yet implemented")
     }
 }

@@ -5,5 +5,5 @@ import cat.hobbiton.hobbit.model.Invoice
 
 interface EmailSenderService {
     fun enqueue(invoice: Invoice, customer: Customer): String
-    fun send(batchCode: String)
+    fun send(batchCodes: List<String>)
 }
