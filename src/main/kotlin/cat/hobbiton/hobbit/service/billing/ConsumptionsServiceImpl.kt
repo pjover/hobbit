@@ -8,7 +8,7 @@ import cat.hobbiton.hobbit.messages.ValidationMessages
 import cat.hobbiton.hobbit.model.Consumption
 import cat.hobbiton.hobbit.model.extension.shortName
 import cat.hobbiton.hobbit.service.aux.TimeService
-import cat.hobbiton.hobbit.util.translate
+import cat.hobbiton.hobbit.util.i18n.translate
 import org.springframework.stereotype.Service
 import java.math.BigDecimal
 import java.time.YearMonth
@@ -23,7 +23,7 @@ class ConsumptionsServiceImpl(
 ) : ConsumptionsService {
 
     override fun getChildConsumptions(childCode: Int): List<YearMonthConsumptionsDTO> {
-        return consumptionRepository.findByInvoicedOnNullAndChildCode(childCode)
+        return consumptionRepository.findByInvoiceIdNullAndChildCode(childCode)
             .groupBy { it.yearMonth }
             .map { (yearMonth, consumptions) ->
                 YearMonthConsumptionsDTO(
@@ -74,7 +74,7 @@ class ConsumptionsServiceImpl(
     }
 
     override fun getConsumptions(): List<YearMonthConsumptionsDTO> {
-        return consumptionRepository.findByInvoicedOnNull()
+        return consumptionRepository.findByInvoiceIdNull()
             .groupBy { it.yearMonth }
             .map { (yearMonth, consumptions) ->
                 YearMonthConsumptionsDTO(

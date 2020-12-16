@@ -2,7 +2,7 @@ package cat.hobbiton.hobbit.model.extension
 
 import cat.hobbiton.hobbit.messages.ValidationMessages
 import cat.hobbiton.hobbit.model.Product
-import cat.hobbiton.hobbit.util.translate
+import cat.hobbiton.hobbit.util.i18n.translate
 import java.math.BigDecimal
 
 private const val ID_MAX_LENGTH = 3

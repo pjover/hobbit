@@ -1,7 +1,13 @@
 package cat.hobbiton.hobbit.service.generate.bdd
 
-import cat.hobbiton.hobbit.model.Invoice
+import cat.hobbiton.hobbit.api.model.PaymentTypeInvoicesDTO
+import org.springframework.core.io.Resource
+
+const val bbdFilename = "bdd.q1x"
 
 interface BddService {
-    fun generate(invoices: List<Invoice>): String
+
+	fun simulateBDD(yearMonth: String?): PaymentTypeInvoicesDTO
+
+	fun generateBDD(yearMonth: String): Resource
 }

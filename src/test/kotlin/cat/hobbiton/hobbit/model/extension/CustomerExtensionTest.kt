@@ -2,7 +2,7 @@ package cat.hobbiton.hobbit.model.extension
 
 import cat.hobbiton.hobbit.*
 import cat.hobbiton.hobbit.model.AdultRole
-import cat.hobbiton.hobbit.util.AppException
+import cat.hobbiton.hobbit.util.error.AppException
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.DescribeSpec
 import kotlin.test.assertFailsWith

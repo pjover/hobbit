@@ -1,9 +1,9 @@
 package cat.hobbiton.hobbit.db.repository
 
 import cat.hobbiton.hobbit.testProduct
-import cat.hobbiton.hobbit.util.AppException
-import io.kotlintest.specs.DescribeSpec
+import cat.hobbiton.hobbit.util.error.NotFoundException
 import io.kotlintest.shouldBe
+import io.kotlintest.specs.DescribeSpec
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
@@ -27,7 +27,7 @@ class CachedProductRepositoryImplTest : DescribeSpec() {
                 }
 
                 it("calls the repository once") {
-                    verify(exactly = 1) {
+                    verify {
                         productRepository.findById("TST")
                     }
                 }
@@ -41,7 +41,7 @@ class CachedProductRepositoryImplTest : DescribeSpec() {
                 }
 
                 it("throws an error") {
-                    val exception = assertFailsWith<AppException> { executor.invoke() }
+                    val exception = assertFailsWith<NotFoundException> { executor.invoke() }
                     exception.message shouldBe "Cannot find product with id TST"
                 }
             }

@@ -1,16 +1,16 @@
 package cat.hobbiton.hobbit.service.billing
 
 import cat.hobbiton.hobbit.db.repository.SequenceRepository
+import cat.hobbiton.hobbit.model.Sequence
+import cat.hobbiton.hobbit.model.SequenceType
 import io.kotlintest.IsolationMode
-import io.kotlintest.specs.DescribeSpec
 import io.kotlintest.shouldBe
+import io.kotlintest.specs.DescribeSpec
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.slot
 import io.mockk.verify
 import java.util.*
-import cat.hobbiton.hobbit.model.Sequence
-import cat.hobbiton.hobbit.model.SequenceType
 
 class SequenceServiceImplTest : DescribeSpec() {
 
@@ -34,7 +34,7 @@ class SequenceServiceImplTest : DescribeSpec() {
             }
 
             it("calls the repository") {
-                verify(exactly = 1) {
+                verify {
                     sequenceRepository.findById(SequenceType.CUSTOMER)
                     sequenceRepository.save(eq(Sequence(SequenceType.CUSTOMER, 3)))
                 }
@@ -49,7 +49,7 @@ class SequenceServiceImplTest : DescribeSpec() {
             }
 
             it("calls the repository") {
-                verify(exactly = 1) {
+                verify {
                     sequenceRepository.findById(SequenceType.CUSTOMER)
                     sequenceRepository.save(eq(Sequence(SequenceType.CUSTOMER, 1)))
                 }

@@ -1,4 +1,4 @@
-package cat.hobbiton.hobbit.util
+package cat.hobbiton.hobbit.util.i18n
 
 import org.springframework.context.i18n.LocaleContextHolder
 import org.springframework.context.support.ResourceBundleMessageSource
@@ -16,7 +16,7 @@ object I18nTranslator {
     }
 
     fun translate(i18nMessage: I18nMessage, vararg params: Any): String {
-        return this.translateWithParamsArray(i18nMessage, params)
+        return translateWithParamsArray(i18nMessage, params)
     }
 
     fun translateWithParamsArray(i18nMessage: I18nMessage, params: Array<out Any>): String {

@@ -1,6 +1,6 @@
 package cat.hobbiton.hobbit.messages
 
-import cat.hobbiton.hobbit.util.I18nMessage
+import cat.hobbiton.hobbit.util.i18n.I18nMessage
 
 enum class ValidationMessages(
         override val code: String
@@ -50,5 +50,7 @@ enum class ValidationMessages(
     ERROR_YEAR_MONTH_INVALID("error.year_month.invalid"),
 
     ERROR_PAYMENT_TYPE_CONFIGURATION_UNDEFINED("error.payment_type.configuration.undefined"),
-    ERROR_DB_NAME_CONFIGURATION_UNDEFINED("error.db_name.configuration.undefined")
+    ERROR_DB_NAME_CONFIGURATION_UNDEFINED("error.db_name.configuration.undefined"),
+
+    ERROR_LOGO_FILE_NOT_FOUND("error.logo_file.not_found")
 }

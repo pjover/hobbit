@@ -1,6 +1,6 @@
 package cat.hobbiton.hobbit.messages
 
-import cat.hobbiton.hobbit.util.I18nErrorMessage
+import cat.hobbiton.hobbit.util.i18n.I18nErrorMessage
 import org.springframework.http.HttpStatus
 
 enum class ErrorMessages(
@@ -11,6 +11,10 @@ enum class ErrorMessages(
     ERROR_PRODUCT_NOT_FOUND("error.product.not_found", HttpStatus.NOT_FOUND),
     ERROR_CHILD_NOT_FOUND("error.child.not_found", HttpStatus.NOT_FOUND),
     ERROR_CUSTOMER_NOT_FOUND("error.customer.not_found", HttpStatus.NOT_FOUND),
-    ERROR_SEQUENCE_NOT_FOUND("error.sequence.not_found", HttpStatus.INTERNAL_SERVER_ERROR),
-    ERROR_SAVING_INVOICE("error.saving.invoice", HttpStatus.INTERNAL_SERVER_ERROR)
+    ERROR_SEQUENCE_NOT_FOUND("error.sequence.not_found", HttpStatus.NOT_FOUND),
+    ERROR_PDFS_TO_GENERATE_NOT_FOUND("error.pdfs_to_generate.not_found", HttpStatus.NOT_FOUND),
+    ERROR_INVOICE_NOT_FOUND("error.invoice.not_found", HttpStatus.NOT_FOUND),
+
+    ERROR_SAVING_INVOICE("error.saving.invoice", HttpStatus.INTERNAL_SERVER_ERROR),
+    ERROR_WHILE_BUILDING_PDF("error.while.building_pdf", HttpStatus.INTERNAL_SERVER_ERROR)
 }

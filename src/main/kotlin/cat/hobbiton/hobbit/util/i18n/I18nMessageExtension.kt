@@ -1,4 +1,4 @@
-package cat.hobbiton.hobbit.util
+package cat.hobbiton.hobbit.util.i18n
 
 
 fun I18nMessage.translate(vararg params: Any): String {

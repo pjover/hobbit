@@ -7,11 +7,11 @@ import io.mockk.every
 import io.mockk.mockk
 import java.nio.charset.StandardCharsets
 
-class StringBddServiceImplTest : DescribeSpec() {
+class StringBddBuilderServiceImplTest : DescribeSpec() {
 
     init {
         val invoicesToBddMapper = mockk<InvoicesToBddMapper>()
-        val sut = StringBddServiceImpl(invoicesToBddMapper)
+        val sut = StringBddBuilderServiceImpl(invoicesToBddMapper)
 
         describe("build()") {
             val expected = this::class.java.getResource("/Test_bdd.q1x")

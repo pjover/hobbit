@@ -1,4 +1,4 @@
-package cat.hobbiton.hobbit.util
+package cat.hobbiton.hobbit.util.i18n
 
 import cat.hobbiton.hobbit.messages.ValidationMessages
 import cat.hobbiton.hobbit.messages.ValidationMessages.ERROR_PRODUCT_ID_BLANK

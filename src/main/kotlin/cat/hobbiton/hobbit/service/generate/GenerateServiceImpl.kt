@@ -1,66 +1,22 @@
 package cat.hobbiton.hobbit.service.generate
 
-import cat.hobbiton.hobbit.api.model.CustomerInvoicesDTO
-import cat.hobbiton.hobbit.api.model.PaymentTypeDTO
-import cat.hobbiton.hobbit.api.model.PaymentTypeInvoicesDTO
-import cat.hobbiton.hobbit.db.repository.CachedCustomerRepository
-import cat.hobbiton.hobbit.db.repository.InvoiceRepository
-import cat.hobbiton.hobbit.model.Invoice
-import cat.hobbiton.hobbit.model.PaymentType
-import cat.hobbiton.hobbit.model.extension.getFirstAdult
-import cat.hobbiton.hobbit.model.extension.shortName
-import cat.hobbiton.hobbit.model.extension.totalAmount
-import cat.hobbiton.hobbit.service.aux.TimeService
-import cat.hobbiton.hobbit.service.billing.getInvoiceDto
 import cat.hobbiton.hobbit.service.generate.bdd.BddService
-import org.springframework.core.io.InputStreamResource
-import org.springframework.core.io.Resource
+import cat.hobbiton.hobbit.service.generate.pdf.PdfService
 import org.springframework.stereotype.Service
-import java.nio.charset.StandardCharsets
-import java.time.YearMonth
 
 @Service
 class GenerateServiceImpl(
     private val bddService: BddService,
-    private val invoiceRepository: InvoiceRepository,
-    private val customerRepository: CachedCustomerRepository,
-    private val timeService: TimeService
+    private val pdfService: PdfService
 ) : GenerateService {
 
-    override fun generateBDD(yearMonth: String?): Resource {
-        val invoices = getInvoices(yearMonth)
-        val bdd = bddService.generate(invoices)
-        return InputStreamResource(bdd.byteInputStream(StandardCharsets.UTF_8))
-    }
+    override fun simulateBDD(yearMonth: String?) = bddService.simulateBDD(yearMonth)
 
-    override fun simulateBDD(yearMonth: String?): PaymentTypeInvoicesDTO {
-        val invoices = getInvoices(yearMonth)
-        return PaymentTypeInvoicesDTO(
-            PaymentTypeDTO.BANK_DIRECT_DEBIT,
-            invoices.totalAmount().toDouble(),
-            getCustomerInvoicesDTOs(invoices)
-        )
-    }
+    override fun generateBDD(yearMonth: String) = bddService.generateBDD(yearMonth)
 
-    private fun getInvoices(yearMonth: String?): List<Invoice> {
-        val ym = if(yearMonth == null) timeService.currentYearMonth else YearMonth.parse(yearMonth)
-        return invoiceRepository.findByPaymentTypeAndYearMonthAndSentToBank(
-            PaymentType.BANK_DIRECT_DEBIT,
-            ym,
-            false)
-    }
+    override fun simulatePDFs(yearMonth: String) = pdfService.simulatePDFs(yearMonth)
 
-    private fun getCustomerInvoicesDTOs(invoices: List<Invoice>): List<CustomerInvoicesDTO> {
-        return invoices
-            .groupBy { it.customerId }
-            .map { (customerCode, customerInvoices) ->
-                val customer = customerRepository.getCustomer(customerCode)
-                CustomerInvoicesDTO(
-                    code = customerCode,
-                    shortName = customer.getFirstAdult().shortName(),
-                    totalAmount = customerInvoices.totalAmount().toDouble(),
-                    invoices = customerInvoices.map { getInvoiceDto(customer, it) }
-                )
-            }
-    }
+    override fun generatePDFs(yearMonth: String) = pdfService.generatePDFs(yearMonth)
+
+    override fun generatePDF(invoiceId: String) = pdfService.generatePDF(invoiceId)
 }

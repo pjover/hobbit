@@ -3,7 +3,7 @@ package cat.hobbiton.hobbit.service.init
 import cat.hobbiton.hobbit.messages.ValidationMessages
 import cat.hobbiton.hobbit.model.PaymentType
 import cat.hobbiton.hobbit.util.Logging
-import cat.hobbiton.hobbit.util.translate
+import cat.hobbiton.hobbit.util.i18n.translate
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.stereotype.Component
 import javax.annotation.PostConstruct
@@ -24,6 +24,8 @@ class BusinessProperties {
     lateinit var bddCountry: String
     lateinit var bddPurposeCode: String
     lateinit var paymentTypeNotes: MutableMap<String, String>
+    lateinit var locale: String
+    lateinit var longDateFormat: String
 
     private val logger by Logging()
 

@@ -4,7 +4,7 @@ import cat.hobbiton.hobbit.db.repository.SequenceRepository
 import cat.hobbiton.hobbit.messages.ErrorMessages
 import cat.hobbiton.hobbit.model.Sequence
 import cat.hobbiton.hobbit.model.SequenceType
-import cat.hobbiton.hobbit.util.AppException
+import cat.hobbiton.hobbit.util.error.NotFoundException
 import org.springframework.stereotype.Service
 
 @Service
@@ -26,6 +26,6 @@ class SequenceServiceImpl(
 
     private fun getSequence(sequenceType: SequenceType): Sequence {
         return sequenceRepository.findById(sequenceType)
-            .orElseThrow { AppException(ErrorMessages.ERROR_SEQUENCE_NOT_FOUND, sequenceType) }
+            .orElseThrow { NotFoundException(ErrorMessages.ERROR_SEQUENCE_NOT_FOUND, sequenceType) }
     }
 }

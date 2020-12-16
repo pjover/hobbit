@@ -1,4 +1,4 @@
-package cat.hobbiton.hobbit.util
+package cat.hobbiton.hobbit.util.i18n
 
 import org.springframework.context.annotation.Configuration
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer

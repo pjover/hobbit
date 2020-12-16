@@ -4,6 +4,6 @@ import cat.hobbiton.hobbit.model.Consumption
 import org.springframework.data.mongodb.repository.MongoRepository
 
 interface ConsumptionRepository : MongoRepository<Consumption, String> {
-    fun findByInvoicedOnNull(): List<Consumption>
-    fun findByInvoicedOnNullAndChildCode(childCode: Int): List<Consumption>
+    fun findByInvoiceIdNull(): List<Consumption>
+    fun findByInvoiceIdNullAndChildCode(childCode: Int): List<Consumption>
 }

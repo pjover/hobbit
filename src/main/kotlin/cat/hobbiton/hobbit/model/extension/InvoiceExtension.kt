@@ -1,8 +1,9 @@
 package cat.hobbiton.hobbit.model.extension
 
 import cat.hobbiton.hobbit.messages.ValidationMessages
+import cat.hobbiton.hobbit.model.Customer
 import cat.hobbiton.hobbit.model.Invoice
-import cat.hobbiton.hobbit.util.translate
+import cat.hobbiton.hobbit.util.i18n.translate
 import java.math.BigDecimal
 import kotlin.reflect.KFunction1
 
@@ -30,6 +31,12 @@ fun Invoice.validate(maxAmount: Int, currency: String) {
     lines.forEach { it.validate() }
 }
 
+fun Invoice.childrenNames(customer: Customer): String {
+    return customer.children
+        .filter { this.childrenCodes.contains(it.code) }
+        .joinToString(", ") { it.name }
+}
+
 fun List<Invoice>.grossAmount(): BigDecimal = sum(Invoice::grossAmount)
 
 fun List<Invoice>.taxAmount(): BigDecimal = sum(Invoice::taxAmount)
@@ -38,7 +45,7 @@ fun List<Invoice>.totalAmount(): BigDecimal = sum(Invoice::totalAmount)
 
 private fun List<Invoice>.sum(getter: KFunction1<Invoice, BigDecimal>): BigDecimal {
     var accumulator: BigDecimal = BigDecimal.ZERO
-    for (element: Invoice in this) {
+    for(element: Invoice in this) {
         accumulator = getter(element).add(accumulator)
     }
     return accumulator

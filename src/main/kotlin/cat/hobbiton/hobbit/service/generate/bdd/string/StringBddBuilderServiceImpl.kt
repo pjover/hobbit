@@ -1,13 +1,13 @@
 package cat.hobbiton.hobbit.service.generate.bdd.string
 
 import cat.hobbiton.hobbit.model.Invoice
-import cat.hobbiton.hobbit.service.generate.bdd.BddService
+import cat.hobbiton.hobbit.service.generate.bdd.BddBuilderService
 import org.springframework.stereotype.Component
 
 @Component
-class StringBddServiceImpl(
+class StringBddBuilderServiceImpl(
     private val invoicesToBddMapper: InvoicesToBddMapper
-) : BddService {
+) : BddBuilderService {
 
     override fun generate(invoices: List<Invoice>): String {
         val bdd = invoicesToBddMapper.map(invoices)
