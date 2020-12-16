@@ -9,7 +9,7 @@ import cat.hobbiton.hobbit.model.PaymentType
 import cat.hobbiton.hobbit.model.extension.totalAmount
 import cat.hobbiton.hobbit.service.aux.TimeService
 import cat.hobbiton.hobbit.service.generate.getCustomerInvoicesDTOs
-import cat.hobbiton.hobbit.util.file.FileResource
+import cat.hobbiton.hobbit.util.resource.FileResource
 import org.springframework.core.io.Resource
 import org.springframework.stereotype.Service
 import java.nio.charset.StandardCharsets

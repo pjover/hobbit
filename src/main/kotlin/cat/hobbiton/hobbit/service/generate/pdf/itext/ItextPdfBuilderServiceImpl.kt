@@ -16,8 +16,8 @@ import cat.hobbiton.hobbit.service.generate.pdf.getPdfName
 import cat.hobbiton.hobbit.service.init.BusinessProperties
 import cat.hobbiton.hobbit.service.init.FormattingProperties
 import cat.hobbiton.hobbit.util.error.AppException
-import cat.hobbiton.hobbit.util.file.FileResource
 import cat.hobbiton.hobbit.util.i18n.translate
+import cat.hobbiton.hobbit.util.resource.FileResource
 import com.itextpdf.text.*
 import com.itextpdf.text.Font.FontFamily
 import com.itextpdf.text.pdf.PdfPCell

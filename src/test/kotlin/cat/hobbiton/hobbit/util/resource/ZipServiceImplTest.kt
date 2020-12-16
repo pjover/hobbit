@@ -1,4 +1,4 @@
-package cat.hobbiton.hobbit.util.file
+package cat.hobbiton.hobbit.util.resource
 
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.DescribeSpec

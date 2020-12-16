@@ -1,4 +1,4 @@
-package cat.hobbiton.hobbit.util.file
+package cat.hobbiton.hobbit.util.resource
 
 import org.springframework.stereotype.Service
 import java.io.ByteArrayOutputStream
