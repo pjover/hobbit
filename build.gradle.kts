@@ -40,6 +40,7 @@ dependencies {
 	implementation("org.springdoc:springdoc-openapi-kotlin:1.4.8")
 
 	implementation("com.itextpdf:itextpdf:5.5.13.2") // PDF generation with iText
+	implementation("org.jasypt:jasypt:1.9.3") // Java Simplified Encryption
 
 	testImplementation("org.springframework.boot:spring-boot-starter-test") {
 		exclude(mapOf("group" to "org.junit.vintage", "module" to "junit-vintage-engine"))
