@@ -1,4 +1,4 @@
-package cat.hobbiton.hobbit.service.init
+package cat.hobbiton.hobbit.init
 
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.stereotype.Component

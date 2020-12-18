@@ -1,4 +1,4 @@
-package cat.hobbiton.hobbit.service.init
+package cat.hobbiton.hobbit.init
 
 import cat.hobbiton.hobbit.messages.ValidationMessages
 import cat.hobbiton.hobbit.model.PaymentType

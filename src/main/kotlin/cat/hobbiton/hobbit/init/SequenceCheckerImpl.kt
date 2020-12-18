@@ -1,4 +1,4 @@
-package cat.hobbiton.hobbit.service.init
+package cat.hobbiton.hobbit.init
 
 import cat.hobbiton.hobbit.db.repository.CustomerRepository
 import cat.hobbiton.hobbit.db.repository.InvoiceRepository

@@ -3,13 +3,13 @@ package cat.hobbiton.hobbit.service.generate.bdd.string
 
 import cat.hobbiton.hobbit.db.repository.CachedCustomerRepository
 import cat.hobbiton.hobbit.db.repository.CachedProductRepository
+import cat.hobbiton.hobbit.init.BusinessProperties
 import cat.hobbiton.hobbit.model.Customer
 import cat.hobbiton.hobbit.model.Invoice
 import cat.hobbiton.hobbit.model.extension.calculateControlCode
 import cat.hobbiton.hobbit.model.extension.getSepaIndentifier
 import cat.hobbiton.hobbit.model.extension.totalAmount
 import cat.hobbiton.hobbit.service.aux.TimeService
-import cat.hobbiton.hobbit.service.init.BusinessProperties
 import org.apache.commons.lang3.StringUtils
 import org.springframework.stereotype.Component
 import java.math.BigDecimal
