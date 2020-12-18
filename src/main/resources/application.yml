@@ -40,3 +40,20 @@ formatting:
   longDateFormat: "MMMM d, yyyy"
 
 apiKey: "98162313-dc76-4ac9-b18c-8fd23e938085"
+
+jasypt:
+  encryptor:
+    bean: stringEncryptor
+
+spring:
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: fake_username
+    password: fake_password
+    properties:
+      mail:
+        smtp:
+          auth: true
+        starttls:
+          enable: true

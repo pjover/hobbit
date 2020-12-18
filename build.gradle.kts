@@ -31,6 +31,7 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
 	implementation("org.springframework.boot:spring-boot-starter-data-rest")
 	implementation("org.springframework.boot:spring-boot-starter-web")
+	implementation("org.springframework.boot:spring-boot-starter-mail")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
@@ -40,7 +41,7 @@ dependencies {
 	implementation("org.springdoc:springdoc-openapi-kotlin:1.4.8")
 
 	implementation("com.itextpdf:itextpdf:5.5.13.2") // PDF generation with iText
-	implementation("org.jasypt:jasypt:1.9.3") // Java Simplified Encryption
+	implementation("com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.3") // Java Simplified Encryption
 
 	testImplementation("org.springframework.boot:spring-boot-starter-test") {
 		exclude(mapOf("group" to "org.junit.vintage", "module" to "junit-vintage-engine"))
