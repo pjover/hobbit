@@ -10,5 +10,5 @@ data class InvoiceLine(
     @Field(targetType = FieldType.DECIMAL128) val units: BigDecimal,
     @Field(targetType = FieldType.DECIMAL128) val productPrice: BigDecimal,
     @Field(targetType = FieldType.DECIMAL128) val taxPercentage: BigDecimal = BigDecimal.ZERO,
-    val childCode: Int
+    val childCode: Int = 0
 )
