@@ -24,6 +24,7 @@ class SequenceCheckerImpl(
         checkCustomerSequence(map[SequenceType.CUSTOMER])
         checkSequence(map[SequenceType.STANDARD_INVOICE], SequenceType.STANDARD_INVOICE)
         checkSequence(map[SequenceType.SPECIAL_INVOICE], SequenceType.SPECIAL_INVOICE)
+        checkSequence(map[SequenceType.RECTIFICATION_INVOICE], SequenceType.RECTIFICATION_INVOICE)
     }
 
     private fun checkCustomerSequence(sequence: Sequence?) {
