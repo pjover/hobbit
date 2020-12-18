@@ -3,10 +3,10 @@ package cat.hobbiton.hobbit.service.generate.bdd.string
 import cat.hobbiton.hobbit.DATE
 import cat.hobbiton.hobbit.db.repository.CachedCustomerRepository
 import cat.hobbiton.hobbit.db.repository.CachedProductRepository
+import cat.hobbiton.hobbit.init.BusinessProperties
 import cat.hobbiton.hobbit.model.*
 import cat.hobbiton.hobbit.model.extension.totalAmount
 import cat.hobbiton.hobbit.service.aux.TimeService
-import cat.hobbiton.hobbit.service.init.BusinessProperties
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.DescribeSpec
 import io.mockk.every

@@ -309,6 +309,43 @@ paths:
                 type: string
                 format: binary
 
+  /generate/email:
+    get:
+      tags:
+        - Generate
+      description: Return the pending invoices (not sent by email) that will be sent to the customers
+      operationId: simulateEmails
+      parameters:
+        - name: yearMonth
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentTypeInvoicesDTO'
+    post:
+      tags:
+        - Generate
+      description: Sends the emails to the customers, for all pending invoices (not sent by email)
+      operationId: generateEmails
+      parameters:
+        - name: yearMonth
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentTypeInvoicesDTO'
 
 components:
   schemas:

@@ -1,5 +1,7 @@
 package cat.hobbiton.hobbit.service.generate.pdf.itext
 
+import cat.hobbiton.hobbit.init.BusinessProperties
+import cat.hobbiton.hobbit.init.FormattingProperties
 import cat.hobbiton.hobbit.logoResourcePath
 import cat.hobbiton.hobbit.messages.ErrorMessages
 import cat.hobbiton.hobbit.messages.TextMessages
@@ -13,11 +15,9 @@ import cat.hobbiton.hobbit.model.extension.taxAmount
 import cat.hobbiton.hobbit.model.extension.totalAmount
 import cat.hobbiton.hobbit.service.generate.pdf.PdfBuilderService
 import cat.hobbiton.hobbit.service.generate.pdf.getPdfName
-import cat.hobbiton.hobbit.service.init.BusinessProperties
-import cat.hobbiton.hobbit.service.init.FormattingProperties
 import cat.hobbiton.hobbit.util.error.AppException
-import cat.hobbiton.hobbit.util.file.FileResource
 import cat.hobbiton.hobbit.util.i18n.translate
+import cat.hobbiton.hobbit.util.resource.FileResource
 import com.itextpdf.text.*
 import com.itextpdf.text.Font.FontFamily
 import com.itextpdf.text.pdf.PdfPCell

@@ -1,4 +1,4 @@
-package cat.hobbiton.hobbit.util.file
+package cat.hobbiton.hobbit.util.resource
 
 import org.springframework.core.io.Resource
 import org.springframework.http.HttpHeaders

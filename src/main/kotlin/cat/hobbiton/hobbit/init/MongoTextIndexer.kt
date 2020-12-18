@@ -1,4 +1,4 @@
-package cat.hobbiton.hobbit.service.init
+package cat.hobbiton.hobbit.init
 
 interface MongoTextIndexer {
     fun createIndexes()

@@ -15,4 +15,8 @@ interface GenerateService {
 	fun generatePDFs(yearMonth: String): Resource
 
 	fun generatePDF(invoiceId: String): Resource
+
+	fun simulateEmails(yearMonth: String): PaymentTypeInvoicesDTO
+
+	fun generateEmails(yearMonth: String): PaymentTypeInvoicesDTO
 }

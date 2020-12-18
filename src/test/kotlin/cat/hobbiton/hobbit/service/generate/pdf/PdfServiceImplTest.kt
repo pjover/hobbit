@@ -13,8 +13,8 @@ import cat.hobbiton.hobbit.testAdultMother
 import cat.hobbiton.hobbit.testChild3
 import cat.hobbiton.hobbit.testCustomer
 import cat.hobbiton.hobbit.util.error.NotFoundException
-import cat.hobbiton.hobbit.util.file.FileResource
-import cat.hobbiton.hobbit.util.file.ZipService
+import cat.hobbiton.hobbit.util.resource.FileResource
+import cat.hobbiton.hobbit.util.resource.ZipService
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.DescribeSpec
 import io.mockk.*

@@ -2,7 +2,7 @@ package cat.hobbiton.hobbit.api.controller
 
 import cat.hobbiton.hobbit.api.model.PaymentTypeInvoicesDTO
 import cat.hobbiton.hobbit.service.generate.GenerateService
-import cat.hobbiton.hobbit.util.file.getResponseHeaders
+import cat.hobbiton.hobbit.util.resource.getResponseHeaders
 import io.swagger.v3.oas.annotations.Operation
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.core.io.Resource
@@ -99,4 +99,30 @@ class GenerateController(@Autowired(required = true) val service: GenerateServic
             HttpStatus.valueOf(200)
         )
     }
+
+    @Operation(
+        description = "Return the pending invoices (not sent by email) that will be sent to the customers",
+        operationId = "simulateEmails"
+    )
+    @RequestMapping(
+        value = ["/generate/email"],
+        produces = ["application/json"],
+        method = [RequestMethod.GET])
+    fun simulateEmails(@RequestParam(value = "yearMonth", required = true) yearMonth: String): ResponseEntity<PaymentTypeInvoicesDTO> {
+        return ResponseEntity(service.simulateEmails(yearMonth), HttpStatus.valueOf(200))
+    }
+
+    @Operation(
+        description = "Sends the emails to the customers, for all pending invoices (not sent by email)",
+        operationId = "generateEmails"
+    )
+    @RequestMapping(
+        value = ["/generate/email"],
+        produces = ["application/json"],
+        method = [RequestMethod.POST])
+    fun generateEmails(@NotNull @RequestParam(value = "yearMonth", required = true) yearMonth: String): ResponseEntity<PaymentTypeInvoicesDTO> {
+        return ResponseEntity(service.generateEmails(yearMonth), HttpStatus.valueOf(200))
+    }
+
+
 }

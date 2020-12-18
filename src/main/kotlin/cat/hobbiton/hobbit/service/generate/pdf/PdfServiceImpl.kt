@@ -10,8 +10,8 @@ import cat.hobbiton.hobbit.model.Invoice
 import cat.hobbiton.hobbit.model.extension.totalAmount
 import cat.hobbiton.hobbit.service.generate.getCustomerInvoicesDTOs
 import cat.hobbiton.hobbit.util.error.NotFoundException
-import cat.hobbiton.hobbit.util.file.FileResource
-import cat.hobbiton.hobbit.util.file.ZipService
+import cat.hobbiton.hobbit.util.resource.FileResource
+import cat.hobbiton.hobbit.util.resource.ZipService
 import org.springframework.core.io.Resource
 import org.springframework.stereotype.Service
 import java.time.YearMonth

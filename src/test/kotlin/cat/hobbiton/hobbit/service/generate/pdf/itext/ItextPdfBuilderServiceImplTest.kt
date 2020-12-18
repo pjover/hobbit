@@ -1,7 +1,7 @@
 package cat.hobbiton.hobbit.service.generate.pdf.itext
 
-import cat.hobbiton.hobbit.service.init.BusinessProperties
-import cat.hobbiton.hobbit.service.init.FormattingProperties
+import cat.hobbiton.hobbit.init.BusinessProperties
+import cat.hobbiton.hobbit.init.FormattingProperties
 import cat.hobbiton.hobbit.testCustomer
 import cat.hobbiton.hobbit.testInvoice
 import cat.hobbiton.hobbit.testProducts
