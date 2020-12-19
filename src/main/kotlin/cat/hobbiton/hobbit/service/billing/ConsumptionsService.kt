@@ -11,4 +11,6 @@ interface ConsumptionsService {
 	fun getLastMonthConsumptions(): SetYearMonthConsumptionsDTO
 
 	fun setConsumptions(setYearMonthConsumptionsDTO: SetYearMonthConsumptionsDTO): List<YearMonthConsumptionsDTO>
+
+	fun setRectificationConsumptions(setYearMonthConsumptionsDTO: SetYearMonthConsumptionsDTO): List<YearMonthConsumptionsDTO>
 }

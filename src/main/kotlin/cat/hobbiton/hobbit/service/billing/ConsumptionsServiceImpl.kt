@@ -145,5 +145,9 @@ class ConsumptionsServiceImpl(
             note = consumtionDTO.note
         ))
     }
+
+    override fun setRectificationConsumptions(setYearMonthConsumptionsDTO: SetYearMonthConsumptionsDTO): List<YearMonthConsumptionsDTO> {
+        TODO("Not yet implemented")
+    }
 }
 

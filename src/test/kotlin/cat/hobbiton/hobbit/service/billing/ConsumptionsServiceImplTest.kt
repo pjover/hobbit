@@ -223,6 +223,10 @@ class ConsumptionsServiceImplTest : DescribeSpec() {
                 consumptionRepository.save(any())
             }
         }
+
+        describe("setRectificationConsumptions") {
+            TODO("Not yet implemented")
+        }
     }
 
     private fun allChildrenConsumptions() = listOf(
