@@ -31,7 +31,7 @@ class SequenceCheckerImpl(
 
         val customers = customerRepository.findAll()
         val lastCustomer =
-                if (customers.isEmpty()) 1
+                if(customers.isEmpty()) 0
                 else customers.maxByOrNull { it.id }!!.id
 
         if (sequence == null) {
@@ -53,7 +53,7 @@ class SequenceCheckerImpl(
         val invoices = invoiceRepository.findByIdStartingWith(sequenceType.prefix)
 
         if (invoices.isEmpty()) {
-            val createdSequence = sequenceRepository.save(Sequence(sequenceType, 1))
+            val createdSequence = sequenceRepository.save(Sequence(sequenceType, 0))
             logger.info("ℹ️ Created sequence $createdSequence")
             return
         }
