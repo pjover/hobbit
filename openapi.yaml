@@ -550,6 +550,7 @@ components:
         - BANK_TRANSFER
         - VOUCHER
         - CASH
+        - RECTIFICATION
 
     PaymentTypeInvoicesDTO:
       description: Invoices grouped by payment type
