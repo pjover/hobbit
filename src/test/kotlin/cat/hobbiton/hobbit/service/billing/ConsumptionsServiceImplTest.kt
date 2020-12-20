@@ -185,7 +185,8 @@ class ConsumptionsServiceImplTest : DescribeSpec() {
         describe("setConsumptions") {
             mockAuxReaders(customerRepository, productRepository)
             mockConsumptionsReader(consumptionRepository)
-            every { consumptionRepository.save(any()) } answers { firstArg() }
+            val capturedConsumptions = mutableListOf<Consumption>()
+            every { consumptionRepository.save(capture(capturedConsumptions)) } answers { firstArg() }
 
             val actual = sut.setConsumptions(
                 SetYearMonthConsumptionsDTO(
@@ -219,13 +220,126 @@ class ConsumptionsServiceImplTest : DescribeSpec() {
                 actual shouldBe allChildrenConsumptions()
             }
 
-            verify(exactly = 5) {
-                consumptionRepository.save(any())
+            it("saves the consumptions") {
+                verify(exactly = 5) {
+                    consumptionRepository.save(any())
+                }
+
+                capturedConsumptions[0].productId shouldBe "TST"
+                capturedConsumptions[0].childCode shouldBe 1850
+                capturedConsumptions[0].units shouldBe BigDecimal.valueOf(2.0)
+                capturedConsumptions[0].yearMonth shouldBe YEAR_MONTH
+                capturedConsumptions[0].note shouldBe "Note 1"
+                capturedConsumptions[0].isRectification shouldBe false
+
+                capturedConsumptions[1].productId shouldBe "TST"
+                capturedConsumptions[1].childCode shouldBe 1850
+                capturedConsumptions[1].units shouldBe BigDecimal.valueOf(2.0)
+                capturedConsumptions[1].yearMonth shouldBe YEAR_MONTH
+                capturedConsumptions[1].note shouldBe "Note 2"
+                capturedConsumptions[1].isRectification shouldBe false
+
+                capturedConsumptions[2].productId shouldBe "TST"
+                capturedConsumptions[2].childCode shouldBe 1851
+                capturedConsumptions[2].units shouldBe BigDecimal.valueOf(2.0)
+                capturedConsumptions[2].yearMonth shouldBe YEAR_MONTH
+                capturedConsumptions[2].note shouldBe "Note 3"
+                capturedConsumptions[2].isRectification shouldBe false
+
+                capturedConsumptions[3].productId shouldBe "XXX"
+                capturedConsumptions[3].childCode shouldBe 1851
+                capturedConsumptions[3].units shouldBe BigDecimal.valueOf(2.0)
+                capturedConsumptions[3].yearMonth shouldBe YEAR_MONTH
+                capturedConsumptions[3].note shouldBe "Note 4"
+                capturedConsumptions[3].isRectification shouldBe false
+
+                capturedConsumptions[4].productId shouldBe "TST"
+                capturedConsumptions[4].childCode shouldBe 1852
+                capturedConsumptions[4].units shouldBe BigDecimal.valueOf(2.0)
+                capturedConsumptions[4].yearMonth shouldBe YEAR_MONTH
+                capturedConsumptions[4].note shouldBe "Note 5"
+                capturedConsumptions[4].isRectification shouldBe false
             }
         }
 
         describe("setRectificationConsumptions") {
-            TODO("Not yet implemented")
+            mockAuxReaders(customerRepository, productRepository)
+            mockConsumptionsReader(consumptionRepository)
+            val capturedConsumptions = mutableListOf<Consumption>()
+            every { consumptionRepository.save(capture(capturedConsumptions)) } answers { firstArg() }
+
+            val actual = sut.setRectificationConsumptions(
+                SetYearMonthConsumptionsDTO(
+                    yearMonth = YEAR_MONTH.toString(),
+                    listOf(
+                        SetChildConsumtionDTO(
+                            code = 1850,
+                            listOf(
+                                SetConsumtionDTO("TST", 2.0, "Note 1"),
+                                SetConsumtionDTO("TST", 2.0, "Note 2")
+                            )
+                        ),
+                        SetChildConsumtionDTO(
+                            code = 1851,
+                            listOf(
+                                SetConsumtionDTO("TST", 2.0, "Note 3"),
+                                SetConsumtionDTO("XXX", 2.0, "Note 4")
+                            )
+                        ),
+                        SetChildConsumtionDTO(
+                            code = 1852,
+                            listOf(
+                                SetConsumtionDTO("TST", 2.0, "Note 5")
+                            )
+                        )
+                    )
+                )
+            )
+
+            it("return the consumpion of all children") {
+                actual shouldBe allChildrenConsumptions()
+            }
+
+            it("saves the consumptions") {
+                verify(exactly = 5) {
+                    consumptionRepository.save(any())
+                }
+
+                capturedConsumptions[0].productId shouldBe "TST"
+                capturedConsumptions[0].childCode shouldBe 1850
+                capturedConsumptions[0].units shouldBe BigDecimal.valueOf(2.0)
+                capturedConsumptions[0].yearMonth shouldBe YEAR_MONTH
+                capturedConsumptions[0].note shouldBe "Note 1"
+                capturedConsumptions[0].isRectification shouldBe true
+
+                capturedConsumptions[1].productId shouldBe "TST"
+                capturedConsumptions[1].childCode shouldBe 1850
+                capturedConsumptions[1].units shouldBe BigDecimal.valueOf(2.0)
+                capturedConsumptions[1].yearMonth shouldBe YEAR_MONTH
+                capturedConsumptions[1].note shouldBe "Note 2"
+                capturedConsumptions[1].isRectification shouldBe true
+
+                capturedConsumptions[2].productId shouldBe "TST"
+                capturedConsumptions[2].childCode shouldBe 1851
+                capturedConsumptions[2].units shouldBe BigDecimal.valueOf(2.0)
+                capturedConsumptions[2].yearMonth shouldBe YEAR_MONTH
+                capturedConsumptions[2].note shouldBe "Note 3"
+                capturedConsumptions[2].isRectification shouldBe true
+
+                capturedConsumptions[3].productId shouldBe "XXX"
+                capturedConsumptions[3].childCode shouldBe 1851
+                capturedConsumptions[3].units shouldBe BigDecimal.valueOf(2.0)
+                capturedConsumptions[3].yearMonth shouldBe YEAR_MONTH
+                capturedConsumptions[3].note shouldBe "Note 4"
+                capturedConsumptions[3].isRectification shouldBe true
+
+                capturedConsumptions[4].productId shouldBe "TST"
+                capturedConsumptions[4].childCode shouldBe 1852
+                capturedConsumptions[4].units shouldBe BigDecimal.valueOf(2.0)
+                capturedConsumptions[4].yearMonth shouldBe YEAR_MONTH
+                capturedConsumptions[4].note shouldBe "Note 5"
+                capturedConsumptions[4].isRectification shouldBe true
+            }
         }
     }
 
