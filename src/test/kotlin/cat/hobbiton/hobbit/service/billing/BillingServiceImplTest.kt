@@ -5,10 +5,7 @@ import cat.hobbiton.hobbit.api.model.*
 import cat.hobbiton.hobbit.db.repository.CachedCustomerRepository
 import cat.hobbiton.hobbit.db.repository.CachedProductRepository
 import cat.hobbiton.hobbit.db.repository.ConsumptionRepository
-import cat.hobbiton.hobbit.model.Invoice
-import cat.hobbiton.hobbit.model.InvoiceLine
-import cat.hobbiton.hobbit.model.PaymentType
-import cat.hobbiton.hobbit.model.Product
+import cat.hobbiton.hobbit.model.*
 import cat.hobbiton.hobbit.service.aux.TimeService
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.DescribeSpec
@@ -32,7 +29,7 @@ class BillingServiceImplTest : DescribeSpec() {
 
         describe("getInvoices") {
             mockReaders(customerRepository, productRepository)
-            mockConsumptionsReader(consumptionRepository)
+            every { consumptionRepository.findByInvoiceIdNull() } returns consumptions
 
             val actual = sut.getInvoices()
 
@@ -43,7 +40,7 @@ class BillingServiceImplTest : DescribeSpec() {
 
         describe("setInvoices") {
             mockReaders(customerRepository, productRepository)
-            mockConsumptionsReader(consumptionRepository)
+            every { consumptionRepository.findByInvoiceIdNull() } returns consumptions
             val slot = slot<Invoice>()
             every { invoiceService.saveInvoice(capture(slot), any()) } answers { slot.captured.copy(id = "F-1") }
 
@@ -57,6 +54,7 @@ class BillingServiceImplTest : DescribeSpec() {
                 verify {
                     invoiceService.saveInvoice(invoice1(), any())
                     invoiceService.saveInvoice(invoice2(), any())
+                    invoiceService.saveInvoice(invoice3(), any())
                 }
             }
         }
@@ -152,6 +150,34 @@ fun expectedInvoices(code: String) = listOf(
                 )
             )
         )
+    ),
+    PaymentTypeInvoicesDTO(
+        paymentType = PaymentTypeDTO.RECTIFICATION,
+        totalAmount = -21.8,
+        customers = listOf(
+            CustomerInvoicesDTO(
+                code = 186,
+                shortName = "Silvia Mayol",
+                totalAmount = -21.8,
+                invoices = listOf(
+                    InvoiceDTO(
+                        code = code,
+                        yearMonth = YEAR_MONTH.toString(),
+                        children = listOf("Laia"),
+                        totalAmount = -21.8,
+                        lines = listOf(
+                            InvoiceLineDTO(
+                                productId = "TST",
+                                units = -2.0,
+                                totalAmount = -21.8,
+                                childCode = 1852
+                            )
+                        ),
+                        note = "Note 6"
+                    )
+                )
+            )
+        )
     )
 )
 
@@ -207,5 +233,75 @@ fun invoice2() = Invoice(
     note = "Note 5"
 )
 
+fun invoice3() = Invoice(
+    id = "??",
+    customerId = 186,
+    date = DATE,
+    yearMonth = YEAR_MONTH,
+    childrenCodes = listOf(1852),
+    paymentType = PaymentType.RECTIFICATION,
+    lines = listOf(
+        InvoiceLine(
+            productId = "TST",
+            productName = "TST product",
+            units = BigDecimal.valueOf(-2),
+            productPrice = BigDecimal.valueOf(10.9),
+            childCode = 1852
+        )
+    ),
+    note = "Note 6"
+)
+
+val consumptions = listOf(
+    Consumption(
+        id = "AA1",
+        childCode = 1850,
+        productId = "TST",
+        units = BigDecimal.valueOf(2),
+        yearMonth = YEAR_MONTH,
+        note = "Note 1"
+    ),
+    Consumption(
+        id = "AA2",
+        childCode = 1850,
+        productId = "TST",
+        units = BigDecimal.valueOf(2),
+        yearMonth = YEAR_MONTH,
+        note = "Note 2"
+    ),
+    Consumption(
+        id = "AA3",
+        childCode = 1851,
+        productId = "TST",
+        units = BigDecimal.valueOf(2),
+        yearMonth = YEAR_MONTH,
+        note = "Note 3"
+    ),
+    Consumption(
+        id = "AA4",
+        childCode = 1851,
+        productId = "XXX",
+        units = BigDecimal.valueOf(2),
+        yearMonth = YEAR_MONTH,
+        note = "Note 4"
+    ),
+    Consumption(
+        id = "AA5",
+        childCode = 1852,
+        productId = "TST",
+        units = BigDecimal.valueOf(2),
+        yearMonth = YEAR_MONTH,
+        note = "Note 5"
+    ),
+    Consumption(
+        id = "AA6",
+        childCode = 1852,
+        productId = "TST",
+        units = BigDecimal.valueOf(-2),
+        yearMonth = YEAR_MONTH,
+        note = "Note 6",
+        isRectification = true
+    )
+)
 
 

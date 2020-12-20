@@ -7,10 +7,7 @@ import cat.hobbiton.hobbit.api.model.PaymentTypeInvoicesDTO
 import cat.hobbiton.hobbit.db.repository.CachedCustomerRepository
 import cat.hobbiton.hobbit.db.repository.CachedProductRepository
 import cat.hobbiton.hobbit.db.repository.ConsumptionRepository
-import cat.hobbiton.hobbit.model.Consumption
-import cat.hobbiton.hobbit.model.Customer
-import cat.hobbiton.hobbit.model.Invoice
-import cat.hobbiton.hobbit.model.InvoiceLine
+import cat.hobbiton.hobbit.model.*
 import cat.hobbiton.hobbit.model.extension.getFirstAdult
 import cat.hobbiton.hobbit.model.extension.shortName
 import cat.hobbiton.hobbit.service.aux.TimeService
@@ -33,6 +30,12 @@ class BillingServiceImpl(
 
     fun invoices(save: Boolean): List<PaymentTypeInvoicesDTO> {
         val consumptions = consumptionRepository.findByInvoiceIdNull()
+        val normalConsumptions = consumptions.filter { !it.isRectification }
+        val rectificationConsumptions = consumptions.filter { it.isRectification }
+        return normalInvoices(save, normalConsumptions) + rectificationInvoices(save, rectificationConsumptions)
+    }
+
+    fun normalInvoices(save: Boolean, consumptions: List<Consumption>): List<PaymentTypeInvoicesDTO> {
         return consumptions
             .map { Pair(customerRepository.getCustomerByChildCode(it.childCode), it) }
             .groupBy { it.first.invoiceHolder.paymentType }
@@ -43,6 +46,18 @@ class BillingServiceImpl(
                     customers = getCustomerInvoices(save, consumptions)
                 )
             }
+    }
+
+    fun rectificationInvoices(save: Boolean, consumptions: List<Consumption>): List<PaymentTypeInvoicesDTO> {
+        val consumptionsWhithUsers = consumptions
+            .map { Pair(customerRepository.getCustomerByChildCode(it.childCode), it) }
+        return listOf(
+            PaymentTypeInvoicesDTO(
+                paymentType = PaymentTypeDTO.RECTIFICATION,
+                totalAmount = getTotalAmount(consumptions),
+                customers = getCustomerInvoices(save, consumptionsWhithUsers)
+            )
+        )
     }
 
     private fun getTotalAmount(consumptions: List<Consumption>): Double {
@@ -81,13 +96,15 @@ class BillingServiceImpl(
 
     private fun getInvoice(save: Boolean, customer: Customer, yearMonth: YearMonth, consumptions: List<Consumption>): Invoice {
 
+        val paymentType = if(consumptions.first().isRectification) PaymentType.RECTIFICATION else customer.invoiceHolder.paymentType
+
         val invoice = Invoice(
             id = "??",
             customerId = customer.id,
             date = timeService.currentLocalDate,
             yearMonth = yearMonth,
             childrenCodes = consumptions.map { it.childCode }.distinct(),
-            paymentType = customer.invoiceHolder.paymentType,
+            paymentType = paymentType,
             subsidizedAmount = customer.invoiceHolder.subsidizedAmount,
             note = getNotes(consumptions),
             lines = getInvoiceLines(consumptions)

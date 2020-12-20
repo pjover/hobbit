@@ -1,12 +1,12 @@
 package cat.hobbiton.hobbit.service.generate.pdf
 
 import cat.hobbiton.hobbit.YEAR_MONTH
+import cat.hobbiton.hobbit.api.model.*
 import cat.hobbiton.hobbit.db.repository.CachedCustomerRepository
 import cat.hobbiton.hobbit.db.repository.CachedProductRepository
 import cat.hobbiton.hobbit.db.repository.InvoiceRepository
 import cat.hobbiton.hobbit.model.Invoice
 import cat.hobbiton.hobbit.model.Product
-import cat.hobbiton.hobbit.service.billing.expectedInvoices
 import cat.hobbiton.hobbit.service.billing.invoice1
 import cat.hobbiton.hobbit.service.billing.invoice2
 import cat.hobbiton.hobbit.testAdultMother
@@ -41,7 +41,7 @@ class PdfServiceImplTest : DescribeSpec() {
                 val actual = sut.simulatePDFs(YEAR_MONTH.toString())
 
                 it("should be the pending invoices") {
-                    actual shouldBe expectedInvoices("??")
+                    actual shouldBe expectedInvoices
                 }
 
                 it("call the collaborators") {
@@ -235,3 +235,68 @@ private fun mockZipService(zipService: ZipService) {
         FileResource("ZIP".toByteArray(StandardCharsets.UTF_8), filenameSlot.captured)
     }
 }
+
+val expectedInvoices = listOf(
+    PaymentTypeInvoicesDTO(
+        paymentType = PaymentTypeDTO.BANK_DIRECT_DEBIT,
+        totalAmount = 105.4,
+        customers = listOf(
+            CustomerInvoicesDTO(
+                code = 185,
+                shortName = "Joana Bibiloni",
+                totalAmount = 83.6,
+                invoices = listOf(
+                    InvoiceDTO(
+                        code = "??",
+                        yearMonth = YEAR_MONTH.toString(),
+                        children = listOf("Laura", "Aina"),
+                        totalAmount = 83.6,
+                        lines = listOf(
+                            InvoiceLineDTO(
+                                productId = "TST",
+                                units = 4.0,
+                                totalAmount = 43.6,
+                                childCode = 1850
+                            ),
+                            InvoiceLineDTO(
+                                productId = "TST",
+                                units = 2.0,
+                                totalAmount = 21.8,
+                                childCode = 1851
+                            ),
+                            InvoiceLineDTO(
+                                productId = "XXX",
+                                units = 2.0,
+                                totalAmount = 18.2,
+                                childCode = 1851
+                            )
+                        ),
+                        note = "Note 1, Note 2, Note 3, Note 4"
+                    )
+                )
+            ),
+            CustomerInvoicesDTO(
+                code = 186,
+                shortName = "Silvia Mayol",
+                totalAmount = 21.8,
+                invoices = listOf(
+                    InvoiceDTO(
+                        code = "??",
+                        yearMonth = YEAR_MONTH.toString(),
+                        children = listOf("Laia"),
+                        totalAmount = 21.8,
+                        lines = listOf(
+                            InvoiceLineDTO(
+                                productId = "TST",
+                                units = 2.0,
+                                totalAmount = 21.8,
+                                childCode = 1852
+                            )
+                        ),
+                        note = "Note 5"
+                    )
+                )
+            )
+        )
+    )
+)
