@@ -319,7 +319,7 @@ class ItextPdfBuilderServiceImpl(
         p.spacingBefore = 30f
         p.add(LineSeparator(0.5f, 100f, null, Element.ALIGN_CENTER, -2f))
         doc.add(p)
-        addNote(doc, businessProperties.getPaymentTypeNotes(customer.invoiceHolder.paymentType), italic)
+        addNote(doc, businessProperties.getPaymentTypeNotes(invoice.paymentType), italic)
     }
 
     private fun addNote(doc: Document, nota: String?, font: Font) {
