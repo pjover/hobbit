@@ -1,11 +1,11 @@
 package cat.hobbiton.hobbit.model
 
 enum class PaymentType(
-        val sequenceType: SequenceType,
-        val text: String
+    val sequenceType: SequenceType
 ) {
-    BANK_DIRECT_DEBIT(SequenceType.STANDARD_INVOICE, "rebut"),
-    BANK_TRANSFER(SequenceType.SPECIAL_INVOICE, "transferència"),
-    VOUCHER(SequenceType.SPECIAL_INVOICE, "xec escoleta"),
-    CASH(SequenceType.SPECIAL_INVOICE, "en metàlic");
+    BANK_DIRECT_DEBIT(SequenceType.STANDARD_INVOICE),
+    BANK_TRANSFER(SequenceType.SPECIAL_INVOICE),
+    VOUCHER(SequenceType.SPECIAL_INVOICE),
+    CASH(SequenceType.SPECIAL_INVOICE),
+    RECTIFICATION(SequenceType.RECTIFICATION_INVOICE);
 }

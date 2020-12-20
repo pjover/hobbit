@@ -24,7 +24,6 @@ internal class SequenceCheckerImplTest : DescribeSpec() {
         val sequenceRepository = mockk<SequenceRepository>()
         val sut = SequenceCheckerImpl(customerRepository, invoiceRepository, sequenceRepository)
 
-
         every { sequenceRepository.save(any()) } answers { firstArg() }
 
         describe("missed sequence") {
@@ -34,6 +33,7 @@ internal class SequenceCheckerImplTest : DescribeSpec() {
                 every { customerRepository.findAll() } returns emptyList()
                 every { invoiceRepository.findByIdStartingWith("F") } returns emptyList()
                 every { invoiceRepository.findByIdStartingWith("X") } returns emptyList()
+                every { invoiceRepository.findByIdStartingWith("R") } returns emptyList()
 
                 sut.checkSequences()
 
@@ -43,14 +43,16 @@ internal class SequenceCheckerImplTest : DescribeSpec() {
                         sequenceRepository.save(Sequence(SequenceType.CUSTOMER, 1))
                         sequenceRepository.save(Sequence(SequenceType.STANDARD_INVOICE, 1))
                         sequenceRepository.save(Sequence(SequenceType.SPECIAL_INVOICE, 1))
+                        sequenceRepository.save(Sequence(SequenceType.RECTIFICATION_INVOICE, 1))
                     }
                 }
             }
 
             context("missed C sequence") {
                 every { sequenceRepository.findAll() } returns listOf(
-                        Sequence(SequenceType.STANDARD_INVOICE, 103),
-                        Sequence(SequenceType.SPECIAL_INVOICE, 96)
+                    Sequence(SequenceType.STANDARD_INVOICE, 103),
+                    Sequence(SequenceType.SPECIAL_INVOICE, 96),
+                    Sequence(SequenceType.RECTIFICATION_INVOICE, 13)
                 )
                 every { sequenceRepository.save(any()) } answers { firstArg() }
                 every { customerRepository.findAll() } returns emptyList()
@@ -60,10 +62,16 @@ internal class SequenceCheckerImplTest : DescribeSpec() {
                     testInvoice(id = 103)
                 )
                 every { invoiceRepository.findByIdStartingWith("X") } returns listOf(
-                        testInvoice(id = 92, paymentType = PaymentType.VOUCHER),
-                        testInvoice(id = 94, paymentType = PaymentType.VOUCHER),
-                        testInvoice(id = 96, paymentType = PaymentType.VOUCHER)
+                    testInvoice(id = 92, paymentType = PaymentType.VOUCHER),
+                    testInvoice(id = 94, paymentType = PaymentType.VOUCHER),
+                    testInvoice(id = 96, paymentType = PaymentType.VOUCHER)
                 )
+                every { invoiceRepository.findByIdStartingWith("R") } returns listOf(
+                    testInvoice(id = 11),
+                    testInvoice(id = 12, paymentType = PaymentType.BANK_TRANSFER),
+                    testInvoice(id = 13, paymentType = PaymentType.VOUCHER)
+                )
+
                 sut.checkSequences()
 
                 it("creates the missed sequence") {
@@ -73,29 +81,34 @@ internal class SequenceCheckerImplTest : DescribeSpec() {
                     }
                 }
             }
-
         }
 
         describe("check sequences with all items synchronized") {
             every { sequenceRepository.findAll() } returns listOf(
-                    Sequence(SequenceType.CUSTOMER, 226),
-                    Sequence(SequenceType.STANDARD_INVOICE, 103),
-                    Sequence(SequenceType.SPECIAL_INVOICE, 96)
+                Sequence(SequenceType.CUSTOMER, 226),
+                Sequence(SequenceType.STANDARD_INVOICE, 103),
+                Sequence(SequenceType.SPECIAL_INVOICE, 96),
+                Sequence(SequenceType.RECTIFICATION_INVOICE, 13)
             )
             every { customerRepository.findAll() } returns listOf(
-                    testCustomer(223),
-                    testCustomer(225),
-                    testCustomer(226)
+                testCustomer(223),
+                testCustomer(225),
+                testCustomer(226)
             )
             every { invoiceRepository.findByIdStartingWith("F") } returns listOf(
-                    testInvoice(id = 98),
-                    testInvoice(id = 102),
-                    testInvoice(id = 103)
+                testInvoice(id = 98),
+                testInvoice(id = 102),
+                testInvoice(id = 103)
             )
             every { invoiceRepository.findByIdStartingWith("X") } returns listOf(
-                    testInvoice(id = 92, paymentType = PaymentType.VOUCHER),
-                    testInvoice(id = 94, paymentType = PaymentType.VOUCHER),
-                    testInvoice(id = 96, paymentType = PaymentType.VOUCHER)
+                testInvoice(id = 92, paymentType = PaymentType.VOUCHER),
+                testInvoice(id = 94, paymentType = PaymentType.VOUCHER),
+                testInvoice(id = 96, paymentType = PaymentType.VOUCHER)
+            )
+            every { invoiceRepository.findByIdStartingWith("R") } returns listOf(
+                testInvoice(id = 11),
+                testInvoice(id = 12, paymentType = PaymentType.BANK_TRANSFER),
+                testInvoice(id = 13, paymentType = PaymentType.VOUCHER)
             )
 
             sut.checkSequences()
@@ -112,26 +125,32 @@ internal class SequenceCheckerImplTest : DescribeSpec() {
 
         describe("check sequences with clients not synchronized") {
             every { sequenceRepository.findAll() } returns listOf(
-                    Sequence(SequenceType.CUSTOMER, 226),
-                    Sequence(SequenceType.STANDARD_INVOICE, 103),
-                    Sequence(SequenceType.SPECIAL_INVOICE, 96)
+                Sequence(SequenceType.CUSTOMER, 226),
+                Sequence(SequenceType.STANDARD_INVOICE, 103),
+                Sequence(SequenceType.SPECIAL_INVOICE, 96),
+                Sequence(SequenceType.RECTIFICATION_INVOICE, 13)
             )
             every { invoiceRepository.findByIdStartingWith("F") } returns listOf(
-                    testInvoice(id = 98),
-                    testInvoice(id = 102),
-                    testInvoice(id = 103)
+                testInvoice(id = 98),
+                testInvoice(id = 102),
+                testInvoice(id = 103)
             )
             every { invoiceRepository.findByIdStartingWith("X") } returns listOf(
-                    testInvoice(id = 92, paymentType = PaymentType.VOUCHER),
-                    testInvoice(id = 94, paymentType = PaymentType.VOUCHER),
-                    testInvoice(id = 96, paymentType = PaymentType.VOUCHER)
+                testInvoice(id = 92, paymentType = PaymentType.VOUCHER),
+                testInvoice(id = 94, paymentType = PaymentType.VOUCHER),
+                testInvoice(id = 96, paymentType = PaymentType.VOUCHER)
+            )
+            every { invoiceRepository.findByIdStartingWith("R") } returns listOf(
+                testInvoice(id = 11),
+                testInvoice(id = 12, paymentType = PaymentType.BANK_TRANSFER),
+                testInvoice(id = 13, paymentType = PaymentType.VOUCHER)
             )
 
             context("The client sequence is different than the stored sequence") {
                 every { customerRepository.findAll() } returns listOf(
-                        testCustomer(223),
-                        testCustomer(225),
-                        testCustomer(227)
+                    testCustomer(223),
+                    testCustomer(225),
+                    testCustomer(227)
                 )
 
                 sut.checkSequences()
@@ -150,25 +169,32 @@ internal class SequenceCheckerImplTest : DescribeSpec() {
 
         describe("check sequences with F invoices not synchronized") {
             every { sequenceRepository.findAll() } returns listOf(
-                    Sequence(SequenceType.CUSTOMER, 226),
-                    Sequence(SequenceType.STANDARD_INVOICE, 103),
-                    Sequence(SequenceType.SPECIAL_INVOICE, 96)
+                Sequence(SequenceType.CUSTOMER, 226),
+                Sequence(SequenceType.STANDARD_INVOICE, 103),
+                Sequence(SequenceType.SPECIAL_INVOICE, 96),
+                Sequence(SequenceType.RECTIFICATION_INVOICE, 13)
             )
             every { customerRepository.findAll() } returns listOf(
-                    testCustomer(223),
-                    testCustomer(225),
-                    testCustomer(226)
+                testCustomer(223),
+                testCustomer(225),
+                testCustomer(226)
             )
             every { invoiceRepository.findByIdStartingWith("X") } returns listOf(
-                    testInvoice(id = 92, paymentType = PaymentType.VOUCHER),
-                    testInvoice(id = 94, paymentType = PaymentType.VOUCHER),
-                    testInvoice(id = 96, paymentType = PaymentType.VOUCHER)
+                testInvoice(id = 92, paymentType = PaymentType.VOUCHER),
+                testInvoice(id = 94, paymentType = PaymentType.VOUCHER),
+                testInvoice(id = 96, paymentType = PaymentType.VOUCHER)
             )
+            every { invoiceRepository.findByIdStartingWith("R") } returns listOf(
+                testInvoice(id = 11),
+                testInvoice(id = 12, paymentType = PaymentType.BANK_TRANSFER),
+                testInvoice(id = 13, paymentType = PaymentType.VOUCHER)
+            )
+
             context("The invoice sequence is different than the stored sequence") {
                 every { invoiceRepository.findByIdStartingWith("F") } returns listOf(
-                        testInvoice(id = 98),
-                        testInvoice(id = 102),
-                        testInvoice(id = 104)
+                    testInvoice(id = 98),
+                    testInvoice(id = 102),
+                    testInvoice(id = 104)
                 )
 
                 sut.checkSequences()
@@ -187,26 +213,32 @@ internal class SequenceCheckerImplTest : DescribeSpec() {
 
         describe("check sequences with X invoices not synchronized") {
             every { sequenceRepository.findAll() } returns listOf(
-                    Sequence(SequenceType.CUSTOMER, 226),
-                    Sequence(SequenceType.STANDARD_INVOICE, 103),
-                    Sequence(SequenceType.SPECIAL_INVOICE, 96)
+                Sequence(SequenceType.CUSTOMER, 226),
+                Sequence(SequenceType.STANDARD_INVOICE, 103),
+                Sequence(SequenceType.SPECIAL_INVOICE, 96),
+                Sequence(SequenceType.RECTIFICATION_INVOICE, 13)
             )
             every { customerRepository.findAll() } returns listOf(
-                    testCustomer(223),
-                    testCustomer(225),
-                    testCustomer(226)
+                testCustomer(223),
+                testCustomer(225),
+                testCustomer(226)
             )
             every { invoiceRepository.findByIdStartingWith("F") } returns listOf(
-                    testInvoice(id = 98),
-                    testInvoice(id = 102),
-                    testInvoice(id = 103)
+                testInvoice(id = 98),
+                testInvoice(id = 102),
+                testInvoice(id = 103)
+            )
+            every { invoiceRepository.findByIdStartingWith("R") } returns listOf(
+                testInvoice(id = 11),
+                testInvoice(id = 12, paymentType = PaymentType.BANK_TRANSFER),
+                testInvoice(id = 13, paymentType = PaymentType.VOUCHER)
             )
 
             context("The invoice sequence is different than the stored sequence") {
                 every { invoiceRepository.findByIdStartingWith("X") } returns listOf(
-                        testInvoice(id = 95, paymentType = PaymentType.VOUCHER),
-                        testInvoice(id = 96, paymentType = PaymentType.VOUCHER),
-                        testInvoice(id = 97, paymentType = PaymentType.VOUCHER)
+                    testInvoice(id = 95, paymentType = PaymentType.VOUCHER),
+                    testInvoice(id = 96, paymentType = PaymentType.VOUCHER),
+                    testInvoice(id = 97, paymentType = PaymentType.VOUCHER)
                 )
 
                 sut.checkSequences()
@@ -218,6 +250,50 @@ internal class SequenceCheckerImplTest : DescribeSpec() {
                         invoiceRepository.findByIdStartingWith("F")
                         invoiceRepository.findByIdStartingWith("X")
                         sequenceRepository.save(Sequence(SequenceType.SPECIAL_INVOICE, 97))
+                    }
+                }
+            }
+        }
+
+        describe("check sequences with R invoices not synchronized") {
+            every { sequenceRepository.findAll() } returns listOf(
+                Sequence(SequenceType.CUSTOMER, 226),
+                Sequence(SequenceType.STANDARD_INVOICE, 103),
+                Sequence(SequenceType.SPECIAL_INVOICE, 96),
+                Sequence(SequenceType.RECTIFICATION_INVOICE, 13)
+            )
+            every { customerRepository.findAll() } returns listOf(
+                testCustomer(223),
+                testCustomer(225),
+                testCustomer(226)
+            )
+            every { invoiceRepository.findByIdStartingWith("F") } returns listOf(
+                testInvoice(id = 98),
+                testInvoice(id = 102),
+                testInvoice(id = 103)
+            )
+            every { invoiceRepository.findByIdStartingWith("X") } returns listOf(
+                testInvoice(id = 92, paymentType = PaymentType.VOUCHER),
+                testInvoice(id = 94, paymentType = PaymentType.VOUCHER),
+                testInvoice(id = 96, paymentType = PaymentType.VOUCHER)
+            )
+
+            context("The invoice sequence is different than the stored sequence") {
+                every { invoiceRepository.findByIdStartingWith("R") } returns listOf(
+                    testInvoice(id = 12),
+                    testInvoice(id = 13, paymentType = PaymentType.BANK_TRANSFER),
+                    testInvoice(id = 14, paymentType = PaymentType.VOUCHER)
+                )
+
+                sut.checkSequences()
+
+                it("updates the sequence") {
+                    verify {
+                        sequenceRepository.findAll()
+                        customerRepository.findAll()
+                        invoiceRepository.findByIdStartingWith("F")
+                        invoiceRepository.findByIdStartingWith("X")
+                        sequenceRepository.save(Sequence(SequenceType.RECTIFICATION_INVOICE, 14))
                     }
                 }
             }

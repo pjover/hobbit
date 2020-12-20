@@ -12,7 +12,9 @@ enum class PaymentTypeDTO(val value: String) {
 
     VOUCHER("VOUCHER"),
 
-    CASH("CASH");
+    CASH("CASH"),
+
+    RECTIFICATION("RECTIFICATION");
 
 }
 

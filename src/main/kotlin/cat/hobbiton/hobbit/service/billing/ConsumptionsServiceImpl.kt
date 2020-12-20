@@ -115,13 +115,13 @@ class ConsumptionsServiceImpl(
     )
 
     override fun setConsumptions(setYearMonthConsumptionsDTO: SetYearMonthConsumptionsDTO): List<YearMonthConsumptionsDTO> {
-        saveConsumptions(setYearMonthConsumptionsDTO)
+        saveConsumptions(setYearMonthConsumptionsDTO, false)
         return getConsumptions()
     }
 
-    private fun saveConsumptions(setYearMonthConsumptionsDTO: SetYearMonthConsumptionsDTO) {
+    private fun saveConsumptions(setYearMonthConsumptionsDTO: SetYearMonthConsumptionsDTO, isRectification: Boolean) {
         val yearMonth = getYearMonth(setYearMonthConsumptionsDTO.yearMonth)
-        setYearMonthConsumptionsDTO.children.forEach { saveChildConsumtions(yearMonth, it) }
+        setYearMonthConsumptionsDTO.children.forEach { saveChildConsumtions(yearMonth, it, isRectification) }
     }
 
     private fun getYearMonth(yearMonth: String): YearMonth {
@@ -132,18 +132,24 @@ class ConsumptionsServiceImpl(
         }
     }
 
-    private fun saveChildConsumtions(yearMonth: YearMonth, childConsumtionDTO: SetChildConsumtionDTO) {
-        childConsumtionDTO.consumptions.forEach { saveChildConsumtion(yearMonth, childConsumtionDTO.code, it) }
+    private fun saveChildConsumtions(yearMonth: YearMonth, childConsumtionDTO: SetChildConsumtionDTO, isRectification: Boolean) {
+        childConsumtionDTO.consumptions.forEach { saveChildConsumtion(yearMonth, childConsumtionDTO.code, it, isRectification) }
     }
 
-    private fun saveChildConsumtion(yearMonth: YearMonth, childCode: Int, consumtionDTO: SetConsumtionDTO) {
+    private fun saveChildConsumtion(yearMonth: YearMonth, childCode: Int, consumtionDTO: SetConsumtionDTO, isRectification: Boolean) {
         consumptionRepository.save(Consumption(
             childCode = childCode,
             productId = consumtionDTO.productId,
             units = BigDecimal.valueOf(consumtionDTO.units),
             yearMonth = yearMonth,
-            note = consumtionDTO.note
+            note = consumtionDTO.note,
+            isRectification = isRectification
         ))
+    }
+
+    override fun setRectificationConsumptions(setYearMonthConsumptionsDTO: SetYearMonthConsumptionsDTO): List<YearMonthConsumptionsDTO> {
+        saveConsumptions(setYearMonthConsumptionsDTO, true)
+        return getConsumptions()
     }
 }
 

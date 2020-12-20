@@ -143,6 +143,28 @@ paths:
                 items:
                   $ref: '#/components/schemas/YearMonthConsumptionsDTO'
 
+  /consumptions/rectification:
+    post:
+      tags:
+        - Consumptions
+      description: Sets the rectification consumptions
+      operationId: setRectificationConsumptions
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SetYearMonthConsumptionsDTO'
+        required: true
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/YearMonthConsumptionsDTO'
+
   /consumptions/lastMonth:
     get:
       tags:
@@ -528,6 +550,7 @@ components:
         - BANK_TRANSFER
         - VOUCHER
         - CASH
+        - RECTIFICATION
 
     PaymentTypeInvoicesDTO:
       description: Invoices grouped by payment type

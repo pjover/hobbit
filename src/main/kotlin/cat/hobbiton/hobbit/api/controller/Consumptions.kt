@@ -71,4 +71,19 @@ class ConsumptionsController(@Autowired(required = true) val service: Consumptio
     ): ResponseEntity<List<YearMonthConsumptionsDTO>> {
         return ResponseEntity(service.setConsumptions(setYearMonthConsumptionsDTO), HttpStatus.valueOf(201))
     }
+
+
+    @Operation(
+        description = "Sets the rectification consumptions",
+        operationId = "setRectificationConsumptions"
+    )
+    @RequestMapping(
+        value = ["/consumptions/rectification"],
+        produces = ["application/json"],
+        consumes = ["application/json"],
+        method = [RequestMethod.POST])
+    fun setRectificationConsumptions(@Valid @RequestBody setYearMonthConsumptionsDTO: SetYearMonthConsumptionsDTO
+    ): ResponseEntity<List<YearMonthConsumptionsDTO>> {
+        return ResponseEntity(service.setRectificationConsumptions(setYearMonthConsumptionsDTO), HttpStatus.valueOf(201))
+    }
 }
