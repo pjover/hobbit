@@ -5,9 +5,8 @@ import cat.hobbiton.hobbit.db.repository.InvoiceRepository
 import cat.hobbiton.hobbit.model.Customer
 import cat.hobbiton.hobbit.model.InvoiceLine
 import cat.hobbiton.hobbit.model.extension.getActiveChildrenCodes
-import org.springframework.stereotype.Component
 
-@Component
+//@Component
 class DatabaseFieldUpdater(
     private val invoiceRepository: InvoiceRepository,
     private val customerRepository: CachedCustomerRepository
