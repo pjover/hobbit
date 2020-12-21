@@ -32,22 +32,22 @@ fun getInvoiceDto(customer: Customer, invoice: Invoice): InvoiceDTO {
         code = invoice.id,
         yearMonth = invoice.yearMonth.toString(),
         children = invoice.childrenCodes.map { customer.getChild(it).name },
-        totalAmount = invoice.totalAmount().toDouble(),
+        totalAmount = invoice.totalAmount(),
         subsidizedAmount = getSubsidizedAmount(customer),
         note = invoice.note,
         lines = invoice.lines
             .map {
                 InvoiceLineDTO(
                     productId = it.productId,
-                    units = it.units.toDouble(),
-                    totalAmount = it.totalAmount().toDouble(),
+                    units = it.units,
+                    totalAmount = it.totalAmount(),
                     childCode = it.childCode
                 )
             }
     )
 }
 
-private fun getSubsidizedAmount(customer: Customer): Double? {
+private fun getSubsidizedAmount(customer: Customer): BigDecimal? {
     return if(customer.invoiceHolder.subsidizedAmount == BigDecimal.ZERO) null
-    else customer.invoiceHolder.subsidizedAmount.toDouble()
+    else customer.invoiceHolder.subsidizedAmount
 }

@@ -9,7 +9,6 @@ import cat.hobbiton.hobbit.model.InvoiceLine
 import cat.hobbiton.hobbit.model.PaymentType
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.DescribeSpec
-import java.math.BigDecimal
 
 class BillingUtilsTest : DescribeSpec() {
 
@@ -23,7 +22,7 @@ class BillingUtilsTest : DescribeSpec() {
                         id = "AA1",
                         childCode = 1,
                         productId = "TST",
-                        units = BigDecimal.valueOf(2),
+                        units = 2.toBigDecimal(),
                         yearMonth = YEAR_MONTH,
                         note = "Note 1"
                     ),
@@ -31,7 +30,7 @@ class BillingUtilsTest : DescribeSpec() {
                         id = "AA2",
                         childCode = 1,
                         productId = "TST",
-                        units = BigDecimal.valueOf(2),
+                        units = 2.toBigDecimal(),
                         yearMonth = YEAR_MONTH,
                         note = "Note 2"
                     ),
@@ -39,7 +38,7 @@ class BillingUtilsTest : DescribeSpec() {
                         id = "AA3",
                         childCode = 1,
                         productId = "TST",
-                        units = BigDecimal.valueOf(2),
+                        units = 2.toBigDecimal(),
                         yearMonth = YEAR_MONTH,
                         note = "Note 3"
                     ),
@@ -47,7 +46,7 @@ class BillingUtilsTest : DescribeSpec() {
                         id = "AA4",
                         childCode = 1,
                         productId = "XXX",
-                        units = BigDecimal.valueOf(2),
+                        units = 2.toBigDecimal(),
                         yearMonth = YEAR_MONTH,
                         note = "Note 4"
                     ),
@@ -55,7 +54,7 @@ class BillingUtilsTest : DescribeSpec() {
                         id = "AA5",
                         childCode = 1,
                         productId = "TST",
-                        units = BigDecimal.valueOf(2),
+                        units = 2.toBigDecimal(),
                         yearMonth = YEAR_MONTH,
                         note = "Note 5"
                     )
@@ -67,13 +66,13 @@ class BillingUtilsTest : DescribeSpec() {
 
                 actual.second[0].childCode shouldBe 1
                 actual.second[0].productId shouldBe "TST"
-                actual.second[0].units shouldBe BigDecimal.valueOf(8)
+                actual.second[0].units shouldBe 8.toBigDecimal()
                 actual.second[0].yearMonth shouldBe YEAR_MONTH
                 actual.second[0].note shouldBe "Note 1, Note 2, Note 3, Note 5"
 
                 actual.second[1].childCode shouldBe 1
                 actual.second[1].productId shouldBe "XXX"
-                actual.second[1].units shouldBe BigDecimal.valueOf(2)
+                actual.second[1].units shouldBe 2.toBigDecimal()
                 actual.second[1].yearMonth shouldBe YEAR_MONTH
                 actual.second[1].note shouldBe "Note 4"
             }
@@ -94,22 +93,22 @@ class BillingUtilsTest : DescribeSpec() {
                     InvoiceLine(
                         productId = "TST",
                         productName = "TST product",
-                        units = BigDecimal.valueOf(4),
-                        productPrice = BigDecimal.valueOf(10.9),
+                        units = 4.toBigDecimal(),
+                        productPrice = 10.9.toBigDecimal(),
                         childCode = 1850
                     ),
                     InvoiceLine(
                         productId = "TST",
                         productName = "TST product",
-                        units = BigDecimal.valueOf(2),
-                        productPrice = BigDecimal.valueOf(10.9),
+                        units = 2.toBigDecimal(),
+                        productPrice = 10.9.toBigDecimal(),
                         childCode = 1851
                     ),
                     InvoiceLine(
                         productId = "XXX",
                         productName = "XXX product",
-                        units = BigDecimal.valueOf(2),
-                        productPrice = BigDecimal.valueOf(9.1),
+                        units = 2.toBigDecimal(),
+                        productPrice = 9.1.toBigDecimal(),
                         childCode = 1851
                     )
                 ),
@@ -123,24 +122,24 @@ class BillingUtilsTest : DescribeSpec() {
                     code = "??",
                     yearMonth = YEAR_MONTH.toString(),
                     children = listOf("Laura", "Aina"),
-                    totalAmount = 83.6,
+                    totalAmount = 83.6.toBigDecimal(),
                     lines = listOf(
                         InvoiceLineDTO(
                             productId = "TST",
-                            units = 4.0,
-                            totalAmount = 43.6,
+                            units = 4.toBigDecimal(),
+                            totalAmount = 43.6.toBigDecimal(),
                             childCode = 1850
                         ),
                         InvoiceLineDTO(
                             productId = "TST",
-                            units = 2.0,
-                            totalAmount = 21.8,
+                            units = 2.toBigDecimal(),
+                            totalAmount = 21.8.toBigDecimal(),
                             childCode = 1851
                         ),
                         InvoiceLineDTO(
                             productId = "XXX",
-                            units = 2.0,
-                            totalAmount = 18.2,
+                            units = 2.toBigDecimal(),
+                            totalAmount = 18.2.toBigDecimal(),
                             childCode = 1851
                         )
                     ),

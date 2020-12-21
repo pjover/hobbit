@@ -13,7 +13,6 @@ import io.mockk.every
 import io.mockk.mockk
 import io.mockk.slot
 import io.mockk.verify
-import java.math.BigDecimal
 
 class BillingServiceImplTest : DescribeSpec() {
 
@@ -65,13 +64,13 @@ class BillingServiceImplTest : DescribeSpec() {
             id = "TST",
             name = "TST product",
             shortName = "TST product",
-            price = BigDecimal.valueOf(10.9)
+            price = 10.9.toBigDecimal()
         )
         every { productRepository.getProduct("XXX") } returns Product(
             id = "XXX",
             name = "XXX product",
             shortName = "XXX product",
-            price = BigDecimal.valueOf(9.1)
+            price = 9.1.toBigDecimal()
         )
         every { customerRepository.getCustomerByChildCode(1850) } returns testCustomer(children = listOf(testChild1(), testChild2()))
         every { customerRepository.getCustomerByChildCode(1851) } returns testCustomer(children = listOf(testChild1(), testChild2()))
@@ -91,35 +90,35 @@ class BillingServiceImplTest : DescribeSpec() {
 fun expectedInvoices(code: String) = listOf(
     PaymentTypeInvoicesDTO(
         paymentType = PaymentTypeDTO.BANK_DIRECT_DEBIT,
-        totalAmount = 105.4,
+        totalAmount = 105.4.toBigDecimal(),
         customers = listOf(
             CustomerInvoicesDTO(
                 code = 185,
                 shortName = "Joana Bibiloni",
-                totalAmount = 83.6,
+                totalAmount = 83.6.toBigDecimal(),
                 invoices = listOf(
                     InvoiceDTO(
                         code = code,
                         yearMonth = YEAR_MONTH.toString(),
                         children = listOf("Laura", "Aina"),
-                        totalAmount = 83.6,
+                        totalAmount = 83.6.toBigDecimal(),
                         lines = listOf(
                             InvoiceLineDTO(
                                 productId = "TST",
-                                units = 4.0,
-                                totalAmount = 43.6,
+                                units = 4.toBigDecimal(),
+                                totalAmount = 43.6.toBigDecimal(),
                                 childCode = 1850
                             ),
                             InvoiceLineDTO(
                                 productId = "TST",
-                                units = 2.0,
-                                totalAmount = 21.8,
+                                units = 2.toBigDecimal(),
+                                totalAmount = 21.8.toBigDecimal(),
                                 childCode = 1851
                             ),
                             InvoiceLineDTO(
                                 productId = "XXX",
-                                units = 2.0,
-                                totalAmount = 18.2,
+                                units = 2.toBigDecimal(),
+                                totalAmount = 18.2.toBigDecimal(),
                                 childCode = 1851
                             )
                         ),
@@ -130,18 +129,18 @@ fun expectedInvoices(code: String) = listOf(
             CustomerInvoicesDTO(
                 code = 186,
                 shortName = "Silvia Mayol",
-                totalAmount = 21.8,
+                totalAmount = 21.8.toBigDecimal(),
                 invoices = listOf(
                     InvoiceDTO(
                         code = code,
                         yearMonth = YEAR_MONTH.toString(),
                         children = listOf("Laia"),
-                        totalAmount = 21.8,
+                        totalAmount = 21.8.toBigDecimal(),
                         lines = listOf(
                             InvoiceLineDTO(
                                 productId = "TST",
-                                units = 2.0,
-                                totalAmount = 21.8,
+                                units = 2.toBigDecimal(),
+                                totalAmount = 21.8.toBigDecimal(),
                                 childCode = 1852
                             )
                         ),
@@ -153,23 +152,23 @@ fun expectedInvoices(code: String) = listOf(
     ),
     PaymentTypeInvoicesDTO(
         paymentType = PaymentTypeDTO.RECTIFICATION,
-        totalAmount = -21.8,
+        totalAmount = -21.8.toBigDecimal(),
         customers = listOf(
             CustomerInvoicesDTO(
                 code = 186,
                 shortName = "Silvia Mayol",
-                totalAmount = -21.8,
+                totalAmount = -21.8.toBigDecimal(),
                 invoices = listOf(
                     InvoiceDTO(
                         code = code,
                         yearMonth = YEAR_MONTH.toString(),
                         children = listOf("Laia"),
-                        totalAmount = -21.8,
+                        totalAmount = -21.8.toBigDecimal(),
                         lines = listOf(
                             InvoiceLineDTO(
                                 productId = "TST",
-                                units = -2.0,
-                                totalAmount = -21.8,
+                                units = -2.toBigDecimal(),
+                                totalAmount = -21.8.toBigDecimal(),
                                 childCode = 1852
                             )
                         ),
@@ -192,22 +191,22 @@ fun invoice1() = Invoice(
         InvoiceLine(
             productId = "TST",
             productName = "TST product",
-            units = BigDecimal.valueOf(4),
-            productPrice = BigDecimal.valueOf(10.9),
+            units = 4.toBigDecimal(),
+            productPrice = 10.9.toBigDecimal(),
             childCode = 1850
         ),
         InvoiceLine(
             productId = "TST",
             productName = "TST product",
-            units = BigDecimal.valueOf(2),
-            productPrice = BigDecimal.valueOf(10.9),
+            units = 2.toBigDecimal(),
+            productPrice = 10.9.toBigDecimal(),
             childCode = 1851
         ),
         InvoiceLine(
             productId = "XXX",
             productName = "XXX product",
-            units = BigDecimal.valueOf(2),
-            productPrice = BigDecimal.valueOf(9.1),
+            units = 2.toBigDecimal(),
+            productPrice = 9.1.toBigDecimal(),
             childCode = 1851
         )
     ),
@@ -225,8 +224,8 @@ fun invoice2() = Invoice(
         InvoiceLine(
             productId = "TST",
             productName = "TST product",
-            units = BigDecimal.valueOf(2),
-            productPrice = BigDecimal.valueOf(10.9),
+            units = 2.toBigDecimal(),
+            productPrice = 10.9.toBigDecimal(),
             childCode = 1852
         )
     ),
@@ -244,8 +243,8 @@ fun invoice3() = Invoice(
         InvoiceLine(
             productId = "TST",
             productName = "TST product",
-            units = BigDecimal.valueOf(-2),
-            productPrice = BigDecimal.valueOf(10.9),
+            units = -2.toBigDecimal(),
+            productPrice = 10.9.toBigDecimal(),
             childCode = 1852
         )
     ),
@@ -257,7 +256,7 @@ val consumptions = listOf(
         id = "AA1",
         childCode = 1850,
         productId = "TST",
-        units = BigDecimal.valueOf(2),
+        units = 2.toBigDecimal(),
         yearMonth = YEAR_MONTH,
         note = "Note 1"
     ),
@@ -265,7 +264,7 @@ val consumptions = listOf(
         id = "AA2",
         childCode = 1850,
         productId = "TST",
-        units = BigDecimal.valueOf(2),
+        units = 2.toBigDecimal(),
         yearMonth = YEAR_MONTH,
         note = "Note 2"
     ),
@@ -273,7 +272,7 @@ val consumptions = listOf(
         id = "AA3",
         childCode = 1851,
         productId = "TST",
-        units = BigDecimal.valueOf(2),
+        units = 2.toBigDecimal(),
         yearMonth = YEAR_MONTH,
         note = "Note 3"
     ),
@@ -281,7 +280,7 @@ val consumptions = listOf(
         id = "AA4",
         childCode = 1851,
         productId = "XXX",
-        units = BigDecimal.valueOf(2),
+        units = 2.toBigDecimal(),
         yearMonth = YEAR_MONTH,
         note = "Note 4"
     ),
@@ -289,7 +288,7 @@ val consumptions = listOf(
         id = "AA5",
         childCode = 1852,
         productId = "TST",
-        units = BigDecimal.valueOf(2),
+        units = 2.toBigDecimal(),
         yearMonth = YEAR_MONTH,
         note = "Note 5"
     ),
@@ -297,7 +296,7 @@ val consumptions = listOf(
         id = "AA6",
         childCode = 1852,
         productId = "TST",
-        units = BigDecimal.valueOf(-2),
+        units = -2.toBigDecimal(),
         yearMonth = YEAR_MONTH,
         note = "Note 6",
         isRectification = true

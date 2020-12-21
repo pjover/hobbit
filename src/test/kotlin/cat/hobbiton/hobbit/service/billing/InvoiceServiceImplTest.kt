@@ -9,7 +9,6 @@ import cat.hobbiton.hobbit.util.error.AppException
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.DescribeSpec
 import io.mockk.*
-import java.math.BigDecimal
 import kotlin.test.assertFailsWith
 
 class InvoiceServiceImplTest : DescribeSpec() {
@@ -34,22 +33,22 @@ class InvoiceServiceImplTest : DescribeSpec() {
                 InvoiceLine(
                     productId = "TST",
                     productName = "TST product",
-                    units = BigDecimal.valueOf(4),
-                    productPrice = BigDecimal.valueOf(10.9),
+                    units = 4.toBigDecimal(),
+                    productPrice = 10.9.toBigDecimal(),
                     childCode = 1
                 ),
                 InvoiceLine(
                     productId = "TST",
                     productName = "TST product",
-                    units = BigDecimal.valueOf(2),
-                    productPrice = BigDecimal.valueOf(10.9),
+                    units = 2.toBigDecimal(),
+                    productPrice = 10.9.toBigDecimal(),
                     childCode = 2
                 ),
                 InvoiceLine(
                     productId = "XXX",
                     productName = "XXX product",
-                    units = BigDecimal.valueOf(2),
-                    productPrice = BigDecimal.valueOf(9.1),
+                    units = 2.toBigDecimal(),
+                    productPrice = 9.1.toBigDecimal(),
                     childCode = 2
                 )
             ),
@@ -61,7 +60,7 @@ class InvoiceServiceImplTest : DescribeSpec() {
                 id = "AA1",
                 childCode = 1850,
                 productId = "TST",
-                units = BigDecimal.valueOf(2),
+                units = 2.toBigDecimal(),
                 yearMonth = YEAR_MONTH,
                 note = "Note 1"
             ),
@@ -69,7 +68,7 @@ class InvoiceServiceImplTest : DescribeSpec() {
                 id = "AA2",
                 childCode = 1850,
                 productId = "TST",
-                units = BigDecimal.valueOf(2),
+                units = 2.toBigDecimal(),
                 yearMonth = YEAR_MONTH,
                 note = "Note 2"
             ),
@@ -77,7 +76,7 @@ class InvoiceServiceImplTest : DescribeSpec() {
                 id = "AA3",
                 childCode = 1850,
                 productId = "TST",
-                units = BigDecimal.valueOf(2),
+                units = 2.toBigDecimal(),
                 yearMonth = YEAR_MONTH,
                 note = "Note 3"
             ),
@@ -85,7 +84,7 @@ class InvoiceServiceImplTest : DescribeSpec() {
                 id = "AA4",
                 childCode = 1850,
                 productId = "XXX",
-                units = BigDecimal.valueOf(2),
+                units = 2.toBigDecimal(),
                 yearMonth = YEAR_MONTH,
                 note = "Note 4"
             ),
@@ -93,7 +92,7 @@ class InvoiceServiceImplTest : DescribeSpec() {
                 id = "AA5",
                 childCode = 1850,
                 productId = "TST",
-                units = BigDecimal.valueOf(2),
+                units = 2.toBigDecimal(),
                 yearMonth = YEAR_MONTH,
                 note = "Note 5"
             )

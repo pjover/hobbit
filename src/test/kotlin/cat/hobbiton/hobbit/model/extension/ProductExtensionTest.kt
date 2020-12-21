@@ -202,7 +202,7 @@ class ProductExtensionTest : DescribeSpec() {
                             "TST product",
                             "TST product",
                             BigDecimal.TEN,
-                            BigDecimal.valueOf(-1)
+                            -1.toBigDecimal()
                         ).validate()
                     }
 

@@ -216,19 +216,19 @@ class InvoicesToBddMapperImplTest : DescribeSpec() {
                     "AAA",
                     "AAA product long name",
                     "AAA product",
-                    price = BigDecimal.valueOf(11)
+                    price = 11.toBigDecimal()
                 ),
                 Product(
                     "BBB",
                     "BBB product long name",
                     "BBB product",
-                    price = BigDecimal.valueOf(5.5),
-                    taxPercentage = BigDecimal.valueOf(0.1)),
+                    price = 5.5.toBigDecimal(),
+                    taxPercentage = 0.1.toBigDecimal()),
                 Product(
                     "CCC",
                     "CCC product long name",
                     "CCC product",
-                    price = BigDecimal.valueOf(5)
+                    price = 5.toBigDecimal()
                 ))
         }
     }
@@ -283,20 +283,20 @@ private fun bddTestInvoiceLines(): List<InvoiceLine> {
     return listOf(
         InvoiceLine(productId = "AAA",
             productName = "AAA product long name",
-            units = BigDecimal.valueOf(1),
-            productPrice = BigDecimal.valueOf(11),
+            units = 1.toBigDecimal(),
+            productPrice = 11.toBigDecimal(),
             taxPercentage = BigDecimal.ZERO,
             childCode = 1850),
         InvoiceLine(productId = "BBB",
             productName = "BBB product long name",
-            units = BigDecimal.valueOf(3),
-            productPrice = BigDecimal.valueOf(5.5),
-            taxPercentage = BigDecimal.valueOf(0.1),
+            units = 3.toBigDecimal(),
+            productPrice = 5.5.toBigDecimal(),
+            taxPercentage = 0.1.toBigDecimal(),
             childCode = 1850),
         InvoiceLine(productId = "CCC",
             productName = "CCC product long name",
-            units = BigDecimal.valueOf(1.5),
-            productPrice = BigDecimal.valueOf(5),
+            units = 1.5.toBigDecimal(),
+            productPrice = 5.toBigDecimal(),
             taxPercentage = BigDecimal.ZERO,
             childCode = 1850)
     )

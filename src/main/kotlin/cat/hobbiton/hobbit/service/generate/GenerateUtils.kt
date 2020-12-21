@@ -16,7 +16,7 @@ fun getCustomerInvoicesDTOs(invoices: List<Invoice>, customerRepository: CachedC
             CustomerInvoicesDTO(
                 code = customerCode,
                 shortName = customer.getFirstAdult().shortName(),
-                totalAmount = customerInvoices.totalAmount().toDouble(),
+                totalAmount = customerInvoices.totalAmount(),
                 invoices = customerInvoices.map { getInvoiceDto(customer, it) }
             )
         }

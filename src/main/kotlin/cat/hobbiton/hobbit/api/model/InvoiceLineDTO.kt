@@ -16,10 +16,10 @@ data class InvoiceLineDTO(
     @JsonProperty("productId") val productId: String,
 
     @get:NotNull
-    @JsonProperty("units") val units: Double,
+    @JsonProperty("units") val units: java.math.BigDecimal,
 
     @get:NotNull
-    @JsonProperty("totalAmount") val totalAmount: Double,
+    @JsonProperty("totalAmount") val totalAmount: java.math.BigDecimal,
 
     @get:NotNull
     @JsonProperty("childCode") val childCode: Int

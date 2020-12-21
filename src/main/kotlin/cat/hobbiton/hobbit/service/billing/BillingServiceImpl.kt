@@ -60,11 +60,10 @@ class BillingServiceImpl(
         )
     }
 
-    private fun getTotalAmount(consumptions: List<Consumption>): Double {
+    private fun getTotalAmount(consumptions: List<Consumption>): BigDecimal {
         return consumptions
             .map { getTotalAmount(it) }
             .sumOf { it }
-            .toDouble()
     }
 
     private fun getTotalAmount(consumption: Consumption): BigDecimal {

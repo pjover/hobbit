@@ -15,7 +15,7 @@ data class SetConsumtionDTO(
     @JsonProperty("productId") val productId: String,
 
     @get:NotNull
-    @JsonProperty("units") val units: Double,
+    @JsonProperty("units") val units: java.math.BigDecimal,
 
     @JsonProperty("note") val note: String? = null
 )

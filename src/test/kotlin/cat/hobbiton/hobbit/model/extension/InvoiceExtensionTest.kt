@@ -77,13 +77,13 @@ class InvoiceExtensionTest : DescribeSpec() {
                         lines = listOf(
                             InvoiceLine(productId = "XXX",
                                 productName = "XXX product",
-                                units = BigDecimal.valueOf(2000),
+                                units = 2000.toBigDecimal(),
                                 productPrice = BigDecimal.ONE,
                                 childCode = 1),
                             InvoiceLine(
                                 productId = "XXX",
                                 productName = "XXX product",
-                                units = BigDecimal.valueOf(500),
+                                units = 500.toBigDecimal(),
                                 productPrice = BigDecimal.ONE,
                                 childCode = 2)
                         )

@@ -19,7 +19,7 @@ data class ChildConsumtionDTO(
     @JsonProperty("shortName") val shortName: String,
 
     @get:NotNull
-    @JsonProperty("grossAmount") val grossAmount: Double,
+    @JsonProperty("grossAmount") val grossAmount: java.math.BigDecimal,
 
     @get:NotNull
     @JsonProperty("consumptions") val consumptions: List<ConsumtionDTO>

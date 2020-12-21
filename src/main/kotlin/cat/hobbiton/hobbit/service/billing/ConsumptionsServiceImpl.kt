@@ -34,11 +34,10 @@ class ConsumptionsServiceImpl(
             }
     }
 
-    private fun getGrossAmount(consumptions: List<Consumption>): Double {
+    private fun getGrossAmount(consumptions: List<Consumption>): BigDecimal {
         return consumptions
             .map { getGrossAmount(it) }
             .sumOf { it }
-            .toDouble()
     }
 
     private fun getGrossAmount(consumption: Consumption): BigDecimal {
@@ -60,8 +59,8 @@ class ConsumptionsServiceImpl(
                     consumptions = it.second.map { c ->
                         ConsumtionDTO(
                             c.productId,
-                            c.units.toDouble(),
-                            getGrossAmount(c).toDouble(),
+                            c.units,
+                            getGrossAmount(c),
                             c.note
                         )
                     }
@@ -140,7 +139,7 @@ class ConsumptionsServiceImpl(
         consumptionRepository.save(Consumption(
             childCode = childCode,
             productId = consumtionDTO.productId,
-            units = BigDecimal.valueOf(consumtionDTO.units),
+            units = consumtionDTO.units,
             yearMonth = yearMonth,
             note = consumtionDTO.note,
             isRectification = isRectification
