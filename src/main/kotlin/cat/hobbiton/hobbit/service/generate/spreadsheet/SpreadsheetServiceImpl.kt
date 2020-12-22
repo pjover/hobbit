@@ -47,8 +47,7 @@ class SpreadsheetServiceImpl(
         return invoices
             .map { it.customerId }
             .toSet()
-            .map { customerRepository.getCustomer(it) }
-            .map { it.id to it }
+            .map { it to customerRepository.getCustomer(it) }
             .toMap()
     }
 
@@ -57,8 +56,7 @@ class SpreadsheetServiceImpl(
             .flatMap { it.lines }
             .map { it.productId }
             .toSet()
-            .map { productRepository.getProduct(it) }
-            .map { it.id to it }
+            .map { it to productRepository.getProduct(it) }
             .toMap()
     }
 
