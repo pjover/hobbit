@@ -18,7 +18,7 @@ internal class InvoiceLineExtensionTest : DescribeSpec() {
                 val actual = testInvoiceLines().first().grossAmount()
 
                 it("return the correct amount") {
-                    actual shouldBe BigDecimal.valueOf(11)
+                    actual shouldBe 11.toBigDecimal()
                 }
             }
 
@@ -36,7 +36,7 @@ internal class InvoiceLineExtensionTest : DescribeSpec() {
                 val actual = testInvoiceLines().first().totalAmount()
 
                 it("return the correct amount") {
-                    actual shouldBe BigDecimal.valueOf(11)
+                    actual shouldBe 11.toBigDecimal()
                 }
             }
         }
@@ -46,8 +46,7 @@ internal class InvoiceLineExtensionTest : DescribeSpec() {
 
                 val executor = {
                     InvoiceLine(productId = "",
-                        productName = "XXX product",
-                        units = BigDecimal.valueOf(2000),
+                        units = 2000.toBigDecimal(),
                         productPrice = BigDecimal.ONE,
                         childCode = 1)
                         .validate()
@@ -63,7 +62,6 @@ internal class InvoiceLineExtensionTest : DescribeSpec() {
 
                 val executor = {
                     InvoiceLine(productId = "XXX",
-                        productName = "XXX product",
                         units = BigDecimal.ZERO,
                         productPrice = BigDecimal.ONE,
                         childCode = 1)

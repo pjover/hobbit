@@ -19,7 +19,7 @@ data class CustomerInvoicesDTO(
     @JsonProperty("shortName") val shortName: String,
 
     @get:NotNull
-    @JsonProperty("totalAmount") val totalAmount: Double,
+    @JsonProperty("totalAmount") val totalAmount: java.math.BigDecimal,
 
     @get:NotNull
     @JsonProperty("invoices") val invoices: List<InvoiceDTO>

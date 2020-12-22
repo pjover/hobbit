@@ -60,11 +60,10 @@ class BillingServiceImpl(
         )
     }
 
-    private fun getTotalAmount(consumptions: List<Consumption>): Double {
+    private fun getTotalAmount(consumptions: List<Consumption>): BigDecimal {
         return consumptions
             .map { getTotalAmount(it) }
             .sumOf { it }
-            .toDouble()
     }
 
     private fun getTotalAmount(consumption: Consumption): BigDecimal {
@@ -105,7 +104,6 @@ class BillingServiceImpl(
             yearMonth = yearMonth,
             childrenCodes = consumptions.map { it.childCode }.distinct(),
             paymentType = paymentType,
-            subsidizedAmount = customer.invoiceHolder.subsidizedAmount,
             note = getNotes(consumptions),
             lines = getInvoiceLines(consumptions)
         )
@@ -139,7 +137,6 @@ class BillingServiceImpl(
             productId = consumption.productId,
             units = consumption.units,
             productPrice = product.price,
-            productName = product.name,
             taxPercentage = product.taxPercentage,
             childCode = consumption.childCode
         )

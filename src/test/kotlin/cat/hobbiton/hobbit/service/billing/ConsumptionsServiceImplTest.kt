@@ -17,7 +17,6 @@ import io.mockk.clearMocks
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
-import java.math.BigDecimal
 
 class ConsumptionsServiceImplTest : DescribeSpec() {
 
@@ -50,7 +49,7 @@ class ConsumptionsServiceImplTest : DescribeSpec() {
                         id = "AA1",
                         childCode = 1850,
                         productId = "TST",
-                        units = BigDecimal.valueOf(2),
+                        units = 2.toBigDecimal(),
                         yearMonth = YEAR_MONTH,
                         note = "Note 1"
                     ),
@@ -58,7 +57,7 @@ class ConsumptionsServiceImplTest : DescribeSpec() {
                         id = "AA2",
                         childCode = 1850,
                         productId = "TST",
-                        units = BigDecimal.valueOf(2),
+                        units = 2.toBigDecimal(),
                         yearMonth = YEAR_MONTH,
                         note = "Note 2"
                     ),
@@ -66,7 +65,7 @@ class ConsumptionsServiceImplTest : DescribeSpec() {
                         id = "AA3",
                         childCode = 1850,
                         productId = "TST",
-                        units = BigDecimal.valueOf(2),
+                        units = 2.toBigDecimal(),
                         yearMonth = YEAR_MONTH,
                         note = "Note 3"
                     ),
@@ -74,7 +73,7 @@ class ConsumptionsServiceImplTest : DescribeSpec() {
                         id = "AA4",
                         childCode = 1850,
                         productId = "XXX",
-                        units = BigDecimal.valueOf(2),
+                        units = 2.toBigDecimal(),
                         yearMonth = YEAR_MONTH,
                         note = "Note 4"
                     ),
@@ -82,7 +81,7 @@ class ConsumptionsServiceImplTest : DescribeSpec() {
                         id = "AA5",
                         childCode = 1850,
                         productId = "TST",
-                        units = BigDecimal.valueOf(2),
+                        units = 2.toBigDecimal(),
                         yearMonth = YEAR_MONTH,
                         note = "Note 5"
                     )
@@ -94,15 +93,15 @@ class ConsumptionsServiceImplTest : DescribeSpec() {
                     actual shouldBe listOf(
                         YearMonthConsumptionsDTO(
                             yearMonth = YEAR_MONTH.toString(),
-                            grossAmount = 105.4,
+                            grossAmount = 105.4.toBigDecimal(),
                             listOf(
                                 ChildConsumtionDTO(
                                     code = 1850,
                                     shortName = "Laura Llull",
-                                    grossAmount = 105.4,
+                                    grossAmount = 105.4.toBigDecimal(),
                                     listOf(
-                                        ConsumtionDTO("TST", 8.0, 87.2, "Note 1, Note 2, Note 3, Note 5"),
-                                        ConsumtionDTO("XXX", 2.0, 18.2, "Note 4")
+                                        ConsumtionDTO("TST", 8.toBigDecimal(), 87.2.toBigDecimal(), "Note 1, Note 2, Note 3, Note 5"),
+                                        ConsumtionDTO("XXX", 2.toBigDecimal(), 18.2.toBigDecimal(), "Note 4")
                                     )
                                 )
                             )
@@ -145,7 +144,7 @@ class ConsumptionsServiceImplTest : DescribeSpec() {
                         id = "AA1",
                         childCode = 1850,
                         productId = "TST",
-                        units = BigDecimal.valueOf(2),
+                        units = 2.toBigDecimal(),
                         yearMonth = YEAR_MONTH.minusMonths(1),
                         note = "Note 1"
                     ))
@@ -160,20 +159,20 @@ class ConsumptionsServiceImplTest : DescribeSpec() {
                             SetChildConsumtionDTO(
                                 code = 1850,
                                 listOf(
-                                    SetConsumtionDTO("TST", 4.0, "Note 1, Note 2")
+                                    SetConsumtionDTO("TST", 4.toBigDecimal(), "Note 1, Note 2")
                                 )
                             ),
                             SetChildConsumtionDTO(
                                 code = 1851,
                                 listOf(
-                                    SetConsumtionDTO("TST", 2.0, "Note 3"),
-                                    SetConsumtionDTO("XXX", 2.0, "Note 4")
+                                    SetConsumtionDTO("TST", 2.toBigDecimal(), "Note 3"),
+                                    SetConsumtionDTO("XXX", 2.toBigDecimal(), "Note 4")
                                 )
                             ),
                             SetChildConsumtionDTO(
                                 code = 1852,
                                 listOf(
-                                    SetConsumtionDTO("TST", 2.0, "Note 5")
+                                    SetConsumtionDTO("TST", 2.toBigDecimal(), "Note 5")
                                 )
                             )
                         )
@@ -195,21 +194,21 @@ class ConsumptionsServiceImplTest : DescribeSpec() {
                         SetChildConsumtionDTO(
                             code = 1850,
                             listOf(
-                                SetConsumtionDTO("TST", 2.0, "Note 1"),
-                                SetConsumtionDTO("TST", 2.0, "Note 2")
+                                SetConsumtionDTO("TST", 2.toBigDecimal(), "Note 1"),
+                                SetConsumtionDTO("TST", 2.toBigDecimal(), "Note 2")
                             )
                         ),
                         SetChildConsumtionDTO(
                             code = 1851,
                             listOf(
-                                SetConsumtionDTO("TST", 2.0, "Note 3"),
-                                SetConsumtionDTO("XXX", 2.0, "Note 4")
+                                SetConsumtionDTO("TST", 2.toBigDecimal(), "Note 3"),
+                                SetConsumtionDTO("XXX", 2.toBigDecimal(), "Note 4")
                             )
                         ),
                         SetChildConsumtionDTO(
                             code = 1852,
                             listOf(
-                                SetConsumtionDTO("TST", 2.0, "Note 5")
+                                SetConsumtionDTO("TST", 2.toBigDecimal(), "Note 5")
                             )
                         )
                     )
@@ -227,35 +226,35 @@ class ConsumptionsServiceImplTest : DescribeSpec() {
 
                 capturedConsumptions[0].productId shouldBe "TST"
                 capturedConsumptions[0].childCode shouldBe 1850
-                capturedConsumptions[0].units shouldBe BigDecimal.valueOf(2.0)
+                capturedConsumptions[0].units shouldBe 2.toBigDecimal()
                 capturedConsumptions[0].yearMonth shouldBe YEAR_MONTH
                 capturedConsumptions[0].note shouldBe "Note 1"
                 capturedConsumptions[0].isRectification shouldBe false
 
                 capturedConsumptions[1].productId shouldBe "TST"
                 capturedConsumptions[1].childCode shouldBe 1850
-                capturedConsumptions[1].units shouldBe BigDecimal.valueOf(2.0)
+                capturedConsumptions[1].units shouldBe 2.toBigDecimal()
                 capturedConsumptions[1].yearMonth shouldBe YEAR_MONTH
                 capturedConsumptions[1].note shouldBe "Note 2"
                 capturedConsumptions[1].isRectification shouldBe false
 
                 capturedConsumptions[2].productId shouldBe "TST"
                 capturedConsumptions[2].childCode shouldBe 1851
-                capturedConsumptions[2].units shouldBe BigDecimal.valueOf(2.0)
+                capturedConsumptions[2].units shouldBe 2.toBigDecimal()
                 capturedConsumptions[2].yearMonth shouldBe YEAR_MONTH
                 capturedConsumptions[2].note shouldBe "Note 3"
                 capturedConsumptions[2].isRectification shouldBe false
 
                 capturedConsumptions[3].productId shouldBe "XXX"
                 capturedConsumptions[3].childCode shouldBe 1851
-                capturedConsumptions[3].units shouldBe BigDecimal.valueOf(2.0)
+                capturedConsumptions[3].units shouldBe 2.toBigDecimal()
                 capturedConsumptions[3].yearMonth shouldBe YEAR_MONTH
                 capturedConsumptions[3].note shouldBe "Note 4"
                 capturedConsumptions[3].isRectification shouldBe false
 
                 capturedConsumptions[4].productId shouldBe "TST"
                 capturedConsumptions[4].childCode shouldBe 1852
-                capturedConsumptions[4].units shouldBe BigDecimal.valueOf(2.0)
+                capturedConsumptions[4].units shouldBe 2.toBigDecimal()
                 capturedConsumptions[4].yearMonth shouldBe YEAR_MONTH
                 capturedConsumptions[4].note shouldBe "Note 5"
                 capturedConsumptions[4].isRectification shouldBe false
@@ -275,21 +274,21 @@ class ConsumptionsServiceImplTest : DescribeSpec() {
                         SetChildConsumtionDTO(
                             code = 1850,
                             listOf(
-                                SetConsumtionDTO("TST", 2.0, "Note 1"),
-                                SetConsumtionDTO("TST", 2.0, "Note 2")
+                                SetConsumtionDTO("TST", 2.toBigDecimal(), "Note 1"),
+                                SetConsumtionDTO("TST", 2.toBigDecimal(), "Note 2")
                             )
                         ),
                         SetChildConsumtionDTO(
                             code = 1851,
                             listOf(
-                                SetConsumtionDTO("TST", 2.0, "Note 3"),
-                                SetConsumtionDTO("XXX", 2.0, "Note 4")
+                                SetConsumtionDTO("TST", 2.toBigDecimal(), "Note 3"),
+                                SetConsumtionDTO("XXX", 2.toBigDecimal(), "Note 4")
                             )
                         ),
                         SetChildConsumtionDTO(
                             code = 1852,
                             listOf(
-                                SetConsumtionDTO("TST", 2.0, "Note 5")
+                                SetConsumtionDTO("TST", 2.toBigDecimal(), "Note 5")
                             )
                         )
                     )
@@ -307,35 +306,35 @@ class ConsumptionsServiceImplTest : DescribeSpec() {
 
                 capturedConsumptions[0].productId shouldBe "TST"
                 capturedConsumptions[0].childCode shouldBe 1850
-                capturedConsumptions[0].units shouldBe BigDecimal.valueOf(2.0)
+                capturedConsumptions[0].units shouldBe 2.toBigDecimal()
                 capturedConsumptions[0].yearMonth shouldBe YEAR_MONTH
                 capturedConsumptions[0].note shouldBe "Note 1"
                 capturedConsumptions[0].isRectification shouldBe true
 
                 capturedConsumptions[1].productId shouldBe "TST"
                 capturedConsumptions[1].childCode shouldBe 1850
-                capturedConsumptions[1].units shouldBe BigDecimal.valueOf(2.0)
+                capturedConsumptions[1].units shouldBe 2.toBigDecimal()
                 capturedConsumptions[1].yearMonth shouldBe YEAR_MONTH
                 capturedConsumptions[1].note shouldBe "Note 2"
                 capturedConsumptions[1].isRectification shouldBe true
 
                 capturedConsumptions[2].productId shouldBe "TST"
                 capturedConsumptions[2].childCode shouldBe 1851
-                capturedConsumptions[2].units shouldBe BigDecimal.valueOf(2.0)
+                capturedConsumptions[2].units shouldBe 2.toBigDecimal()
                 capturedConsumptions[2].yearMonth shouldBe YEAR_MONTH
                 capturedConsumptions[2].note shouldBe "Note 3"
                 capturedConsumptions[2].isRectification shouldBe true
 
                 capturedConsumptions[3].productId shouldBe "XXX"
                 capturedConsumptions[3].childCode shouldBe 1851
-                capturedConsumptions[3].units shouldBe BigDecimal.valueOf(2.0)
+                capturedConsumptions[3].units shouldBe 2.toBigDecimal()
                 capturedConsumptions[3].yearMonth shouldBe YEAR_MONTH
                 capturedConsumptions[3].note shouldBe "Note 4"
                 capturedConsumptions[3].isRectification shouldBe true
 
                 capturedConsumptions[4].productId shouldBe "TST"
                 capturedConsumptions[4].childCode shouldBe 1852
-                capturedConsumptions[4].units shouldBe BigDecimal.valueOf(2.0)
+                capturedConsumptions[4].units shouldBe 2.toBigDecimal()
                 capturedConsumptions[4].yearMonth shouldBe YEAR_MONTH
                 capturedConsumptions[4].note shouldBe "Note 5"
                 capturedConsumptions[4].isRectification shouldBe true
@@ -346,31 +345,31 @@ class ConsumptionsServiceImplTest : DescribeSpec() {
     private fun allChildrenConsumptions() = listOf(
         YearMonthConsumptionsDTO(
             yearMonth = YEAR_MONTH.toString(),
-            grossAmount = 105.4,
+            grossAmount = 105.4.toBigDecimal(),
             listOf(
                 ChildConsumtionDTO(
                     code = 1850,
                     shortName = "Laura Llull",
-                    grossAmount = 43.6,
+                    grossAmount = 43.6.toBigDecimal(),
                     listOf(
-                        ConsumtionDTO("TST", 4.0, 43.6, "Note 1, Note 2")
+                        ConsumtionDTO("TST", 4.toBigDecimal(), 43.6.toBigDecimal(), "Note 1, Note 2")
                     )
                 ),
                 ChildConsumtionDTO(
                     code = 1851,
                     shortName = "Aina Llull",
-                    grossAmount = 40.0,
+                    grossAmount = 40.0.toBigDecimal(),
                     listOf(
-                        ConsumtionDTO("TST", 2.0, 21.8, "Note 3"),
-                        ConsumtionDTO("XXX", 2.0, 18.2, "Note 4")
+                        ConsumtionDTO("TST", 2.toBigDecimal(), 21.8.toBigDecimal(), "Note 3"),
+                        ConsumtionDTO("XXX", 2.toBigDecimal(), 18.2.toBigDecimal(), "Note 4")
                     )
                 ),
                 ChildConsumtionDTO(
                     code = 1852,
                     shortName = "Laia Llull",
-                    grossAmount = 21.8,
+                    grossAmount = 21.8.toBigDecimal(),
                     listOf(
-                        ConsumtionDTO("TST", 2.0, 21.8, "Note 5")
+                        ConsumtionDTO("TST", 2.toBigDecimal(), 21.8.toBigDecimal(), "Note 5")
                     )
                 )
             )
@@ -384,13 +383,13 @@ fun mockAuxReaders(customerRepository: CachedCustomerRepository, productReposito
         id = "TST",
         name = "TST product",
         shortName = "Test",
-        price = BigDecimal.valueOf(10.9)
+        price = 10.9.toBigDecimal()
     )
     every { productRepository.getProduct("XXX") } returns Product(
         id = "XXX",
         name = "XXX product",
         shortName = "XXX product",
-        price = BigDecimal.valueOf(9.1)
+        price = 9.1.toBigDecimal()
     )
     every { customerRepository.getChild(1850) } returns testChild1()
     every { customerRepository.getChild(1851) } returns testChild2()
@@ -404,7 +403,7 @@ fun mockConsumptionsReader(consumptionRepository: ConsumptionRepository, additio
             id = "AA1",
             childCode = 1850,
             productId = "TST",
-            units = BigDecimal.valueOf(2),
+            units = 2.toBigDecimal(),
             yearMonth = YEAR_MONTH,
             note = "Note 1"
         ),
@@ -412,7 +411,7 @@ fun mockConsumptionsReader(consumptionRepository: ConsumptionRepository, additio
             id = "AA2",
             childCode = 1850,
             productId = "TST",
-            units = BigDecimal.valueOf(2),
+            units = 2.toBigDecimal(),
             yearMonth = YEAR_MONTH,
             note = "Note 2"
         ),
@@ -420,7 +419,7 @@ fun mockConsumptionsReader(consumptionRepository: ConsumptionRepository, additio
             id = "AA3",
             childCode = 1851,
             productId = "TST",
-            units = BigDecimal.valueOf(2),
+            units = 2.toBigDecimal(),
             yearMonth = YEAR_MONTH,
             note = "Note 3"
         ),
@@ -428,7 +427,7 @@ fun mockConsumptionsReader(consumptionRepository: ConsumptionRepository, additio
             id = "AA4",
             childCode = 1851,
             productId = "XXX",
-            units = BigDecimal.valueOf(2),
+            units = 2.toBigDecimal(),
             yearMonth = YEAR_MONTH,
             note = "Note 4"
         ),
@@ -436,7 +435,7 @@ fun mockConsumptionsReader(consumptionRepository: ConsumptionRepository, additio
             id = "AA5",
             childCode = 1852,
             productId = "TST",
-            units = BigDecimal.valueOf(2),
+            units = 2.toBigDecimal(),
             yearMonth = YEAR_MONTH,
             note = "Note 5"
         )

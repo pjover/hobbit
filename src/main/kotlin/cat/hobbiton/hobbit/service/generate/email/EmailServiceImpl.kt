@@ -32,7 +32,7 @@ class EmailServiceImpl(
     private fun getPaymentTypeInvoicesDTO(invoices: List<Invoice>): PaymentTypeInvoicesDTO {
         return PaymentTypeInvoicesDTO(
             paymentType = PaymentTypeDTO.BANK_DIRECT_DEBIT,
-            totalAmount = invoices.totalAmount().toDouble(),
+            totalAmount = invoices.totalAmount(),
             customers = getCustomerInvoicesDTOs(invoices, customerRepository)
         )
     }

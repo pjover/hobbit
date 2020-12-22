@@ -447,8 +447,7 @@ components:
         yearMonth:
           type: string
         grossAmount:
-          type: number
-          format: double
+          type: BigDecimal
         children:
           type: array
           items:
@@ -468,8 +467,7 @@ components:
         shortName:
           type: string
         grossAmount:
-          type: number
-          format: double
+          type: BigDecimal
         consumptions:
           type: array
           items:
@@ -486,11 +484,9 @@ components:
         productId:
           type: string
         units:
-          type: number
-          format: double
+          type: BigDecimal
         grossAmount:
-          type: number
-          format: double
+          type: BigDecimal
         note:
           type: string
       required:
@@ -534,8 +530,7 @@ components:
         productId:
           type: string
         units:
-          type: number
-          format: double
+          type: BigDecimal
         note:
           type: string
       required:
@@ -559,8 +554,7 @@ components:
         paymentType:
           $ref: '#/components/schemas/PaymentTypeDTO'
         totalAmount:
-          type: number
-          format: double
+          type: BigDecimal
         customers:
           type: array
           items:
@@ -582,8 +576,7 @@ components:
           description: Customer short name
           type: string
         totalAmount:
-          type: number
-          format: double
+          type: BigDecimal
         invoices:
           type: array
           items:
@@ -607,11 +600,9 @@ components:
           items:
             type: string
         totalAmount:
-          type: number
-          format: double
+          type: BigDecimal
         subsidizedAmount:
-          type: number
-          format: double
+          type: BigDecimal
         note:
           type: string
         lines:
@@ -632,11 +623,9 @@ components:
         productId:
           type: string
         units:
-          type: number
-          format: double
+          type: BigDecimal
         totalAmount:
-          type: number
-          format: double
+          type: BigDecimal
         childCode:
           description: The child code
           type: integer

@@ -30,9 +30,11 @@ class BusinessProperties {
     private val logger by Logging()
 
     @PostConstruct
-    private fun init() {
+    internal fun init() {
         enumValues<PaymentType>().forEach {
-            require(paymentTypeNotes.containsKey(it.name)) { ValidationMessages.ERROR_PAYMENT_TYPE_CONFIGURATION_UNDEFINED.translate(it.name) }
+            require(paymentTypeNotes.containsKey(it.name)) {
+                ValidationMessages.ERROR_PAYMENT_TYPE_CONFIGURATION_UNDEFINED.translate(it.name)
+            }
         }
         logger.info("Loaded business info for '$businessName'")
     }

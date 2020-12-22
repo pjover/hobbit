@@ -27,7 +27,7 @@ class BddServiceImpl(
         val invoices = getInvoices(yearMonth)
         return PaymentTypeInvoicesDTO(
             paymentType = PaymentTypeDTO.BANK_DIRECT_DEBIT,
-            totalAmount = invoices.totalAmount().toDouble(),
+            totalAmount = invoices.totalAmount(),
             customers = getCustomerInvoicesDTOs(invoices, customerRepository)
         )
     }

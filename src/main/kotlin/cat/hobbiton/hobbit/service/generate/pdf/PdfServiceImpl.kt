@@ -31,7 +31,7 @@ class PdfServiceImpl(
             .map { (paymentType, invoices) ->
                 PaymentTypeInvoicesDTO(
                     paymentType = PaymentTypeDTO.valueOf(paymentType.name),
-                    totalAmount = invoices.totalAmount().toDouble(),
+                    totalAmount = invoices.totalAmount(),
                     customers = getCustomerInvoicesDTOs(invoices, customerRepository)
                 )
             }

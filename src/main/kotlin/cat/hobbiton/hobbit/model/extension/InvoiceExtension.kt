@@ -24,7 +24,7 @@ fun Invoice.validate(maxAmount: Int, currency: String) {
         ValidationMessages.ERROR_INVOICE_LINES_EMPTY.translate()
     }
 
-    require(totalAmount() < BigDecimal.valueOf(2500)) {
+    require(totalAmount() < 2500.toBigDecimal()) {
         ValidationMessages.ERROR_INVOICE_AMOUNT_TOO_HIGH.translate(maxAmount, currency)
     }
 

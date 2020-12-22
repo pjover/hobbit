@@ -18,7 +18,6 @@ import cat.hobbiton.hobbit.util.resource.ZipService
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.DescribeSpec
 import io.mockk.*
-import java.math.BigDecimal
 import java.nio.charset.StandardCharsets
 import java.util.*
 import kotlin.test.assertFailsWith
@@ -193,13 +192,13 @@ private val product1 = Product(
     id = "TST",
     name = "TST product",
     shortName = "TST product",
-    price = BigDecimal.valueOf(10.9)
+    price = 10.9.toBigDecimal()
 )
 private val product2 = Product(
     id = "XXX",
     name = "XXX product",
     shortName = "XXX product",
-    price = BigDecimal.valueOf(9.1)
+    price = 9.1.toBigDecimal()
 )
 private val productMap1 = mapOf(
     "TST" to product1,
@@ -239,35 +238,35 @@ private fun mockZipService(zipService: ZipService) {
 val expectedInvoices = listOf(
     PaymentTypeInvoicesDTO(
         paymentType = PaymentTypeDTO.BANK_DIRECT_DEBIT,
-        totalAmount = 105.4,
+        totalAmount = 105.4.toBigDecimal(),
         customers = listOf(
             CustomerInvoicesDTO(
                 code = 185,
                 shortName = "Joana Bibiloni",
-                totalAmount = 83.6,
+                totalAmount = 83.6.toBigDecimal(),
                 invoices = listOf(
                     InvoiceDTO(
                         code = "??",
                         yearMonth = YEAR_MONTH.toString(),
                         children = listOf("Laura", "Aina"),
-                        totalAmount = 83.6,
+                        totalAmount = 83.6.toBigDecimal(),
                         lines = listOf(
                             InvoiceLineDTO(
                                 productId = "TST",
-                                units = 4.0,
-                                totalAmount = 43.6,
+                                units = 4.toBigDecimal(),
+                                totalAmount = 43.6.toBigDecimal(),
                                 childCode = 1850
                             ),
                             InvoiceLineDTO(
                                 productId = "TST",
-                                units = 2.0,
-                                totalAmount = 21.8,
+                                units = 2.toBigDecimal(),
+                                totalAmount = 21.8.toBigDecimal(),
                                 childCode = 1851
                             ),
                             InvoiceLineDTO(
                                 productId = "XXX",
-                                units = 2.0,
-                                totalAmount = 18.2,
+                                units = 2.toBigDecimal(),
+                                totalAmount = 18.2.toBigDecimal(),
                                 childCode = 1851
                             )
                         ),
@@ -278,18 +277,18 @@ val expectedInvoices = listOf(
             CustomerInvoicesDTO(
                 code = 186,
                 shortName = "Silvia Mayol",
-                totalAmount = 21.8,
+                totalAmount = 21.8.toBigDecimal(),
                 invoices = listOf(
                     InvoiceDTO(
                         code = "??",
                         yearMonth = YEAR_MONTH.toString(),
                         children = listOf("Laia"),
-                        totalAmount = 21.8,
+                        totalAmount = 21.8.toBigDecimal(),
                         lines = listOf(
                             InvoiceLineDTO(
                                 productId = "TST",
-                                units = 2.0,
-                                totalAmount = 21.8,
+                                units = 2.toBigDecimal(),
+                                totalAmount = 21.8.toBigDecimal(),
                                 childCode = 1852
                             )
                         ),

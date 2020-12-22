@@ -34,6 +34,7 @@ business:
     VOUCHER: Voucher payment type note
     CASH: Cash payment type note
     OTHER: Other payment type note
+    RECTIFICATION: Rectification payment type note
 
 formatting:
   locale: "en_US"

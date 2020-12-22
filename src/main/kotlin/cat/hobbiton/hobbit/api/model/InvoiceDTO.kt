@@ -25,12 +25,12 @@ data class InvoiceDTO(
     @JsonProperty("children") val children: List<String>,
 
     @get:NotNull
-    @JsonProperty("totalAmount") val totalAmount: Double,
+    @JsonProperty("totalAmount") val totalAmount: java.math.BigDecimal,
 
     @get:NotNull
     @JsonProperty("lines") val lines: List<InvoiceLineDTO>,
 
-    @JsonProperty("subsidizedAmount") val subsidizedAmount: Double? = null,
+    @JsonProperty("subsidizedAmount") val subsidizedAmount: java.math.BigDecimal? = null,
 
     @JsonProperty("note") val note: String? = null
 )

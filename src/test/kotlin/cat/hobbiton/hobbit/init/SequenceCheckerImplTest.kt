@@ -40,10 +40,10 @@ internal class SequenceCheckerImplTest : DescribeSpec() {
                 it("creates all sequences") {
                     verify {
                         sequenceRepository.findAll()
-                        sequenceRepository.save(Sequence(SequenceType.CUSTOMER, 1))
-                        sequenceRepository.save(Sequence(SequenceType.STANDARD_INVOICE, 1))
-                        sequenceRepository.save(Sequence(SequenceType.SPECIAL_INVOICE, 1))
-                        sequenceRepository.save(Sequence(SequenceType.RECTIFICATION_INVOICE, 1))
+                        sequenceRepository.save(Sequence(SequenceType.CUSTOMER, 0))
+                        sequenceRepository.save(Sequence(SequenceType.STANDARD_INVOICE, 0))
+                        sequenceRepository.save(Sequence(SequenceType.SPECIAL_INVOICE, 0))
+                        sequenceRepository.save(Sequence(SequenceType.RECTIFICATION_INVOICE, 0))
                     }
                 }
             }
@@ -77,7 +77,7 @@ internal class SequenceCheckerImplTest : DescribeSpec() {
                 it("creates the missed sequence") {
                     verify {
                         sequenceRepository.findAll()
-                        sequenceRepository.save(Sequence(SequenceType.CUSTOMER, 1))
+                        sequenceRepository.save(Sequence(SequenceType.CUSTOMER, 0))
                     }
                 }
             }

@@ -15,7 +15,7 @@ data class YearMonthConsumptionsDTO(
     @JsonProperty("yearMonth") val yearMonth: String,
 
     @get:NotNull
-    @JsonProperty("grossAmount") val grossAmount: Double,
+    @JsonProperty("grossAmount") val grossAmount: java.math.BigDecimal,
 
     @get:NotNull
     @JsonProperty("children") val children: List<ChildConsumtionDTO>
