@@ -11,6 +11,7 @@ enum class ErrorMessages(
     ERROR_CUSTOMER_NOT_FOUND("error.customer.not_found"),
     ERROR_SEQUENCE_NOT_FOUND("error.sequence.not_found"),
     ERROR_PDFS_TO_GENERATE_NOT_FOUND("error.pdfs_to_generate.not_found"),
+    ERROR_SPREAD_SHEET_TO_GENERATE_NOT_FOUND("error.spread_sheet_to_generate.not_found"),
     ERROR_EMAILS_TO_SEND_NOT_FOUND("error.emails_to_send.not_found"),
     ERROR_INVOICE_NOT_FOUND("error.invoice.not_found"),
 
