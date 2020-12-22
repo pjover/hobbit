@@ -19,4 +19,8 @@ interface GenerateService {
 	fun simulateEmails(yearMonth: String): PaymentTypeInvoicesDTO
 
 	fun generateEmails(yearMonth: String): PaymentTypeInvoicesDTO
+
+	fun simulateMonthReport(yearMonth: String): List<PaymentTypeInvoicesDTO>
+
+	fun generateMonthReport(yearMonth: String): Resource
 }

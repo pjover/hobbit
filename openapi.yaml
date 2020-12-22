@@ -369,6 +369,48 @@ paths:
               schema:
                 $ref: '#/components/schemas/PaymentTypeInvoicesDTO'
 
+
+  /generate/monthReport:
+    get:
+      tags:
+        - Generate
+      description: Return the invoices (generated on the yearMonth) that will generate the month report spreadsheet
+      operationId: simulateMonthReport
+      parameters:
+        - name: yearMonth
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PaymentTypeInvoicesDTO'
+    post:
+      tags:
+        - Generate
+      description: Generates the month report spreadsheet with the invoices generated on the yearMonth
+      operationId: generateMonthReport
+      parameters:
+        - name: yearMonth
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.openxmlformats-officedocument.spreadsheetml.sheet:
+              schema:
+                type: string
+                format: binary
+
 components:
   schemas:
 
