@@ -14,12 +14,12 @@ import io.mockk.every
 import io.mockk.mockk
 
 
-class ItextPdfBuilderServiceImplTest : DescribeSpec() {
+class ItextPdfBuilderServiceTest : DescribeSpec() {
 
     init {
         val businessProperties = mockk<BusinessProperties>()
         val formattingProperties = mockk<FormattingProperties>()
-        val sut = ItextPdfBuilderServiceImpl(businessProperties, formattingProperties)
+        val sut = ItextPdfBuilderService(businessProperties, formattingProperties)
 
         every { businessProperties.businessName } returns "BusinessName"
         every { businessProperties.addressLine1 } returns "AddressLine1"
