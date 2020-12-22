@@ -16,8 +16,8 @@ class DatabaseFieldUpdater(
     private val logger by Logging()
 
     init {
-        updateCustomers()
-//        updateInvoices()
+//        updateCustomers()
+        updateInvoices()
     }
 
     private fun updateCustomers() {

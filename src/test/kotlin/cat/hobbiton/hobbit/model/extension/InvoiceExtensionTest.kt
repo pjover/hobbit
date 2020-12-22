@@ -76,13 +76,11 @@ class InvoiceExtensionTest : DescribeSpec() {
                     testInvoice().copy(
                         lines = listOf(
                             InvoiceLine(productId = "XXX",
-                                productName = "XXX product",
                                 units = 2000.toBigDecimal(),
                                 productPrice = BigDecimal.ONE,
                                 childCode = 1),
                             InvoiceLine(
                                 productId = "XXX",
-                                productName = "XXX product",
                                 units = 500.toBigDecimal(),
                                 productPrice = BigDecimal.ONE,
                                 childCode = 2)
@@ -102,7 +100,6 @@ class InvoiceExtensionTest : DescribeSpec() {
                     testInvoice().copy(
                         lines = listOf(
                             InvoiceLine(productId = "XXX",
-                                productName = "XXX product",
                                 units = BigDecimal.ZERO,
                                 productPrice = BigDecimal.ONE,
                                 childCode = 1)

@@ -190,21 +190,18 @@ fun invoice1() = Invoice(
     lines = listOf(
         InvoiceLine(
             productId = "TST",
-            productName = "TST product",
             units = 4.toBigDecimal(),
             productPrice = 10.9.toBigDecimal(),
             childCode = 1850
         ),
         InvoiceLine(
             productId = "TST",
-            productName = "TST product",
             units = 2.toBigDecimal(),
             productPrice = 10.9.toBigDecimal(),
             childCode = 1851
         ),
         InvoiceLine(
             productId = "XXX",
-            productName = "XXX product",
             units = 2.toBigDecimal(),
             productPrice = 9.1.toBigDecimal(),
             childCode = 1851
@@ -223,7 +220,6 @@ fun invoice2() = Invoice(
     lines = listOf(
         InvoiceLine(
             productId = "TST",
-            productName = "TST product",
             units = 2.toBigDecimal(),
             productPrice = 10.9.toBigDecimal(),
             childCode = 1852
@@ -242,7 +238,6 @@ fun invoice3() = Invoice(
     lines = listOf(
         InvoiceLine(
             productId = "TST",
-            productName = "TST product",
             units = -2.toBigDecimal(),
             productPrice = 10.9.toBigDecimal(),
             childCode = 1852

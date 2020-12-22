@@ -137,7 +137,6 @@ class BillingServiceImpl(
             productId = consumption.productId,
             units = consumption.units,
             productPrice = product.price,
-            productName = product.name,
             taxPercentage = product.taxPercentage,
             childCode = consumption.childCode
         )

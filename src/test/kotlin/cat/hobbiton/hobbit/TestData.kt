@@ -114,21 +114,18 @@ fun testInvoice(
 
 fun testInvoiceLines() = listOf(
     InvoiceLine(productId = "AAA",
-        productName = "AAA product long name",
         units = 1.toBigDecimal(),
         productPrice = 11.toBigDecimal(),
         taxPercentage = BigDecimal.ZERO,
         childCode = 1850
     ),
     InvoiceLine(productId = "BBB",
-        productName = "BBB product long name",
         units = 3.toBigDecimal(),
         productPrice = 5.5.toBigDecimal(),
         taxPercentage = 0.1.toBigDecimal(),
         childCode = 1850
     ),
     InvoiceLine(productId = "CCC",
-        productName = "CCC product long name",
         units = 1.5.toBigDecimal(),
         productPrice = 5.toBigDecimal(),
         taxPercentage = BigDecimal.ZERO,
