@@ -135,7 +135,6 @@ class InvoicesToBddMapperImplTest : DescribeSpec() {
                     email = "email@gmail.com",
                     paymentType = paymentType,
                     bankAccount = "ES2830668859978258529057",
-                    subsidizedAmount = BigDecimal.ZERO,
                     isBusiness = true
                 ),
                 note = "Nota del client",
@@ -206,8 +205,7 @@ class InvoicesToBddMapperImplTest : DescribeSpec() {
             ),
             email = "email@gmail.com",
             paymentType = paymentType,
-            bankAccount = "ES2830668859978258529057",
-            subsidizedAmount = BigDecimal.ZERO
+            bankAccount = "ES2830668859978258529057"
         )
 
         private fun bddTestProducts(): List<Product> {

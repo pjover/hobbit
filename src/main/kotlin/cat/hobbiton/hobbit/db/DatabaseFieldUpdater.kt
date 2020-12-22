@@ -1,35 +1,34 @@
 package cat.hobbiton.hobbit.db
 
 import cat.hobbiton.hobbit.db.repository.CachedCustomerRepository
+import cat.hobbiton.hobbit.db.repository.CustomerRepository
 import cat.hobbiton.hobbit.db.repository.InvoiceRepository
-import cat.hobbiton.hobbit.model.Customer
-import cat.hobbiton.hobbit.model.InvoiceLine
-import cat.hobbiton.hobbit.model.extension.getActiveChildrenCodes
+import cat.hobbiton.hobbit.util.Logging
+import org.springframework.stereotype.Component
 
-//@Component
+@Component
 class DatabaseFieldUpdater(
     private val invoiceRepository: InvoiceRepository,
-    private val customerRepository: CachedCustomerRepository
+    private val customerRepository: CustomerRepository,
+    private val cachedCustomerRepository: CachedCustomerRepository
 ) {
 
+    private val logger by Logging()
+
     init {
-        val invoices = invoiceRepository
-            .findAll()
-            .map {
-                val customer = customerRepository.getCustomer(it.customerId)
-                val lines = it.lines
-                    .map { line ->
-                        line.copy(
-                            childCode = getChildCode(line, customer)
-                        )
-                    }
-                it.copy(lines = lines)
-            }
-        invoiceRepository.saveAll(invoices)
+        updateCustomers()
+//        updateInvoices()
     }
 
-    private fun getChildCode(line: InvoiceLine, customer: Customer): Int {
-        return if(line.childCode == 0) customer.getActiveChildrenCodes().first()
-        else line.childCode
+    private fun updateCustomers() {
+        val customers = customerRepository.findAll()
+        customerRepository.saveAll(customers)
+        logger.warn("✅ updated ${customers.size} customers ‼️️")
+    }
+
+    private fun updateInvoices() {
+        val invoices = invoiceRepository.findAll()
+        invoiceRepository.saveAll(invoices)
+        logger.warn("✅ updated ${invoices.size} invoices ‼️️")
     }
 }

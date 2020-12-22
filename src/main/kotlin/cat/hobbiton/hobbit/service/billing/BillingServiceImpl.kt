@@ -104,7 +104,6 @@ class BillingServiceImpl(
             yearMonth = yearMonth,
             childrenCodes = consumptions.map { it.childCode }.distinct(),
             paymentType = paymentType,
-            subsidizedAmount = customer.invoiceHolder.subsidizedAmount,
             note = getNotes(consumptions),
             lines = getInvoiceLines(consumptions)
         )
