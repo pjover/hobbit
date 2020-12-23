@@ -5,7 +5,7 @@ import java.time.LocalDate
 import java.time.ZoneId
 import java.util.*
 
-data class SpreadSheetCells(val name: String, val headers: List<String>, val lines: List<List<Cell>>)
+data class SpreadSheetCells(val title: String, val headers: List<String>, val lines: List<List<Cell>>)
 
 interface Cell {
     val content: Any
@@ -21,10 +21,6 @@ data class DateCell(override val content: LocalDate) : Cell {
 }
 
 data class IntCell(override val content: Int) : Cell {
-    override val cellValue = content.toDouble()
-}
-
-data class LongCell(override val content: Long) : Cell {
     override val cellValue = content.toDouble()
 }
 

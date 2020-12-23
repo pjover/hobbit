@@ -163,12 +163,12 @@ fun expectedInvoices(code: String) = listOf(
                         code = code,
                         yearMonth = YEAR_MONTH.toString(),
                         children = listOf("Laia"),
-                        totalAmount = -21.8.toBigDecimal(),
+                        totalAmount = (-21.8).toBigDecimal(),
                         lines = listOf(
                             InvoiceLineDTO(
                                 productId = "TST",
-                                units = -2.toBigDecimal(),
-                                totalAmount = -21.8.toBigDecimal(),
+                                units = (-2).toBigDecimal(),
+                                totalAmount = (-21.8).toBigDecimal(),
                                 childCode = 1852
                             )
                         ),
@@ -238,7 +238,7 @@ fun invoice3() = Invoice(
     lines = listOf(
         InvoiceLine(
             productId = "TST",
-            units = -2.toBigDecimal(),
+            units = (-2).toBigDecimal(),
             productPrice = 10.9.toBigDecimal(),
             childCode = 1852
         )
