@@ -17,15 +17,15 @@ import org.springframework.stereotype.Service
 import java.time.YearMonth
 
 @Service
-class SpreadsheetServiceImpl(
+class SpreadSheetServiceImpl(
     private val invoiceRepository: InvoiceRepository,
     private val customerRepository: CachedCustomerRepository,
     private val productRepository: CachedProductRepository,
     private val monthReportService: MonthReportService,
     private val spreadSheetBuilderService: SpreadSheetBuilderService
-) : SpreadsheetService {
+) : SpreadSheetService {
 
-    override fun simulateMonthReport(yearMonth: String): List<PaymentTypeInvoicesDTO> {
+    override fun simulateMonthSpreadSheet(yearMonth: String): List<PaymentTypeInvoicesDTO> {
         return getInvoices(yearMonth)
             .groupBy { it.paymentType }
             .map { (paymentType, invoices) ->
@@ -60,7 +60,7 @@ class SpreadsheetServiceImpl(
             .toMap()
     }
 
-    override fun generateMonthReport(yearMonth: String): Resource {
+    override fun generateMonthSpreadSheet(yearMonth: String): Resource {
         val invoices = getInvoices(yearMonth)
         val customers = getCustomers(invoices)
         val products = getProducts(invoices)

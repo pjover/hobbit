@@ -5,7 +5,7 @@ import cat.hobbiton.hobbit.service.billing.expectedInvoices
 import cat.hobbiton.hobbit.service.generate.bdd.BddService
 import cat.hobbiton.hobbit.service.generate.email.EmailService
 import cat.hobbiton.hobbit.service.generate.pdf.PdfService
-import cat.hobbiton.hobbit.service.generate.spreadsheet.SpreadsheetService
+import cat.hobbiton.hobbit.service.generate.spreadsheet.SpreadSheetService
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.DescribeSpec
 import io.mockk.every
@@ -19,7 +19,7 @@ class GenerateServiceImplTest : DescribeSpec() {
         val bddService = mockk<BddService>()
         val pdfService = mockk<PdfService>()
         val emailService = mockk<EmailService>()
-        val spreadsheetService = mockk<SpreadsheetService>()
+        val spreadsheetService = mockk<SpreadSheetService>()
         val sut = GenerateServiceImpl(bddService, pdfService, emailService, spreadsheetService)
 
         val expectedResource = InputStreamResource("Test resource".byteInputStream(StandardCharsets.UTF_8))
@@ -105,24 +105,24 @@ class GenerateServiceImplTest : DescribeSpec() {
         }
 
         describe("Month report") {
-            context("generateMonthReport") {
-                every { spreadsheetService.generateMonthReport(any()) } returns expectedResource
 
-                val actual = sut.generateBDD(YEAR_MONTH.toString())
-
-                it("should return the correct resource") {
-                    actual shouldBe expectedResource
-                }
-            }
-
-
-            context("simulateMonthReport") {
-                every { spreadsheetService.simulateMonthReport(any()) } returns expectedInvoice
+            context("simulateMonthSpreadSheet") {
+                every { spreadsheetService.simulateMonthSpreadSheet(any()) } returns expectedInvoice
 
                 val actual = sut.simulateBDD(YEAR_MONTH.toString())
 
                 it("should return the correct invoice") {
                     actual shouldBe expectedInvoice[0]
+                }
+            }
+
+            context("generateMonthSpreadSheet") {
+                every { spreadsheetService.generateMonthSpreadSheet(any()) } returns expectedResource
+
+                val actual = sut.generateBDD(YEAR_MONTH.toString())
+
+                it("should return the correct resource") {
+                    actual shouldBe expectedResource
                 }
             }
         }

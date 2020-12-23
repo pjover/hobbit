@@ -124,32 +124,30 @@ class GenerateController(@Autowired(required = true) val service: GenerateServic
 
     @Operation(
         description = "Generates the month report spreadsheet with the invoices generated on the yearMonth",
-        operationId = "generateMonthReport"
+        operationId = "simulateMonthSpreadSheet"
     )
     @RequestMapping(
-        value = ["/generate/monthReport"],
+        value = ["/generate/monthSpreadSheet"],
         produces = ["application/json"],
         method = [RequestMethod.GET])
-    fun simulateMonthReport(@NotNull @RequestParam(value = "yearMonth", required = true) yearMonth: String): ResponseEntity<List<PaymentTypeInvoicesDTO>> {
-        return ResponseEntity(service.simulateMonthReport(yearMonth), HttpStatus.valueOf(200))
+    fun simulateMonthSpreadSheet(@NotNull @RequestParam(value = "yearMonth", required = true) yearMonth: String): ResponseEntity<List<PaymentTypeInvoicesDTO>> {
+        return ResponseEntity(service.simulateMonthSpreadSheet(yearMonth), HttpStatus.valueOf(200))
     }
 
     @Operation(
         description = "Return the invoices (generated on the yearMonth) that will generate the month report spreadsheet",
-        operationId = "simulateMonthReport"
+        operationId = "generateMonthSpreadSheet"
     )
     @RequestMapping(
-        value = ["/generate/monthReport"],
+        value = ["/generate/monthSpreadSheet"],
         produces = ["application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"],
         method = [RequestMethod.POST])
     fun generateMonthReport(@NotNull @RequestParam(value = "yearMonth", required = true) yearMonth: String): ResponseEntity<org.springframework.core.io.Resource> {
-        val xlsx = service.generateMonthReport(yearMonth)
+        val xlsx = service.generateMonthSpreadSheet(yearMonth)
         return ResponseEntity(
             xlsx,
             xlsx.getResponseHeaders(MediaType.valueOf("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")),
             HttpStatus.valueOf(200)
         )
     }
-
-
 }

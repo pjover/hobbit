@@ -370,12 +370,12 @@ paths:
                 $ref: '#/components/schemas/PaymentTypeInvoicesDTO'
 
 
-  /generate/monthReport:
+  /generate/monthSpreadSheet:
     get:
       tags:
         - Generate
       description: Return the invoices (generated on the yearMonth) that will generate the month report spreadsheet
-      operationId: simulateMonthReport
+      operationId: simulateMonthSpreadSheet
       parameters:
         - name: yearMonth
           in: query
@@ -395,7 +395,7 @@ paths:
       tags:
         - Generate
       description: Generates the month report spreadsheet with the invoices generated on the yearMonth
-      operationId: generateMonthReport
+      operationId: generateMonthSpreadSheet
       parameters:
         - name: yearMonth
           in: query

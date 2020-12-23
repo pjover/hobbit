@@ -3,7 +3,7 @@ package cat.hobbiton.hobbit.service.generate
 import cat.hobbiton.hobbit.service.generate.bdd.BddService
 import cat.hobbiton.hobbit.service.generate.email.EmailService
 import cat.hobbiton.hobbit.service.generate.pdf.PdfService
-import cat.hobbiton.hobbit.service.generate.spreadsheet.SpreadsheetService
+import cat.hobbiton.hobbit.service.generate.spreadsheet.SpreadSheetService
 import org.springframework.stereotype.Service
 
 @Service
@@ -11,7 +11,7 @@ class GenerateServiceImpl(
     private val bddService: BddService,
     private val pdfService: PdfService,
     private val emailService: EmailService,
-    private val spreadsheetService: SpreadsheetService
+    private val spreadSheetService: SpreadSheetService
 ) : GenerateService {
 
     override fun simulateBDD(yearMonth: String?) = bddService.simulateBDD(yearMonth)
@@ -28,7 +28,7 @@ class GenerateServiceImpl(
 
     override fun generateEmails(yearMonth: String) = emailService.generateEmails(yearMonth)
 
-    override fun simulateMonthReport(yearMonth: String) = spreadsheetService.simulateMonthReport(yearMonth)
+    override fun simulateMonthSpreadSheet(yearMonth: String) = spreadSheetService.simulateMonthSpreadSheet(yearMonth)
 
-    override fun generateMonthReport(yearMonth: String) = spreadsheetService.generateMonthReport(yearMonth)
+    override fun generateMonthSpreadSheet(yearMonth: String) = spreadSheetService.generateMonthSpreadSheet(yearMonth)
 }

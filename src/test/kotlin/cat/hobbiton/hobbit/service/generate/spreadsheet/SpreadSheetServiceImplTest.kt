@@ -7,6 +7,7 @@ import cat.hobbiton.hobbit.db.repository.InvoiceRepository
 import cat.hobbiton.hobbit.model.Product
 import cat.hobbiton.hobbit.service.billing.invoice1
 import cat.hobbiton.hobbit.service.billing.invoice2
+import cat.hobbiton.hobbit.service.generate.pdf.expectedInvoices
 import cat.hobbiton.hobbit.testAdultMother
 import cat.hobbiton.hobbit.testChild3
 import cat.hobbiton.hobbit.testCustomer
@@ -23,7 +24,7 @@ import java.nio.charset.StandardCharsets
 import java.time.LocalDate
 import kotlin.test.assertFailsWith
 
-class SpreadsheetServiceImplTest : DescribeSpec() {
+class SpreadSheetServiceImplTest : DescribeSpec() {
 
     init {
         val invoiceRepository = mockk<InvoiceRepository>()
@@ -31,17 +32,17 @@ class SpreadsheetServiceImplTest : DescribeSpec() {
         val productRepository = mockk<CachedProductRepository>()
         val monthReportService = mockk<MonthReportService>()
         val spreadSheetBuilderService = mockk<SpreadSheetBuilderService>()
-        val sut = SpreadsheetServiceImpl(invoiceRepository, customerRepository, productRepository, monthReportService, spreadSheetBuilderService)
+        val sut = SpreadSheetServiceImpl(invoiceRepository, customerRepository, productRepository, monthReportService, spreadSheetBuilderService)
 
-        describe("simulateMonthReport") {
+        describe("simulateMonthSpreadSheet") {
 
             context("there are invoices") {
                 mockReaders(invoiceRepository, customerRepository, productRepository)
 
-                val actual = sut.simulateMonthReport(YEAR_MONTH.toString())
+                val actual = sut.simulateMonthSpreadSheet(YEAR_MONTH.toString())
 
                 it("should be the pending invoices") {
-                    actual shouldBe cat.hobbiton.hobbit.service.generate.pdf.expectedInvoices
+                    actual shouldBe expectedInvoices
                 }
 
                 it("call the collaborators") {
@@ -58,7 +59,7 @@ class SpreadsheetServiceImplTest : DescribeSpec() {
                 every { invoiceRepository.findByYearMonth(YEAR_MONTH) } returns emptyList()
 
                 val executor = {
-                    sut.simulateMonthReport(YEAR_MONTH.toString())
+                    sut.simulateMonthSpreadSheet(YEAR_MONTH.toString())
                 }
 
                 it("throws an error") {
@@ -74,7 +75,7 @@ class SpreadsheetServiceImplTest : DescribeSpec() {
             }
         }
 
-        describe("generateMonthReport") {
+        describe("generateMonthSpreadSheet") {
 
             context("there are invoices") {
                 mockReaders(invoiceRepository, customerRepository, productRepository)
@@ -82,7 +83,7 @@ class SpreadsheetServiceImplTest : DescribeSpec() {
                 every { spreadSheetBuilderService.generate(any()) } returns
                     FileResource("XLSX".toByteArray(StandardCharsets.UTF_8), monthReportFilename)
 
-                val actual = sut.generateMonthReport(YEAR_MONTH.toString())
+                val actual = sut.generateMonthSpreadSheet(YEAR_MONTH.toString())
 
                 it("returns the spreadsheet resource") {
                     actual.filename shouldBe monthReportFilename
@@ -105,7 +106,7 @@ class SpreadsheetServiceImplTest : DescribeSpec() {
 
 
                 val executor = {
-                    sut.generateMonthReport(YEAR_MONTH.toString())
+                    sut.generateMonthSpreadSheet(YEAR_MONTH.toString())
                 }
 
                 it("throws an error") {
