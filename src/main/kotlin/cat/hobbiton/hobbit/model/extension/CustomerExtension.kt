@@ -31,6 +31,11 @@ fun Customer.getAdult(role: AdultRole): Adult? {
 
 fun Customer.getFirstAdult() = adults.minByOrNull { it.role.order }!!
 
+fun Customer.getLastAdult(): Adult? {
+    return if(adults.size == 1) null
+    else adults.maxByOrNull { it.role.order }
+}
+
 fun Customer.validate() {
 
     require(children.isNotEmpty()) {
