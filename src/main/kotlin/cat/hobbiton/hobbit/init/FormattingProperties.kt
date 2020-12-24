@@ -8,4 +8,6 @@ import org.springframework.stereotype.Component
 class FormattingProperties {
     lateinit var locale: String
     lateinit var longDateFormat: String
+    lateinit var spreadSheetDateFormat: String
+    lateinit var spreadSheetCurrencyFormat: String
 }

@@ -1,5 +1,6 @@
 package cat.hobbiton.hobbit.service.generate.spreadsheet.poi
 
+import cat.hobbiton.hobbit.init.FormattingProperties
 import cat.hobbiton.hobbit.service.generate.spreadsheet.DateCell
 import cat.hobbiton.hobbit.service.generate.spreadsheet.DecimalCell
 import cat.hobbiton.hobbit.service.generate.spreadsheet.SpreadSheet
@@ -7,6 +8,8 @@ import cat.hobbiton.hobbit.service.generate.spreadsheet.TextCell
 import cat.hobbiton.hobbit.util.error.AppException
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.DescribeSpec
+import io.mockk.every
+import io.mockk.mockk
 import org.apache.poi.ss.usermodel.WorkbookFactory
 import java.io.ByteArrayInputStream
 import java.math.BigDecimal
@@ -18,7 +21,11 @@ import kotlin.test.assertFailsWith
 class PoiSpreadSheetBuilderServiceTest : DescribeSpec() {
 
     init {
-        val sut = PoiSpreadSheetBuilderService()
+        val formattingProperties = mockk<FormattingProperties>()
+        val sut = PoiSpreadSheetBuilderService(formattingProperties)
+
+        every { formattingProperties.spreadSheetDateFormat } returns "d-mmm-yy"
+        every { formattingProperties.spreadSheetCurrencyFormat } returns "#,##0.00_);[Red](#,##0.00)"
 
         describe("SpreadSheet validation") {
 

@@ -1,5 +1,6 @@
 package cat.hobbiton.hobbit.service.generate.spreadsheet.poi
 
+import cat.hobbiton.hobbit.init.FormattingProperties
 import cat.hobbiton.hobbit.messages.ErrorMessages
 import cat.hobbiton.hobbit.service.generate.spreadsheet.*
 import cat.hobbiton.hobbit.util.error.AppException
@@ -12,7 +13,9 @@ import java.io.File
 import java.util.*
 
 @Service
-class PoiSpreadSheetBuilderService : SpreadSheetBuilderService {
+class PoiSpreadSheetBuilderService(
+    private val formattingProperties: FormattingProperties
+) : SpreadSheetBuilderService {
 
     private lateinit var workbook: XSSFWorkbook
     private lateinit var sheet: XSSFSheet
@@ -22,20 +25,10 @@ class PoiSpreadSheetBuilderService : SpreadSheetBuilderService {
 
     override fun generate(spreadSheet: SpreadSheet): FileResource {
         init(spreadSheet)
-
         titleRow()
         dataRows()
         formatSheet()
-
         return getFileResource()
-    }
-
-    private fun getFileResource(): FileResource {
-        ByteArrayOutputStream().use {
-            workbook.write(it)
-            workbook.close()
-            return FileResource(it.toByteArray(), data.filename)
-        }
     }
 
     private fun init(spreadSheet: SpreadSheet) {
@@ -43,8 +36,8 @@ class PoiSpreadSheetBuilderService : SpreadSheetBuilderService {
         this.data = spreadSheet
         this.workbook = XSSFWorkbook()
         this.sheet = workbook.createSheet(spreadSheet.title)
-        this.dateStyle = loadDateStyle()
-        this.currencyStyle = loadCurrencyStyle()
+        this.dateStyle = loadStyle(formattingProperties.spreadSheetDateFormat)
+        this.currencyStyle = loadStyle(formattingProperties.spreadSheetCurrencyFormat)
         initTable()
     }
 
@@ -70,15 +63,9 @@ class PoiSpreadSheetBuilderService : SpreadSheetBuilderService {
         style.setLastColumn(false)
     }
 
-    private fun loadDateStyle(): XSSFCellStyle {
+    private fun loadStyle(format: String): XSSFCellStyle {
         val style = workbook.createCellStyle()
-        style.dataFormat = workbook.creationHelper.createDataFormat().getFormat("d-mmm-yy") // TODO from configuration
-        return style
-    }
-
-    private fun loadCurrencyStyle(): XSSFCellStyle {
-        val style = workbook.createCellStyle()
-        style.dataFormat = workbook.creationHelper.createDataFormat().getFormat("#,##0.00 €") // TODO from configuration
+        style.dataFormat = workbook.creationHelper.createDataFormat().getFormat(format)
         return style
     }
 
@@ -155,6 +142,14 @@ class PoiSpreadSheetBuilderService : SpreadSheetBuilderService {
     private fun formatSheet() {
         for(i in 0 until columnCount()) {
             sheet.autoSizeColumn(i)
+        }
+    }
+
+    private fun getFileResource(): FileResource {
+        ByteArrayOutputStream().use {
+            workbook.write(it)
+            workbook.close()
+            return FileResource(it.toByteArray(), data.filename)
         }
     }
 }
