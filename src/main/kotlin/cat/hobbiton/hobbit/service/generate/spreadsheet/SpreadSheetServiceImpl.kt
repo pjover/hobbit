@@ -23,7 +23,7 @@ class SpreadSheetServiceImpl(
 ) : SpreadSheetService {
 
     override fun simulateMonthSpreadSheet(yearMonth: String): List<PaymentTypeInvoicesDTO> {
-        return getInvoices(yearMonth)
+        return getInvoices(YearMonth.parse(yearMonth))
             .groupBy { it.paymentType }
             .map { (paymentType, invoices) ->
                 PaymentTypeInvoicesDTO(
@@ -34,8 +34,8 @@ class SpreadSheetServiceImpl(
             }
     }
 
-    private fun getInvoices(yearMonth: String): List<Invoice> {
-        val invoices = invoiceRepository.findByYearMonth(YearMonth.parse(yearMonth))
+    private fun getInvoices(yearMonth: YearMonth): List<Invoice> {
+        val invoices = invoiceRepository.findByYearMonth(yearMonth)
         if(invoices.isEmpty()) throw NotFoundException(ErrorMessages.ERROR_SPREAD_SHEET_TO_GENERATE_NOT_FOUND)
         return invoices
     }
@@ -49,9 +49,10 @@ class SpreadSheetServiceImpl(
     }
 
     override fun generateMonthSpreadSheet(yearMonth: String): Resource {
-        val invoices = getInvoices(yearMonth)
+        val ym = YearMonth.parse(yearMonth)
+        val invoices = getInvoices(ym)
         val customers = getCustomers(invoices)
-        val spreadSheetCells = monthSpreadSheetService.generate(invoices, customers)
+        val spreadSheetCells = monthSpreadSheetService.generate(ym, invoices, customers)
         return spreadSheetBuilderService.generate(spreadSheetCells)
     }
 }

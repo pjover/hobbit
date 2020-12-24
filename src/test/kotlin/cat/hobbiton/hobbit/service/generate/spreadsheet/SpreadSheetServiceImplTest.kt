@@ -76,7 +76,7 @@ class SpreadSheetServiceImplTest : DescribeSpec() {
 
             context("there are invoices") {
                 mockReaders(invoiceRepository, customerRepository)
-                every { monthReportService.generate(any(), any()) } returns expectedSpreadSheetCells
+                every { monthReportService.generate(any(), any(), any()) } returns expectedSpreadSheetCells
                 every { spreadSheetBuilderService.generate(any()) } returns
                     FileResource("XLSX".toByteArray(StandardCharsets.UTF_8), monthSpreadSheetFilename)
 
@@ -91,7 +91,7 @@ class SpreadSheetServiceImplTest : DescribeSpec() {
                         invoiceRepository.findByYearMonth(YEAR_MONTH)
                         customerRepository.getCustomer(185)
                         customerRepository.getCustomer(186)
-                        monthReportService.generate(invoices, customerMap)
+                        monthReportService.generate(YEAR_MONTH, invoices, customerMap)
                         spreadSheetBuilderService.generate(expectedSpreadSheetCells)
                     }
                 }

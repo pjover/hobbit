@@ -1,7 +1,6 @@
 package cat.hobbiton.hobbit.service.generate.spreadsheet
 
 import cat.hobbiton.hobbit.YEAR_MONTH
-import cat.hobbiton.hobbit.service.aux.TimeService
 import cat.hobbiton.hobbit.service.billing.invoice1
 import cat.hobbiton.hobbit.service.billing.invoice2
 import cat.hobbiton.hobbit.service.billing.invoice3
@@ -11,22 +10,17 @@ import cat.hobbiton.hobbit.testCustomer
 import io.kotlintest.matchers.collections.shouldHaveSize
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.DescribeSpec
-import io.mockk.every
-import io.mockk.mockk
 import java.math.BigDecimal
 import java.time.LocalDate
 
 class MonthSpreadSheetServiceImplTest : DescribeSpec() {
 
     init {
-        val timeService = mockk<TimeService>()
-        val sut = MonthSpreadSheetServiceImpl(timeService)
-
-        every { timeService.currentYearMonth } returns YEAR_MONTH
+        val sut = MonthSpreadSheetServiceImpl()
 
         describe("generate") {
 
-            val actual = sut.generate(invoices, customers)
+            val actual = sut.generate(YEAR_MONTH, invoices, customers)
 
             it("generate the spread sheet") {
 
