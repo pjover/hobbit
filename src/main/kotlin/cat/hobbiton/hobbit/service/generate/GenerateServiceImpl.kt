@@ -31,4 +31,8 @@ class GenerateServiceImpl(
     override fun simulateMonthSpreadSheet(yearMonth: String) = spreadSheetService.simulateMonthSpreadSheet(yearMonth)
 
     override fun generateMonthSpreadSheet(yearMonth: String) = spreadSheetService.generateMonthSpreadSheet(yearMonth)
+
+    override fun simulateYearSpreadSheet(year: Int) = spreadSheetService.simulateYearSpreadSheet(year)
+
+    override fun generateYearSpreadSheet(year: Int) = spreadSheetService.generateYearSpreadSheet(year)
 }

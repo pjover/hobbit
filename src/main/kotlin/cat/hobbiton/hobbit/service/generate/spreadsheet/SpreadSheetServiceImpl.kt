@@ -55,4 +55,12 @@ class SpreadSheetServiceImpl(
         val spreadSheetCells = monthSpreadSheetService.generate(ym, invoices, customers)
         return spreadSheetBuilderService.generate(spreadSheetCells)
     }
+
+    override fun simulateYearSpreadSheet(year: Int): List<PaymentTypeInvoicesDTO> {
+        TODO("Not yet implemented")
+    }
+
+    override fun generateYearSpreadSheet(year: Int): Resource {
+        TODO("Not yet implemented")
+    }
 }
