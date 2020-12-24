@@ -17,8 +17,8 @@ class DatabaseFieldUpdater(
 
     init {
 //        updateCustomers()
-        updateInvoices()
-//        logger.info("🍺 no fields to update today️️")
+//        updateInvoices()
+        logger.info("🍺 no fields to update today️️")
     }
 
     private fun updateCustomers() {
