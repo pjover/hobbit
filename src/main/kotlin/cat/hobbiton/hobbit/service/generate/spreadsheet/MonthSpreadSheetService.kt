@@ -7,5 +7,5 @@ const val monthSpreadSheetFilename = "Month report.xlsx"
 
 interface MonthSpreadSheetService {
 
-    fun generate(invoices: List<Invoice>, customers: Map<Int, Customer>): SpreadSheetCells
+    fun generate(invoices: List<Invoice>, customers: Map<Int, Customer>): SpreadSheet
 }

@@ -2,7 +2,7 @@ package cat.hobbiton.hobbit.service.generate.spreadsheet.poi
 
 import cat.hobbiton.hobbit.service.generate.spreadsheet.DateCell
 import cat.hobbiton.hobbit.service.generate.spreadsheet.DecimalCell
-import cat.hobbiton.hobbit.service.generate.spreadsheet.SpreadSheetCells
+import cat.hobbiton.hobbit.service.generate.spreadsheet.SpreadSheet
 import cat.hobbiton.hobbit.service.generate.spreadsheet.TextCell
 import cat.hobbiton.hobbit.util.error.AppException
 import io.kotlintest.shouldBe
@@ -19,7 +19,8 @@ class PoiSpreadSheetBuilderServiceTest : DescribeSpec() {
         describe("generate") {
 
             context("without headers") {
-                val spreadSheetCells = SpreadSheetCells(
+                val spreadSheetCells = SpreadSheet(
+                    "test.xlsx",
                     "Llistat de prova",
                     listOf(),
                     listOf(
@@ -42,7 +43,8 @@ class PoiSpreadSheetBuilderServiceTest : DescribeSpec() {
             }
 
             context("without data") {
-                val spreadSheetCells = SpreadSheetCells(
+                val spreadSheetCells = SpreadSheet(
+                    "test.xlsx",
                     "Llistat de prova",
                     listOf("Data",
                         "Valor",
@@ -60,7 +62,8 @@ class PoiSpreadSheetBuilderServiceTest : DescribeSpec() {
             }
 
             context("with more headers than columns count") {
-                val spreadSheetCells = SpreadSheetCells(
+                val spreadSheetCells = SpreadSheet(
+                    "test.xlsx",
                     "Llistat de prova",
                     listOf("Data",
                         "Valor",
@@ -85,7 +88,8 @@ class PoiSpreadSheetBuilderServiceTest : DescribeSpec() {
             }
 
             context("with less headers than columns count") {
-                val spreadSheetCells = SpreadSheetCells(
+                val spreadSheetCells = SpreadSheet(
+                    "test.xlsx",
                     "Llistat de prova",
                     listOf("Data",
                         "Descripció"),
@@ -108,7 +112,8 @@ class PoiSpreadSheetBuilderServiceTest : DescribeSpec() {
             }
 
             context("with more line columns than headers columns") {
-                val spreadSheetCells = SpreadSheetCells(
+                val spreadSheetCells = SpreadSheet(
+                    "test.xlsx",
                     "Llistat de prova",
                     listOf("Data",
                         "Valor",
@@ -133,7 +138,8 @@ class PoiSpreadSheetBuilderServiceTest : DescribeSpec() {
             }
 
             context("with less line columns than headers columns") {
-                val spreadSheetCells = SpreadSheetCells(
+                val spreadSheetCells = SpreadSheet(
+                    "test.xlsx",
                     "Llistat de prova",
                     listOf("Data",
                         "Valor",

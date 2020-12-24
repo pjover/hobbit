@@ -5,7 +5,7 @@ import java.time.LocalDate
 import java.time.ZoneId
 import java.util.*
 
-data class SpreadSheetCells(val title: String, val headers: List<String>, val lines: List<List<Cell>>)
+data class SpreadSheet(val filename: String, val title: String, val headers: List<String>, val lines: List<List<Cell>>)
 
 interface Cell {
     val content: Any

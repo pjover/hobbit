@@ -147,7 +147,8 @@ private fun mockReaders(invoiceRepository: InvoiceRepository, customerRepository
 }
 
 
-val expectedSpreadSheetCells = SpreadSheetCells(
+val expectedSpreadSheetCells = SpreadSheet(
+    monthSpreadSheetFilename,
     "Llistat de prova",
     listOf("Data",
         "Valor",

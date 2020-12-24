@@ -18,8 +18,9 @@ class MonthSpreadSheetServiceImpl(
     private val timeService: TimeService
 ) : MonthSpreadSheetService {
 
-    override fun generate(invoices: List<Invoice>, customers: Map<Int, Customer>): SpreadSheetCells {
-        return SpreadSheetCells(
+    override fun generate(invoices: List<Invoice>, customers: Map<Int, Customer>): SpreadSheet {
+        return SpreadSheet(
+            monthSpreadSheetFilename,
             getTitle(),
             getHeaders(),
             getLines(invoices, customers)
