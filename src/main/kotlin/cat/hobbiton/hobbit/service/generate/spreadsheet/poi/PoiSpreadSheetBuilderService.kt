@@ -16,6 +16,8 @@ class PoiSpreadSheetBuilderService : SpreadSheetBuilderService {
     }
 
     private fun validate(spreadSheet: SpreadSheet) {
+        if(spreadSheet.filename.isEmpty()) throw AppException(ErrorMessages.ERROR_SPREAD_SHEET_BLANK_FILENAME)
+        if(spreadSheet.title.isEmpty()) throw AppException(ErrorMessages.ERROR_SPREAD_SHEET_BLANK_TITLE)
         if(spreadSheet.headers.isEmpty()) throw AppException(ErrorMessages.ERROR_SPREAD_SHEET_NO_HEADERS)
         if(spreadSheet.lines.isEmpty()) throw AppException(ErrorMessages.ERROR_SPREAD_SHEET_NO_DATA)
 

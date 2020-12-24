@@ -16,21 +16,75 @@ class PoiSpreadSheetBuilderServiceTest : DescribeSpec() {
     init {
         val sut = PoiSpreadSheetBuilderService()
 
-        describe("generate") {
+        describe("SpreadSheet validation") {
+
+            context("without filename") {
+                val spreadSheetCells = SpreadSheet(
+                    "",
+                    "Test SpreadSheet",
+                    listOf("Data",
+                        "Value",
+                        "Value",
+                        "Description"),
+                    listOf(
+                        listOf(
+                            DateCell(LocalDate.of(2019, 5, 1)),
+                            TextCell("Line 1"),
+                            DecimalCell(BigDecimal.valueOf(11.5))),
+                        listOf(
+                            DateCell(LocalDate.of(2019, 5, 2)),
+                            TextCell("Line 2"),
+                            DecimalCell(BigDecimal.valueOf(22))))
+                )
+
+                val executor = { sut.generate(spreadSheetCells) }
+
+                it("throws an error") {
+                    val exception = assertFailsWith<AppException> { executor.invoke() }
+                    exception.message shouldBe "SpreadSheet filename cannot be blank"
+                }
+            }
+
+            context("without title") {
+                val spreadSheetCells = SpreadSheet(
+                    "test.xlsx",
+                    "",
+                    listOf("Data",
+                        "Value",
+                        "Value",
+                        "Description"),
+                    listOf(
+                        listOf(
+                            DateCell(LocalDate.of(2019, 5, 1)),
+                            TextCell("Line 1"),
+                            DecimalCell(BigDecimal.valueOf(11.5))),
+                        listOf(
+                            DateCell(LocalDate.of(2019, 5, 2)),
+                            TextCell("Line 2"),
+                            DecimalCell(BigDecimal.valueOf(22))))
+                )
+
+                val executor = { sut.generate(spreadSheetCells) }
+
+                it("throws an error") {
+                    val exception = assertFailsWith<AppException> { executor.invoke() }
+                    exception.message shouldBe "SpreadSheet title cannot be blank"
+                }
+            }
 
             context("without headers") {
                 val spreadSheetCells = SpreadSheet(
                     "test.xlsx",
-                    "Llistat de prova",
+                    "Test SpreadSheet",
                     listOf(),
                     listOf(
                         listOf(
                             DateCell(LocalDate.of(2019, 5, 1)),
-                            TextCell("Linia 1"),
+                            TextCell("Line 1"),
                             DecimalCell(BigDecimal.valueOf(11.5))),
                         listOf(
                             DateCell(LocalDate.of(2019, 5, 2)),
-                            TextCell("Linia 2"),
+                            TextCell("Line 2"),
                             DecimalCell(BigDecimal.valueOf(22))))
                 )
 
@@ -45,11 +99,11 @@ class PoiSpreadSheetBuilderServiceTest : DescribeSpec() {
             context("without data") {
                 val spreadSheetCells = SpreadSheet(
                     "test.xlsx",
-                    "Llistat de prova",
+                    "Test SpreadSheet",
                     listOf("Data",
-                        "Valor",
-                        "Valor",
-                        "Descripció"),
+                        "Value",
+                        "Value",
+                        "Description"),
                     listOf()
                 )
 
@@ -64,19 +118,19 @@ class PoiSpreadSheetBuilderServiceTest : DescribeSpec() {
             context("with more headers than columns count") {
                 val spreadSheetCells = SpreadSheet(
                     "test.xlsx",
-                    "Llistat de prova",
+                    "Test SpreadSheet",
                     listOf("Data",
-                        "Valor",
-                        "Valor",
-                        "Descripció"),
+                        "Value",
+                        "Value",
+                        "Description"),
                     listOf(
                         listOf(
                             DateCell(LocalDate.of(2019, 5, 1)),
-                            TextCell("Linia 1"),
+                            TextCell("Line 1"),
                             DecimalCell(BigDecimal.valueOf(11.5))),
                         listOf(
                             DateCell(LocalDate.of(2019, 5, 2)),
-                            TextCell("Linia 2"),
+                            TextCell("Line 2"),
                             DecimalCell(BigDecimal.valueOf(22)))))
 
                 val executor = { sut.generate(spreadSheetCells) }
@@ -90,17 +144,17 @@ class PoiSpreadSheetBuilderServiceTest : DescribeSpec() {
             context("with less headers than columns count") {
                 val spreadSheetCells = SpreadSheet(
                     "test.xlsx",
-                    "Llistat de prova",
+                    "Test SpreadSheet",
                     listOf("Data",
-                        "Descripció"),
+                        "Description"),
                     listOf(
                         listOf(
                             DateCell(LocalDate.of(2019, 5, 1)),
-                            TextCell("Linia 1"),
+                            TextCell("Line 1"),
                             DecimalCell(BigDecimal.valueOf(11.5))),
                         listOf(
                             DateCell(LocalDate.of(2019, 5, 2)),
-                            TextCell("Linia 2"),
+                            TextCell("Line 2"),
                             DecimalCell(BigDecimal.valueOf(22)))))
 
                 val executor = { sut.generate(spreadSheetCells) }
@@ -114,19 +168,19 @@ class PoiSpreadSheetBuilderServiceTest : DescribeSpec() {
             context("with more line columns than headers columns") {
                 val spreadSheetCells = SpreadSheet(
                     "test.xlsx",
-                    "Llistat de prova",
+                    "Test SpreadSheet",
                     listOf("Data",
-                        "Valor",
-                        "Descripció"),
+                        "Value",
+                        "Description"),
                     listOf(
                         listOf(
                             DateCell(LocalDate.of(2019, 5, 1)),
-                            TextCell("Linia 1"),
+                            TextCell("Line 1"),
                             DecimalCell(BigDecimal.valueOf(11.5))),
                         listOf(
                             DateCell(LocalDate.of(2019, 5, 2)),
-                            TextCell("Linia 2"),
-                            TextCell("Linia 2"),
+                            TextCell("Line 2"),
+                            TextCell("Line 2"),
                             DecimalCell(BigDecimal.valueOf(22)))))
 
                 val executor = { sut.generate(spreadSheetCells) }
@@ -140,17 +194,17 @@ class PoiSpreadSheetBuilderServiceTest : DescribeSpec() {
             context("with less line columns than headers columns") {
                 val spreadSheetCells = SpreadSheet(
                     "test.xlsx",
-                    "Llistat de prova",
+                    "Test SpreadSheet",
                     listOf("Data",
-                        "Valor",
-                        "Descripció"),
+                        "Value",
+                        "Description"),
                     listOf(
                         listOf(
                             DateCell(LocalDate.of(2019, 5, 1)),
-                            TextCell("Linia 1"),
+                            TextCell("Line 1"),
                             DecimalCell(BigDecimal.valueOf(11.5))),
                         listOf(
-                            TextCell("Linia 2"),
+                            TextCell("Line 2"),
                             DecimalCell(BigDecimal.valueOf(22)))))
 
                 val executor = { sut.generate(spreadSheetCells) }
