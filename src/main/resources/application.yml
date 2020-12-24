@@ -39,6 +39,8 @@ business:
 formatting:
   locale: "en_US"
   longDateFormat: "MMMM d, yyyy"
+  spreadSheetDateFormat: "d-mmm-yy"  # https://poi.apache.org/apidocs/dev/org/apache/poi/ss/usermodel/BuiltinFormats.html
+  spreadSheetCurrencyFormat: "#,##0.00_);[Red](#,##0.00)"
 
 apiKey: "98162313-dc76-4ac9-b18c-8fd23e938085"
 

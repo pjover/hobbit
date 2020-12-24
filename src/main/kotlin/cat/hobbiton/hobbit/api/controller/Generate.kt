@@ -43,7 +43,6 @@ class GenerateController(@Autowired(required = true) val service: GenerateServic
         produces = ["application/xml"],
         method = [RequestMethod.POST])
     fun generateBDD(@NotNull @RequestParam(value = "yearMonth", required = true) yearMonth: String): ResponseEntity<Resource> {
-
         val bdd = service.generateBDD(yearMonth)
         return ResponseEntity(
             bdd,
@@ -73,7 +72,6 @@ class GenerateController(@Autowired(required = true) val service: GenerateServic
         produces = ["application/zip"],
         method = [RequestMethod.POST])
     fun generatePDFs(@NotNull @RequestParam(value = "yearMonth", required = true) yearMonth: String): ResponseEntity<Resource> {
-
         val zip = service.generatePDFs(yearMonth)
         return ResponseEntity(
             zip,
@@ -91,7 +89,6 @@ class GenerateController(@Autowired(required = true) val service: GenerateServic
         produces = ["application/pdf"],
         method = [RequestMethod.POST])
     fun generatePDF(@PathVariable("invoiceId") invoiceId: String): ResponseEntity<Resource> {
-
         val pdf = service.generatePDF(invoiceId)
         return ResponseEntity(
             pdf,
@@ -125,4 +122,32 @@ class GenerateController(@Autowired(required = true) val service: GenerateServic
     }
 
 
+    @Operation(
+        description = "Generates the month report spreadsheet with the invoices generated on the yearMonth",
+        operationId = "simulateMonthSpreadSheet"
+    )
+    @RequestMapping(
+        value = ["/generate/monthSpreadSheet"],
+        produces = ["application/json"],
+        method = [RequestMethod.GET])
+    fun simulateMonthSpreadSheet(@NotNull @RequestParam(value = "yearMonth", required = true) yearMonth: String): ResponseEntity<List<PaymentTypeInvoicesDTO>> {
+        return ResponseEntity(service.simulateMonthSpreadSheet(yearMonth), HttpStatus.valueOf(200))
+    }
+
+    @Operation(
+        description = "Return the invoices (generated on the yearMonth) that will generate the month report spreadsheet",
+        operationId = "generateMonthSpreadSheet"
+    )
+    @RequestMapping(
+        value = ["/generate/monthSpreadSheet"],
+        produces = ["application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"],
+        method = [RequestMethod.POST])
+    fun generateMonthReport(@NotNull @RequestParam(value = "yearMonth", required = true) yearMonth: String): ResponseEntity<org.springframework.core.io.Resource> {
+        val xlsx = service.generateMonthSpreadSheet(yearMonth)
+        return ResponseEntity(
+            xlsx,
+            xlsx.getResponseHeaders(MediaType.valueOf("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")),
+            HttpStatus.valueOf(200)
+        )
+    }
 }

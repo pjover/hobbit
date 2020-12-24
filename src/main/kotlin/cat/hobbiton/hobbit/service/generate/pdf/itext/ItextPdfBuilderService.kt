@@ -36,7 +36,7 @@ import java.util.*
 import javax.annotation.PostConstruct
 
 @Service
-class ItextPdfBuilderServiceImpl(
+class ItextPdfBuilderService(
     private val businessProperties: BusinessProperties,
     private val formattingProperties: FormattingProperties
 ) : PdfBuilderService {

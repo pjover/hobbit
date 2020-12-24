@@ -6,7 +6,7 @@ import cat.hobbiton.hobbit.service.generate.email.EmailSenderService
 import org.springframework.stereotype.Service
 
 @Service
-class JavaxEmailSenderServiceImpl : EmailSenderService {
+class JavaxEmailSenderService : EmailSenderService {
 
     override fun enqueue(invoice: Invoice, customer: Customer): String {
         TODO("Not yet implemented")

@@ -5,7 +5,7 @@ import cat.hobbiton.hobbit.service.generate.bdd.BddBuilderService
 import org.springframework.stereotype.Component
 
 @Component
-class StringBddBuilderServiceImpl(
+class StringBddBuilderService(
     private val invoicesToBddMapper: InvoicesToBddMapper
 ) : BddBuilderService {
 
