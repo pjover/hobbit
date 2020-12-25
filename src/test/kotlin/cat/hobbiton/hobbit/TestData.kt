@@ -54,6 +54,15 @@ fun testChild4() = Child(
     group = GroupType.EI_3
 )
 
+fun testChild5() = Child(
+    code = 1854,
+    name = "Nil",
+    surname = "Llull",
+    secondSurname = "Bibiloni",
+    birthDate = DATE,
+    group = GroupType.EI_3
+)
+
 fun testChildren1() = listOf(testChild1())
 fun testChildren2() = listOf(testChild1(), testChild2())
 fun testChildren3Inactive() = listOf(testChild1(), testChild2(), testChild3().copy(active = false))

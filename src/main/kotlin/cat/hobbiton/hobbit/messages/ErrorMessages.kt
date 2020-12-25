@@ -17,7 +17,7 @@ enum class ErrorMessages(
     ERROR_SAVING_INVOICE("error.saving.invoice"),
     ERROR_WHILE_BUILDING_PDF("error.while.building_pdf"),
 
-    ERROR_SPREAD_SHEET_TO_GENERATE_NOT_FOUND("error.spread_sheet_to_generate.not_found"),
+    ERROR_SPREAD_SHEET_INVOICES_NOT_FOUND("error.spread_sheet.invoices.not_found"),
     ERROR_SPREAD_SHEET_BLANK_FILENAME("error.spread_sheet.blank_filename"),
     ERROR_SPREAD_SHEET_BLANK_TITLE("error.spread_sheet.blank_title"),
     ERROR_SPREAD_SHEET_NO_HEADERS("error.spread_sheet.no_headers"),
