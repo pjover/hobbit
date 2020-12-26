@@ -6,7 +6,6 @@ import cat.hobbiton.hobbit.db.repository.CachedProductRepository
 import cat.hobbiton.hobbit.db.repository.InvoiceRepository
 import cat.hobbiton.hobbit.model.Invoice
 import cat.hobbiton.hobbit.model.PaymentType
-import cat.hobbiton.hobbit.service.aux.TimeService
 import cat.hobbiton.hobbit.service.billing.*
 import cat.hobbiton.hobbit.testAdultMother
 import cat.hobbiton.hobbit.testChild3
@@ -31,8 +30,7 @@ class BddServiceImplTest : DescribeSpec() {
         val invoiceRepository = mockk<InvoiceRepository>()
         val customerRepository = mockk<CachedCustomerRepository>()
         val productRepository = mockk<CachedProductRepository>()
-        val timeService = mockk<TimeService>()
-        val sut = BddServiceImpl(bddBuilderService, invoiceRepository, customerRepository, productRepository, timeService)
+        val sut = BddServiceImpl(bddBuilderService, invoiceRepository, customerRepository, productRepository)
 
         every { invoiceRepository.findByPaymentTypeAndYearMonthAndSentToBank(any(), any(), any()) } returns listOf(invoice1(), invoice2())
         every { customerRepository.getCustomer(185) } returns testCustomer()
@@ -51,12 +49,6 @@ class BddServiceImplTest : DescribeSpec() {
             every { invoiceRepository.saveAll(capture(invoicesSlot)) } answers { invoicesSlot.captured }
 
             val actual = sut.generateBDD(YEAR_MONTH.toString())
-
-            it("doesn't retrieve the current yearMonth") {
-                verify(exactly = 0) {
-                    timeService.currentYearMonth
-                }
-            }
 
             it("retrieves all the invoices") {
                 verify {
@@ -102,50 +94,18 @@ class BddServiceImplTest : DescribeSpec() {
         }
 
         describe("simulateBDD") {
-            every { timeService.currentYearMonth } returns YEAR_MONTH
 
-            context("with yearMonth") {
+            val actual = sut.simulateBDD(YEAR_MONTH.toString())
 
-                val actual = sut.simulateBDD(YEAR_MONTH.toString())
-
-                it("should be the pending invoices for BANK_DIRECT_DEBIT") {
-                    actual shouldBe expectedInvoices("??")[0]
-                }
-
-                it("call the collaborators") {
-                    verify {
-                        invoiceRepository.findByPaymentTypeAndYearMonthAndSentToBank(PaymentType.BANK_DIRECT_DEBIT, YEAR_MONTH, false)
-                        customerRepository.getCustomer(185)
-                        customerRepository.getCustomer(186)
-                    }
-
-                    verify(exactly = 0) {
-                        timeService.currentYearMonth
-                    }
-                }
+            it("should be the pending invoices for BANK_DIRECT_DEBIT") {
+                actual shouldBe expectedInvoices("??")[0]
             }
 
-            context("without yearMonth") {
-
-                val actual = sut.simulateBDD(null)
-
-                it("retrieves the current yearMonth") {
-                    verify {
-                        timeService.currentYearMonth
-                    }
-                }
-
-                it("should be the pending invoices for BANK_DIRECT_DEBIT") {
-                    actual shouldBe expectedInvoices("??")[0]
-                }
-
-                it("call the collaborators") {
-                    verify {
-                        timeService.currentYearMonth
-                        invoiceRepository.findByPaymentTypeAndYearMonthAndSentToBank(PaymentType.BANK_DIRECT_DEBIT, YEAR_MONTH, false)
-                        customerRepository.getCustomer(185)
-                        customerRepository.getCustomer(186)
-                    }
+            it("call the collaborators") {
+                verify {
+                    invoiceRepository.findByPaymentTypeAndYearMonthAndSentToBank(PaymentType.BANK_DIRECT_DEBIT, YEAR_MONTH, false)
+                    customerRepository.getCustomer(185)
+                    customerRepository.getCustomer(186)
                 }
             }
         }

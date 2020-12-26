@@ -8,7 +8,6 @@ import cat.hobbiton.hobbit.db.repository.InvoiceRepository
 import cat.hobbiton.hobbit.model.Invoice
 import cat.hobbiton.hobbit.model.PaymentType
 import cat.hobbiton.hobbit.model.extension.totalAmount
-import cat.hobbiton.hobbit.service.aux.TimeService
 import cat.hobbiton.hobbit.service.generate.getCustomerInvoicesDTOs
 import cat.hobbiton.hobbit.service.generate.getCustomersMap
 import cat.hobbiton.hobbit.service.generate.getProductsMap
@@ -23,11 +22,10 @@ class BddServiceImpl(
     private val bddBuilderService: BddBuilderService,
     private val invoiceRepository: InvoiceRepository,
     private val customerRepository: CachedCustomerRepository,
-    private val productRepository: CachedProductRepository,
-    private val timeService: TimeService
+    private val productRepository: CachedProductRepository
 ) : BddService {
 
-    override fun simulateBDD(yearMonth: String?): PaymentTypeInvoicesDTO {
+    override fun simulateBDD(yearMonth: String): PaymentTypeInvoicesDTO {
         val invoices = getInvoices(yearMonth)
         return PaymentTypeInvoicesDTO(
             paymentType = PaymentTypeDTO.BANK_DIRECT_DEBIT,
@@ -36,11 +34,10 @@ class BddServiceImpl(
         )
     }
 
-    private fun getInvoices(yearMonth: String?): List<Invoice> {
-        val ym = if(yearMonth == null) timeService.currentYearMonth else YearMonth.parse(yearMonth)
+    private fun getInvoices(yearMonth: String): List<Invoice> {
         return invoiceRepository.findByPaymentTypeAndYearMonthAndSentToBank(
             PaymentType.BANK_DIRECT_DEBIT,
-            ym,
+            YearMonth.parse(yearMonth),
             false)
     }
 

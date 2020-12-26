@@ -28,7 +28,7 @@ class GenerateController(@Autowired(required = true) val service: GenerateServic
         value = ["/generate/bdd"],
         produces = ["application/json"],
         method = [RequestMethod.GET])
-    fun simulateBDD(@RequestParam(value = "yearMonth", required = false) yearMonth: String?): ResponseEntity<PaymentTypeInvoicesDTO> {
+    fun simulateBDD(@RequestParam(value = "yearMonth", required = false) yearMonth: String): ResponseEntity<PaymentTypeInvoicesDTO> {
         return ResponseEntity(service.simulateBDD(yearMonth), HttpStatus.valueOf(200))
     }
 
