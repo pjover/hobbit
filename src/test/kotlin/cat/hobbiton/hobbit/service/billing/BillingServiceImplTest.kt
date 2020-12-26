@@ -5,7 +5,10 @@ import cat.hobbiton.hobbit.api.model.*
 import cat.hobbiton.hobbit.db.repository.CachedCustomerRepository
 import cat.hobbiton.hobbit.db.repository.CachedProductRepository
 import cat.hobbiton.hobbit.db.repository.ConsumptionRepository
-import cat.hobbiton.hobbit.model.*
+import cat.hobbiton.hobbit.model.Consumption
+import cat.hobbiton.hobbit.model.Invoice
+import cat.hobbiton.hobbit.model.InvoiceLine
+import cat.hobbiton.hobbit.model.PaymentType
 import cat.hobbiton.hobbit.service.aux.TimeService
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.DescribeSpec
@@ -60,8 +63,8 @@ class BillingServiceImplTest : DescribeSpec() {
     }
 
     private fun mockReaders(customerRepository: CachedCustomerRepository, productRepository: CachedProductRepository) {
-        every { productRepository.getProduct("TST") } returns product1
-        every { productRepository.getProduct("XXX") } returns product2
+        every { productRepository.getProduct("TST") } returns testProduct1
+        every { productRepository.getProduct("XXX") } returns testProduct2
         every { customerRepository.getCustomerByChildCode(1850) } returns customer1
         every { customerRepository.getCustomerByChildCode(1851) } returns customer2
         every { customerRepository.getCustomerByChildCode(1852) } returns customer3
@@ -282,25 +285,6 @@ val consumptions = listOf(
         note = "Note 6",
         isRectification = true
     )
-)
-
-val product1 = Product(
-    id = "TST",
-    name = "TST product",
-    shortName = "TST product",
-    price = 10.9.toBigDecimal()
-)
-
-val product2 = Product(
-    id = "XXX",
-    name = "XXX product",
-    shortName = "XXX product",
-    price = 9.1.toBigDecimal()
-)
-
-val productsMap = mapOf(
-    "TST" to product1,
-    "XXX" to product2
 )
 
 val customer1 = testCustomer(children = listOf(testChild1(), testChild2()))

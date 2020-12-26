@@ -1,6 +1,6 @@
 package cat.hobbiton.hobbit.db.repository
 
-import cat.hobbiton.hobbit.testProduct
+import cat.hobbiton.hobbit.testProduct1
 import cat.hobbiton.hobbit.util.error.NotFoundException
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.DescribeSpec
@@ -18,12 +18,12 @@ class CachedProductRepositoryImplTest : DescribeSpec() {
 
         describe("getProduct") {
             context("existing product") {
-                every { productRepository.findById(any()) } returns Optional.of(testProduct())
+                every { productRepository.findById(any()) } returns Optional.of(testProduct1)
 
                 val actual = sut.getProduct("TST")
 
                 it("returns the product") {
-                    actual shouldBe testProduct()
+                    actual shouldBe testProduct1
                 }
 
                 it("calls the repository once") {

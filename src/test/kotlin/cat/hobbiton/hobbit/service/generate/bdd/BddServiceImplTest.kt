@@ -1,15 +1,14 @@
 package cat.hobbiton.hobbit.service.generate.bdd
 
-import cat.hobbiton.hobbit.YEAR_MONTH
+import cat.hobbiton.hobbit.*
 import cat.hobbiton.hobbit.db.repository.CachedCustomerRepository
 import cat.hobbiton.hobbit.db.repository.CachedProductRepository
 import cat.hobbiton.hobbit.db.repository.InvoiceRepository
 import cat.hobbiton.hobbit.model.Invoice
 import cat.hobbiton.hobbit.model.PaymentType
-import cat.hobbiton.hobbit.service.billing.*
-import cat.hobbiton.hobbit.testAdultMother
-import cat.hobbiton.hobbit.testChild3
-import cat.hobbiton.hobbit.testCustomer
+import cat.hobbiton.hobbit.service.billing.expectedInvoices
+import cat.hobbiton.hobbit.service.billing.invoice1
+import cat.hobbiton.hobbit.service.billing.invoice2
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.DescribeSpec
 import io.mockk.every
@@ -39,8 +38,8 @@ class BddServiceImplTest : DescribeSpec() {
             adults = listOf(testAdultMother().copy(name = "Silvia", surname = "Mayol")),
             children = listOf(testChild3())
         )
-        every { productRepository.getProduct("TST") } returns product1
-        every { productRepository.getProduct("XXX") } returns product2
+        every { productRepository.getProduct("TST") } returns testProduct1
+        every { productRepository.getProduct("XXX") } returns testProduct2
         every { bddBuilderService.generate(any(), any(), any()) } returns bdd
 
         describe("generateBDD") {

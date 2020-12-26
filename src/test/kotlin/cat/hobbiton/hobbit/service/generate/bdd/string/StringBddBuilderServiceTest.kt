@@ -1,8 +1,8 @@
 package cat.hobbiton.hobbit.service.generate.bdd.string
 
 import cat.hobbiton.hobbit.service.billing.customersMap
-import cat.hobbiton.hobbit.service.billing.productsMap
 import cat.hobbiton.hobbit.service.generate.bdd.string.InvoicesToBddMapperImplTest.Companion.buildTestBddDetailList
+import cat.hobbiton.hobbit.testProductsMap
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.DescribeSpec
 import io.mockk.every
@@ -19,7 +19,7 @@ class StringBddBuilderServiceTest : DescribeSpec() {
             val expected = this::class.java.getResource("/Test_bdd.q1x")
                 .readText(charset(StandardCharsets.UTF_8.name()))
             val invoices = bddTestInvoices()
-            every { invoicesToBddMapper.map(any(), customersMap, productsMap) } returns Bdd(
+            every { invoicesToBddMapper.map(any(), customersMap, testProductsMap) } returns Bdd(
                 messageIdentification = "HOBB-20180707204338029-50",
                 creationDateTime = "2018-07-07T20:43:38",
                 numberOfTransactions = 4,
@@ -36,7 +36,7 @@ class StringBddBuilderServiceTest : DescribeSpec() {
                     "HOBB-20180707204338029-50",
                     invoices))
 
-            val actual: String = sut.generate(invoices, customersMap, productsMap)
+            val actual: String = sut.generate(invoices, customersMap, testProductsMap)
 
             it("return the correct q1x") {
                 val actualLines = actual.lines().map { it.trim() }

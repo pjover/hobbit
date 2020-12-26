@@ -3,19 +3,6 @@ package cat.hobbiton.hobbit
 import cat.hobbiton.hobbit.model.*
 import java.math.BigDecimal
 import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.YearMonth
-
-val DATE: LocalDate = LocalDate.of(2019, 5, 25)
-val DATE_TIME: LocalDateTime = LocalDateTime.of(2019, 5, 25, 10, 29, 59)
-val YEAR_MONTH: YearMonth = YearMonth.of(2019, 5)
-val YEAR: Int = 2019
-
-fun testProduct() = Product("TST",
-    "TST product",
-    "Test",
-    10.9.toBigDecimal()
-)
 
 fun testChild1() = Child(
     code = 1850,

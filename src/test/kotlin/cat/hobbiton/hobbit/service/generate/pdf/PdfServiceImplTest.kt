@@ -1,17 +1,13 @@
 package cat.hobbiton.hobbit.service.generate.pdf
 
-import cat.hobbiton.hobbit.YEAR_MONTH
+import cat.hobbiton.hobbit.*
 import cat.hobbiton.hobbit.api.model.*
 import cat.hobbiton.hobbit.db.repository.CachedCustomerRepository
 import cat.hobbiton.hobbit.db.repository.CachedProductRepository
 import cat.hobbiton.hobbit.db.repository.InvoiceRepository
 import cat.hobbiton.hobbit.model.Invoice
-import cat.hobbiton.hobbit.model.Product
 import cat.hobbiton.hobbit.service.billing.invoice1
 import cat.hobbiton.hobbit.service.billing.invoice2
-import cat.hobbiton.hobbit.testAdultMother
-import cat.hobbiton.hobbit.testChild3
-import cat.hobbiton.hobbit.testCustomer
 import cat.hobbiton.hobbit.util.error.NotFoundException
 import cat.hobbiton.hobbit.util.resource.FileResource
 import cat.hobbiton.hobbit.util.resource.ZipService
@@ -80,9 +76,9 @@ class PdfServiceImplTest : DescribeSpec() {
                 mockReaders(invoiceRepository, customerRepository, productRepository)
                 mockWriters(invoiceRepository)
                 mockZipService(zipService)
-                every { pdfBuilderService.generate(invoice1(), customer1, productMap1) } returns
+                every { pdfBuilderService.generate(invoice1(), customer1, any()) } returns
                     FileResource("PDF1".toByteArray(StandardCharsets.UTF_8), invoice1().getPdfName())
-                every { pdfBuilderService.generate(invoice2(), customer2, productMap2) } returns
+                every { pdfBuilderService.generate(invoice2(), customer2, any()) } returns
                     FileResource("PDF2".toByteArray(StandardCharsets.UTF_8), invoice2().getPdfName())
 
                 val actual = sut.generatePDFs(YEAR_MONTH.toString())
@@ -96,8 +92,8 @@ class PdfServiceImplTest : DescribeSpec() {
                         invoiceRepository.findByPrintedAndYearMonth(false, YEAR_MONTH)
                         customerRepository.getCustomer(185)
                         customerRepository.getCustomer(186)
-                        pdfBuilderService.generate(invoice1(), customer1, productMap1)
-                        pdfBuilderService.generate(invoice2(), customer2, productMap2)
+                        pdfBuilderService.generate(invoice1(), customer1, any())
+                        pdfBuilderService.generate(invoice2(), customer2, any())
                         zipService.zipFiles(any(), pdfsZipFilename)
                     }
                 }
@@ -141,7 +137,7 @@ class PdfServiceImplTest : DescribeSpec() {
                 every { customerRepository.getCustomer(185) } returns customer1
                 every { invoiceRepository.findById(any()) } returns Optional.of(invoice1())
                 val pdf = FileResource("PDF1".toByteArray(StandardCharsets.UTF_8), "XX (185).pdf")
-                every { pdfBuilderService.generate(invoice1(), customer1, productMap1) } returns pdf
+                every { pdfBuilderService.generate(invoice1(), customer1, any()) } returns pdf
 
                 val actual = sut.generatePDF("XX")
 
@@ -154,7 +150,7 @@ class PdfServiceImplTest : DescribeSpec() {
                         actual.filename shouldBe "XX (185).pdf"
                         invoiceRepository.findById("XX")
                         customerRepository.getCustomer(185)
-                        pdfBuilderService.generate(invoice1(), customer1, productMap1)
+                        pdfBuilderService.generate(invoice1(), customer1, any())
                     }
                 }
                 it("updates the invoice") {
@@ -188,25 +184,6 @@ private val customer2 = testCustomer(
     adults = listOf(testAdultMother().copy(name = "Silvia", surname = "Mayol")),
     children = listOf(testChild3())
 )
-private val product1 = Product(
-    id = "TST",
-    name = "TST product",
-    shortName = "TST product",
-    price = 10.9.toBigDecimal()
-)
-private val product2 = Product(
-    id = "XXX",
-    name = "XXX product",
-    shortName = "XXX product",
-    price = 9.1.toBigDecimal()
-)
-private val productMap1 = mapOf(
-    "TST" to product1,
-    "XXX" to product2
-)
-private val productMap2 = mapOf(
-    "TST" to product1
-)
 
 private fun mockReaders(invoiceRepository: InvoiceRepository, customerRepository: CachedCustomerRepository, productRepository: CachedProductRepository) {
     clearMocks(invoiceRepository, customerRepository)
@@ -219,8 +196,8 @@ private fun mockReaders(invoiceRepository: InvoiceRepository, customerRepository
     every { customerRepository.getCustomer(185) } returns customer1
     every { customerRepository.getCustomer(186) } returns customer2
 
-    every { productRepository.getProduct("TST") } returns product1
-    every { productRepository.getProduct("XXX") } returns product2
+    every { productRepository.getProduct("TST") } returns testProduct1
+    every { productRepository.getProduct("XXX") } returns testProduct2
 }
 
 private fun mockWriters(invoiceRepository: InvoiceRepository) {
