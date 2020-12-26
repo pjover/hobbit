@@ -135,7 +135,7 @@ class SpreadSheetServiceImplTest : DescribeSpec() {
 
                     it("call the collaborators") {
                         verify {
-                            invoiceRepository.findAll()
+                            invoiceRepository.findByYearMonthIn(any())
                             customerRepository.getCustomer(185)
                             customerRepository.getCustomer(186)
                         }
@@ -144,7 +144,7 @@ class SpreadSheetServiceImplTest : DescribeSpec() {
 
                 context("there are no invoices") {
                     clearMocks(invoiceRepository, customerRepository)
-                    every { invoiceRepository.findAll() } returns emptyList()
+                    every { invoiceRepository.findByYearMonthIn(any()) } returns emptyList()
 
                     val executor = {
                         sut.simulateYearSpreadSheet(YEAR)
@@ -157,7 +157,7 @@ class SpreadSheetServiceImplTest : DescribeSpec() {
 
                     it("calls invoiceRepository") {
                         verify {
-                            invoiceRepository.findAll()
+                            invoiceRepository.findByYearMonthIn(any())
                         }
                     }
                 }
@@ -179,7 +179,7 @@ class SpreadSheetServiceImplTest : DescribeSpec() {
 
                     it("call the collaborators") {
                         verify {
-                            invoiceRepository.findAll()
+                            invoiceRepository.findByYearMonthIn(any())
                             customerRepository.getCustomer(185)
                             customerRepository.getCustomer(186)
                             yearSpreadSheetService.generate(YEAR, invoices, customers)
@@ -190,7 +190,7 @@ class SpreadSheetServiceImplTest : DescribeSpec() {
 
                 context("there are no invoices") {
                     clearMocks(invoiceRepository, customerRepository, spreadSheetBuilderService)
-                    every { invoiceRepository.findAll() } returns emptyList()
+                    every { invoiceRepository.findByYearMonthIn(any()) } returns emptyList()
 
 
                     val executor = {
@@ -204,7 +204,7 @@ class SpreadSheetServiceImplTest : DescribeSpec() {
 
                     it("calls invoiceRepository") {
                         verify {
-                            invoiceRepository.findAll()
+                            invoiceRepository.findByYearMonthIn(any())
                         }
                     }
                 }
@@ -230,7 +230,7 @@ private fun mockReaders(invoiceRepository: InvoiceRepository, customerRepository
     clearMocks(invoiceRepository, customerRepository)
 
     every { invoiceRepository.findByYearMonth(YEAR_MONTH) } returns invoices
-    every { invoiceRepository.findAll() } returns invoices
+    every { invoiceRepository.findByYearMonthIn(any()) } returns invoices
 
     every { customerRepository.getCustomer(185) } returns customer1
     every { customerRepository.getCustomer(186) } returns customer2

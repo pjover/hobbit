@@ -1,6 +1,5 @@
 package cat.hobbiton.hobbit.service.generate.spreadsheet
 
-import cat.hobbiton.hobbit.messages.ErrorMessages
 import cat.hobbiton.hobbit.messages.TextMessages
 import cat.hobbiton.hobbit.model.Customer
 import cat.hobbiton.hobbit.model.Invoice
@@ -8,7 +7,7 @@ import cat.hobbiton.hobbit.model.extension.getChild
 import cat.hobbiton.hobbit.model.extension.getFirstAdult
 import cat.hobbiton.hobbit.model.extension.shortName
 import cat.hobbiton.hobbit.model.extension.totalAmount
-import cat.hobbiton.hobbit.util.error.NotFoundException
+import cat.hobbiton.hobbit.service.generate.getCustomer
 import cat.hobbiton.hobbit.util.i18n.translate
 import org.springframework.stereotype.Service
 import java.time.YearMonth
@@ -51,7 +50,7 @@ class MonthSpreadSheetServiceImpl : MonthSpreadSheetService {
     }
 
     private fun getLine(invoice: Invoice, customers: Map<Int, Customer>): List<Cell> {
-        val customer = getCustomer(invoice.customerId, customers)
+        val customer = customers.getCustomer(invoice.customerId)
         return listOf(
             IntCell(customer.id),
             TextCell(customer.getFirstAdult().shortName()),
@@ -64,10 +63,6 @@ class MonthSpreadSheetServiceImpl : MonthSpreadSheetService {
             TextCell(invoice.paymentType.message.translate()),
             TextCell(invoice.note ?: "")
         )
-    }
-
-    private fun getCustomer(id: Int, customers: Map<Int, Customer>): Customer {
-        return customers[id] ?: throw NotFoundException(ErrorMessages.ERROR_CUSTOMER_NOT_FOUND, id)
     }
 
     private fun getChildren(invoice: Invoice, customer: Customer): String {

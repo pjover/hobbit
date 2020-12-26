@@ -60,25 +60,11 @@ class BillingServiceImplTest : DescribeSpec() {
     }
 
     private fun mockReaders(customerRepository: CachedCustomerRepository, productRepository: CachedProductRepository) {
-        every { productRepository.getProduct("TST") } returns Product(
-            id = "TST",
-            name = "TST product",
-            shortName = "TST product",
-            price = 10.9.toBigDecimal()
-        )
-        every { productRepository.getProduct("XXX") } returns Product(
-            id = "XXX",
-            name = "XXX product",
-            shortName = "XXX product",
-            price = 9.1.toBigDecimal()
-        )
-        every { customerRepository.getCustomerByChildCode(1850) } returns testCustomer(children = listOf(testChild1(), testChild2()))
-        every { customerRepository.getCustomerByChildCode(1851) } returns testCustomer(children = listOf(testChild1(), testChild2()))
-        every { customerRepository.getCustomerByChildCode(1852) } returns testCustomer(
-            id = 186,
-            children = listOf(testChild3()),
-            adults = listOf(testAdultTutor())
-        )
+        every { productRepository.getProduct("TST") } returns product1
+        every { productRepository.getProduct("XXX") } returns product2
+        every { customerRepository.getCustomerByChildCode(1850) } returns customer1
+        every { customerRepository.getCustomerByChildCode(1851) } returns customer2
+        every { customerRepository.getCustomerByChildCode(1852) } returns customer3
 
         every { customerRepository.getChild(1850) } returns testChild1()
         every { customerRepository.getChild(1851) } returns testChild2()
@@ -298,4 +284,31 @@ val consumptions = listOf(
     )
 )
 
+val product1 = Product(
+    id = "TST",
+    name = "TST product",
+    shortName = "TST product",
+    price = 10.9.toBigDecimal()
+)
 
+val product2 = Product(
+    id = "XXX",
+    name = "XXX product",
+    shortName = "XXX product",
+    price = 9.1.toBigDecimal()
+)
+
+val productsMap = mapOf(
+    "TST" to product1,
+    "XXX" to product2
+)
+
+val customer1 = testCustomer(children = listOf(testChild1(), testChild2()))
+val customer2 = testCustomer(children = listOf(testChild1(), testChild2()))
+val customer3 = testCustomer(id = 186, children = listOf(testChild3()), adults = listOf(testAdultTutor()))
+
+val customersMap = mapOf(
+    1850 to customer1,
+    1851 to customer2,
+    1852 to customer3
+)

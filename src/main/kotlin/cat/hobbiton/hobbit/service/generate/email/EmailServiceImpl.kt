@@ -33,7 +33,7 @@ class EmailServiceImpl(
         return PaymentTypeInvoicesDTO(
             paymentType = PaymentTypeDTO.BANK_DIRECT_DEBIT,
             totalAmount = invoices.totalAmount(),
-            customers = getCustomerInvoicesDTOs(invoices, customerRepository)
+            customers = customerRepository.getCustomerInvoicesDTOs(invoices)
         )
     }
 

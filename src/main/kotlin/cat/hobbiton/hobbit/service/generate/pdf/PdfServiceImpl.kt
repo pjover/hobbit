@@ -32,7 +32,7 @@ class PdfServiceImpl(
                 PaymentTypeInvoicesDTO(
                     paymentType = PaymentTypeDTO.valueOf(paymentType.name),
                     totalAmount = invoices.totalAmount(),
-                    customers = getCustomerInvoicesDTOs(invoices, customerRepository)
+                    customers = customerRepository.getCustomerInvoicesDTOs(invoices)
                 )
             }
     }

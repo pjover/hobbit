@@ -1,8 +1,6 @@
 package cat.hobbiton.hobbit.service.generate.bdd.string
 
 import cat.hobbiton.hobbit.DATE
-import cat.hobbiton.hobbit.db.repository.CachedCustomerRepository
-import cat.hobbiton.hobbit.db.repository.CachedProductRepository
 import cat.hobbiton.hobbit.init.BusinessProperties
 import cat.hobbiton.hobbit.model.*
 import cat.hobbiton.hobbit.model.extension.totalAmount
@@ -19,10 +17,8 @@ class InvoicesToBddMapperImplTest : DescribeSpec() {
 
     init {
         val bddProperties = mockk<BusinessProperties>()
-        val customerRepository = mockk<CachedCustomerRepository>()
-        val productRepository = mockk<CachedProductRepository>()
         val timeService = mockk<TimeService>()
-        val sut = InvoicesToBddMapperImpl(bddProperties, customerRepository, productRepository, timeService)
+        val sut = InvoicesToBddMapperImpl(bddProperties, timeService)
 
         describe("map()") {
             every { bddProperties.businessName } returns "Centre d'Educació Infantil Hobbiton, S.L."
@@ -37,13 +33,36 @@ class InvoicesToBddMapperImplTest : DescribeSpec() {
             every { bddProperties.bddCountry } returns "ES"
             every { bddProperties.bddBankBic } returns "GBMNESMMXXX"
             every { bddProperties.bddPurposeCode } returns "OTHR"
-            every { customerRepository.getCustomer(148) } returns bddTestCustomer()
-            every { customerRepository.getCustomer(149) } returns bddTestBusinessCustomer()
-            for(product in bddTestProducts()) every { productRepository.getProduct(product.id) } returns product
             every { timeService.currentLocalDateTime } returns LocalDateTime.of(2018, 7, 7, 20, 43, 8)
 
+            val customersMap = mapOf(
+                148 to bddTestCustomer(),
+                149 to bddTestBusinessCustomer()
+            )
+
+            val productsMap = mapOf(
+                "AAA" to Product(
+                    "AAA",
+                    "AAA product long name",
+                    "AAA product",
+                    price = 11.toBigDecimal()
+                ),
+                "BBB" to Product(
+                    "BBB",
+                    "BBB product long name",
+                    "BBB product",
+                    price = 5.5.toBigDecimal(),
+                    taxPercentage = 0.1.toBigDecimal()),
+                "CCC" to Product(
+                    "CCC",
+                    "CCC product long name",
+                    "CCC product",
+                    price = 5.toBigDecimal()
+                )
+            )
+
             val invoices = bddTestInvoices()
-            val actual = sut.map(invoices)
+            val actual = sut.map(invoices, customersMap, productsMap)
 
             it("returns the complete Bdd object") {
                 actual shouldBe Bdd(
@@ -207,28 +226,6 @@ class InvoicesToBddMapperImplTest : DescribeSpec() {
             paymentType = paymentType,
             bankAccount = "ES2830668859978258529057"
         )
-
-        private fun bddTestProducts(): List<Product> {
-            return listOf(
-                Product(
-                    "AAA",
-                    "AAA product long name",
-                    "AAA product",
-                    price = 11.toBigDecimal()
-                ),
-                Product(
-                    "BBB",
-                    "BBB product long name",
-                    "BBB product",
-                    price = 5.5.toBigDecimal(),
-                    taxPercentage = 0.1.toBigDecimal()),
-                Product(
-                    "CCC",
-                    "CCC product long name",
-                    "CCC product",
-                    price = 5.toBigDecimal()
-                ))
-        }
     }
 }
 
