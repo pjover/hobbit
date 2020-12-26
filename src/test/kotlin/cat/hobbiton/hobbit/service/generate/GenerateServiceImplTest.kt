@@ -1,5 +1,6 @@
 package cat.hobbiton.hobbit.service.generate
 
+import cat.hobbiton.hobbit.YEAR
 import cat.hobbiton.hobbit.YEAR_MONTH
 import cat.hobbiton.hobbit.service.billing.expectedInvoices
 import cat.hobbiton.hobbit.service.generate.bdd.BddService
@@ -10,6 +11,7 @@ import io.kotlintest.shouldBe
 import io.kotlintest.specs.DescribeSpec
 import io.mockk.every
 import io.mockk.mockk
+import io.mockk.verify
 import org.springframework.core.io.InputStreamResource
 import java.nio.charset.StandardCharsets
 
@@ -34,6 +36,12 @@ class GenerateServiceImplTest : DescribeSpec() {
                 it("should return the correct resource") {
                     actual shouldBe expectedResource
                 }
+
+                it("call the collaborator") {
+                    verify {
+                        bddService.generateBDD(YEAR_MONTH.toString())
+                    }
+                }
             }
 
 
@@ -44,6 +52,12 @@ class GenerateServiceImplTest : DescribeSpec() {
 
                 it("should return the correct invoice") {
                     actual shouldBe expectedInvoice[0]
+                }
+
+                it("call the collaborator") {
+                    verify {
+                        bddService.simulateBDD(YEAR_MONTH.toString())
+                    }
                 }
             }
         }
@@ -58,6 +72,12 @@ class GenerateServiceImplTest : DescribeSpec() {
                 it("should return the correct invoice") {
                     actual shouldBe expectedInvoice
                 }
+
+                it("call the collaborator") {
+                    verify {
+                        pdfService.simulatePDFs(YEAR_MONTH.toString())
+                    }
+                }
             }
 
             context("generatePDFs") {
@@ -68,6 +88,12 @@ class GenerateServiceImplTest : DescribeSpec() {
                 it("should return the correct resource") {
                     actual shouldBe expectedResource
                 }
+
+                it("call the collaborator") {
+                    verify {
+                        pdfService.generatePDFs(YEAR_MONTH.toString())
+                    }
+                }
             }
 
             context("generatePDF") {
@@ -77,6 +103,12 @@ class GenerateServiceImplTest : DescribeSpec() {
 
                 it("should return the correct PaymentTypeInvoicesDTO") {
                     actual shouldBe expectedResource
+                }
+
+                it("call the collaborator") {
+                    verify {
+                        pdfService.generatePDF("F-1")
+                    }
                 }
             }
         }
@@ -91,6 +123,12 @@ class GenerateServiceImplTest : DescribeSpec() {
                 it("should return the correct invoice") {
                     actual shouldBe expectedInvoice[0]
                 }
+
+                it("call the collaborator") {
+                    verify {
+                        emailService.simulateEmails(YEAR_MONTH.toString())
+                    }
+                }
             }
 
             context("generateEmails") {
@@ -101,28 +139,81 @@ class GenerateServiceImplTest : DescribeSpec() {
                 it("should return the correct resource") {
                     actual shouldBe expectedInvoice[0]
                 }
+
+                it("call the collaborator") {
+                    verify {
+                        emailService.generateEmails(YEAR_MONTH.toString())
+                    }
+                }
             }
         }
 
-        describe("Month report") {
+        describe("Month SpreadSheet") {
 
             context("simulateMonthSpreadSheet") {
                 every { spreadsheetService.simulateMonthSpreadSheet(any()) } returns expectedInvoice
 
-                val actual = sut.simulateBDD(YEAR_MONTH.toString())
+                val actual = sut.simulateMonthSpreadSheet(YEAR_MONTH.toString())
 
                 it("should return the correct invoice") {
-                    actual shouldBe expectedInvoice[0]
+                    actual shouldBe expectedInvoice
+                }
+
+                it("call the collaborator") {
+                    verify {
+                        spreadsheetService.simulateMonthSpreadSheet(YEAR_MONTH.toString())
+                    }
                 }
             }
 
             context("generateMonthSpreadSheet") {
                 every { spreadsheetService.generateMonthSpreadSheet(any()) } returns expectedResource
 
-                val actual = sut.generateBDD(YEAR_MONTH.toString())
+                val actual = sut.generateMonthSpreadSheet(YEAR_MONTH.toString())
 
                 it("should return the correct resource") {
                     actual shouldBe expectedResource
+                }
+
+                it("call the collaborator") {
+                    verify {
+                        spreadsheetService.generateMonthSpreadSheet(YEAR_MONTH.toString())
+                    }
+                }
+            }
+        }
+
+        describe("Year SpreadSheet") {
+
+            context("simulateYearSpreadSheet") {
+                every { spreadsheetService.simulateYearSpreadSheet(any()) } returns expectedInvoice
+
+                val actual = sut.simulateYearSpreadSheet(YEAR)
+
+                it("should return the correct invoice") {
+                    actual shouldBe expectedInvoice
+                }
+
+                it("call the collaborator") {
+                    verify {
+                        spreadsheetService.simulateYearSpreadSheet(YEAR)
+                    }
+                }
+            }
+
+            context("generateYearSpreadSheet") {
+                every { spreadsheetService.generateYearSpreadSheet(any()) } returns expectedResource
+
+                val actual = sut.generateYearSpreadSheet(YEAR)
+
+                it("should return the correct resource") {
+                    actual shouldBe expectedResource
+                }
+
+                it("call the collaborator") {
+                    verify {
+                        spreadsheetService.generateYearSpreadSheet(YEAR)
+                    }
                 }
             }
         }

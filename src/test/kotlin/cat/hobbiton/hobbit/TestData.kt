@@ -9,6 +9,7 @@ import java.time.YearMonth
 val DATE: LocalDate = LocalDate.of(2019, 5, 25)
 val DATE_TIME: LocalDateTime = LocalDateTime.of(2019, 5, 25, 10, 29, 59)
 val YEAR_MONTH: YearMonth = YearMonth.of(2019, 5)
+val YEAR: Int = 2019
 
 fun testProduct() = Product("TST",
     "TST product",
@@ -30,6 +31,7 @@ fun testChild2() = Child(
     name = "Aina",
     surname = "Llull",
     secondSurname = "Bibiloni",
+    taxId = "60235657Z",
     birthDate = DATE,
     group = GroupType.EI_1
 )
@@ -41,6 +43,24 @@ fun testChild3() = Child(
     secondSurname = "Bibiloni",
     birthDate = DATE,
     group = GroupType.EI_2
+)
+
+fun testChild4() = Child(
+    code = 1853,
+    name = "Ona",
+    surname = "Llull",
+    secondSurname = "Bibiloni",
+    birthDate = DATE,
+    group = GroupType.EI_3
+)
+
+fun testChild5() = Child(
+    code = 1854,
+    name = "Nil",
+    surname = "Llull",
+    secondSurname = "Bibiloni",
+    birthDate = DATE,
+    group = GroupType.EI_3
 )
 
 fun testChildren1() = listOf(testChild1())
@@ -74,7 +94,8 @@ fun testAdultTutor() = Adult(
     name = "Silvia",
     surname = "Mayol",
     secondSurname = "Alcover",
-    role = AdultRole.TUTOR
+    role = AdultRole.TUTOR,
+    taxId = "97505522N"
 )
 
 fun testAdults() = listOf(testAdultMother(), testAdultFather())

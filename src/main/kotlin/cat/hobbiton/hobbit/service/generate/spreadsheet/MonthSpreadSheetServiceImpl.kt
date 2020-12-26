@@ -8,27 +8,25 @@ import cat.hobbiton.hobbit.model.extension.getChild
 import cat.hobbiton.hobbit.model.extension.getFirstAdult
 import cat.hobbiton.hobbit.model.extension.shortName
 import cat.hobbiton.hobbit.model.extension.totalAmount
-import cat.hobbiton.hobbit.service.aux.TimeService
 import cat.hobbiton.hobbit.util.error.NotFoundException
 import cat.hobbiton.hobbit.util.i18n.translate
 import org.springframework.stereotype.Service
+import java.time.YearMonth
 
 @Service
-class MonthSpreadSheetServiceImpl(
-    private val timeService: TimeService
-) : MonthSpreadSheetService {
+class MonthSpreadSheetServiceImpl : MonthSpreadSheetService {
 
-    override fun generate(invoices: List<Invoice>, customers: Map<Int, Customer>): SpreadSheet {
+    override fun generate(yearMonth: YearMonth, invoices: List<Invoice>, customers: Map<Int, Customer>): SpreadSheet {
         return SpreadSheet(
             monthSpreadSheetFilename,
-            getTitle(),
+            getTitle(yearMonth),
             getHeaders(),
             getLines(invoices, customers)
         )
     }
 
-    private fun getTitle(): String {
-        return TextMessages.MONTH_REPORT_TITLE.translate(timeService.currentYearMonth.toString())
+    private fun getTitle(yearMonth: YearMonth): String {
+        return TextMessages.MONTH_REPORT_TITLE.translate(yearMonth.toString())
     }
 
     private fun getHeaders(): List<String> {

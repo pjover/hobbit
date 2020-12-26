@@ -411,6 +411,49 @@ paths:
                 type: string
                 format: binary
 
+  /generate/yearSpreadSheet:
+    get:
+      tags:
+        - Generate
+      description: Return the invoices (generated on the year) that will generate the year report spreadsheet
+      operationId: simulateYearSpreadSheet
+      parameters:
+        - name: year
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PaymentTypeInvoicesDTO'
+    post:
+      tags:
+        - Generate
+      description: Generates the year report spreadsheet with the invoices generated on the year
+      operationId: generateYearSpreadSheet
+      parameters:
+        - name: year
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.openxmlformats-officedocument.spreadsheetml.sheet:
+              schema:
+                type: string
+                format: binary
+
 components:
   schemas:
 
