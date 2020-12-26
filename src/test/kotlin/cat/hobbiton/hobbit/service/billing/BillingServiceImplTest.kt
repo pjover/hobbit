@@ -65,13 +65,16 @@ class BillingServiceImplTest : DescribeSpec() {
     private fun mockReaders(customerRepository: CachedCustomerRepository, productRepository: CachedProductRepository) {
         every { productRepository.getProduct("TST") } returns testProduct1
         every { productRepository.getProduct("XXX") } returns testProduct2
+
         every { customerRepository.getCustomerByChildCode(1850) } returns customer1
-        every { customerRepository.getCustomerByChildCode(1851) } returns customer2
-        every { customerRepository.getCustomerByChildCode(1852) } returns customer3
+        every { customerRepository.getCustomerByChildCode(1851) } returns customer1
+        every { customerRepository.getCustomerByChildCode(1860) } returns customer2
+        every { customerRepository.getCustomerByChildCode(1870) } returns customer3
 
         every { customerRepository.getChild(1850) } returns testChild1()
         every { customerRepository.getChild(1851) } returns testChild2()
-        every { customerRepository.getChild(1852) } returns testChild3()
+        every { customerRepository.getChild(1860) } returns testChild3()
+        every { customerRepository.getChild(1870) } returns testChild4()
     }
 
 }
@@ -130,7 +133,7 @@ fun expectedInvoices(code: String) = listOf(
                                 productId = "TST",
                                 units = 2.toBigDecimal(),
                                 totalAmount = 21.8.toBigDecimal(),
-                                childCode = 1852
+                                childCode = 1860
                             )
                         ),
                         note = "Note 5"
@@ -141,24 +144,24 @@ fun expectedInvoices(code: String) = listOf(
     ),
     PaymentTypeInvoicesDTO(
         paymentType = PaymentTypeDTO.RECTIFICATION,
-        totalAmount = -21.8.toBigDecimal(),
+        totalAmount = -(21.8).toBigDecimal(),
         customers = listOf(
             CustomerInvoicesDTO(
-                code = 186,
+                code = 187,
                 shortName = "Silvia Mayol",
-                totalAmount = -21.8.toBigDecimal(),
+                totalAmount = -(21.8).toBigDecimal(),
                 invoices = listOf(
                     InvoiceDTO(
                         code = code,
                         yearMonth = YEAR_MONTH.toString(),
-                        children = listOf("Laia"),
+                        children = listOf("Ona"),
                         totalAmount = (-21.8).toBigDecimal(),
                         lines = listOf(
                             InvoiceLineDTO(
                                 productId = "TST",
                                 units = (-2).toBigDecimal(),
                                 totalAmount = (-21.8).toBigDecimal(),
-                                childCode = 1852
+                                childCode = 1870
                             )
                         ),
                         note = "Note 6"
@@ -204,14 +207,14 @@ fun invoice2() = Invoice(
     customerId = 186,
     date = DATE,
     yearMonth = YEAR_MONTH,
-    childrenCodes = listOf(1852),
+    childrenCodes = listOf(1860),
     paymentType = PaymentType.BANK_DIRECT_DEBIT,
     lines = listOf(
         InvoiceLine(
             productId = "TST",
             units = 2.toBigDecimal(),
             productPrice = 10.9.toBigDecimal(),
-            childCode = 1852
+            childCode = 1860
         )
     ),
     note = "Note 5"
@@ -219,17 +222,17 @@ fun invoice2() = Invoice(
 
 fun invoice3() = Invoice(
     id = "??",
-    customerId = 186,
+    customerId = 187,
     date = DATE,
     yearMonth = YEAR_MONTH,
-    childrenCodes = listOf(1852),
+    childrenCodes = listOf(1870),
     paymentType = PaymentType.RECTIFICATION,
     lines = listOf(
         InvoiceLine(
             productId = "TST",
             units = (-2).toBigDecimal(),
             productPrice = 10.9.toBigDecimal(),
-            childCode = 1852
+            childCode = 1870
         )
     ),
     note = "Note 6"
@@ -270,7 +273,7 @@ val consumptions = listOf(
     ),
     Consumption(
         id = "AA5",
-        childCode = 1852,
+        childCode = 1860,
         productId = "TST",
         units = 2.toBigDecimal(),
         yearMonth = YEAR_MONTH,
@@ -278,9 +281,9 @@ val consumptions = listOf(
     ),
     Consumption(
         id = "AA6",
-        childCode = 1852,
+        childCode = 1870,
         productId = "TST",
-        units = -2.toBigDecimal(),
+        units = (-2).toBigDecimal(),
         yearMonth = YEAR_MONTH,
         note = "Note 6",
         isRectification = true
@@ -288,11 +291,11 @@ val consumptions = listOf(
 )
 
 val customer1 = testCustomer(children = listOf(testChild1(), testChild2()))
-val customer2 = testCustomer(children = listOf(testChild1(), testChild2()))
-val customer3 = testCustomer(id = 186, children = listOf(testChild3()), adults = listOf(testAdultTutor()))
+val customer2 = testCustomer(id = 186, children = listOf(testChild3()), adults = listOf(testAdultTutor()))
+val customer3 = testCustomer(id = 187, children = listOf(testChild4()), adults = listOf(testAdultTutor()))
 
 val customersMap = mapOf(
-    1850 to customer1,
-    1851 to customer2,
-    1852 to customer3
+    185 to customer1,
+    186 to customer2,
+    187 to customer3
 )

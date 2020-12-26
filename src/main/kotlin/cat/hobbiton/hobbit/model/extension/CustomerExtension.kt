@@ -19,7 +19,7 @@ fun Customer.getActiveChildrenCodes(): List<Int> {
 
 fun Customer.getChild(code: Int): Child {
     val list = children.filter { it.code == code }
-    if(list.isEmpty()) throw AppException(ErrorMessages.ERROR_CHILD_NOT_FOUND, id)
+    if(list.isEmpty()) throw AppException(ErrorMessages.ERROR_CHILD_NOT_FOUND, code)
     return list.first()
 }
 

@@ -4,52 +4,6 @@ import cat.hobbiton.hobbit.model.*
 import java.math.BigDecimal
 import java.time.LocalDate
 
-fun testChild1() = Child(
-    code = 1850,
-    name = "Laura",
-    surname = "Llull",
-    secondSurname = "Bibiloni",
-    birthDate = DATE,
-    group = GroupType.EI_1
-)
-
-fun testChild2() = Child(
-    code = 1851,
-    name = "Aina",
-    surname = "Llull",
-    secondSurname = "Bibiloni",
-    taxId = "60235657Z",
-    birthDate = DATE,
-    group = GroupType.EI_1
-)
-
-fun testChild3() = Child(
-    code = 1852,
-    name = "Laia",
-    surname = "Llull",
-    secondSurname = "Bibiloni",
-    birthDate = DATE,
-    group = GroupType.EI_2
-)
-
-fun testChild4() = Child(
-    code = 1853,
-    name = "Ona",
-    surname = "Llull",
-    secondSurname = "Bibiloni",
-    birthDate = DATE,
-    group = GroupType.EI_3
-)
-
-fun testChild5() = Child(
-    code = 1854,
-    name = "Nil",
-    surname = "Llull",
-    secondSurname = "Bibiloni",
-    birthDate = DATE,
-    group = GroupType.EI_3
-)
-
 fun testChildren1() = listOf(testChild1())
 fun testChildren2() = listOf(testChild1(), testChild2())
 fun testChildren3Inactive() = listOf(testChild1(), testChild2(), testChild3().copy(active = false))
