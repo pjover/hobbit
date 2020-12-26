@@ -9,7 +9,7 @@ interface InvoiceRepository : MongoRepository<Invoice, String> {
 
     fun findByYearMonth(yearMonth: YearMonth): List<Invoice>
 
-    fun findByYearMonthYear(year: Int): List<Invoice>
+    fun findByYearMonthIn(yearMonths: List<YearMonth>): List<Invoice>
 
     fun findByPrintedAndYearMonth(printed: Boolean, yearMonth: YearMonth): List<Invoice>
 

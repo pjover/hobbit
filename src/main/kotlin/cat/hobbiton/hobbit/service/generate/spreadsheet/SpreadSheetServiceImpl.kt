@@ -77,8 +77,8 @@ class SpreadSheetServiceImpl(
     }
 
     private fun getInvoices(year: Int): List<Invoice> {
-        val invoices = invoiceRepository.findAll()
-            .filter { it.yearMonth.year == year }
+        val allMonths = (1..12).map { YearMonth.of(year, it) }
+        val invoices = invoiceRepository.findByYearMonthIn(allMonths)
         if(invoices.isEmpty()) throw NotFoundException(ErrorMessages.ERROR_SPREAD_SHEET_INVOICES_NOT_FOUND)
         return invoices
     }
