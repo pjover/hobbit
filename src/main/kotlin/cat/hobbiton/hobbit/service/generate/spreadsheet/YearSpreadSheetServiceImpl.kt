@@ -17,7 +17,7 @@ class YearSpreadSheetServiceImpl : YearSpreadSheetService {
 
     override fun generate(year: Int, invoices: List<Invoice>, customers: List<Customer>): SpreadSheet {
         return SpreadSheet(
-            monthSpreadSheetFilename,
+            yearSpreadSheetFilename,
             getTitle(year),
             getHeaders(),
             getLines(invoices, customers)
@@ -75,6 +75,9 @@ class YearSpreadSheetServiceImpl : YearSpreadSheetService {
     private fun getCustomerLines(customer: Customer, invoices: List<Invoice>): List<List<Cell>> {
         return customer.children
             .sortedBy { it.code }
+            .filter { child ->
+                invoices.any { it.childrenCodes.contains(child.code) }
+            }
             .map {
                 getChildLine(
                     it,

@@ -20,6 +20,8 @@ class YearSpreadSheetServiceImplTest : DescribeSpec() {
 
             it("generate the spread sheet") {
 
+                actual.filename shouldBe yearSpreadSheetFilename
+
                 actual.title shouldBe "2,019 yearly report"
 
                 actual.headers shouldBe listOf("ID",
@@ -186,7 +188,7 @@ private val customer2 = testCustomer(
 private val customer3 = testCustomer(
     id = 187,
     adults = listOf(Adult(name = "Andrew", surname = "Brown", taxId = "Y8304421D", role = AdultRole.TUTOR)),
-    children = listOf(testChild4())
+    children = listOf(testChild4(), testChild5())
 )
 private val customers = listOf(customer1, customer2, customer3)
 
