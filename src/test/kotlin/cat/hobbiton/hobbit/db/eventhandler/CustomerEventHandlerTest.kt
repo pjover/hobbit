@@ -1,6 +1,6 @@
 package cat.hobbiton.hobbit.db.eventhandler
 
-import cat.hobbiton.hobbit.testCustomer
+import cat.hobbiton.hobbit.testCustomer188
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.DescribeSpec
 import kotlin.test.assertFailsWith
@@ -16,7 +16,7 @@ class CustomerEventHandlerTest : DescribeSpec() {
 
                 context("and the id is blank") {
                     val executor = {
-                        sut.validate(testCustomer().copy(children = emptyList()))
+                        sut.validate(testCustomer188.copy(children = emptyList()))
                     }
 
                     it("throws an error") {
@@ -27,7 +27,7 @@ class CustomerEventHandlerTest : DescribeSpec() {
 
                 context("validation suceeds") {
 
-                    sut.validate(testCustomer())
+                    sut.validate(testCustomer188)
 
                     it("do not throws any error") {
                     }

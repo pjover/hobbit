@@ -4,9 +4,6 @@ import cat.hobbiton.hobbit.*
 import cat.hobbiton.hobbit.api.model.*
 import cat.hobbiton.hobbit.db.repository.CachedCustomerRepository
 import cat.hobbiton.hobbit.db.repository.InvoiceRepository
-import cat.hobbiton.hobbit.model.Invoice
-import cat.hobbiton.hobbit.model.InvoiceLine
-import cat.hobbiton.hobbit.model.PaymentType
 import cat.hobbiton.hobbit.util.error.NotFoundException
 import cat.hobbiton.hobbit.util.resource.FileResource
 import io.kotlintest.shouldBe
@@ -47,6 +44,7 @@ class SpreadSheetServiceImplTest : DescribeSpec() {
                             invoiceRepository.findByYearMonth(YEAR_MONTH)
                             customerRepository.getCustomer(185)
                             customerRepository.getCustomer(186)
+                            customerRepository.getCustomer(187)
                         }
                     }
                 }
@@ -91,7 +89,8 @@ class SpreadSheetServiceImplTest : DescribeSpec() {
                             invoiceRepository.findByYearMonth(YEAR_MONTH)
                             customerRepository.getCustomer(185)
                             customerRepository.getCustomer(186)
-                            monthSpreadSheetService.generate(YEAR_MONTH, invoices, customerMap)
+                            customerRepository.getCustomer(187)
+                            monthSpreadSheetService.generate(YEAR_MONTH, testInvoices, any())
                             spreadSheetBuilderService.generate(expectedSpreadSheetCells)
                         }
                     }
@@ -135,16 +134,17 @@ class SpreadSheetServiceImplTest : DescribeSpec() {
 
                     it("call the collaborators") {
                         verify {
-                            invoiceRepository.findAll()
+                            invoiceRepository.findByYearMonthIn(any())
                             customerRepository.getCustomer(185)
                             customerRepository.getCustomer(186)
+                            customerRepository.getCustomer(187)
                         }
                     }
                 }
 
                 context("there are no invoices") {
                     clearMocks(invoiceRepository, customerRepository)
-                    every { invoiceRepository.findAll() } returns emptyList()
+                    every { invoiceRepository.findByYearMonthIn(any()) } returns emptyList()
 
                     val executor = {
                         sut.simulateYearSpreadSheet(YEAR)
@@ -157,7 +157,7 @@ class SpreadSheetServiceImplTest : DescribeSpec() {
 
                     it("calls invoiceRepository") {
                         verify {
-                            invoiceRepository.findAll()
+                            invoiceRepository.findByYearMonthIn(any())
                         }
                     }
                 }
@@ -179,10 +179,11 @@ class SpreadSheetServiceImplTest : DescribeSpec() {
 
                     it("call the collaborators") {
                         verify {
-                            invoiceRepository.findAll()
+                            invoiceRepository.findByYearMonthIn(any())
                             customerRepository.getCustomer(185)
                             customerRepository.getCustomer(186)
-                            yearSpreadSheetService.generate(YEAR, invoices, customers)
+                            customerRepository.getCustomer(187)
+                            yearSpreadSheetService.generate(YEAR, testInvoices, any())
                             spreadSheetBuilderService.generate(expectedSpreadSheetCells)
                         }
                     }
@@ -190,7 +191,7 @@ class SpreadSheetServiceImplTest : DescribeSpec() {
 
                 context("there are no invoices") {
                     clearMocks(invoiceRepository, customerRepository, spreadSheetBuilderService)
-                    every { invoiceRepository.findAll() } returns emptyList()
+                    every { invoiceRepository.findByYearMonthIn(any()) } returns emptyList()
 
 
                     val executor = {
@@ -204,7 +205,7 @@ class SpreadSheetServiceImplTest : DescribeSpec() {
 
                     it("calls invoiceRepository") {
                         verify {
-                            invoiceRepository.findAll()
+                            invoiceRepository.findByYearMonthIn(any())
                         }
                     }
                 }
@@ -213,27 +214,15 @@ class SpreadSheetServiceImplTest : DescribeSpec() {
     }
 }
 
-private val customer1 = testCustomer()
-private val customer2 = testCustomer(
-    id = 186,
-    adults = listOf(testAdultMother().copy(name = "Silvia", surname = "Mayol")),
-    children = listOf(testChild3())
-)
-private val customerMap = mapOf(
-    185 to customer1,
-    186 to customer2
-)
-
-private val customers = listOf(customer1, customer2)
-
 private fun mockReaders(invoiceRepository: InvoiceRepository, customerRepository: CachedCustomerRepository) {
     clearMocks(invoiceRepository, customerRepository)
 
-    every { invoiceRepository.findByYearMonth(YEAR_MONTH) } returns invoices
-    every { invoiceRepository.findAll() } returns invoices
+    every { invoiceRepository.findByYearMonth(YEAR_MONTH) } returns testInvoices
+    every { invoiceRepository.findByYearMonthIn(any()) } returns testInvoices
 
-    every { customerRepository.getCustomer(185) } returns customer1
-    every { customerRepository.getCustomer(186) } returns customer2
+    every { customerRepository.getCustomer(185) } returns testCustomer185
+    every { customerRepository.getCustomer(186) } returns testCustomer186
+    every { customerRepository.getCustomer(187) } returns testCustomer187
 }
 
 
@@ -253,79 +242,6 @@ val expectedSpreadSheetCells = SpreadSheet(
             DateCell(LocalDate.of(2019, 5, 2)),
             TextCell("Linia 2"),
             DecimalCell(BigDecimal.valueOf(22))))
-)
-
-private val invoice1 = Invoice(
-    id = "??",
-    customerId = 185,
-    date = DATE,
-    yearMonth = YEAR_MONTH,
-    childrenCodes = listOf(1850, 1851),
-    paymentType = PaymentType.BANK_DIRECT_DEBIT,
-    lines = listOf(
-        InvoiceLine(
-            productId = "TST",
-            units = 4.toBigDecimal(),
-            productPrice = 10.9.toBigDecimal(),
-            childCode = 1850
-        ),
-        InvoiceLine(
-            productId = "TST",
-            units = 2.toBigDecimal(),
-            productPrice = 10.9.toBigDecimal(),
-            childCode = 1851
-        ),
-        InvoiceLine(
-            productId = "XXX",
-            units = 2.toBigDecimal(),
-            productPrice = 9.1.toBigDecimal(),
-            childCode = 1851
-        )
-    ),
-    note = "Note 1, Note 2, Note 3, Note 4"
-)
-
-private val invoice2 = Invoice(
-    id = "??",
-    customerId = 186,
-    date = DATE,
-    yearMonth = YEAR_MONTH,
-    childrenCodes = listOf(1852),
-    paymentType = PaymentType.BANK_DIRECT_DEBIT,
-    lines = listOf(
-        InvoiceLine(
-            productId = "TST",
-            units = 2.toBigDecimal(),
-            productPrice = 10.9.toBigDecimal(),
-            childCode = 1852
-        )
-    ),
-    note = "Note 5"
-)
-
-private val invoice3 = Invoice(
-    id = "??",
-    customerId = 186,
-    date = DATE,
-    yearMonth = YEAR_MONTH,
-    childrenCodes = listOf(1852),
-    paymentType = PaymentType.RECTIFICATION,
-    lines = listOf(
-        InvoiceLine(
-            productId = "TST",
-            units = (-2).toBigDecimal(),
-            productPrice = 10.9.toBigDecimal(),
-            childCode = 1852
-        )
-    ),
-    note = "Note 6"
-)
-
-
-private val invoices = listOf(
-    invoice1,
-    invoice2,
-    invoice3
 )
 
 val expectedInvoices = listOf(
@@ -382,7 +298,7 @@ val expectedInvoices = listOf(
                                 productId = "TST",
                                 units = 2.toBigDecimal(),
                                 totalAmount = 21.8.toBigDecimal(),
-                                childCode = 1852
+                                childCode = 1860
                             )
                         ),
                         note = "Note 5"
@@ -396,21 +312,22 @@ val expectedInvoices = listOf(
         totalAmount = (-21.8).toBigDecimal(),
         customers = listOf(
             CustomerInvoicesDTO(
-                code = 186,
-                shortName = "Silvia Mayol",
+                code = 187,
+                shortName = "Cara Santamaria",
                 totalAmount = (-21.8).toBigDecimal(),
                 invoices = listOf(
                     InvoiceDTO(
                         code = "??",
-                        yearMonth = "2019-05",
-                        children = listOf("Laia"),
+                        yearMonth = YEAR_MONTH.toString(),
+                        children = listOf("Ona"),
                         totalAmount = (-21.8).toBigDecimal(),
                         lines = listOf(
                             InvoiceLineDTO(
                                 productId = "TST",
                                 units = (-2).toBigDecimal(),
                                 totalAmount = (-21.8).toBigDecimal(),
-                                childCode = 1852)
+                                childCode = 1870
+                            )
                         ),
                         note = "Note 6"
                     )

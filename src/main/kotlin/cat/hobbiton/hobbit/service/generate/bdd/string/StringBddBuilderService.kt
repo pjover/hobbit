@@ -1,6 +1,8 @@
 package cat.hobbiton.hobbit.service.generate.bdd.string
 
+import cat.hobbiton.hobbit.model.Customer
 import cat.hobbiton.hobbit.model.Invoice
+import cat.hobbiton.hobbit.model.Product
 import cat.hobbiton.hobbit.service.generate.bdd.BddBuilderService
 import org.springframework.stereotype.Component
 
@@ -9,8 +11,8 @@ class StringBddBuilderService(
     private val invoicesToBddMapper: InvoicesToBddMapper
 ) : BddBuilderService {
 
-    override fun generate(invoices: List<Invoice>): String {
-        val bdd = invoicesToBddMapper.map(invoices)
+    override fun generate(invoices: List<Invoice>, customers: Map<Int, Customer>, products: Map<String, Product>): String {
+        val bdd = invoicesToBddMapper.map(invoices, customers, products)
         return formatBdd(bdd)
     }
 

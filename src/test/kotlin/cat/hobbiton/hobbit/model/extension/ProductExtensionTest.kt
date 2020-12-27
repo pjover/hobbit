@@ -1,6 +1,6 @@
 package cat.hobbiton.hobbit.model.extension
 
-import cat.hobbiton.hobbit.model.Product
+import cat.hobbiton.hobbit.testProduct1
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.DescribeSpec
 import java.math.BigDecimal
@@ -15,12 +15,7 @@ class ProductExtensionTest : DescribeSpec() {
 
                 context("and the id is blank") {
                     val executor = {
-                        Product(
-                            "",
-                            "Test",
-                            "TST product",
-                            BigDecimal.TEN
-                        ).validate()
+                        testProduct1.copy(id = "").validate()
                     }
 
                     it("throws an error") {
@@ -31,12 +26,7 @@ class ProductExtensionTest : DescribeSpec() {
 
                 context("and the id has less than 3 characters") {
                     val executor = {
-                        Product(
-                            "AA",
-                            "Test",
-                            "TST product",
-                            BigDecimal.TEN
-                        ).validate()
+                        testProduct1.copy(id = "TS").validate()
                     }
 
                     it("throws an error") {
@@ -47,12 +37,7 @@ class ProductExtensionTest : DescribeSpec() {
 
                 context("and the id has more than 3 characters") {
                     val executor = {
-                        Product(
-                            "AAAA",
-                            "Test",
-                            "TST product",
-                            BigDecimal.TEN
-                        ).validate()
+                        testProduct1.copy(id = "TSTS").validate()
                     }
 
                     it("throws an error") {
@@ -63,12 +48,7 @@ class ProductExtensionTest : DescribeSpec() {
 
                 context("and the id is lower case") {
                     val executor = {
-                        Product(
-                            "aaa",
-                            "Test",
-                            "TST product",
-                            BigDecimal.TEN
-                        ).validate()
+                        testProduct1.copy(id = "tst").validate()
                     }
 
                     it("throws an error") {
@@ -82,12 +62,7 @@ class ProductExtensionTest : DescribeSpec() {
 
                 context("and the name is blank") {
                     val executor = {
-                        Product(
-                            "AAA",
-                            "",
-                            "TST product",
-                            BigDecimal.TEN
-                        ).validate()
+                        testProduct1.copy(name = "").validate()
                     }
 
                     it("throws an error") {
@@ -97,13 +72,8 @@ class ProductExtensionTest : DescribeSpec() {
                 }
 
                 context("and the name is 150 characters long") {
-                    Product(
-                        "AAA",
-                        "12345678901234567890123456789012345678901234567890123456789012345678901234567890" +
-                            "1234567890123456789012345678901234567890123456789012345678901234567890",
-                        "TST product",
-                        BigDecimal.TEN
-                    ).validate()
+                    testProduct1.copy(name = "12345678901234567890123456789012345678901234567890123456789012345678901234567890" +
+                        "1234567890123456789012345678901234567890123456789012345678901234567890").validate()
 
                     it("do not throw any error") {
                     }
@@ -111,13 +81,8 @@ class ProductExtensionTest : DescribeSpec() {
 
                 context("and the name is longer than 150 characters") {
                     val executor = {
-                        Product(
-                            "AAA",
-                            "12345678901234567890123456789012345678901234567890123456789012345678901234567890" +
-                                "1234567890123456789012345678901234567890123456789012345678901234567890A",
-                            "TST product",
-                            BigDecimal.TEN
-                        ).validate()
+                        testProduct1.copy(name = "12345678901234567890123456789012345678901234567890123456789012345678901234567890" +
+                            "1234567890123456789012345678901234567890123456789012345678901234567890A").validate()
                     }
 
                     it("throws an error") {
@@ -131,12 +96,7 @@ class ProductExtensionTest : DescribeSpec() {
 
                 context("and the shortName is blank") {
                     val executor = {
-                        Product(
-                            "AAA",
-                            "TST product",
-                            "",
-                            BigDecimal.TEN
-                        ).validate()
+                        testProduct1.copy(shortName = "").validate()
                     }
 
                     it("throws an error") {
@@ -146,12 +106,7 @@ class ProductExtensionTest : DescribeSpec() {
                 }
 
                 context("and the shortName is12 characters long") {
-                    Product(
-                        "AAA",
-                        "TST product",
-                        "123456789012",
-                        BigDecimal.TEN
-                    ).validate()
+                    testProduct1.copy(shortName = "123456789012").validate()
 
                     it("do not throw any error") {
                     }
@@ -159,12 +114,7 @@ class ProductExtensionTest : DescribeSpec() {
 
                 context("and the shortName is longer than 12 characters") {
                     val executor = {
-                        Product(
-                            "AAA",
-                            "TST product",
-                            "1234567890123",
-                            BigDecimal.TEN
-                        ).validate()
+                        testProduct1.copy(shortName = "1234567890123").validate()
                     }
 
                     it("throws an error") {
@@ -178,12 +128,7 @@ class ProductExtensionTest : DescribeSpec() {
 
                 context("and the price is zero") {
                     val executor = {
-                        Product(
-                            "AAA",
-                            "TST product",
-                            "TST product",
-                            BigDecimal.ZERO
-                        ).validate()
+                        testProduct1.copy(price = BigDecimal.ZERO).validate()
                     }
 
                     it("throws an error") {
@@ -197,13 +142,7 @@ class ProductExtensionTest : DescribeSpec() {
 
                 context("and the tax percentage is negative") {
                     val executor = {
-                        Product(
-                            "AAA",
-                            "TST product",
-                            "TST product",
-                            BigDecimal.TEN,
-                            -1.toBigDecimal()
-                        ).validate()
+                        testProduct1.copy(taxPercentage = -1.toBigDecimal()).validate()
                     }
 
                     it("throws an error") {

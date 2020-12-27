@@ -9,6 +9,7 @@ import cat.hobbiton.hobbit.model.Customer
 import cat.hobbiton.hobbit.model.Invoice
 import cat.hobbiton.hobbit.model.extension.totalAmount
 import cat.hobbiton.hobbit.service.generate.getCustomerInvoicesDTOs
+import cat.hobbiton.hobbit.service.generate.getCustomersMap
 import cat.hobbiton.hobbit.util.error.NotFoundException
 import org.springframework.core.io.Resource
 import org.springframework.stereotype.Service
@@ -30,7 +31,7 @@ class SpreadSheetServiceImpl(
                 PaymentTypeInvoicesDTO(
                     paymentType = PaymentTypeDTO.valueOf(paymentType.name),
                     totalAmount = invoices.totalAmount(),
-                    customers = getCustomerInvoicesDTOs(invoices, customerRepository)
+                    customers = customerRepository.getCustomerInvoicesDTOs(invoices)
                 )
             }
     }
@@ -41,18 +42,10 @@ class SpreadSheetServiceImpl(
         return invoices
     }
 
-    private fun getCustomersMap(invoices: List<Invoice>): Map<Int, Customer> {
-        return invoices
-            .map { it.customerId }
-            .toSet()
-            .map { it to customerRepository.getCustomer(it) }
-            .toMap()
-    }
-
     override fun generateMonthSpreadSheet(yearMonth: String): Resource {
         val ym = YearMonth.parse(yearMonth)
         val invoices = getInvoices(ym)
-        val customers = getCustomersMap(invoices)
+        val customers = customerRepository.getCustomersMap(invoices)
         val spreadSheetCells = monthSpreadSheetService.generate(ym, invoices, customers)
         return spreadSheetBuilderService.generate(spreadSheetCells)
     }
@@ -64,7 +57,7 @@ class SpreadSheetServiceImpl(
                 PaymentTypeInvoicesDTO(
                     paymentType = PaymentTypeDTO.valueOf(paymentType.name),
                     totalAmount = invoices.totalAmount(),
-                    customers = getCustomerInvoicesDTOs(invoices, customerRepository)
+                    customers = customerRepository.getCustomerInvoicesDTOs(invoices)
                 )
             }
     }
@@ -77,8 +70,8 @@ class SpreadSheetServiceImpl(
     }
 
     private fun getInvoices(year: Int): List<Invoice> {
-        val invoices = invoiceRepository.findAll()
-            .filter { it.yearMonth.year == year }
+        val allMonths = (1..12).map { YearMonth.of(year, it) }
+        val invoices = invoiceRepository.findByYearMonthIn(allMonths)
         if(invoices.isEmpty()) throw NotFoundException(ErrorMessages.ERROR_SPREAD_SHEET_INVOICES_NOT_FOUND)
         return invoices
     }

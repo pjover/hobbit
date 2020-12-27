@@ -1,23 +1,38 @@
 package cat.hobbiton.hobbit
 
 import cat.hobbiton.hobbit.model.*
-import java.math.BigDecimal
 import java.time.LocalDate
-import java.time.LocalDateTime
 import java.time.YearMonth
 
-val DATE: LocalDate = LocalDate.of(2019, 5, 25)
-val DATE_TIME: LocalDateTime = LocalDateTime.of(2019, 5, 25, 10, 29, 59)
+const val YEAR: Int = 2019
 val YEAR_MONTH: YearMonth = YearMonth.of(2019, 5)
-val YEAR: Int = 2019
+val DATE: LocalDate = LocalDate.of(2019, 5, 25)
 
-fun testProduct() = Product("TST",
+val testProduct1 = Product("TST",
     "TST product",
-    "Test",
+    "TstProduct",
     10.9.toBigDecimal()
 )
 
-fun testChild1() = Child(
+val testProduct2 = Product("XXX",
+    "XXX product",
+    "XxxProduct",
+    9.1.toBigDecimal()
+)
+
+val testProduct3 = Product("YYY",
+    "YYY product",
+    "YyyProduct",
+    5.0.toBigDecimal()
+)
+
+val testProductsMap = mapOf(
+    "TST" to testProduct1,
+    "XXX" to testProduct2,
+    "YYY" to testProduct3
+)
+
+val testChild1850 = Child(
     code = 1850,
     name = "Laura",
     surname = "Llull",
@@ -26,7 +41,7 @@ fun testChild1() = Child(
     group = GroupType.EI_1
 )
 
-fun testChild2() = Child(
+val testChild1851 = Child(
     code = 1851,
     name = "Aina",
     surname = "Llull",
@@ -36,61 +51,63 @@ fun testChild2() = Child(
     group = GroupType.EI_1
 )
 
-fun testChild3() = Child(
-    code = 1852,
+val testChild1860 = Child(
+    code = 1860,
     name = "Laia",
-    surname = "Llull",
-    secondSurname = "Bibiloni",
+    surname = "Mayol",
+    secondSurname = "Alcover",
     birthDate = DATE,
     group = GroupType.EI_2
 )
 
-fun testChild4() = Child(
-    code = 1853,
+val testChild1870 = Child(
+    code = 1870,
     name = "Ona",
-    surname = "Llull",
-    secondSurname = "Bibiloni",
+    surname = "Santamaria",
     birthDate = DATE,
     group = GroupType.EI_3
 )
 
-fun testChild5() = Child(
-    code = 1854,
+val testChild1880 = Child(
+    code = 1880,
     name = "Nil",
-    surname = "Llull",
-    secondSurname = "Bibiloni",
-    birthDate = DATE,
-    group = GroupType.EI_3
+    surname = "Brown",
+    taxId = "12238561P",
+    birthDate = LocalDate.of(2019, 1, 28),
+    group = GroupType.EI_1,
+    note = "Nil's note"
 )
 
-fun testChildren1() = listOf(testChild1())
-fun testChildren2() = listOf(testChild1(), testChild2())
-fun testChildren3Inactive() = listOf(testChild1(), testChild2(), testChild3().copy(active = false))
+val testChildren185 = listOf(testChild1850, testChild1851)
+val testChildren186 = listOf(testChild1860)
+val testChildren187 = listOf(testChild1870)
+val testChildren188 = listOf(testChild1880)
 
 fun testAddress() = Address(
-    "Arlington Road, 1999 ",
+    "Arlington Road, 1999",
     "07007",
     "Palma",
     "Illes Balears"
 )
 
-fun testAdultMother() = Adult(
+val testAdultMother185 = Adult(
     name = "Joana",
     surname = "Bibiloni",
     secondSurname = "Oliver",
     role = AdultRole.MOTHER,
     taxId = "12238561P",
-    address = testAddress()
+    address = testAddress(),
+    email = "jbibiloni@gmail.com"
 )
 
-fun testAdultFather() = Adult(
+val testAdultFather185 = Adult(
     name = "Pere",
     surname = "Llull",
     secondSurname = "Adrover",
     role = AdultRole.FATHER
 )
 
-fun testAdultTutor() = Adult(
+val testAdultTutor186 = Adult(
     name = "Silvia",
     surname = "Mayol",
     secondSurname = "Alcover",
@@ -98,9 +115,21 @@ fun testAdultTutor() = Adult(
     taxId = "97505522N"
 )
 
-fun testAdults() = listOf(testAdultMother(), testAdultFather())
+val testAdultMother187 = Adult(
+    name = "Cara",
+    surname = "Santamaria",
+    role = AdultRole.MOTHER,
+    taxId = "X2113060G"
+)
 
-fun testInvoiceHolder() = InvoiceHolder(
+val testAdultTutor188 = Adult(
+    name = "Andrew",
+    surname = "Brown",
+    role = AdultRole.TUTOR,
+    taxId = "Y8304421D"
+)
+
+val testInvoiceHolder185 = InvoiceHolder(
     name = "Joana Bibiloni Oliver",
     taxId = "12238561P",
     address = testAddress(),
@@ -109,74 +138,137 @@ fun testInvoiceHolder() = InvoiceHolder(
     bankAccount = "ES28 3066 8859 9782 5852 9057"
 )
 
-fun testCustomer(id: Int = 185, children: List<Child> = testChildren2(), adults: List<Adult> = testAdults(), invoiceHolder: InvoiceHolder = testInvoiceHolder()) = Customer(
-    id = id,
-    children = children,
-    adults = adults,
-    invoiceHolder = invoiceHolder
+val testCustomer185 = Customer(
+    id = 185,
+    children = testChildren185,
+    adults = listOf(testAdultMother185, testAdultFather185),
+    invoiceHolder = testInvoiceHolder185
 )
 
-fun testInvoice(
-    id: Int = 103,
-    paymentType: PaymentType = PaymentType.BANK_DIRECT_DEBIT,
-    invoiceDate: LocalDate = DATE,
-    childrenCodes: List<Int> = listOf(1850, 1851),
-    lines: List<InvoiceLine> = testInvoiceLines()) = Invoice(
-    id = "${paymentType.sequenceType.prefix}-$id",
-    date = invoiceDate,
-    customerId = 148,
-    lines = lines,
-    note = "Invoice note",
-    emailed = false,
-    printed = false,
-    paymentType = paymentType,
-    childrenCodes = childrenCodes
-)
-
-fun testInvoiceLines() = listOf(
-    InvoiceLine(productId = "AAA",
-        units = 1.toBigDecimal(),
-        productPrice = 11.toBigDecimal(),
-        taxPercentage = BigDecimal.ZERO,
-        childCode = 1850
-    ),
-    InvoiceLine(productId = "BBB",
-        units = 3.toBigDecimal(),
-        productPrice = 5.5.toBigDecimal(),
-        taxPercentage = 0.1.toBigDecimal(),
-        childCode = 1850
-    ),
-    InvoiceLine(productId = "CCC",
-        units = 1.5.toBigDecimal(),
-        productPrice = 5.toBigDecimal(),
-        taxPercentage = BigDecimal.ZERO,
-        childCode = 1851
+val testCustomer186 = Customer(
+    id = 186,
+    children = testChildren186,
+    adults = listOf(testAdultTutor186),
+    invoiceHolder = InvoiceHolder(
+        name = "Silvia Mayol",
+        taxId = "97505522N",
+        address = testAddress(),
+        paymentType = PaymentType.BANK_DIRECT_DEBIT,
+        bankAccount = "ES5131906344094856219847",
+        email = "silvia@gmail.com"
     )
 )
 
-fun testInvoices(firstId: Int = 100, paymentType: PaymentType = PaymentType.BANK_DIRECT_DEBIT, invoiceDate: LocalDate = DATE) = listOf(
-    testInvoice(firstId, paymentType, invoiceDate),
-    testInvoice(firstId + 1, paymentType, invoiceDate, listOf(1851, 1852)),
-    testInvoice(firstId + 2, paymentType, invoiceDate, listOf(1850, 1851, 1852)),
-    testInvoice(firstId + 3, paymentType, invoiceDate, listOf(1850))
+val testCustomer187 = Customer(
+    id = 187,
+    children = testChildren187,
+    adults = listOf(testAdultMother187),
+    invoiceHolder = InvoiceHolder(
+        name = "Cara Santamaria",
+        taxId = "X2113060G",
+        address = testAddress(),
+        paymentType = PaymentType.BANK_DIRECT_DEBIT,
+        bankAccount = "GB86BARC20038048628281",
+        email = "cara@sgu.org"
+    )
 )
 
-fun testProducts() = listOf(
-    Product(
-        "AAA",
-        "AAA product long name",
-        "AAA product",
-        price = 11.toBigDecimal()
+val testCustomer188 = Customer(
+    id = 188,
+    children = testChildren188,
+    adults = listOf(testAdultTutor188),
+    invoiceHolder = InvoiceHolder(
+        name = "Andrew Brown",
+        taxId = "Y8304421D",
+        address = testAddress(),
+        paymentType = PaymentType.BANK_DIRECT_DEBIT,
+        bankAccount = "SE5696461254175518254512",
+        email = "abrown@gmail.com"
+    )
+)
+
+val testCustomers = listOf(
+    testCustomer185,
+    testCustomer186,
+    testCustomer187,
+    testCustomer188
+)
+
+val testCustomersMap = mapOf(
+    185 to testCustomer185,
+    186 to testCustomer186,
+    187 to testCustomer187,
+    188 to testCustomer188
+)
+
+val testInvoice185 = Invoice(
+    id = "??",
+    customerId = 185,
+    date = DATE,
+    yearMonth = YEAR_MONTH,
+    childrenCodes = listOf(1850, 1851),
+    paymentType = PaymentType.BANK_DIRECT_DEBIT,
+    lines = listOf(
+        InvoiceLine(
+            productId = "TST",
+            units = 4.toBigDecimal(),
+            productPrice = 10.9.toBigDecimal(),
+            childCode = 1850
+        ),
+        InvoiceLine(
+            productId = "TST",
+            units = 2.toBigDecimal(),
+            productPrice = 10.9.toBigDecimal(),
+            childCode = 1851
+        ),
+        InvoiceLine(
+            productId = "XXX",
+            units = 2.toBigDecimal(),
+            productPrice = 9.1.toBigDecimal(),
+            childCode = 1851
+        )
     ),
-    Product(
-        "BBB",
-        "BBB product long name",
-        "BBB product",
-        price = 5.5.toBigDecimal(),
-        taxPercentage = 0.1.toBigDecimal()),
-    Product(
-        "CCC",
-        "CCC product long name",
-        "CCC product",
-        price = 5.toBigDecimal()
-    ))
+    note = "Note 1, Note 2, Note 3, Note 4"
+)
+
+val testInvoice186 = Invoice(
+    id = "??",
+    customerId = 186,
+    date = DATE,
+    yearMonth = YEAR_MONTH,
+    childrenCodes = listOf(1860),
+    paymentType = PaymentType.BANK_DIRECT_DEBIT,
+    lines = listOf(
+        InvoiceLine(
+            productId = "TST",
+            units = 2.toBigDecimal(),
+            productPrice = 10.9.toBigDecimal(),
+            childCode = 1860
+        )
+    ),
+    note = "Note 5"
+)
+
+val testInvoice187 = Invoice(
+    id = "??",
+    customerId = 187,
+    date = DATE,
+    yearMonth = YEAR_MONTH,
+    childrenCodes = listOf(1870),
+    paymentType = PaymentType.RECTIFICATION,
+    lines = listOf(
+        InvoiceLine(
+            productId = "TST",
+            units = (-2).toBigDecimal(),
+            productPrice = 10.9.toBigDecimal(),
+            childCode = 1870
+        )
+    ),
+    note = "Note 6"
+)
+
+val testInvoices = listOf(
+    testInvoice185,
+    testInvoice186,
+    testInvoice187
+)

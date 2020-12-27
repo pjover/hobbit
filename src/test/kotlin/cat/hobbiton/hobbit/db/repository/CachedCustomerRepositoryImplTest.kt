@@ -1,7 +1,8 @@
 package cat.hobbiton.hobbit.db.repository
 
-import cat.hobbiton.hobbit.testChild1
-import cat.hobbiton.hobbit.testCustomer
+import cat.hobbiton.hobbit.testChild1850
+import cat.hobbiton.hobbit.testCustomer185
+import cat.hobbiton.hobbit.testCustomer187
 import cat.hobbiton.hobbit.util.error.NotFoundException
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.DescribeSpec
@@ -22,12 +23,12 @@ class CachedCustomerRepositoryImplTest : DescribeSpec() {
             clearMocks(customerRepository)
 
             context("existing customer") {
-                every { customerRepository.findByChildCode(any()) } returns testCustomer()
+                every { customerRepository.findByChildCode(any()) } returns testCustomer185
 
                 val actual = sut.getChild(1850)
 
                 it("returns the customer") {
-                    actual shouldBe testChild1()
+                    actual shouldBe testChild1850
                 }
 
                 it("calls the repository once") {
@@ -55,12 +56,12 @@ class CachedCustomerRepositoryImplTest : DescribeSpec() {
             clearMocks(customerRepository)
 
             context("existing customer") {
-                every { customerRepository.findById(any()) } returns Optional.of(testCustomer())
+                every { customerRepository.findById(any()) } returns Optional.of(testCustomer187)
 
                 val actual = sut.getCustomer(11)
 
                 it("returns the customer") {
-                    actual shouldBe testCustomer()
+                    actual shouldBe testCustomer187
                 }
 
                 it("calls the repository once") {
@@ -88,12 +89,12 @@ class CachedCustomerRepositoryImplTest : DescribeSpec() {
             clearMocks(customerRepository)
 
             context("existing customer") {
-                every { customerRepository.findByChildCode(any()) } returns testCustomer()
+                every { customerRepository.findByChildCode(any()) } returns testCustomer187
 
                 val actual = sut.getCustomerByChildCode(1)
 
                 it("returns the customer") {
-                    actual shouldBe testCustomer()
+                    actual shouldBe testCustomer187
                 }
 
                 it("calls the repository once") {

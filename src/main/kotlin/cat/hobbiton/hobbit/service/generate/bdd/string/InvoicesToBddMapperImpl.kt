@@ -1,15 +1,16 @@
 package cat.hobbiton.hobbit.service.generate.bdd.string
 
 
-import cat.hobbiton.hobbit.db.repository.CachedCustomerRepository
-import cat.hobbiton.hobbit.db.repository.CachedProductRepository
 import cat.hobbiton.hobbit.init.BusinessProperties
 import cat.hobbiton.hobbit.model.Customer
 import cat.hobbiton.hobbit.model.Invoice
+import cat.hobbiton.hobbit.model.Product
 import cat.hobbiton.hobbit.model.extension.calculateControlCode
 import cat.hobbiton.hobbit.model.extension.getSepaIndentifier
 import cat.hobbiton.hobbit.model.extension.totalAmount
 import cat.hobbiton.hobbit.service.aux.TimeService
+import cat.hobbiton.hobbit.service.generate.getCustomer
+import cat.hobbiton.hobbit.service.generate.getProduct
 import org.apache.commons.lang3.StringUtils
 import org.springframework.stereotype.Component
 import java.math.BigDecimal
@@ -22,8 +23,6 @@ import java.util.*
 @Component
 class InvoicesToBddMapperImpl(
     private val businessProperties: BusinessProperties,
-    private val customerRepository: CachedCustomerRepository,
-    private val productRepository: CachedProductRepository,
     private val timeService: TimeService
 ) : InvoicesToBddMapper {
 
@@ -45,7 +44,7 @@ class InvoicesToBddMapperImpl(
     private val addressLine2: String
         get() = businessProperties.addressLine2
 
-    override fun map(invoices: List<Invoice>): Bdd {
+    override fun map(invoices: List<Invoice>, customers: Map<Int, Customer>, products: Map<String, Product>): Bdd {
         val dateTime = timeService.currentLocalDateTime
         return Bdd(
             messageIdentification = getMessageIdentification(dateTime = dateTime),
@@ -60,7 +59,7 @@ class InvoicesToBddMapperImpl(
             addressLine2 = addressLine2,
             iban = businessProperties.bddBusinessIban,
             bic = businessProperties.bddBankBic,
-            details = getDetails(dateTime, invoices))
+            details = getDetails(dateTime, invoices, customers, products))
     }
 
     private fun getMessageIdentification(dateTime: LocalDateTime): String {
@@ -89,12 +88,12 @@ class InvoicesToBddMapperImpl(
         return dateFormatter.format(dateTime)
     }
 
-    private fun getDetails(dateTime: LocalDateTime, invoices: List<Invoice>): List<BddDetail> {
-        return invoices.map { mapInvoiceToDetail(dateTime, it) }.toList()
+    private fun getDetails(dateTime: LocalDateTime, invoices: List<Invoice>, customers: Map<Int, Customer>, products: Map<String, Product>): List<BddDetail> {
+        return invoices.map { mapInvoiceToDetail(dateTime, it, customers, products) }.toList()
     }
 
-    private fun mapInvoiceToDetail(dateTime: LocalDateTime, invoice: Invoice): BddDetail {
-        val customer = customerRepository.getCustomer(invoice.customerId)
+    private fun mapInvoiceToDetail(dateTime: LocalDateTime, invoice: Invoice, customers: Map<Int, Customer>, products: Map<String, Product>): BddDetail {
+        val customer = customers.getCustomer(invoice.customerId)
         return BddDetail(endToEndIdentifier = getDetailEndToEndIdentifier(dateTime, invoice),
             instructedAmount = getDetailInstructedAmount(invoice),
             dateOfSignature = getDetailDateOfSignature(dateTime),
@@ -102,7 +101,7 @@ class InvoicesToBddMapperImpl(
             identification = getDetailIdentification(customer),
             iban = getDetailCustomerBankAccount(customer)!!,
             purposeCode = businessProperties.bddPurposeCode,
-            remittanceInformation = getDetailRemittanceInformation(invoice),
+            remittanceInformation = getDetailRemittanceInformation(invoice, products),
             isBusiness = getDetailIsBusiness(customer))
     }
 
@@ -130,17 +129,17 @@ class InvoicesToBddMapperImpl(
         return customer.invoiceHolder.bankAccount
     }
 
-    private fun getDetailRemittanceInformation(invoice: Invoice): String {
-        return getInvoiceDescription(invoice)
+    private fun getDetailRemittanceInformation(invoice: Invoice, products: Map<String, Product>): String {
+        return getInvoiceDescription(invoice, products)
     }
 
     private fun getDetailIsBusiness(customer: Customer): Boolean {
         return customer.invoiceHolder.isBusiness
     }
 
-    private fun getInvoiceDescription(invoice: Invoice): String {
+    private fun getInvoiceDescription(invoice: Invoice, products: Map<String, Product>): String {
         val maxLength = 140
-        val invoiceDescription = getShortNameInvoiceDescription(invoice)
+        val invoiceDescription = getShortNameInvoiceDescription(invoice, products)
         return if(invoiceDescription.length > maxLength) {
             StringUtils.abbreviate(invoiceDescription, maxLength)
         } else {
@@ -148,10 +147,9 @@ class InvoicesToBddMapperImpl(
         }
     }
 
-    private fun getShortNameInvoiceDescription(invoice: Invoice): String {
+    private fun getShortNameInvoiceDescription(invoice: Invoice, products: Map<String, Product>): String {
         return invoice.lines.joinToString(", ") {
-            numberFormatter.format(it.units) + "x" +
-                productRepository.getProduct(it.productId).shortName
+            numberFormatter.format(it.units) + "x" + products.getProduct(it.productId).shortName
         }
     }
 }

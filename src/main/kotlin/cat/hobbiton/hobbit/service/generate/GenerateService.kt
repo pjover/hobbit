@@ -6,7 +6,7 @@ import org.springframework.core.io.Resource
 
 interface GenerateService {
 
-	fun simulateBDD(yearMonth: String?): PaymentTypeInvoicesDTO
+	fun simulateBDD(yearMonth: String): PaymentTypeInvoicesDTO
 
 	fun generateBDD(yearMonth: String): Resource
 

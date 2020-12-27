@@ -1,18 +1,16 @@
 package cat.hobbiton.hobbit.init
 
+import cat.hobbiton.hobbit.*
 import cat.hobbiton.hobbit.db.repository.CustomerRepository
 import cat.hobbiton.hobbit.db.repository.InvoiceRepository
 import cat.hobbiton.hobbit.db.repository.SequenceRepository
-import cat.hobbiton.hobbit.model.PaymentType
-import cat.hobbiton.hobbit.model.Sequence
-import cat.hobbiton.hobbit.model.SequenceType
-import cat.hobbiton.hobbit.testCustomer
-import cat.hobbiton.hobbit.testInvoice
+import cat.hobbiton.hobbit.model.*
 import io.kotlintest.IsolationMode
 import io.kotlintest.specs.DescribeSpec
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
+import java.math.BigDecimal
 
 internal class SequenceCheckerImplTest : DescribeSpec() {
 
@@ -85,16 +83,12 @@ internal class SequenceCheckerImplTest : DescribeSpec() {
 
         describe("check sequences with all items synchronized") {
             every { sequenceRepository.findAll() } returns listOf(
-                Sequence(SequenceType.CUSTOMER, 226),
+                Sequence(SequenceType.CUSTOMER, 188),
                 Sequence(SequenceType.STANDARD_INVOICE, 103),
                 Sequence(SequenceType.SPECIAL_INVOICE, 96),
                 Sequence(SequenceType.RECTIFICATION_INVOICE, 13)
             )
-            every { customerRepository.findAll() } returns listOf(
-                testCustomer(223),
-                testCustomer(225),
-                testCustomer(226)
-            )
+            every { customerRepository.findAll() } returns testCustomers
             every { invoiceRepository.findByIdStartingWith("F") } returns listOf(
                 testInvoice(id = 98),
                 testInvoice(id = 102),
@@ -125,7 +119,7 @@ internal class SequenceCheckerImplTest : DescribeSpec() {
 
         describe("check sequences with clients not synchronized") {
             every { sequenceRepository.findAll() } returns listOf(
-                Sequence(SequenceType.CUSTOMER, 226),
+                Sequence(SequenceType.CUSTOMER, 186),
                 Sequence(SequenceType.STANDARD_INVOICE, 103),
                 Sequence(SequenceType.SPECIAL_INVOICE, 96),
                 Sequence(SequenceType.RECTIFICATION_INVOICE, 13)
@@ -148,9 +142,9 @@ internal class SequenceCheckerImplTest : DescribeSpec() {
 
             context("The client sequence is different than the stored sequence") {
                 every { customerRepository.findAll() } returns listOf(
-                    testCustomer(223),
-                    testCustomer(225),
-                    testCustomer(227)
+                    testCustomer186,
+                    testCustomer187,
+                    testCustomer188
                 )
 
                 sut.checkSequences()
@@ -161,7 +155,7 @@ internal class SequenceCheckerImplTest : DescribeSpec() {
                         customerRepository.findAll()
                         invoiceRepository.findByIdStartingWith("F")
                         invoiceRepository.findByIdStartingWith("X")
-                        sequenceRepository.save(Sequence(SequenceType.CUSTOMER, 227))
+                        sequenceRepository.save(Sequence(SequenceType.CUSTOMER, 188))
                     }
                 }
             }
@@ -174,11 +168,7 @@ internal class SequenceCheckerImplTest : DescribeSpec() {
                 Sequence(SequenceType.SPECIAL_INVOICE, 96),
                 Sequence(SequenceType.RECTIFICATION_INVOICE, 13)
             )
-            every { customerRepository.findAll() } returns listOf(
-                testCustomer(223),
-                testCustomer(225),
-                testCustomer(226)
-            )
+            every { customerRepository.findAll() } returns testCustomers
             every { invoiceRepository.findByIdStartingWith("X") } returns listOf(
                 testInvoice(id = 92, paymentType = PaymentType.VOUCHER),
                 testInvoice(id = 94, paymentType = PaymentType.VOUCHER),
@@ -218,11 +208,7 @@ internal class SequenceCheckerImplTest : DescribeSpec() {
                 Sequence(SequenceType.SPECIAL_INVOICE, 96),
                 Sequence(SequenceType.RECTIFICATION_INVOICE, 13)
             )
-            every { customerRepository.findAll() } returns listOf(
-                testCustomer(223),
-                testCustomer(225),
-                testCustomer(226)
-            )
+            every { customerRepository.findAll() } returns testCustomers
             every { invoiceRepository.findByIdStartingWith("F") } returns listOf(
                 testInvoice(id = 98),
                 testInvoice(id = 102),
@@ -262,11 +248,7 @@ internal class SequenceCheckerImplTest : DescribeSpec() {
                 Sequence(SequenceType.SPECIAL_INVOICE, 96),
                 Sequence(SequenceType.RECTIFICATION_INVOICE, 13)
             )
-            every { customerRepository.findAll() } returns listOf(
-                testCustomer(223),
-                testCustomer(225),
-                testCustomer(226)
-            )
+            every { customerRepository.findAll() } returns testCustomers
             every { invoiceRepository.findByIdStartingWith("F") } returns listOf(
                 testInvoice(id = 98),
                 testInvoice(id = 102),
@@ -300,3 +282,35 @@ internal class SequenceCheckerImplTest : DescribeSpec() {
         }
     }
 }
+
+private fun testInvoice(id: Int = 103, paymentType: PaymentType = PaymentType.BANK_DIRECT_DEBIT) = Invoice(
+    id = "${paymentType.sequenceType.prefix}-$id",
+    date = DATE,
+    customerId = 148,
+    lines = listOf(
+        InvoiceLine(productId = "AAA",
+            units = 1.toBigDecimal(),
+            productPrice = 11.toBigDecimal(),
+            taxPercentage = BigDecimal.ZERO,
+            childCode = 1850
+        ),
+        InvoiceLine(productId = "BBB",
+            units = 3.toBigDecimal(),
+            productPrice = 5.5.toBigDecimal(),
+            taxPercentage = 0.1.toBigDecimal(),
+            childCode = 1850
+        ),
+        InvoiceLine(productId = "CCC",
+            units = 1.5.toBigDecimal(),
+            productPrice = 5.toBigDecimal(),
+            taxPercentage = BigDecimal.ZERO,
+            childCode = 1851
+        )
+    ),
+    note = "Invoice note",
+    emailed = false,
+    printed = false,
+    paymentType = paymentType,
+    childrenCodes = listOf(1850, 1851)
+)
+

@@ -7,7 +7,7 @@ const val bbdFilename = "bdd.q1x"
 
 interface BddService {
 
-	fun simulateBDD(yearMonth: String?): PaymentTypeInvoicesDTO
+	fun simulateBDD(yearMonth: String): PaymentTypeInvoicesDTO
 
 	fun generateBDD(yearMonth: String): Resource
 }

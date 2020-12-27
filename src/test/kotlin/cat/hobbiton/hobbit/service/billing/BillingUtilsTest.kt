@@ -1,12 +1,14 @@
 package cat.hobbiton.hobbit.service.billing
 
-import cat.hobbiton.hobbit.*
+import cat.hobbiton.hobbit.DATE
+import cat.hobbiton.hobbit.YEAR_MONTH
 import cat.hobbiton.hobbit.api.model.InvoiceDTO
 import cat.hobbiton.hobbit.api.model.InvoiceLineDTO
 import cat.hobbiton.hobbit.model.Consumption
 import cat.hobbiton.hobbit.model.Invoice
 import cat.hobbiton.hobbit.model.InvoiceLine
 import cat.hobbiton.hobbit.model.PaymentType
+import cat.hobbiton.hobbit.testCustomer185
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.DescribeSpec
 
@@ -80,7 +82,7 @@ class BillingUtilsTest : DescribeSpec() {
 
         describe("getInvoiceDto") {
 
-            val customer = testCustomer(children = listOf(testChild1(), testChild2()))
+            val customer = testCustomer185
 
             val invoice = Invoice(
                 id = "??",

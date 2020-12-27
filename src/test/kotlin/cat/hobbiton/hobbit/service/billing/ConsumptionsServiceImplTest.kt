@@ -1,16 +1,12 @@
 package cat.hobbiton.hobbit.service.billing
 
-import cat.hobbiton.hobbit.YEAR_MONTH
+import cat.hobbiton.hobbit.*
 import cat.hobbiton.hobbit.api.model.*
 import cat.hobbiton.hobbit.db.repository.CachedCustomerRepository
 import cat.hobbiton.hobbit.db.repository.CachedProductRepository
 import cat.hobbiton.hobbit.db.repository.ConsumptionRepository
 import cat.hobbiton.hobbit.model.Consumption
-import cat.hobbiton.hobbit.model.Product
 import cat.hobbiton.hobbit.service.aux.TimeService
-import cat.hobbiton.hobbit.testChild1
-import cat.hobbiton.hobbit.testChild2
-import cat.hobbiton.hobbit.testChild3
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.DescribeSpec
 import io.mockk.clearMocks
@@ -366,7 +362,7 @@ class ConsumptionsServiceImplTest : DescribeSpec() {
                 ),
                 ChildConsumtionDTO(
                     code = 1852,
-                    shortName = "Laia Llull",
+                    shortName = "Laia Mayol",
                     grossAmount = 21.8.toBigDecimal(),
                     listOf(
                         ConsumtionDTO("TST", 2.toBigDecimal(), 21.8.toBigDecimal(), "Note 5")
@@ -379,21 +375,11 @@ class ConsumptionsServiceImplTest : DescribeSpec() {
 
 fun mockAuxReaders(customerRepository: CachedCustomerRepository, productRepository: CachedProductRepository) {
     clearMocks(customerRepository, productRepository)
-    every { productRepository.getProduct("TST") } returns Product(
-        id = "TST",
-        name = "TST product",
-        shortName = "Test",
-        price = 10.9.toBigDecimal()
-    )
-    every { productRepository.getProduct("XXX") } returns Product(
-        id = "XXX",
-        name = "XXX product",
-        shortName = "XXX product",
-        price = 9.1.toBigDecimal()
-    )
-    every { customerRepository.getChild(1850) } returns testChild1()
-    every { customerRepository.getChild(1851) } returns testChild2()
-    every { customerRepository.getChild(1852) } returns testChild3()
+    every { productRepository.getProduct("TST") } returns testProduct1
+    every { productRepository.getProduct("XXX") } returns testProduct2
+    every { customerRepository.getChild(1850) } returns testChild1850
+    every { customerRepository.getChild(1851) } returns testChild1851
+    every { customerRepository.getChild(1852) } returns testChild1860
 }
 
 fun mockConsumptionsReader(consumptionRepository: ConsumptionRepository, additionalList: List<Consumption> = emptyList()) {

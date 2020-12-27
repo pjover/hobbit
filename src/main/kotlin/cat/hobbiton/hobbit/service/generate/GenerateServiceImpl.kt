@@ -14,7 +14,7 @@ class GenerateServiceImpl(
     private val spreadSheetService: SpreadSheetService
 ) : GenerateService {
 
-    override fun simulateBDD(yearMonth: String?) = bddService.simulateBDD(yearMonth)
+    override fun simulateBDD(yearMonth: String) = bddService.simulateBDD(yearMonth)
 
     override fun generateBDD(yearMonth: String) = bddService.generateBDD(yearMonth)
 

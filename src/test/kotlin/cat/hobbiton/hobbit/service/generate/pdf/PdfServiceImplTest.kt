@@ -1,17 +1,11 @@
 package cat.hobbiton.hobbit.service.generate.pdf
 
-import cat.hobbiton.hobbit.YEAR_MONTH
+import cat.hobbiton.hobbit.*
 import cat.hobbiton.hobbit.api.model.*
 import cat.hobbiton.hobbit.db.repository.CachedCustomerRepository
 import cat.hobbiton.hobbit.db.repository.CachedProductRepository
 import cat.hobbiton.hobbit.db.repository.InvoiceRepository
 import cat.hobbiton.hobbit.model.Invoice
-import cat.hobbiton.hobbit.model.Product
-import cat.hobbiton.hobbit.service.billing.invoice1
-import cat.hobbiton.hobbit.service.billing.invoice2
-import cat.hobbiton.hobbit.testAdultMother
-import cat.hobbiton.hobbit.testChild3
-import cat.hobbiton.hobbit.testCustomer
 import cat.hobbiton.hobbit.util.error.NotFoundException
 import cat.hobbiton.hobbit.util.resource.FileResource
 import cat.hobbiton.hobbit.util.resource.ZipService
@@ -80,10 +74,10 @@ class PdfServiceImplTest : DescribeSpec() {
                 mockReaders(invoiceRepository, customerRepository, productRepository)
                 mockWriters(invoiceRepository)
                 mockZipService(zipService)
-                every { pdfBuilderService.generate(invoice1(), customer1, productMap1) } returns
-                    FileResource("PDF1".toByteArray(StandardCharsets.UTF_8), invoice1().getPdfName())
-                every { pdfBuilderService.generate(invoice2(), customer2, productMap2) } returns
-                    FileResource("PDF2".toByteArray(StandardCharsets.UTF_8), invoice2().getPdfName())
+                every { pdfBuilderService.generate(testInvoice185, testCustomer185, any()) } returns
+                    FileResource("PDF1".toByteArray(StandardCharsets.UTF_8), testInvoice185.getPdfName())
+                every { pdfBuilderService.generate(testInvoice186, testCustomer186, any()) } returns
+                    FileResource("PDF2".toByteArray(StandardCharsets.UTF_8), testInvoice186.getPdfName())
 
                 val actual = sut.generatePDFs(YEAR_MONTH.toString())
 
@@ -96,16 +90,16 @@ class PdfServiceImplTest : DescribeSpec() {
                         invoiceRepository.findByPrintedAndYearMonth(false, YEAR_MONTH)
                         customerRepository.getCustomer(185)
                         customerRepository.getCustomer(186)
-                        pdfBuilderService.generate(invoice1(), customer1, productMap1)
-                        pdfBuilderService.generate(invoice2(), customer2, productMap2)
+                        pdfBuilderService.generate(testInvoice185, testCustomer185, any())
+                        pdfBuilderService.generate(testInvoice186, testCustomer186, any())
                         zipService.zipFiles(any(), pdfsZipFilename)
                     }
                 }
 
                 it("updates the invoices") {
                     verify {
-                        invoiceRepository.save(invoice1().copy(printed = true))
-                        invoiceRepository.save(invoice2().copy(printed = true))
+                        invoiceRepository.save(testInvoice185.copy(printed = true))
+                        invoiceRepository.save(testInvoice186.copy(printed = true))
                     }
                 }
             }
@@ -138,10 +132,10 @@ class PdfServiceImplTest : DescribeSpec() {
                 clearMocks(invoiceRepository, customerRepository, pdfBuilderService)
                 mockWriters(invoiceRepository)
                 mockZipService(zipService)
-                every { customerRepository.getCustomer(185) } returns customer1
-                every { invoiceRepository.findById(any()) } returns Optional.of(invoice1())
+                every { customerRepository.getCustomer(185) } returns testCustomer185
+                every { invoiceRepository.findById(any()) } returns Optional.of(testInvoice185)
                 val pdf = FileResource("PDF1".toByteArray(StandardCharsets.UTF_8), "XX (185).pdf")
-                every { pdfBuilderService.generate(invoice1(), customer1, productMap1) } returns pdf
+                every { pdfBuilderService.generate(testInvoice185, testCustomer185, any()) } returns pdf
 
                 val actual = sut.generatePDF("XX")
 
@@ -154,19 +148,19 @@ class PdfServiceImplTest : DescribeSpec() {
                         actual.filename shouldBe "XX (185).pdf"
                         invoiceRepository.findById("XX")
                         customerRepository.getCustomer(185)
-                        pdfBuilderService.generate(invoice1(), customer1, productMap1)
+                        pdfBuilderService.generate(testInvoice185, testCustomer185, any())
                     }
                 }
                 it("updates the invoice") {
                     verify {
-                        invoiceRepository.save(invoice1().copy(printed = true))
+                        invoiceRepository.save(testInvoice185.copy(printed = true))
                     }
                 }
             }
 
             context("invoice not found") {
                 clearMocks(invoiceRepository, customerRepository, pdfBuilderService)
-                every { customerRepository.getCustomer(185) } returns customer1
+                every { customerRepository.getCustomer(185) } returns testCustomer185
                 every { invoiceRepository.findById(any()) } returns Optional.empty()
 
                 val executor = {
@@ -182,45 +176,19 @@ class PdfServiceImplTest : DescribeSpec() {
     }
 }
 
-private val customer1 = testCustomer()
-private val customer2 = testCustomer(
-    id = 186,
-    adults = listOf(testAdultMother().copy(name = "Silvia", surname = "Mayol")),
-    children = listOf(testChild3())
-)
-private val product1 = Product(
-    id = "TST",
-    name = "TST product",
-    shortName = "TST product",
-    price = 10.9.toBigDecimal()
-)
-private val product2 = Product(
-    id = "XXX",
-    name = "XXX product",
-    shortName = "XXX product",
-    price = 9.1.toBigDecimal()
-)
-private val productMap1 = mapOf(
-    "TST" to product1,
-    "XXX" to product2
-)
-private val productMap2 = mapOf(
-    "TST" to product1
-)
-
 private fun mockReaders(invoiceRepository: InvoiceRepository, customerRepository: CachedCustomerRepository, productRepository: CachedProductRepository) {
     clearMocks(invoiceRepository, customerRepository)
 
     every { invoiceRepository.findByPrintedAndYearMonth(false, YEAR_MONTH) } returns listOf(
-        invoice1(),
-        invoice2()
+        testInvoice185,
+        testInvoice186
     )
 
-    every { customerRepository.getCustomer(185) } returns customer1
-    every { customerRepository.getCustomer(186) } returns customer2
+    every { customerRepository.getCustomer(185) } returns testCustomer185
+    every { customerRepository.getCustomer(186) } returns testCustomer186
 
-    every { productRepository.getProduct("TST") } returns product1
-    every { productRepository.getProduct("XXX") } returns product2
+    every { productRepository.getProduct("TST") } returns testProduct1
+    every { productRepository.getProduct("XXX") } returns testProduct2
 }
 
 private fun mockWriters(invoiceRepository: InvoiceRepository) {
@@ -289,7 +257,7 @@ val expectedInvoices = listOf(
                                 productId = "TST",
                                 units = 2.toBigDecimal(),
                                 totalAmount = 21.8.toBigDecimal(),
-                                childCode = 1852
+                                childCode = 1860
                             )
                         ),
                         note = "Note 5"

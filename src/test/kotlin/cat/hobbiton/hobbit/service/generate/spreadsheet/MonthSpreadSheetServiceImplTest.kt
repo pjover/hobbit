@@ -1,12 +1,7 @@
 package cat.hobbiton.hobbit.service.generate.spreadsheet
 
 import cat.hobbiton.hobbit.YEAR_MONTH
-import cat.hobbiton.hobbit.service.billing.invoice1
-import cat.hobbiton.hobbit.service.billing.invoice2
-import cat.hobbiton.hobbit.service.billing.invoice3
-import cat.hobbiton.hobbit.testAdultMother
-import cat.hobbiton.hobbit.testChild3
-import cat.hobbiton.hobbit.testCustomer
+import cat.hobbiton.hobbit.testCustomersMap
 import io.kotlintest.matchers.collections.shouldHaveSize
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.DescribeSpec
@@ -20,7 +15,7 @@ class MonthSpreadSheetServiceImplTest : DescribeSpec() {
 
         describe("generate") {
 
-            val actual = sut.generate(YEAR_MONTH, invoices, customers)
+            val actual = sut.generate(YEAR_MONTH, invoices, testCustomersMap)
 
             it("generate the spread sheet") {
 
@@ -62,36 +57,19 @@ class MonthSpreadSheetServiceImplTest : DescribeSpec() {
                     TextCell("Note 5"))
 
                 actual.lines[2] shouldBe listOf(IntCell(187),
-                    TextCell("Andrew Brown"),
-                    TextCell("Laia"),
+                    TextCell("Cara Santamaria"),
+                    TextCell("Ona"),
                     DateCell(LocalDate.of(2019, 5, 25)),
                     TextCell("2019-05"),
                     TextCell("F-3"),
-                    CurrencyCell(BigDecimal.valueOf(-21.8)),
-                    TextCell("-2xTST"),
-                    TextCell("Rectification"),
+                    CurrencyCell(BigDecimal.valueOf(9.9)),
+                    TextCell("1xTST"),
+                    TextCell("Cash"),
                     TextCell("Note 6"))
             }
         }
     }
 }
-
-private val customer1 = testCustomer()
-private val customer2 = testCustomer(
-    id = 186,
-    adults = listOf(testAdultMother().copy(name = "Silvia", surname = "Mayol")),
-    children = listOf(testChild3())
-)
-private val customer3 = testCustomer(
-    id = 187,
-    adults = listOf(testAdultMother().copy(name = "Andrew", surname = "Brown")),
-    children = listOf(testChild3())
-)
-private val customers = mapOf(
-    185 to customer1,
-    186 to customer2,
-    187 to customer3
-)
 
 private val invoices = listOf(
     invoice1().copy(id = "F-1"),

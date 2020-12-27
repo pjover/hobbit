@@ -1,7 +1,7 @@
 package cat.hobbiton.hobbit.model.extension
 
 import cat.hobbiton.hobbit.testAddress
-import cat.hobbiton.hobbit.testInvoiceHolder
+import cat.hobbiton.hobbit.testInvoiceHolder185
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.DescribeSpec
 import kotlin.test.assertFailsWith
@@ -11,7 +11,7 @@ class InvoiceHolderExtensionTest : DescribeSpec() {
 
     init {
 
-        val sut = testInvoiceHolder()
+        val sut = testInvoiceHolder185
 
         describe("email") {
 

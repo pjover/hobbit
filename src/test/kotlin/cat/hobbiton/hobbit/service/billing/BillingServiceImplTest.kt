@@ -5,7 +5,8 @@ import cat.hobbiton.hobbit.api.model.*
 import cat.hobbiton.hobbit.db.repository.CachedCustomerRepository
 import cat.hobbiton.hobbit.db.repository.CachedProductRepository
 import cat.hobbiton.hobbit.db.repository.ConsumptionRepository
-import cat.hobbiton.hobbit.model.*
+import cat.hobbiton.hobbit.model.Consumption
+import cat.hobbiton.hobbit.model.Invoice
 import cat.hobbiton.hobbit.service.aux.TimeService
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.DescribeSpec
@@ -51,38 +52,27 @@ class BillingServiceImplTest : DescribeSpec() {
 
             it("saves the invoices") {
                 verify {
-                    invoiceService.saveInvoice(invoice1(), any())
-                    invoiceService.saveInvoice(invoice2(), any())
-                    invoiceService.saveInvoice(invoice3(), any())
+                    invoiceService.saveInvoice(testInvoice185, any())
+                    invoiceService.saveInvoice(testInvoice186, any())
+                    invoiceService.saveInvoice(testInvoice187, any())
                 }
             }
         }
     }
 
     private fun mockReaders(customerRepository: CachedCustomerRepository, productRepository: CachedProductRepository) {
-        every { productRepository.getProduct("TST") } returns Product(
-            id = "TST",
-            name = "TST product",
-            shortName = "TST product",
-            price = 10.9.toBigDecimal()
-        )
-        every { productRepository.getProduct("XXX") } returns Product(
-            id = "XXX",
-            name = "XXX product",
-            shortName = "XXX product",
-            price = 9.1.toBigDecimal()
-        )
-        every { customerRepository.getCustomerByChildCode(1850) } returns testCustomer(children = listOf(testChild1(), testChild2()))
-        every { customerRepository.getCustomerByChildCode(1851) } returns testCustomer(children = listOf(testChild1(), testChild2()))
-        every { customerRepository.getCustomerByChildCode(1852) } returns testCustomer(
-            id = 186,
-            children = listOf(testChild3()),
-            adults = listOf(testAdultTutor())
-        )
+        every { productRepository.getProduct("TST") } returns testProduct1
+        every { productRepository.getProduct("XXX") } returns testProduct2
 
-        every { customerRepository.getChild(1850) } returns testChild1()
-        every { customerRepository.getChild(1851) } returns testChild2()
-        every { customerRepository.getChild(1852) } returns testChild3()
+        every { customerRepository.getCustomerByChildCode(1850) } returns testCustomer185
+        every { customerRepository.getCustomerByChildCode(1851) } returns testCustomer185
+        every { customerRepository.getCustomerByChildCode(1860) } returns testCustomer186
+        every { customerRepository.getCustomerByChildCode(1870) } returns testCustomer187
+
+        every { customerRepository.getChild(1850) } returns testChild1850
+        every { customerRepository.getChild(1851) } returns testChild1851
+        every { customerRepository.getChild(1860) } returns testChild1860
+        every { customerRepository.getChild(1870) } returns testChild1870
     }
 
 }
@@ -141,7 +131,7 @@ fun expectedInvoices(code: String) = listOf(
                                 productId = "TST",
                                 units = 2.toBigDecimal(),
                                 totalAmount = 21.8.toBigDecimal(),
-                                childCode = 1852
+                                childCode = 1860
                             )
                         ),
                         note = "Note 5"
@@ -152,24 +142,24 @@ fun expectedInvoices(code: String) = listOf(
     ),
     PaymentTypeInvoicesDTO(
         paymentType = PaymentTypeDTO.RECTIFICATION,
-        totalAmount = -21.8.toBigDecimal(),
+        totalAmount = -(21.8).toBigDecimal(),
         customers = listOf(
             CustomerInvoicesDTO(
-                code = 186,
-                shortName = "Silvia Mayol",
-                totalAmount = -21.8.toBigDecimal(),
+                code = 187,
+                shortName = "Cara Santamaria",
+                totalAmount = -(21.8).toBigDecimal(),
                 invoices = listOf(
                     InvoiceDTO(
                         code = code,
                         yearMonth = YEAR_MONTH.toString(),
-                        children = listOf("Laia"),
+                        children = listOf("Ona"),
                         totalAmount = (-21.8).toBigDecimal(),
                         lines = listOf(
                             InvoiceLineDTO(
                                 productId = "TST",
                                 units = (-2).toBigDecimal(),
                                 totalAmount = (-21.8).toBigDecimal(),
-                                childCode = 1852
+                                childCode = 1870
                             )
                         ),
                         note = "Note 6"
@@ -178,72 +168,6 @@ fun expectedInvoices(code: String) = listOf(
             )
         )
     )
-)
-
-fun invoice1() = Invoice(
-    id = "??",
-    customerId = 185,
-    date = DATE,
-    yearMonth = YEAR_MONTH,
-    childrenCodes = listOf(1850, 1851),
-    paymentType = PaymentType.BANK_DIRECT_DEBIT,
-    lines = listOf(
-        InvoiceLine(
-            productId = "TST",
-            units = 4.toBigDecimal(),
-            productPrice = 10.9.toBigDecimal(),
-            childCode = 1850
-        ),
-        InvoiceLine(
-            productId = "TST",
-            units = 2.toBigDecimal(),
-            productPrice = 10.9.toBigDecimal(),
-            childCode = 1851
-        ),
-        InvoiceLine(
-            productId = "XXX",
-            units = 2.toBigDecimal(),
-            productPrice = 9.1.toBigDecimal(),
-            childCode = 1851
-        )
-    ),
-    note = "Note 1, Note 2, Note 3, Note 4"
-)
-
-fun invoice2() = Invoice(
-    id = "??",
-    customerId = 186,
-    date = DATE,
-    yearMonth = YEAR_MONTH,
-    childrenCodes = listOf(1852),
-    paymentType = PaymentType.BANK_DIRECT_DEBIT,
-    lines = listOf(
-        InvoiceLine(
-            productId = "TST",
-            units = 2.toBigDecimal(),
-            productPrice = 10.9.toBigDecimal(),
-            childCode = 1852
-        )
-    ),
-    note = "Note 5"
-)
-
-fun invoice3() = Invoice(
-    id = "??",
-    customerId = 186,
-    date = DATE,
-    yearMonth = YEAR_MONTH,
-    childrenCodes = listOf(1852),
-    paymentType = PaymentType.RECTIFICATION,
-    lines = listOf(
-        InvoiceLine(
-            productId = "TST",
-            units = (-2).toBigDecimal(),
-            productPrice = 10.9.toBigDecimal(),
-            childCode = 1852
-        )
-    ),
-    note = "Note 6"
 )
 
 val consumptions = listOf(
@@ -281,7 +205,7 @@ val consumptions = listOf(
     ),
     Consumption(
         id = "AA5",
-        childCode = 1852,
+        childCode = 1860,
         productId = "TST",
         units = 2.toBigDecimal(),
         yearMonth = YEAR_MONTH,
@@ -289,9 +213,9 @@ val consumptions = listOf(
     ),
     Consumption(
         id = "AA6",
-        childCode = 1852,
+        childCode = 1870,
         productId = "TST",
-        units = -2.toBigDecimal(),
+        units = (-2).toBigDecimal(),
         yearMonth = YEAR_MONTH,
         note = "Note 6",
         isRectification = true
