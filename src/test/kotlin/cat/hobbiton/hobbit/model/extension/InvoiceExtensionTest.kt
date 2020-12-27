@@ -127,32 +127,31 @@ class InvoiceExtensionTest : DescribeSpec() {
         }
 
         describe("List of Invoices") {
-            val invoices = testInvoices()
 
             context("getGrossAmount()") {
 
-                val actual = invoices.grossAmount()
+                val actual = testInvoices.grossAmount()
 
                 it("returns") {
-                    actual shouldBe BigDecimal("140.0")
+                    actual shouldBe BigDecimal("83.6")
                 }
             }
 
             context("getTaxAmount()") {
 
-                val actual = invoices.taxAmount()
+                val actual = testInvoices.taxAmount()
 
                 it("returns") {
-                    actual shouldBe BigDecimal("6.60")
+                    actual shouldBe BigDecimal("0.0")
                 }
             }
 
             context("getTotalAmount()") {
 
-                val actual = invoices.totalAmount()
+                val actual = testInvoices.totalAmount()
 
                 it("returns the correct amount") {
-                    actual shouldBe BigDecimal("146.60")
+                    actual shouldBe BigDecimal("83.6")
                 }
             }
         }

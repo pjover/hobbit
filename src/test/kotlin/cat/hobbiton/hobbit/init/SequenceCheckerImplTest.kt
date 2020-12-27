@@ -4,14 +4,13 @@ import cat.hobbiton.hobbit.*
 import cat.hobbiton.hobbit.db.repository.CustomerRepository
 import cat.hobbiton.hobbit.db.repository.InvoiceRepository
 import cat.hobbiton.hobbit.db.repository.SequenceRepository
-import cat.hobbiton.hobbit.model.PaymentType
-import cat.hobbiton.hobbit.model.Sequence
-import cat.hobbiton.hobbit.model.SequenceType
+import cat.hobbiton.hobbit.model.*
 import io.kotlintest.IsolationMode
 import io.kotlintest.specs.DescribeSpec
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
+import java.math.BigDecimal
 
 internal class SequenceCheckerImplTest : DescribeSpec() {
 
@@ -283,3 +282,35 @@ internal class SequenceCheckerImplTest : DescribeSpec() {
         }
     }
 }
+
+private fun testInvoice(id: Int = 103, paymentType: PaymentType = PaymentType.BANK_DIRECT_DEBIT) = Invoice(
+    id = "${paymentType.sequenceType.prefix}-$id",
+    date = DATE,
+    customerId = 148,
+    lines = listOf(
+        InvoiceLine(productId = "AAA",
+            units = 1.toBigDecimal(),
+            productPrice = 11.toBigDecimal(),
+            taxPercentage = BigDecimal.ZERO,
+            childCode = 1850
+        ),
+        InvoiceLine(productId = "BBB",
+            units = 3.toBigDecimal(),
+            productPrice = 5.5.toBigDecimal(),
+            taxPercentage = 0.1.toBigDecimal(),
+            childCode = 1850
+        ),
+        InvoiceLine(productId = "CCC",
+            units = 1.5.toBigDecimal(),
+            productPrice = 5.toBigDecimal(),
+            taxPercentage = BigDecimal.ZERO,
+            childCode = 1851
+        )
+    ),
+    note = "Invoice note",
+    emailed = false,
+    printed = false,
+    paymentType = paymentType,
+    childrenCodes = listOf(1850, 1851)
+)
+

@@ -1,7 +1,6 @@
 package cat.hobbiton.hobbit.model.extension
 
 import cat.hobbiton.hobbit.model.InvoiceLine
-import cat.hobbiton.hobbit.testInvoiceLines
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.DescribeSpec
 import java.math.BigDecimal
@@ -10,12 +9,32 @@ import kotlin.test.assertFailsWith
 internal class InvoiceLineExtensionTest : DescribeSpec() {
 
     init {
+        val sut = listOf(
+            InvoiceLine(productId = "AAA",
+                units = 1.toBigDecimal(),
+                productPrice = 11.toBigDecimal(),
+                taxPercentage = BigDecimal.ZERO,
+                childCode = 1850
+            ),
+            InvoiceLine(productId = "BBB",
+                units = 3.toBigDecimal(),
+                productPrice = 5.5.toBigDecimal(),
+                taxPercentage = 0.1.toBigDecimal(),
+                childCode = 1850
+            ),
+            InvoiceLine(productId = "CCC",
+                units = 1.5.toBigDecimal(),
+                productPrice = 5.toBigDecimal(),
+                taxPercentage = BigDecimal.ZERO,
+                childCode = 1851
+            )
+        )
 
         describe("Invoice lines amounts") {
 
             context("grossAmount()") {
 
-                val actual = testInvoiceLines().first().grossAmount()
+                val actual = sut.first().grossAmount()
 
                 it("return the correct amount") {
                     actual shouldBe 11.toBigDecimal()
@@ -24,7 +43,7 @@ internal class InvoiceLineExtensionTest : DescribeSpec() {
 
             context("taxAmount()") {
 
-                val actual = testInvoiceLines().first().taxAmount()
+                val actual = sut.first().taxAmount()
 
                 it("return the correct amount") {
                     actual shouldBe BigDecimal.ZERO
@@ -33,7 +52,7 @@ internal class InvoiceLineExtensionTest : DescribeSpec() {
 
             context("totalAmount()") {
 
-                val actual = testInvoiceLines().first().totalAmount()
+                val actual = sut.first().totalAmount()
 
                 it("return the correct amount") {
                     actual shouldBe 11.toBigDecimal()
@@ -79,7 +98,7 @@ internal class InvoiceLineExtensionTest : DescribeSpec() {
 
             context("getGrossAmount()") {
 
-                val actual = testInvoiceLines().grossAmount()
+                val actual = sut.grossAmount()
 
                 it("returns  the correct amount") {
                     actual shouldBe BigDecimal("35.0")
@@ -88,7 +107,7 @@ internal class InvoiceLineExtensionTest : DescribeSpec() {
 
             context("getTaxAmount()") {
 
-                val actual = testInvoiceLines().taxAmount()
+                val actual = sut.taxAmount()
 
                 it("returns  the correct amount") {
                     actual shouldBe BigDecimal("1.65")
@@ -97,7 +116,7 @@ internal class InvoiceLineExtensionTest : DescribeSpec() {
 
             context("totalAmount()") {
 
-                val actual = testInvoiceLines().totalAmount()
+                val actual = sut.totalAmount()
 
                 it("returns  the correct amount") {
                     actual shouldBe BigDecimal("36.65")
@@ -106,3 +125,5 @@ internal class InvoiceLineExtensionTest : DescribeSpec() {
         }
     }
 }
+
+
