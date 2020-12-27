@@ -3,8 +3,6 @@ package cat.hobbiton.hobbit.service.list
 import cat.hobbiton.hobbit.*
 import cat.hobbiton.hobbit.api.model.*
 import cat.hobbiton.hobbit.db.repository.CustomerRepository
-import cat.hobbiton.hobbit.model.Adult
-import cat.hobbiton.hobbit.model.AdultRole
 import cat.hobbiton.hobbit.model.GroupType
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.DescribeSpec
@@ -17,18 +15,14 @@ class ListServiceImplTest : DescribeSpec() {
         val customerRepository = mockk<CustomerRepository>()
         val sut = ListServiceImpl(customerRepository)
 
+        every { customerRepository.findAll() } returns listOf(
+            testCustomer185,
+            testCustomer186.copy(children = listOf(testChild1860, testChild1850.copy(active = false))),
+            testCustomer187.copy(active = false),
+            testCustomer188
+        )
+
         describe("getChildrenList") {
-            every { customerRepository.findAll() } returns listOf(
-                testCustomer(),
-                testCustomer(
-                    children = listOf(
-                        testChild1860,
-                        testChild1850.copy(active = false)
-                    )
-                ),
-                testCustomer(children = listOf(testChild1860))
-                    .copy(active = false)
-            )
 
             val actual = sut.getChildrenList()
 
@@ -38,13 +32,14 @@ class ListServiceImplTest : DescribeSpec() {
                         GroupType.EI_1.text,
                         listOf(
                             ChildListDTO(1850, "Laura Llull"),
-                            ChildListDTO(1851, "Aina Llull")
+                            ChildListDTO(1851, "Aina Llull"),
+                            ChildListDTO(1880, "Nil Brown")
                         )
                     ),
                     ChildrenGroupDTO(
                         GroupType.EI_2.text,
                         listOf(
-                            ChildListDTO(1860, "Laia Llull")
+                            ChildListDTO(1860, "Laia Mayol")
                         )
                     )
                 )
@@ -52,16 +47,6 @@ class ListServiceImplTest : DescribeSpec() {
         }
 
         describe("getCustomersList") {
-
-            every { customerRepository.findAll() } returns listOf(
-                testCustomer(),
-                testCustomer(
-                    id = 186,
-                    children = listOf(testChild1860, testChild1850.copy(active = false)),
-                    adults = listOf(Adult(name = "Xisca", surname = "Llull", role = AdultRole.MOTHER))
-                ),
-                testCustomer(id = 187).copy(active = false)
-            )
 
             val actual = sut.getCustomersList()
 
@@ -73,64 +58,50 @@ class ListServiceImplTest : DescribeSpec() {
                             ChildListDTO(1851, "Aina Llull")
                         )
                     ),
-                    CustomerListDTO(186, "Xisca Llull",
+                    CustomerListDTO(186, "Silvia Mayol",
                         listOf(
-                            ChildListDTO(1860, "Laia Llull")
+                            ChildListDTO(1860, "Laia Mayol")
+                        )
+                    ),
+                    CustomerListDTO(188, "Andrew Brown",
+                        listOf(
+                            ChildListDTO(1880, "Nil Brown")
                         )
                     )
                 )
             }
-
         }
 
         describe("getEmailsList") {
 
             context("all groups") {
-                every { customerRepository.findAll() } returns listOf(
-                    testCustomer(),
-                    testCustomer(
-                        children = listOf(testChild1860, testChild1850.copy(active = false)),
-                        invoiceHolder = testInvoiceHolder().copy(email = "test@gmail.com")
-                    ),
-                    testCustomer(
-                        children = listOf(testChild1860)
-                    ).copy(active = false)
-                )
 
                 val actual = sut.getEmailsList(GroupDTO.ALL)
 
                 it("returns the correct list") {
                     actual shouldBe EmailsGroupDTO(
-                            group = GroupDTO.ALL,
-                            emails = listOf(
-                                    "Joana Bibiloni Oliver <jbibiloni@gmail.com>",
-                                    "Joana Bibiloni Oliver <test@gmail.com>"
-                            )
+                        group = GroupDTO.ALL,
+                        emails = listOf(
+                            "Andrew Brown <abrown@gmail.com>",
+                            "Joana Bibiloni Oliver <jbibiloni@gmail.com>",
+                            "Silvia Mayol <silvia@gmail.com>"
+                        )
                     )
                 }
             }
 
             context("one group") {
-                every { customerRepository.findAll() } returns listOf(
-                    testCustomer(),
-                    testCustomer(
-                        children = listOf(testChild1850, testChild1851, testChild1860.copy(active = false)),
-                        invoiceHolder = testInvoiceHolder().copy(email = "test@gmail.com")
-                    ),
-                    testCustomer(
-                        children = listOf(testChild1860))
-                        .copy(active = false)
-                )
 
                 val actual = sut.getEmailsList(GroupDTO.EI_1)
 
                 it("returns the correct list") {
                     actual shouldBe EmailsGroupDTO(
-                            group = GroupDTO.EI_1,
-                            emails = listOf(
-                                    "Joana Bibiloni Oliver <jbibiloni@gmail.com>",
-                                    "Joana Bibiloni Oliver <test@gmail.com>"
-                            )
+                        group = GroupDTO.EI_1,
+                        emails = listOf(
+                            "Andrew Brown <abrown@gmail.com>",
+                            "Joana Bibiloni Oliver <jbibiloni@gmail.com>",
+                            "Silvia Mayol <silvia@gmail.com>"
+                        )
                     )
                 }
             }

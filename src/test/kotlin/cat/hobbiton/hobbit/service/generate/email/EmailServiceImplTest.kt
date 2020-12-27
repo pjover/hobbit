@@ -7,9 +7,8 @@ import cat.hobbiton.hobbit.model.Invoice
 import cat.hobbiton.hobbit.service.billing.expectedInvoices
 import cat.hobbiton.hobbit.service.billing.invoice1
 import cat.hobbiton.hobbit.service.billing.invoice2
-import cat.hobbiton.hobbit.testAdultMother187
-import cat.hobbiton.hobbit.testChild1860
-import cat.hobbiton.hobbit.testCustomer
+import cat.hobbiton.hobbit.testCustomer185
+import cat.hobbiton.hobbit.testCustomer186
 import cat.hobbiton.hobbit.util.error.NotFoundException
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.DescribeSpec
@@ -70,8 +69,8 @@ class EmailServiceImplTest : DescribeSpec() {
             context("there are invoices") {
                 mockReaders(invoiceRepository, customerRepository)
                 mockWriters(invoiceRepository)
-                every { emailSenderService.enqueue(invoice1(), customer1) } returns "EmailBatchCode_1"
-                every { emailSenderService.enqueue(invoice2(), customer2) } returns "EmailBatchCode_2"
+                every { emailSenderService.enqueue(invoice1(), testCustomer185) } returns "EmailBatchCode_1"
+                every { emailSenderService.enqueue(invoice2(), testCustomer186) } returns "EmailBatchCode_2"
                 every { emailSenderService.send(any()) } just runs
 
                 val actual = sut.generateEmails(YEAR_MONTH.toString())
@@ -85,8 +84,8 @@ class EmailServiceImplTest : DescribeSpec() {
                         invoiceRepository.findByEmailedAndYearMonth(false, YEAR_MONTH)
                         customerRepository.getCustomer(185)
                         customerRepository.getCustomer(186)
-                        emailSenderService.enqueue(invoice1(), customer1)
-                        emailSenderService.enqueue(invoice2(), customer2)
+                        emailSenderService.enqueue(invoice1(), testCustomer185)
+                        emailSenderService.enqueue(invoice2(), testCustomer186)
                         emailSenderService.send(listOf("EmailBatchCode_1", "EmailBatchCode_2"))
                     }
                 }
@@ -126,14 +125,6 @@ class EmailServiceImplTest : DescribeSpec() {
     }
 }
 
-private val customer1 = testCustomer()
-
-private val customer2 = testCustomer(
-    id = 186,
-    adults = listOf(testAdultMother187),
-    children = listOf(testChild1860)
-)
-
 private fun mockReaders(invoiceRepository: InvoiceRepository, customerRepository: CachedCustomerRepository) {
     clearMocks(invoiceRepository, customerRepository)
 
@@ -142,8 +133,8 @@ private fun mockReaders(invoiceRepository: InvoiceRepository, customerRepository
         invoice2()
     )
 
-    every { customerRepository.getCustomer(185) } returns customer1
-    every { customerRepository.getCustomer(186) } returns customer2
+    every { customerRepository.getCustomer(185) } returns testCustomer185
+    every { customerRepository.getCustomer(186) } returns testCustomer186
 }
 
 private fun mockWriters(invoiceRepository: InvoiceRepository) {

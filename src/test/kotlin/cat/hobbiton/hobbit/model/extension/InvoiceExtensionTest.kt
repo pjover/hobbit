@@ -1,7 +1,7 @@
 package cat.hobbiton.hobbit.model.extension
 
 import cat.hobbiton.hobbit.model.InvoiceLine
-import cat.hobbiton.hobbit.testCustomer
+import cat.hobbiton.hobbit.testCustomer185
 import cat.hobbiton.hobbit.testInvoice
 import cat.hobbiton.hobbit.testInvoices
 import io.kotlintest.shouldBe
@@ -148,7 +148,7 @@ class InvoiceExtensionTest : DescribeSpec() {
         }
 
         describe("childrenNames") {
-            val customer = testCustomer(id = 185)
+            val customer = testCustomer185
             val invoice = testInvoice()
 
             val actual = invoice.childrenNames(customer)

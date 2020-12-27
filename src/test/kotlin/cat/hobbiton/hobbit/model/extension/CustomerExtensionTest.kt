@@ -11,7 +11,7 @@ internal class CustomerExtensionTest : DescribeSpec() {
 
     init {
 
-        val sut = testCustomer()
+        val sut = testCustomer185
 
         describe("Extracting info") {
 

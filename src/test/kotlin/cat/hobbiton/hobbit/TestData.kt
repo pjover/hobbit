@@ -1,26 +1,10 @@
 package cat.hobbiton.hobbit
 
-import cat.hobbiton.hobbit.model.*
+import cat.hobbiton.hobbit.model.Invoice
+import cat.hobbiton.hobbit.model.InvoiceLine
+import cat.hobbiton.hobbit.model.PaymentType
 import java.math.BigDecimal
 import java.time.LocalDate
-
-fun testAdults() = listOf(testAdultMother185, testAdultFather185)
-
-fun testInvoiceHolder() = InvoiceHolder(
-    name = "Joana Bibiloni Oliver",
-    taxId = "12238561P",
-    address = testAddress(),
-    email = "jbibiloni@gmail.com",
-    paymentType = PaymentType.BANK_DIRECT_DEBIT,
-    bankAccount = "ES28 3066 8859 9782 5852 9057"
-)
-
-fun testCustomer(id: Int = 185, children: List<Child> = testChildren185, adults: List<Adult> = testAdults(), invoiceHolder: InvoiceHolder = testInvoiceHolder()) = Customer(
-    id = id,
-    children = children,
-    adults = adults,
-    invoiceHolder = invoiceHolder
-)
 
 fun testInvoice(
     id: Int = 103,
@@ -66,23 +50,3 @@ fun testInvoices(firstId: Int = 100, paymentType: PaymentType = PaymentType.BANK
     testInvoice(firstId + 2, paymentType, invoiceDate, listOf(1850, 1851, 1852)),
     testInvoice(firstId + 3, paymentType, invoiceDate, listOf(1850))
 )
-
-fun testProducts() = listOf(
-    Product(
-        "AAA",
-        "AAA product long name",
-        "AAA product",
-        price = 11.toBigDecimal()
-    ),
-    Product(
-        "BBB",
-        "BBB product long name",
-        "BBB product",
-        price = 5.5.toBigDecimal(),
-        taxPercentage = 0.1.toBigDecimal()),
-    Product(
-        "CCC",
-        "CCC product long name",
-        "CCC product",
-        price = 5.toBigDecimal()
-    ))

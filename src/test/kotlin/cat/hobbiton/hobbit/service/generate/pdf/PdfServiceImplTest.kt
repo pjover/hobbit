@@ -76,9 +76,9 @@ class PdfServiceImplTest : DescribeSpec() {
                 mockReaders(invoiceRepository, customerRepository, productRepository)
                 mockWriters(invoiceRepository)
                 mockZipService(zipService)
-                every { pdfBuilderService.generate(invoice1(), customer1, any()) } returns
+                every { pdfBuilderService.generate(invoice1(), testCustomer185, any()) } returns
                     FileResource("PDF1".toByteArray(StandardCharsets.UTF_8), invoice1().getPdfName())
-                every { pdfBuilderService.generate(invoice2(), customer2, any()) } returns
+                every { pdfBuilderService.generate(invoice2(), testCustomer186, any()) } returns
                     FileResource("PDF2".toByteArray(StandardCharsets.UTF_8), invoice2().getPdfName())
 
                 val actual = sut.generatePDFs(YEAR_MONTH.toString())
@@ -92,8 +92,8 @@ class PdfServiceImplTest : DescribeSpec() {
                         invoiceRepository.findByPrintedAndYearMonth(false, YEAR_MONTH)
                         customerRepository.getCustomer(185)
                         customerRepository.getCustomer(186)
-                        pdfBuilderService.generate(invoice1(), customer1, any())
-                        pdfBuilderService.generate(invoice2(), customer2, any())
+                        pdfBuilderService.generate(invoice1(), testCustomer185, any())
+                        pdfBuilderService.generate(invoice2(), testCustomer186, any())
                         zipService.zipFiles(any(), pdfsZipFilename)
                     }
                 }
@@ -134,10 +134,10 @@ class PdfServiceImplTest : DescribeSpec() {
                 clearMocks(invoiceRepository, customerRepository, pdfBuilderService)
                 mockWriters(invoiceRepository)
                 mockZipService(zipService)
-                every { customerRepository.getCustomer(185) } returns customer1
+                every { customerRepository.getCustomer(185) } returns testCustomer185
                 every { invoiceRepository.findById(any()) } returns Optional.of(invoice1())
                 val pdf = FileResource("PDF1".toByteArray(StandardCharsets.UTF_8), "XX (185).pdf")
-                every { pdfBuilderService.generate(invoice1(), customer1, any()) } returns pdf
+                every { pdfBuilderService.generate(invoice1(), testCustomer185, any()) } returns pdf
 
                 val actual = sut.generatePDF("XX")
 
@@ -150,7 +150,7 @@ class PdfServiceImplTest : DescribeSpec() {
                         actual.filename shouldBe "XX (185).pdf"
                         invoiceRepository.findById("XX")
                         customerRepository.getCustomer(185)
-                        pdfBuilderService.generate(invoice1(), customer1, any())
+                        pdfBuilderService.generate(invoice1(), testCustomer185, any())
                     }
                 }
                 it("updates the invoice") {
@@ -162,7 +162,7 @@ class PdfServiceImplTest : DescribeSpec() {
 
             context("invoice not found") {
                 clearMocks(invoiceRepository, customerRepository, pdfBuilderService)
-                every { customerRepository.getCustomer(185) } returns customer1
+                every { customerRepository.getCustomer(185) } returns testCustomer185
                 every { invoiceRepository.findById(any()) } returns Optional.empty()
 
                 val executor = {
@@ -178,13 +178,6 @@ class PdfServiceImplTest : DescribeSpec() {
     }
 }
 
-private val customer1 = testCustomer()
-private val customer2 = testCustomer(
-    id = 186,
-    adults = listOf(testAdultMother187),
-    children = listOf(testChild1860)
-)
-
 private fun mockReaders(invoiceRepository: InvoiceRepository, customerRepository: CachedCustomerRepository, productRepository: CachedProductRepository) {
     clearMocks(invoiceRepository, customerRepository)
 
@@ -193,8 +186,8 @@ private fun mockReaders(invoiceRepository: InvoiceRepository, customerRepository
         invoice2()
     )
 
-    every { customerRepository.getCustomer(185) } returns customer1
-    every { customerRepository.getCustomer(186) } returns customer2
+    every { customerRepository.getCustomer(185) } returns testCustomer185
+    every { customerRepository.getCustomer(186) } returns testCustomer186
 
     every { productRepository.getProduct("TST") } returns testProduct1
     every { productRepository.getProduct("XXX") } returns testProduct2

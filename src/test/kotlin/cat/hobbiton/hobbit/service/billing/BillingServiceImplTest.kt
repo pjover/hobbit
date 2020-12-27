@@ -66,10 +66,10 @@ class BillingServiceImplTest : DescribeSpec() {
         every { productRepository.getProduct("TST") } returns testProduct1
         every { productRepository.getProduct("XXX") } returns testProduct2
 
-        every { customerRepository.getCustomerByChildCode(1850) } returns customer1
-        every { customerRepository.getCustomerByChildCode(1851) } returns customer1
-        every { customerRepository.getCustomerByChildCode(1860) } returns customer2
-        every { customerRepository.getCustomerByChildCode(1870) } returns customer3
+        every { customerRepository.getCustomerByChildCode(1850) } returns testCustomer185
+        every { customerRepository.getCustomerByChildCode(1851) } returns testCustomer185
+        every { customerRepository.getCustomerByChildCode(1860) } returns testCustomer186
+        every { customerRepository.getCustomerByChildCode(1870) } returns testCustomer187
 
         every { customerRepository.getChild(1850) } returns testChild1850
         every { customerRepository.getChild(1851) } returns testChild1851
@@ -148,7 +148,7 @@ fun expectedInvoices(code: String) = listOf(
         customers = listOf(
             CustomerInvoicesDTO(
                 code = 187,
-                shortName = "Silvia Mayol",
+                shortName = "Cara Santamaria",
                 totalAmount = -(21.8).toBigDecimal(),
                 invoices = listOf(
                     InvoiceDTO(
@@ -290,12 +290,4 @@ val consumptions = listOf(
     )
 )
 
-val customer1 = testCustomer(children = listOf(testChild1850, testChild1851))
-val customer2 = testCustomer(id = 186, children = listOf(testChild1860), adults = listOf(testAdultTutor186))
-val customer3 = testCustomer(id = 187, children = listOf(testChild1870), adults = listOf(testAdultTutor186))
 
-val customersMap = mapOf(
-    185 to customer1,
-    186 to customer2,
-    187 to customer3
-)

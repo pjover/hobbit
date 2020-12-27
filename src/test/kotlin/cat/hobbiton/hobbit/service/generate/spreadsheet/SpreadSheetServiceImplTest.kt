@@ -91,7 +91,7 @@ class SpreadSheetServiceImplTest : DescribeSpec() {
                             invoiceRepository.findByYearMonth(YEAR_MONTH)
                             customerRepository.getCustomer(185)
                             customerRepository.getCustomer(186)
-                            monthSpreadSheetService.generate(YEAR_MONTH, invoices, customerMap)
+                            monthSpreadSheetService.generate(YEAR_MONTH, invoices, any())
                             spreadSheetBuilderService.generate(expectedSpreadSheetCells)
                         }
                     }
@@ -182,7 +182,7 @@ class SpreadSheetServiceImplTest : DescribeSpec() {
                             invoiceRepository.findByYearMonthIn(any())
                             customerRepository.getCustomer(185)
                             customerRepository.getCustomer(186)
-                            yearSpreadSheetService.generate(YEAR, invoices, customers)
+                            yearSpreadSheetService.generate(YEAR, invoices, any())
                             spreadSheetBuilderService.generate(expectedSpreadSheetCells)
                         }
                     }
@@ -213,27 +213,14 @@ class SpreadSheetServiceImplTest : DescribeSpec() {
     }
 }
 
-private val customer1 = testCustomer()
-private val customer2 = testCustomer(
-    id = 186,
-    adults = listOf(testAdultMother187),
-    children = listOf(testChild1860)
-)
-private val customerMap = mapOf(
-    185 to customer1,
-    186 to customer2
-)
-
-private val customers = listOf(customer1, customer2)
-
 private fun mockReaders(invoiceRepository: InvoiceRepository, customerRepository: CachedCustomerRepository) {
     clearMocks(invoiceRepository, customerRepository)
 
     every { invoiceRepository.findByYearMonth(YEAR_MONTH) } returns invoices
     every { invoiceRepository.findByYearMonthIn(any()) } returns invoices
 
-    every { customerRepository.getCustomer(185) } returns customer1
-    every { customerRepository.getCustomer(186) } returns customer2
+    every { customerRepository.getCustomer(185) } returns testCustomer185
+    every { customerRepository.getCustomer(186) } returns testCustomer186
 }
 
 

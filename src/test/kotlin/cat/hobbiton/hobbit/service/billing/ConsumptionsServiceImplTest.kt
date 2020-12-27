@@ -362,7 +362,7 @@ class ConsumptionsServiceImplTest : DescribeSpec() {
                 ),
                 ChildConsumtionDTO(
                     code = 1852,
-                    shortName = "Laia Llull",
+                    shortName = "Laia Mayol",
                     grossAmount = 21.8.toBigDecimal(),
                     listOf(
                         ConsumtionDTO("TST", 2.toBigDecimal(), 21.8.toBigDecimal(), "Note 5")

@@ -32,12 +32,8 @@ class BddServiceImplTest : DescribeSpec() {
         val sut = BddServiceImpl(bddBuilderService, invoiceRepository, customerRepository, productRepository)
 
         every { invoiceRepository.findByPaymentTypeAndYearMonthAndSentToBank(any(), any(), any()) } returns listOf(invoice1(), invoice2())
-        every { customerRepository.getCustomer(185) } returns testCustomer()
-        every { customerRepository.getCustomer(186) } returns testCustomer(
-            id = 186,
-            adults = listOf(testAdultMother187),
-            children = listOf(testChild1860)
-        )
+        every { customerRepository.getCustomer(185) } returns testCustomer185
+        every { customerRepository.getCustomer(186) } returns testCustomer186
         every { productRepository.getProduct("TST") } returns testProduct1
         every { productRepository.getProduct("XXX") } returns testProduct2
         every { bddBuilderService.generate(any(), any(), any()) } returns bdd

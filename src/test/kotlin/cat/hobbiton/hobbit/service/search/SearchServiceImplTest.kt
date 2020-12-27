@@ -2,13 +2,8 @@ package cat.hobbiton.hobbit.service.search
 
 import cat.hobbiton.hobbit.api.model.ChildListDTO
 import cat.hobbiton.hobbit.api.model.CustomerListDTO
-import cat.hobbiton.hobbit.model.Adult
-import cat.hobbiton.hobbit.model.AdultRole
 import cat.hobbiton.hobbit.model.Customer
-import cat.hobbiton.hobbit.testChild1850
-import cat.hobbiton.hobbit.testChild1851
-import cat.hobbiton.hobbit.testChild1860
-import cat.hobbiton.hobbit.testCustomer
+import cat.hobbiton.hobbit.testCustomers
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.DescribeSpec
 import io.mockk.every
@@ -22,21 +17,7 @@ class SearchServiceImplTest : DescribeSpec() {
         val sut = SearchServiceImpl(template)
 
         describe("searchCustomer") {
-            every { template.find(any(), Customer::class.java) } returns listOf(
-                testCustomer(
-                    children = listOf(testChild1850)
-                ),
-                testCustomer(
-                    id = 186,
-                    children = listOf(testChild1851),
-                    adults = listOf(Adult(name = "Xisca", surname = "Llull", role = AdultRole.MOTHER))
-                ),
-                testCustomer(
-                    id = 187,
-                    children = listOf(testChild1860),
-                    adults = listOf(Adult(name = "Antònia", surname = "Palmer", role = AdultRole.MOTHER))
-                )
-            )
+            every { template.find(any(), Customer::class.java) } returns testCustomers
 
             val actual = sut.searchCustomer("search")
 
@@ -44,23 +25,27 @@ class SearchServiceImplTest : DescribeSpec() {
                 actual shouldBe listOf(
                     CustomerListDTO(185, "Joana Bibiloni",
                         listOf(
-                            ChildListDTO(1850, "Laura Llull")
-                        )
-                    ),
-                    CustomerListDTO(186, "Xisca Llull",
-                        listOf(
+                            ChildListDTO(1850, "Laura Llull"),
                             ChildListDTO(1851, "Aina Llull")
                         )
                     ),
-                    CustomerListDTO(187, "Antònia Palmer",
+                    CustomerListDTO(186, "Silvia Mayol",
                         listOf(
-                            ChildListDTO(1860, "Laia Llull")
+                            ChildListDTO(1860, "Laia Mayol")
+                        )
+                    ),
+                    CustomerListDTO(187, "Cara Santamaria",
+                        listOf(
+                            ChildListDTO(1870, "Ona Santamaria")
+                        )
+                    ),
+                    CustomerListDTO(188, "Andrew Brown",
+                        listOf(
+                            ChildListDTO(1880, "Nil Brown")
                         )
                     )
                 )
             }
-
         }
     }
-
 }
