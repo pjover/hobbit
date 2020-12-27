@@ -16,8 +16,8 @@ class DatabaseFieldUpdater(
 
     init {
 //        updateCustomers()
-        updateInvoices()
-//        logger.info("🍺 no fields to update today️️")
+//        updateInvoices()
+        logger.info("🍺 no fields to update today️️")
     }
 
     private fun updateCustomers() {
@@ -29,7 +29,7 @@ class DatabaseFieldUpdater(
     private fun updateInvoices() {
         val invoices = invoiceRepository.findAll()
         val updatedInvoices = invoices
-            .filter { it.subsidizedAmount != null }
+//            .filter { it.subsidizedAmount != null }
             .map { updateInvoice(it) }
         invoiceRepository.saveAll(updatedInvoices)
         logger.warn("✅ updated ${updatedInvoices.size} invoices ‼️️")
@@ -37,7 +37,7 @@ class DatabaseFieldUpdater(
 
     private fun updateInvoice(invoice: Invoice): Invoice {
         logger.info("Updating invoice $invoice")
-        val updatedInvoice = invoice.copy(subsidizedAmount = null)
+        val updatedInvoice = invoice.copy()
         logger.info("Updated invoice $updatedInvoice")
         return updatedInvoice
     }
