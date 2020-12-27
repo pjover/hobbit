@@ -200,3 +200,75 @@ val testCustomersMap = mapOf(
     187 to testCustomer187,
     188 to testCustomer188
 )
+
+val testInvoice185 = Invoice(
+    id = "??",
+    customerId = 185,
+    date = DATE,
+    yearMonth = YEAR_MONTH,
+    childrenCodes = listOf(1850, 1851),
+    paymentType = PaymentType.BANK_DIRECT_DEBIT,
+    lines = listOf(
+        InvoiceLine(
+            productId = "TST",
+            units = 4.toBigDecimal(),
+            productPrice = 10.9.toBigDecimal(),
+            childCode = 1850
+        ),
+        InvoiceLine(
+            productId = "TST",
+            units = 2.toBigDecimal(),
+            productPrice = 10.9.toBigDecimal(),
+            childCode = 1851
+        ),
+        InvoiceLine(
+            productId = "XXX",
+            units = 2.toBigDecimal(),
+            productPrice = 9.1.toBigDecimal(),
+            childCode = 1851
+        )
+    ),
+    note = "Note 1, Note 2, Note 3, Note 4"
+)
+
+val testInvoice186 = Invoice(
+    id = "??",
+    customerId = 186,
+    date = DATE,
+    yearMonth = YEAR_MONTH,
+    childrenCodes = listOf(1860),
+    paymentType = PaymentType.BANK_DIRECT_DEBIT,
+    lines = listOf(
+        InvoiceLine(
+            productId = "TST",
+            units = 2.toBigDecimal(),
+            productPrice = 10.9.toBigDecimal(),
+            childCode = 1860
+        )
+    ),
+    note = "Note 5"
+)
+
+val testInvoice187 = Invoice(
+    id = "??",
+    customerId = 187,
+    date = DATE,
+    yearMonth = YEAR_MONTH,
+    childrenCodes = listOf(1870),
+    paymentType = PaymentType.RECTIFICATION,
+    lines = listOf(
+        InvoiceLine(
+            productId = "TST",
+            units = (-2).toBigDecimal(),
+            productPrice = 10.9.toBigDecimal(),
+            childCode = 1870
+        )
+    ),
+    note = "Note 6"
+)
+
+val testInvoices = listOf(
+    testInvoice185,
+    testInvoice186,
+    testInvoice187
+)

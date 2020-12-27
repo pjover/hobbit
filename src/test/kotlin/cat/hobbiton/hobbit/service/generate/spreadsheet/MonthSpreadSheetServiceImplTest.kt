@@ -1,9 +1,6 @@
 package cat.hobbiton.hobbit.service.generate.spreadsheet
 
 import cat.hobbiton.hobbit.YEAR_MONTH
-import cat.hobbiton.hobbit.service.billing.invoice1
-import cat.hobbiton.hobbit.service.billing.invoice2
-import cat.hobbiton.hobbit.service.billing.invoice3
 import cat.hobbiton.hobbit.testCustomersMap
 import io.kotlintest.matchers.collections.shouldHaveSize
 import io.kotlintest.shouldBe
@@ -65,9 +62,9 @@ class MonthSpreadSheetServiceImplTest : DescribeSpec() {
                     DateCell(LocalDate.of(2019, 5, 25)),
                     TextCell("2019-05"),
                     TextCell("F-3"),
-                    CurrencyCell(BigDecimal.valueOf(-21.8)),
-                    TextCell("-2xTST"),
-                    TextCell("Rectification"),
+                    CurrencyCell(BigDecimal.valueOf(9.9)),
+                    TextCell("1xTST"),
+                    TextCell("Cash"),
                     TextCell("Note 6"))
             }
         }

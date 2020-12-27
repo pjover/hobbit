@@ -7,8 +7,6 @@ import cat.hobbiton.hobbit.db.repository.InvoiceRepository
 import cat.hobbiton.hobbit.model.Invoice
 import cat.hobbiton.hobbit.model.PaymentType
 import cat.hobbiton.hobbit.service.billing.expectedInvoices
-import cat.hobbiton.hobbit.service.billing.invoice1
-import cat.hobbiton.hobbit.service.billing.invoice2
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.DescribeSpec
 import io.mockk.every
@@ -31,7 +29,7 @@ class BddServiceImplTest : DescribeSpec() {
         val productRepository = mockk<CachedProductRepository>()
         val sut = BddServiceImpl(bddBuilderService, invoiceRepository, customerRepository, productRepository)
 
-        every { invoiceRepository.findByPaymentTypeAndYearMonthAndSentToBank(any(), any(), any()) } returns listOf(invoice1(), invoice2())
+        every { invoiceRepository.findByPaymentTypeAndYearMonthAndSentToBank(any(), any(), any()) } returns listOf(testInvoice185, testInvoice186)
         every { customerRepository.getCustomer(185) } returns testCustomer185
         every { customerRepository.getCustomer(186) } returns testCustomer186
         every { productRepository.getProduct("TST") } returns testProduct1
@@ -64,8 +62,8 @@ class BddServiceImplTest : DescribeSpec() {
                 verify {
                     invoiceRepository.saveAll(
                         listOf(
-                            invoice1().copy(sentToBank = true),
-                            invoice2().copy(sentToBank = true)
+                            testInvoice185.copy(sentToBank = true),
+                            testInvoice186.copy(sentToBank = true)
                         )
                     )
                 }
@@ -73,7 +71,7 @@ class BddServiceImplTest : DescribeSpec() {
 
             it("generates the BDD XML") {
                 verify {
-                    bddBuilderService.generate(listOf(invoice1(), invoice2()), any(), any())
+                    bddBuilderService.generate(listOf(testInvoice185, testInvoice186), any(), any())
                 }
             }
 

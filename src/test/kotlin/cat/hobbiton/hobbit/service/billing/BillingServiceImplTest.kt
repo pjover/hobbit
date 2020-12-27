@@ -7,8 +7,6 @@ import cat.hobbiton.hobbit.db.repository.CachedProductRepository
 import cat.hobbiton.hobbit.db.repository.ConsumptionRepository
 import cat.hobbiton.hobbit.model.Consumption
 import cat.hobbiton.hobbit.model.Invoice
-import cat.hobbiton.hobbit.model.InvoiceLine
-import cat.hobbiton.hobbit.model.PaymentType
 import cat.hobbiton.hobbit.service.aux.TimeService
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.DescribeSpec
@@ -54,9 +52,9 @@ class BillingServiceImplTest : DescribeSpec() {
 
             it("saves the invoices") {
                 verify {
-                    invoiceService.saveInvoice(invoice1(), any())
-                    invoiceService.saveInvoice(invoice2(), any())
-                    invoiceService.saveInvoice(invoice3(), any())
+                    invoiceService.saveInvoice(testInvoice185, any())
+                    invoiceService.saveInvoice(testInvoice186, any())
+                    invoiceService.saveInvoice(testInvoice187, any())
                 }
             }
         }
@@ -170,72 +168,6 @@ fun expectedInvoices(code: String) = listOf(
             )
         )
     )
-)
-
-fun invoice1() = Invoice(
-    id = "??",
-    customerId = 185,
-    date = DATE,
-    yearMonth = YEAR_MONTH,
-    childrenCodes = listOf(1850, 1851),
-    paymentType = PaymentType.BANK_DIRECT_DEBIT,
-    lines = listOf(
-        InvoiceLine(
-            productId = "TST",
-            units = 4.toBigDecimal(),
-            productPrice = 10.9.toBigDecimal(),
-            childCode = 1850
-        ),
-        InvoiceLine(
-            productId = "TST",
-            units = 2.toBigDecimal(),
-            productPrice = 10.9.toBigDecimal(),
-            childCode = 1851
-        ),
-        InvoiceLine(
-            productId = "XXX",
-            units = 2.toBigDecimal(),
-            productPrice = 9.1.toBigDecimal(),
-            childCode = 1851
-        )
-    ),
-    note = "Note 1, Note 2, Note 3, Note 4"
-)
-
-fun invoice2() = Invoice(
-    id = "??",
-    customerId = 186,
-    date = DATE,
-    yearMonth = YEAR_MONTH,
-    childrenCodes = listOf(1860),
-    paymentType = PaymentType.BANK_DIRECT_DEBIT,
-    lines = listOf(
-        InvoiceLine(
-            productId = "TST",
-            units = 2.toBigDecimal(),
-            productPrice = 10.9.toBigDecimal(),
-            childCode = 1860
-        )
-    ),
-    note = "Note 5"
-)
-
-fun invoice3() = Invoice(
-    id = "??",
-    customerId = 187,
-    date = DATE,
-    yearMonth = YEAR_MONTH,
-    childrenCodes = listOf(1870),
-    paymentType = PaymentType.RECTIFICATION,
-    lines = listOf(
-        InvoiceLine(
-            productId = "TST",
-            units = (-2).toBigDecimal(),
-            productPrice = 10.9.toBigDecimal(),
-            childCode = 1870
-        )
-    ),
-    note = "Note 6"
 )
 
 val consumptions = listOf(
