@@ -13,7 +13,7 @@ data class Invoice(
     var childrenCodes: List<Int>,
     val lines: List<InvoiceLine>,
     var paymentType: PaymentType,
-    var subsidizedAmount: BigDecimal = BigDecimal.ZERO,
+    var subsidizedAmount: BigDecimal? = null,
     val note: String? = null,
     var emailed: Boolean = false,
     var printed: Boolean = false,
