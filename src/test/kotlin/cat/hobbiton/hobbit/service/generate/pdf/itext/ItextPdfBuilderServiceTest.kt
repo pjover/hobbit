@@ -3,7 +3,7 @@ package cat.hobbiton.hobbit.service.generate.pdf.itext
 import cat.hobbiton.hobbit.init.BusinessProperties
 import cat.hobbiton.hobbit.init.FormattingProperties
 import cat.hobbiton.hobbit.testCustomer185
-import cat.hobbiton.hobbit.testInvoice
+import cat.hobbiton.hobbit.testInvoice185
 import cat.hobbiton.hobbit.testProductsMap
 import com.itextpdf.text.pdf.PdfReader
 import io.kotlintest.matchers.string.shouldStartWith
@@ -36,7 +36,7 @@ class ItextPdfBuilderServiceTest : DescribeSpec() {
 
         describe("generate") {
 
-            val actual = sut.generate(testInvoice(), testCustomer185, testProductsMap)
+            val actual = sut.generate(testInvoice185, testCustomer185, testProductsMap)
 
             val reader = PdfReader(actual.byteArray)
             val pages = reader.numberOfPages

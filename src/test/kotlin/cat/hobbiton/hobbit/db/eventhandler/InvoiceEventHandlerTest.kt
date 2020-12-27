@@ -1,6 +1,6 @@
 package cat.hobbiton.hobbit.db.eventhandler
 
-import cat.hobbiton.hobbit.testInvoice
+import cat.hobbiton.hobbit.testInvoice185
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.DescribeSpec
 import kotlin.test.assertFailsWith
@@ -18,7 +18,7 @@ class InvoiceEventHandlerTest : DescribeSpec() {
 
                 val executor = {
                     sut.validate(
-                        testInvoice().copy(
+                        testInvoice185.copy(
                             childrenCodes = emptyList()
                         )
                     )
@@ -32,7 +32,7 @@ class InvoiceEventHandlerTest : DescribeSpec() {
 
             context("validation suceeds") {
 
-                sut.validate(testInvoice())
+                sut.validate(testInvoice185)
 
                 it("do not throws any error") {
                 }

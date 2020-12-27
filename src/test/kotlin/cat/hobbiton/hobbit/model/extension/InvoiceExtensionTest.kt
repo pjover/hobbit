@@ -2,7 +2,7 @@ package cat.hobbiton.hobbit.model.extension
 
 import cat.hobbiton.hobbit.model.InvoiceLine
 import cat.hobbiton.hobbit.testCustomer185
-import cat.hobbiton.hobbit.testInvoice
+import cat.hobbiton.hobbit.testInvoice185
 import cat.hobbiton.hobbit.testInvoices
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.DescribeSpec
@@ -13,23 +13,33 @@ class InvoiceExtensionTest : DescribeSpec() {
 
     init {
         describe("Invoice amount tests") {
-            val invoice = testInvoice()
+            val invoice = testInvoice185
 
             context("grossAmount()") {
 
                 val actual = invoice.grossAmount()
 
                 it("returns the correct amount") {
-                    actual shouldBe BigDecimal("35.0")
+                    actual shouldBe BigDecimal("83.6")
                 }
             }
 
             context("taxAmount()") {
 
-                val actual = invoice.taxAmount()
+                val actual = testInvoice185.copy(
+                    lines = listOf(
+                        InvoiceLine(
+                            productId = "YYY",
+                            units = 2.toBigDecimal(),
+                            productPrice = 10.9.toBigDecimal(),
+                            childCode = 1850,
+                            taxPercentage = 1.6.toBigDecimal()
+                        )
+                    )
+                ).taxAmount()
 
                 it("returns the correct amount") {
-                    actual shouldBe BigDecimal("1.65")
+                    actual shouldBe BigDecimal("34.88")
 
                 }
             }
@@ -39,7 +49,7 @@ class InvoiceExtensionTest : DescribeSpec() {
                 val actual = invoice.totalAmount()
 
                 it("returns the correct amount") {
-                    actual shouldBe BigDecimal("36.65")
+                    actual shouldBe BigDecimal("83.6")
                 }
             }
         }
@@ -49,7 +59,7 @@ class InvoiceExtensionTest : DescribeSpec() {
             context("without children codes") {
 
                 val executor = {
-                    testInvoice().copy(childrenCodes = emptyList()).validate(2500, "€")
+                    testInvoice185.copy(childrenCodes = emptyList()).validate(2500, "€")
                 }
 
                 it("throws an error") {
@@ -61,7 +71,7 @@ class InvoiceExtensionTest : DescribeSpec() {
             context("without lines") {
 
                 val executor = {
-                    testInvoice().copy(lines = emptyList()).validate(2500, "€")
+                    testInvoice185.copy(lines = emptyList()).validate(2500, "€")
                 }
 
                 it("throws an error") {
@@ -73,7 +83,7 @@ class InvoiceExtensionTest : DescribeSpec() {
             context("with amount too high") {
 
                 val executor = {
-                    testInvoice().copy(
+                    testInvoice185.copy(
                         lines = listOf(
                             InvoiceLine(productId = "XXX",
                                 units = 2000.toBigDecimal(),
@@ -97,7 +107,7 @@ class InvoiceExtensionTest : DescribeSpec() {
             context("with invalid line") {
 
                 val executor = {
-                    testInvoice().copy(
+                    testInvoice185.copy(
                         lines = listOf(
                             InvoiceLine(productId = "XXX",
                                 units = BigDecimal.ZERO,
@@ -149,7 +159,7 @@ class InvoiceExtensionTest : DescribeSpec() {
 
         describe("childrenNames") {
             val customer = testCustomer185
-            val invoice = testInvoice()
+            val invoice = testInvoice185
 
             val actual = invoice.childrenNames(customer)
 
