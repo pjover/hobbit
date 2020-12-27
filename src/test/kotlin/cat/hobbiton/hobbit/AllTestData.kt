@@ -1,5 +1,6 @@
 package cat.hobbiton.hobbit
 
+import cat.hobbiton.hobbit.model.Address
 import cat.hobbiton.hobbit.model.Child
 import cat.hobbiton.hobbit.model.GroupType
 import cat.hobbiton.hobbit.model.Product
@@ -86,3 +87,10 @@ val testChildren185 = listOf(testChild1850, testChild1851)
 val testChildren186 = listOf(testChild1860)
 val testChildren187 = listOf(testChild1870)
 val testChildren188 = listOf(testChild1880)
+
+fun testAddress() = Address(
+    "Arlington Road, 1999",
+    "07007",
+    "Palma",
+    "Illes Balears"
+)

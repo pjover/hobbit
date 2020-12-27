@@ -4,13 +4,6 @@ import cat.hobbiton.hobbit.model.*
 import java.math.BigDecimal
 import java.time.LocalDate
 
-fun testAddress() = Address(
-    "Arlington Road, 1999 ",
-    "07007",
-    "Palma",
-    "Illes Balears"
-)
-
 fun testAdultMother() = Adult(
     name = "Joana",
     surname = "Bibiloni",
