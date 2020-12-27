@@ -1,7 +1,7 @@
 package cat.hobbiton.hobbit.model.extension
 
 import cat.hobbiton.hobbit.testAddress
-import cat.hobbiton.hobbit.testAdultMother
+import cat.hobbiton.hobbit.testAdultMother185
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.DescribeSpec
 import kotlin.test.assertFailsWith
@@ -11,7 +11,7 @@ class AdultExtensionTest : DescribeSpec() {
 
     init {
 
-        val sut = testAdultMother()
+        val sut = testAdultMother185
 
         describe("Adult formatting tests") {
 

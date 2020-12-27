@@ -291,8 +291,8 @@ val consumptions = listOf(
 )
 
 val customer1 = testCustomer(children = listOf(testChild1850, testChild1851))
-val customer2 = testCustomer(id = 186, children = listOf(testChild1860), adults = listOf(testAdultTutor()))
-val customer3 = testCustomer(id = 187, children = listOf(testChild1870), adults = listOf(testAdultTutor()))
+val customer2 = testCustomer(id = 186, children = listOf(testChild1860), adults = listOf(testAdultTutor186))
+val customer3 = testCustomer(id = 187, children = listOf(testChild1870), adults = listOf(testAdultTutor186))
 
 val customersMap = mapOf(
     185 to customer1,

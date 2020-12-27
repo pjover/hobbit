@@ -1,9 +1,6 @@
 package cat.hobbiton.hobbit
 
-import cat.hobbiton.hobbit.model.Address
-import cat.hobbiton.hobbit.model.Child
-import cat.hobbiton.hobbit.model.GroupType
-import cat.hobbiton.hobbit.model.Product
+import cat.hobbiton.hobbit.model.*
 import java.time.LocalDate
 import java.time.YearMonth
 
@@ -93,4 +90,43 @@ fun testAddress() = Address(
     "07007",
     "Palma",
     "Illes Balears"
+)
+
+val testAdultMother185 = Adult(
+    name = "Joana",
+    surname = "Bibiloni",
+    secondSurname = "Oliver",
+    role = AdultRole.MOTHER,
+    taxId = "12238561P",
+    address = testAddress()
+)
+
+val testAdultFather185 = Adult(
+    name = "Pere",
+    surname = "Llull",
+    secondSurname = "Adrover",
+    role = AdultRole.FATHER
+)
+
+val testAdultTutor186 = Adult(
+    name = "Silvia",
+    surname = "Mayol",
+    secondSurname = "Alcover",
+    role = AdultRole.TUTOR,
+    taxId = "97505522N"
+)
+
+val testAdultMother187 = Adult(
+    name = "Silvia",
+    surname = "Mayol",
+    secondSurname = "Alcover",
+    role = AdultRole.MOTHER,
+    taxId = "60194144Q"
+)
+
+val testAdultTutor188 = Adult(
+    name = "Andrew",
+    surname = "Brown",
+    role = AdultRole.TUTOR,
+    taxId = "Y8304421D"
 )

@@ -76,12 +76,12 @@ class MonthSpreadSheetServiceImplTest : DescribeSpec() {
 private val customer1 = testCustomer()
 private val customer2 = testCustomer(
     id = 186,
-    adults = listOf(testAdultMother().copy(name = "Silvia", surname = "Mayol")),
+    adults = listOf(testAdultMother187),
     children = listOf(testChild1860)
 )
 private val customer3 = testCustomer(
     id = 187,
-    adults = listOf(testAdultMother().copy(name = "Andrew", surname = "Brown")),
+    adults = listOf(testAdultTutor188),
     children = listOf(testChild1870)
 )
 private val customers = mapOf(

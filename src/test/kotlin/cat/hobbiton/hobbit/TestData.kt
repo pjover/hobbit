@@ -4,31 +4,7 @@ import cat.hobbiton.hobbit.model.*
 import java.math.BigDecimal
 import java.time.LocalDate
 
-fun testAdultMother() = Adult(
-    name = "Joana",
-    surname = "Bibiloni",
-    secondSurname = "Oliver",
-    role = AdultRole.MOTHER,
-    taxId = "12238561P",
-    address = testAddress()
-)
-
-fun testAdultFather() = Adult(
-    name = "Pere",
-    surname = "Llull",
-    secondSurname = "Adrover",
-    role = AdultRole.FATHER
-)
-
-fun testAdultTutor() = Adult(
-    name = "Silvia",
-    surname = "Mayol",
-    secondSurname = "Alcover",
-    role = AdultRole.TUTOR,
-    taxId = "97505522N"
-)
-
-fun testAdults() = listOf(testAdultMother(), testAdultFather())
+fun testAdults() = listOf(testAdultMother185, testAdultFather185)
 
 fun testInvoiceHolder() = InvoiceHolder(
     name = "Joana Bibiloni Oliver",

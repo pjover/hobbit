@@ -7,7 +7,7 @@ import cat.hobbiton.hobbit.model.Invoice
 import cat.hobbiton.hobbit.service.billing.expectedInvoices
 import cat.hobbiton.hobbit.service.billing.invoice1
 import cat.hobbiton.hobbit.service.billing.invoice2
-import cat.hobbiton.hobbit.testAdultMother
+import cat.hobbiton.hobbit.testAdultMother187
 import cat.hobbiton.hobbit.testChild1860
 import cat.hobbiton.hobbit.testCustomer
 import cat.hobbiton.hobbit.util.error.NotFoundException
@@ -130,7 +130,7 @@ private val customer1 = testCustomer()
 
 private val customer2 = testCustomer(
     id = 186,
-    adults = listOf(testAdultMother().copy(name = "Silvia", surname = "Mayol")),
+    adults = listOf(testAdultMother187),
     children = listOf(testChild1860)
 )
 

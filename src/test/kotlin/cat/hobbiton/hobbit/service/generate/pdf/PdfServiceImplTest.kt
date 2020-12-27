@@ -181,7 +181,7 @@ class PdfServiceImplTest : DescribeSpec() {
 private val customer1 = testCustomer()
 private val customer2 = testCustomer(
     id = 186,
-    adults = listOf(testAdultMother().copy(name = "Silvia", surname = "Mayol")),
+    adults = listOf(testAdultMother187),
     children = listOf(testChild1860)
 )
 

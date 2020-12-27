@@ -1,7 +1,9 @@
 package cat.hobbiton.hobbit.service.generate.spreadsheet
 
 import cat.hobbiton.hobbit.*
-import cat.hobbiton.hobbit.model.*
+import cat.hobbiton.hobbit.model.Invoice
+import cat.hobbiton.hobbit.model.InvoiceLine
+import cat.hobbiton.hobbit.model.PaymentType
 import io.kotlintest.matchers.collections.shouldHaveSize
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.DescribeSpec
@@ -117,10 +119,10 @@ class YearSpreadSheetServiceImplTest : DescribeSpec() {
 
                 actual.lines[2] shouldBe listOf(
                     IntCell(186),
-                    TextCell("12238561P"),
+                    TextCell("60194144Q"),
                     TextCell("Silvia"),
                     TextCell("Mayol"),
-                    TextCell("Oliver"),
+                    TextCell("Alcover"),
                     TextCell(""),
                     TextCell(""),
                     TextCell(""),
@@ -182,12 +184,12 @@ class YearSpreadSheetServiceImplTest : DescribeSpec() {
 private val customer1 = testCustomer()
 private val customer2 = testCustomer(
     id = 186,
-    adults = listOf(testAdultMother().copy(name = "Silvia", surname = "Mayol")),
+    adults = listOf(testAdultMother187),
     children = listOf(testChild1860)
 )
 private val customer3 = testCustomer(
     id = 187,
-    adults = listOf(Adult(name = "Andrew", surname = "Brown", taxId = "Y8304421D", role = AdultRole.TUTOR)),
+    adults = listOf(testAdultTutor188),
     children = listOf(testChild1870, testChild1880)
 )
 private val customers = listOf(customer1, customer2, customer3)

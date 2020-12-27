@@ -61,7 +61,7 @@ internal class CustomerExtensionTest : DescribeSpec() {
                     val actual = sut.getAdult(AdultRole.MOTHER)
 
                     it("returns the adult") {
-                        actual shouldBe testAdultMother()
+                        actual shouldBe testAdultMother185
                     }
                 }
 
@@ -81,23 +81,23 @@ internal class CustomerExtensionTest : DescribeSpec() {
                     val actual = sut.getFirstAdult()
 
                     it("returns the adult") {
-                        actual shouldBe testAdultMother()
+                        actual shouldBe testAdultMother185
                     }
                 }
 
                 context("has father") {
-                    val actual = sut.copy(adults = listOf(testAdultFather())).getFirstAdult()
+                    val actual = sut.copy(adults = listOf(testAdultFather185)).getFirstAdult()
 
                     it("returns the adult") {
-                        actual shouldBe testAdultFather()
+                        actual shouldBe testAdultFather185
                     }
                 }
 
                 context("has tutor") {
-                    val actual = sut.copy(adults = listOf(testAdultTutor())).getFirstAdult()
+                    val actual = sut.copy(adults = listOf(testAdultTutor186)).getFirstAdult()
 
                     it("returns the adult") {
-                        actual shouldBe testAdultTutor()
+                        actual shouldBe testAdultTutor186
                     }
                 }
 
