@@ -5,6 +5,8 @@ import cat.hobbiton.hobbit.init.BusinessProperties
 import cat.hobbiton.hobbit.model.*
 import cat.hobbiton.hobbit.model.extension.totalAmount
 import cat.hobbiton.hobbit.service.aux.TimeService
+import cat.hobbiton.hobbit.testChildren185
+import cat.hobbiton.hobbit.testProductsMap
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.DescribeSpec
 import io.mockk.every
@@ -40,29 +42,8 @@ class InvoicesToBddMapperImplTest : DescribeSpec() {
                 149 to bddTestBusinessCustomer()
             )
 
-            val productsMap = mapOf(
-                "AAA" to Product(
-                    "AAA",
-                    "AAA product long name",
-                    "AAA product",
-                    price = 11.toBigDecimal()
-                ),
-                "BBB" to Product(
-                    "BBB",
-                    "BBB product long name",
-                    "BBB product",
-                    price = 5.5.toBigDecimal(),
-                    taxPercentage = 0.1.toBigDecimal()),
-                "CCC" to Product(
-                    "CCC",
-                    "CCC product long name",
-                    "CCC product",
-                    price = 5.toBigDecimal()
-                )
-            )
-
             val invoices = bddTestInvoices()
-            val actual = sut.map(invoices, customersMap, productsMap)
+            val actual = sut.map(invoices, customersMap, testProductsMap)
 
             it("returns the complete Bdd object") {
                 actual shouldBe Bdd(
@@ -118,14 +99,14 @@ private fun buildTestBddDetail(messageIdentification: String, identification: St
         identification = identification,
         iban = "ES2830668859978258529057",
         purposeCode = "OTHR",
-        remittanceInformation = "1xAAA product, 3xBBB product, 1.5xCCC product",
+        remittanceInformation = "1xTstProduct, 3xXxxProduct, 1.5xYyyProduct",
         isBusiness = isBusiness)
 }
 
 private fun bddTestBusinessCustomer(id: Int = 149, paymentType: PaymentType = PaymentType.BANK_TRANSFER): Customer {
     return Customer(
         id = id,
-        children = listOf(bddChild0(), bddChild1()),
+        children = testChildren185,
         adults = listOf(
             Adult(
                 name = "Nom de la mare",
@@ -162,34 +143,11 @@ private fun bddTestBusinessCustomer(id: Int = 149, paymentType: PaymentType = Pa
     )
 }
 
-private fun bddChild0() = Child(
-    code = 1800,
-    name = "Nin0",
-    surname = "1er llinatge_nin0",
-    secondSurname = "2on llinatge_nin0",
-    taxId = "41976695Q",
-    birthDate = LocalDate.of(2019, 1, 27),
-    note = "Nota del nin 0",
-    active = true,
-    group = GroupType.EI_1
-)
-
-private fun bddChild1() = Child(
-    code = 1801,
-    name = "Nina1",
-    surname = "1er llinatge_nina1",
-    secondSurname = "2on llinatge_nina1",
-    taxId = "12238561P",
-    birthDate = LocalDate.of(2019, 1, 28),
-    note = "Nota del nina 1",
-    active = true,
-    group = GroupType.EI_1
-)
 
 private fun bddTestCustomer(id: Int = 148, paymentType: PaymentType = PaymentType.BANK_DIRECT_DEBIT): Customer {
     return Customer(
         id = id,
-        children = listOf(bddChild0(), bddChild1()),
+        children = testChildren185,
         adults = listOf(
             Adult(
                 name = "Nom de la mare",
@@ -274,17 +232,17 @@ fun bddTestInvoices(invoiceDate: LocalDate? = DATE): List<Invoice> {
 
 private fun bddTestInvoiceLines(): List<InvoiceLine> {
     return listOf(
-        InvoiceLine(productId = "AAA",
+        InvoiceLine(productId = "TST",
             units = 1.toBigDecimal(),
             productPrice = 11.toBigDecimal(),
             taxPercentage = BigDecimal.ZERO,
             childCode = 1850),
-        InvoiceLine(productId = "BBB",
+        InvoiceLine(productId = "XXX",
             units = 3.toBigDecimal(),
             productPrice = 5.5.toBigDecimal(),
             taxPercentage = 0.1.toBigDecimal(),
             childCode = 1850),
-        InvoiceLine(productId = "CCC",
+        InvoiceLine(productId = "YYY",
             units = 1.5.toBigDecimal(),
             productPrice = 5.toBigDecimal(),
             taxPercentage = BigDecimal.ZERO,

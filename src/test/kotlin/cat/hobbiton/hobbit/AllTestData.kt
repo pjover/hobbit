@@ -76,8 +76,10 @@ val testChild1880 = Child(
     name = "Nil",
     surname = "Llull",
     secondSurname = "Bibiloni",
-    birthDate = DATE,
-    group = GroupType.EI_3
+    taxId = "12238561P",
+    birthDate = LocalDate.of(2019, 1, 28),
+    group = GroupType.EI_1,
+    note = "Nil's note"
 )
 
 val testChildren185 = listOf(testChild1850, testChild1851)

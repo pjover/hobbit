@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Document xmlns="urn:iso:std:iso:20022:tech:xsd:pain.008.001.02" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:pain.008.001.02">
     <CstmrDrctDbtInitn>
         <GrpHdr>
             <MsgId>HOBB-20180707204338029-50</MsgId>
@@ -103,7 +103,7 @@
                     <Cd>OTHR</Cd>
                 </Purp>
                 <RmtInf>
-                    <Ustrd>1xAAA product, 3xBBB product, 1.5xCCC product</Ustrd>
+                    <Ustrd>1xTstProduct, 3xXxxProduct, 1.5xYyyProduct</Ustrd>
                 </RmtInf>
             </DrctDbtTxInf>
             <DrctDbtTxInf>
@@ -146,7 +146,7 @@
                     <Cd>OTHR</Cd>
                 </Purp>
                 <RmtInf>
-                    <Ustrd>1xAAA product, 3xBBB product, 1.5xCCC product</Ustrd>
+                    <Ustrd>1xTstProduct, 3xXxxProduct, 1.5xYyyProduct</Ustrd>
                 </RmtInf>
             </DrctDbtTxInf>
             <DrctDbtTxInf>
@@ -189,7 +189,7 @@
                     <Cd>OTHR</Cd>
                 </Purp>
                 <RmtInf>
-                    <Ustrd>1xAAA product, 3xBBB product, 1.5xCCC product</Ustrd>
+                    <Ustrd>1xTstProduct, 3xXxxProduct, 1.5xYyyProduct</Ustrd>
                 </RmtInf>
             </DrctDbtTxInf>
             <DrctDbtTxInf>
@@ -232,7 +232,7 @@
                     <Cd>OTHR</Cd>
                 </Purp>
                 <RmtInf>
-                    <Ustrd>1xAAA product, 3xBBB product, 1.5xCCC product</Ustrd>
+                    <Ustrd>1xTstProduct, 3xXxxProduct, 1.5xYyyProduct</Ustrd>
                 </RmtInf>
             </DrctDbtTxInf>
         </PmtInf>
