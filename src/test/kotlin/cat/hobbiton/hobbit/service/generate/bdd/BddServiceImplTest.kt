@@ -36,7 +36,7 @@ class BddServiceImplTest : DescribeSpec() {
         every { customerRepository.getCustomer(186) } returns testCustomer(
             id = 186,
             adults = listOf(testAdultMother().copy(name = "Silvia", surname = "Mayol")),
-            children = listOf(testChild3())
+            children = listOf(testChild1860)
         )
         every { productRepository.getProduct("TST") } returns testProduct1
         every { productRepository.getProduct("XXX") } returns testProduct2

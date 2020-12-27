@@ -183,12 +183,12 @@ private val customer1 = testCustomer()
 private val customer2 = testCustomer(
     id = 186,
     adults = listOf(testAdultMother().copy(name = "Silvia", surname = "Mayol")),
-    children = listOf(testChild3())
+    children = listOf(testChild1860)
 )
 private val customer3 = testCustomer(
     id = 187,
     adults = listOf(Adult(name = "Andrew", surname = "Brown", taxId = "Y8304421D", role = AdultRole.TUTOR)),
-    children = listOf(testChild4(), testChild5())
+    children = listOf(testChild1870, testChild1880)
 )
 private val customers = listOf(customer1, customer2, customer3)
 
@@ -237,14 +237,14 @@ fun invoice2() = Invoice(
     customerId = 186,
     date = DATE,
     yearMonth = YEAR_MONTH,
-    childrenCodes = listOf(1852),
+    childrenCodes = listOf(1860),
     paymentType = PaymentType.BANK_DIRECT_DEBIT,
     lines = listOf(
         InvoiceLine(
             productId = "TST",
             units = 2.toBigDecimal(),
             productPrice = 10.9.toBigDecimal(),
-            childCode = 1852
+            childCode = 1860
         )
     ),
     note = "Note 5"
@@ -255,14 +255,14 @@ fun invoice3() = Invoice(
     customerId = 187,
     date = DATE,
     yearMonth = YEAR_MONTH,
-    childrenCodes = listOf(1853),
+    childrenCodes = listOf(1870),
     paymentType = PaymentType.CASH,
     lines = listOf(
         InvoiceLine(
             productId = "TST",
             units = BigDecimal.ONE,
             productPrice = 9.9.toBigDecimal(),
-            childCode = 1853
+            childCode = 1870
         )
     ),
     note = "Note 6"

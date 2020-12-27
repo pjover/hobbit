@@ -20,7 +20,7 @@ internal class CustomerExtensionTest : DescribeSpec() {
                 context("and one child is inactive") {
 
                     val actual = sut.copy(
-                            children = testChildren3Inactive())
+                        children = listOf(testChild1850, testChild1851, testChild1860.copy(active = false)))
                             .getActiveChildrenCodes()
 
                     it("returns a text of the active children of the customer") {
@@ -36,7 +36,7 @@ internal class CustomerExtensionTest : DescribeSpec() {
                     val actual = sut.getChild(1850)
 
                     it("returns the child") {
-                        actual shouldBe testChild1()
+                        actual shouldBe testChild1850
                     }
                 }
 
@@ -48,7 +48,7 @@ internal class CustomerExtensionTest : DescribeSpec() {
 
                     it("throws an error") {
                         val exception = assertFailsWith<AppException> { executor.invoke() }
-                        exception.message shouldBe "Cannot find child with id 185"
+                        exception.message shouldBe "Cannot find child with id 1,852"
                     }
 
                 }
@@ -111,7 +111,7 @@ internal class CustomerExtensionTest : DescribeSpec() {
                 val actual = sut.getActiveChildren()
 
                 it("return false") {
-                    actual shouldBe testChildren2()
+                    actual shouldBe testChildren185
                 }
             }
         }

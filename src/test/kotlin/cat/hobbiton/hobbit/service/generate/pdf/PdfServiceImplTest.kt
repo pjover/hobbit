@@ -182,7 +182,7 @@ private val customer1 = testCustomer()
 private val customer2 = testCustomer(
     id = 186,
     adults = listOf(testAdultMother().copy(name = "Silvia", surname = "Mayol")),
-    children = listOf(testChild3())
+    children = listOf(testChild1860)
 )
 
 private fun mockReaders(invoiceRepository: InvoiceRepository, customerRepository: CachedCustomerRepository, productRepository: CachedProductRepository) {
@@ -266,7 +266,7 @@ val expectedInvoices = listOf(
                                 productId = "TST",
                                 units = 2.toBigDecimal(),
                                 totalAmount = 21.8.toBigDecimal(),
-                                childCode = 1852
+                                childCode = 1860
                             )
                         ),
                         note = "Note 5"

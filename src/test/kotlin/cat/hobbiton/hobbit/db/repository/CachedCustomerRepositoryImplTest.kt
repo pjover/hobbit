@@ -1,6 +1,6 @@
 package cat.hobbiton.hobbit.db.repository
 
-import cat.hobbiton.hobbit.testChild1
+import cat.hobbiton.hobbit.testChild1850
 import cat.hobbiton.hobbit.testCustomer
 import cat.hobbiton.hobbit.util.error.NotFoundException
 import io.kotlintest.shouldBe
@@ -27,7 +27,7 @@ class CachedCustomerRepositoryImplTest : DescribeSpec() {
                 val actual = sut.getChild(1850)
 
                 it("returns the customer") {
-                    actual shouldBe testChild1()
+                    actual shouldBe testChild1850
                 }
 
                 it("calls the repository once") {

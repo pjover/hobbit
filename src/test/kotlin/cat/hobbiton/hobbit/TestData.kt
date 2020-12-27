@@ -4,10 +4,6 @@ import cat.hobbiton.hobbit.model.*
 import java.math.BigDecimal
 import java.time.LocalDate
 
-fun testChildren1() = listOf(testChild1())
-fun testChildren2() = listOf(testChild1(), testChild2())
-fun testChildren3Inactive() = listOf(testChild1(), testChild2(), testChild3().copy(active = false))
-
 fun testAddress() = Address(
     "Arlington Road, 1999 ",
     "07007",
@@ -50,7 +46,7 @@ fun testInvoiceHolder() = InvoiceHolder(
     bankAccount = "ES28 3066 8859 9782 5852 9057"
 )
 
-fun testCustomer(id: Int = 185, children: List<Child> = testChildren2(), adults: List<Adult> = testAdults(), invoiceHolder: InvoiceHolder = testInvoiceHolder()) = Customer(
+fun testCustomer(id: Int = 185, children: List<Child> = testChildren185, adults: List<Adult> = testAdults(), invoiceHolder: InvoiceHolder = testInvoiceHolder()) = Customer(
     id = id,
     children = children,
     adults = adults,

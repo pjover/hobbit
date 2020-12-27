@@ -217,7 +217,7 @@ private val customer1 = testCustomer()
 private val customer2 = testCustomer(
     id = 186,
     adults = listOf(testAdultMother().copy(name = "Silvia", surname = "Mayol")),
-    children = listOf(testChild3())
+    children = listOf(testChild1860)
 )
 private val customerMap = mapOf(
     185 to customer1,
@@ -290,14 +290,14 @@ private val invoice2 = Invoice(
     customerId = 186,
     date = DATE,
     yearMonth = YEAR_MONTH,
-    childrenCodes = listOf(1852),
+    childrenCodes = listOf(1860),
     paymentType = PaymentType.BANK_DIRECT_DEBIT,
     lines = listOf(
         InvoiceLine(
             productId = "TST",
             units = 2.toBigDecimal(),
             productPrice = 10.9.toBigDecimal(),
-            childCode = 1852
+            childCode = 1860
         )
     ),
     note = "Note 5"
@@ -308,14 +308,14 @@ private val invoice3 = Invoice(
     customerId = 186,
     date = DATE,
     yearMonth = YEAR_MONTH,
-    childrenCodes = listOf(1852),
+    childrenCodes = listOf(1860),
     paymentType = PaymentType.RECTIFICATION,
     lines = listOf(
         InvoiceLine(
             productId = "TST",
             units = (-2).toBigDecimal(),
             productPrice = 10.9.toBigDecimal(),
-            childCode = 1852
+            childCode = 1860
         )
     ),
     note = "Note 6"
@@ -382,7 +382,7 @@ val expectedInvoices = listOf(
                                 productId = "TST",
                                 units = 2.toBigDecimal(),
                                 totalAmount = 21.8.toBigDecimal(),
-                                childCode = 1852
+                                childCode = 1860
                             )
                         ),
                         note = "Note 5"
@@ -410,7 +410,7 @@ val expectedInvoices = listOf(
                                 productId = "TST",
                                 units = (-2).toBigDecimal(),
                                 totalAmount = (-21.8).toBigDecimal(),
-                                childCode = 1852)
+                                childCode = 1860)
                         ),
                         note = "Note 6"
                     )

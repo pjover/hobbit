@@ -5,9 +5,9 @@ import cat.hobbiton.hobbit.api.model.CustomerListDTO
 import cat.hobbiton.hobbit.model.Adult
 import cat.hobbiton.hobbit.model.AdultRole
 import cat.hobbiton.hobbit.model.Customer
-import cat.hobbiton.hobbit.testChild1
-import cat.hobbiton.hobbit.testChild2
-import cat.hobbiton.hobbit.testChild3
+import cat.hobbiton.hobbit.testChild1850
+import cat.hobbiton.hobbit.testChild1851
+import cat.hobbiton.hobbit.testChild1860
 import cat.hobbiton.hobbit.testCustomer
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.DescribeSpec
@@ -23,19 +23,19 @@ class SearchServiceImplTest : DescribeSpec() {
 
         describe("searchCustomer") {
             every { template.find(any(), Customer::class.java) } returns listOf(
-                    testCustomer(
-                            children = listOf(testChild1())
-                    ),
-                    testCustomer(
-                            id = 186,
-                            children = listOf(testChild2()),
-                            adults = listOf(Adult(name = "Xisca", surname = "Llull", role = AdultRole.MOTHER))
-                    ),
-                    testCustomer(
-                            id = 187,
-                            children = listOf(testChild3()),
-                            adults = listOf(Adult(name = "Antònia", surname = "Palmer", role = AdultRole.MOTHER))
-                    )
+                testCustomer(
+                    children = listOf(testChild1850)
+                ),
+                testCustomer(
+                    id = 186,
+                    children = listOf(testChild1851),
+                    adults = listOf(Adult(name = "Xisca", surname = "Llull", role = AdultRole.MOTHER))
+                ),
+                testCustomer(
+                    id = 187,
+                    children = listOf(testChild1860),
+                    adults = listOf(Adult(name = "Antònia", surname = "Palmer", role = AdultRole.MOTHER))
+                )
             )
 
             val actual = sut.searchCustomer("search")
@@ -54,7 +54,7 @@ class SearchServiceImplTest : DescribeSpec() {
                     ),
                     CustomerListDTO(187, "Antònia Palmer",
                         listOf(
-                            ChildListDTO(1852, "Laia Llull")
+                            ChildListDTO(1860, "Laia Llull")
                         )
                     )
                 )

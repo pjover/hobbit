@@ -1,7 +1,7 @@
 package cat.hobbiton.hobbit.model.extension
 
 import cat.hobbiton.hobbit.model.GroupType
-import cat.hobbiton.hobbit.testChildren1
+import cat.hobbiton.hobbit.testChild1850
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.DescribeSpec
 import java.time.LocalDate
@@ -12,7 +12,7 @@ class ChildExtensionTest : DescribeSpec() {
 
     init {
 
-        val sut = testChildren1().first()
+        val sut = testChild1850
 
         describe("Child formatting tests") {
 

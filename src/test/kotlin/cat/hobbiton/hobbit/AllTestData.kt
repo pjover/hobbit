@@ -34,7 +34,7 @@ val testProductsMap = mapOf(
     "YYY" to testProduct3
 )
 
-fun testChild1() = Child(
+val testChild1850 = Child(
     code = 1850,
     name = "Laura",
     surname = "Llull",
@@ -43,7 +43,7 @@ fun testChild1() = Child(
     group = GroupType.EI_1
 )
 
-fun testChild2() = Child(
+val testChild1851 = Child(
     code = 1851,
     name = "Aina",
     surname = "Llull",
@@ -53,7 +53,7 @@ fun testChild2() = Child(
     group = GroupType.EI_1
 )
 
-fun testChild3() = Child(
+val testChild1860 = Child(
     code = 1860,
     name = "Laia",
     surname = "Llull",
@@ -62,7 +62,7 @@ fun testChild3() = Child(
     group = GroupType.EI_2
 )
 
-fun testChild4() = Child(
+val testChild1870 = Child(
     code = 1870,
     name = "Ona",
     surname = "Llull",
@@ -71,7 +71,7 @@ fun testChild4() = Child(
     group = GroupType.EI_3
 )
 
-fun testChild5() = Child(
+val testChild1880 = Child(
     code = 1880,
     name = "Nil",
     surname = "Llull",
@@ -79,3 +79,8 @@ fun testChild5() = Child(
     birthDate = DATE,
     group = GroupType.EI_3
 )
+
+val testChildren185 = listOf(testChild1850, testChild1851)
+val testChildren186 = listOf(testChild1860)
+val testChildren187 = listOf(testChild1870)
+val testChildren188 = listOf(testChild1880)

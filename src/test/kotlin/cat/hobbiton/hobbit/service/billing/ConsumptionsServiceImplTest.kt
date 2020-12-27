@@ -377,9 +377,9 @@ fun mockAuxReaders(customerRepository: CachedCustomerRepository, productReposito
     clearMocks(customerRepository, productRepository)
     every { productRepository.getProduct("TST") } returns testProduct1
     every { productRepository.getProduct("XXX") } returns testProduct2
-    every { customerRepository.getChild(1850) } returns testChild1()
-    every { customerRepository.getChild(1851) } returns testChild2()
-    every { customerRepository.getChild(1852) } returns testChild3()
+    every { customerRepository.getChild(1850) } returns testChild1850
+    every { customerRepository.getChild(1851) } returns testChild1851
+    every { customerRepository.getChild(1852) } returns testChild1860
 }
 
 fun mockConsumptionsReader(consumptionRepository: ConsumptionRepository, additionalList: List<Consumption> = emptyList()) {

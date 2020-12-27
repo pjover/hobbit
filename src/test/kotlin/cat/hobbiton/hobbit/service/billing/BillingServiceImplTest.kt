@@ -71,10 +71,10 @@ class BillingServiceImplTest : DescribeSpec() {
         every { customerRepository.getCustomerByChildCode(1860) } returns customer2
         every { customerRepository.getCustomerByChildCode(1870) } returns customer3
 
-        every { customerRepository.getChild(1850) } returns testChild1()
-        every { customerRepository.getChild(1851) } returns testChild2()
-        every { customerRepository.getChild(1860) } returns testChild3()
-        every { customerRepository.getChild(1870) } returns testChild4()
+        every { customerRepository.getChild(1850) } returns testChild1850
+        every { customerRepository.getChild(1851) } returns testChild1851
+        every { customerRepository.getChild(1860) } returns testChild1860
+        every { customerRepository.getChild(1870) } returns testChild1870
     }
 
 }
@@ -290,9 +290,9 @@ val consumptions = listOf(
     )
 )
 
-val customer1 = testCustomer(children = listOf(testChild1(), testChild2()))
-val customer2 = testCustomer(id = 186, children = listOf(testChild3()), adults = listOf(testAdultTutor()))
-val customer3 = testCustomer(id = 187, children = listOf(testChild4()), adults = listOf(testAdultTutor()))
+val customer1 = testCustomer(children = listOf(testChild1850, testChild1851))
+val customer2 = testCustomer(id = 186, children = listOf(testChild1860), adults = listOf(testAdultTutor()))
+val customer3 = testCustomer(id = 187, children = listOf(testChild1870), adults = listOf(testAdultTutor()))
 
 val customersMap = mapOf(
     185 to customer1,

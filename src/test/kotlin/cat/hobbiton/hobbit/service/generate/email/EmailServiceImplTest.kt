@@ -8,7 +8,7 @@ import cat.hobbiton.hobbit.service.billing.expectedInvoices
 import cat.hobbiton.hobbit.service.billing.invoice1
 import cat.hobbiton.hobbit.service.billing.invoice2
 import cat.hobbiton.hobbit.testAdultMother
-import cat.hobbiton.hobbit.testChild3
+import cat.hobbiton.hobbit.testChild1860
 import cat.hobbiton.hobbit.testCustomer
 import cat.hobbiton.hobbit.util.error.NotFoundException
 import io.kotlintest.shouldBe
@@ -131,7 +131,7 @@ private val customer1 = testCustomer()
 private val customer2 = testCustomer(
     id = 186,
     adults = listOf(testAdultMother().copy(name = "Silvia", surname = "Mayol")),
-    children = listOf(testChild3())
+    children = listOf(testChild1860)
 )
 
 private fun mockReaders(invoiceRepository: InvoiceRepository, customerRepository: CachedCustomerRepository) {

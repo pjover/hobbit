@@ -80,7 +80,7 @@ class BillingUtilsTest : DescribeSpec() {
 
         describe("getInvoiceDto") {
 
-            val customer = testCustomer(children = listOf(testChild1(), testChild2()))
+            val customer = testCustomer(children = listOf(testChild1850, testChild1851))
 
             val invoice = Invoice(
                 id = "??",

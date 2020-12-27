@@ -19,15 +19,15 @@ class ListServiceImplTest : DescribeSpec() {
 
         describe("getChildrenList") {
             every { customerRepository.findAll() } returns listOf(
-                    testCustomer(),
-                    testCustomer(
-                            children = listOf(
-                                    testChild3(),
-                                    testChild1().copy(active = false)
-                            )
-                    ),
-                    testCustomer(children = listOf(testChild3()))
-                            .copy(active = false)
+                testCustomer(),
+                testCustomer(
+                    children = listOf(
+                        testChild1860,
+                        testChild1850.copy(active = false)
+                    )
+                ),
+                testCustomer(children = listOf(testChild1860))
+                    .copy(active = false)
             )
 
             val actual = sut.getChildrenList()
@@ -44,7 +44,7 @@ class ListServiceImplTest : DescribeSpec() {
                     ChildrenGroupDTO(
                         GroupType.EI_2.text,
                         listOf(
-                            ChildListDTO(1852, "Laia Llull")
+                            ChildListDTO(1860, "Laia Llull")
                         )
                     )
                 )
@@ -54,13 +54,13 @@ class ListServiceImplTest : DescribeSpec() {
         describe("getCustomersList") {
 
             every { customerRepository.findAll() } returns listOf(
-                    testCustomer(),
-                    testCustomer(
-                            id = 186,
-                            children = listOf(testChild3(), testChild1().copy(active = false)),
-                            adults = listOf(Adult(name = "Xisca", surname = "Llull", role = AdultRole.MOTHER))
-                    ),
-                    testCustomer(id = 187).copy(active = false)
+                testCustomer(),
+                testCustomer(
+                    id = 186,
+                    children = listOf(testChild1860, testChild1850.copy(active = false)),
+                    adults = listOf(Adult(name = "Xisca", surname = "Llull", role = AdultRole.MOTHER))
+                ),
+                testCustomer(id = 187).copy(active = false)
             )
 
             val actual = sut.getCustomersList()
@@ -75,7 +75,7 @@ class ListServiceImplTest : DescribeSpec() {
                     ),
                     CustomerListDTO(186, "Xisca Llull",
                         listOf(
-                            ChildListDTO(1852, "Laia Llull")
+                            ChildListDTO(1860, "Laia Llull")
                         )
                     )
                 )
@@ -87,14 +87,14 @@ class ListServiceImplTest : DescribeSpec() {
 
             context("all groups") {
                 every { customerRepository.findAll() } returns listOf(
-                        testCustomer(),
-                        testCustomer(
-                                children = listOf(testChild3(), testChild1().copy(active = false)),
-                                invoiceHolder = testInvoiceHolder().copy(email = "test@gmail.com")
-                        ),
-                        testCustomer(
-                                children = listOf(testChild3())
-                        ).copy(active = false)
+                    testCustomer(),
+                    testCustomer(
+                        children = listOf(testChild1860, testChild1850.copy(active = false)),
+                        invoiceHolder = testInvoiceHolder().copy(email = "test@gmail.com")
+                    ),
+                    testCustomer(
+                        children = listOf(testChild1860)
+                    ).copy(active = false)
                 )
 
                 val actual = sut.getEmailsList(GroupDTO.ALL)
@@ -112,14 +112,14 @@ class ListServiceImplTest : DescribeSpec() {
 
             context("one group") {
                 every { customerRepository.findAll() } returns listOf(
-                        testCustomer(),
-                        testCustomer(
-                                children = testChildren3Inactive(),
-                                invoiceHolder = testInvoiceHolder().copy(email = "test@gmail.com")
-                        ),
-                        testCustomer(
-                                children = listOf(testChild3()))
-                                .copy(active = false)
+                    testCustomer(),
+                    testCustomer(
+                        children = listOf(testChild1850, testChild1851, testChild1860.copy(active = false)),
+                        invoiceHolder = testInvoiceHolder().copy(email = "test@gmail.com")
+                    ),
+                    testCustomer(
+                        children = listOf(testChild1860))
+                        .copy(active = false)
                 )
 
                 val actual = sut.getEmailsList(GroupDTO.EI_1)

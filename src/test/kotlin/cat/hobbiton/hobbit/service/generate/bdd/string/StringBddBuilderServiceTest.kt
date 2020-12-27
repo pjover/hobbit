@@ -1,7 +1,6 @@
 package cat.hobbiton.hobbit.service.generate.bdd.string
 
 import cat.hobbiton.hobbit.service.billing.customersMap
-import cat.hobbiton.hobbit.service.generate.bdd.string.InvoicesToBddMapperImplTest.Companion.buildTestBddDetailList
 import cat.hobbiton.hobbit.testProductsMap
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.DescribeSpec
