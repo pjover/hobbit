@@ -454,6 +454,22 @@ paths:
                 type: string
                 format: binary
 
+  /generate/customersSpreadSheet:
+    post:
+      tags:
+        - Generate
+      description: Generates an spreadsheet with the customer's relevant info
+      operationId: generateCustomersSpreadSheet
+      responses:
+        '200':
+          description: OK
+          content:
+            application/vnd.openxmlformats-officedocument.spreadsheetml.sheet:
+              schema:
+                type: string
+                format: binary
+
+
 components:
   schemas:
 

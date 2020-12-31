@@ -180,4 +180,22 @@ class GenerateController(@Autowired(required = true) val service: GenerateServic
             HttpStatus.valueOf(200)
         )
     }
+
+    @Operation(
+        description = "Generates an spreadsheet with the customer's relevant info",
+        operationId = "generateCustomersSpreadSheet"
+    )
+    @RequestMapping(
+        value = ["/generate/customersSpreadSheet"],
+        produces = ["application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"],
+        method = [RequestMethod.POST])
+    fun generateCustomersSpreadSheet(): ResponseEntity<Resource> {
+        val xlsx = service.generateCustomersSpreadSheet()
+        return ResponseEntity(
+            xlsx,
+            xlsx.getResponseHeaders(MediaType.valueOf("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")),
+            HttpStatus.valueOf(200)
+        )
+    }
+
 }

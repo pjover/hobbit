@@ -82,4 +82,8 @@ class SpreadSheetServiceImpl(
             .toSet()
             .map { customerRepository.getCustomer(it) }
     }
+
+    fun generateCustomersSpreadSheet(): Resource {
+        TODO("Not implemented")
+    }
 }

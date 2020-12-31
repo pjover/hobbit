@@ -211,6 +211,10 @@ class SpreadSheetServiceImplTest : DescribeSpec() {
                 }
             }
         }
+
+        describe("generateCustomersSpreadSheet") {
+
+        }
     }
 }
 

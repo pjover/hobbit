@@ -27,4 +27,6 @@ interface GenerateService {
 	fun simulateYearSpreadSheet(year: Int): List<PaymentTypeInvoicesDTO>
 
 	fun generateYearSpreadSheet(year: Int): Resource
+
+	fun generateCustomersSpreadSheet(): Resource
 }

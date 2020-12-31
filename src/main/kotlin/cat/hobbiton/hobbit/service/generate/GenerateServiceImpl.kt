@@ -35,4 +35,6 @@ class GenerateServiceImpl(
     override fun simulateYearSpreadSheet(year: Int) = spreadSheetService.simulateYearSpreadSheet(year)
 
     override fun generateYearSpreadSheet(year: Int) = spreadSheetService.generateYearSpreadSheet(year)
+
+    override fun generateCustomersSpreadSheet() = spreadSheetService.generateCustomersSpreadSheet()
 }
