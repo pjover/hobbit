@@ -97,14 +97,18 @@ val testAdultMother185 = Adult(
     role = AdultRole.MOTHER,
     taxId = "12238561P",
     address = testAddress(),
-    email = "jbibiloni@gmail.com"
+    email = "jbibiloni@gmail.com",
+    mobilePhone = "644432654"
 )
 
 val testAdultFather185 = Adult(
     name = "Pere",
     surname = "Llull",
     secondSurname = "Adrover",
-    role = AdultRole.FATHER
+    role = AdultRole.FATHER,
+    taxId = "58921214K",
+    email = "pllull@gmail.com",
+    mobilePhone = "666432654"
 )
 
 val testAdultTutor186 = Adult(
@@ -112,21 +116,26 @@ val testAdultTutor186 = Adult(
     surname = "Mayol",
     secondSurname = "Alcover",
     role = AdultRole.TUTOR,
-    taxId = "97505522N"
+    taxId = "97505522N",
+    email = "silvia@gmail.com",
+    mobilePhone = "677732654"
 )
 
 val testAdultMother187 = Adult(
     name = "Cara",
     surname = "Santamaria",
     role = AdultRole.MOTHER,
-    taxId = "X2113060G"
+    taxId = "X2113060G",
+    email = "cara@sgu.org",
+    mobilePhone = "+1699932654"
 )
 
 val testAdultTutor188 = Adult(
     name = "Andrew",
     surname = "Brown",
     role = AdultRole.TUTOR,
-    taxId = "Y8304421D"
+    taxId = "Y8304421D",
+    email = "abrown@gmail.com"
 )
 
 val testInvoiceHolder185 = InvoiceHolder(
