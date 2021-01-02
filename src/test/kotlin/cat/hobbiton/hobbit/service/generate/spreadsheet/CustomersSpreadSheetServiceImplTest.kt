@@ -19,7 +19,7 @@ class CustomersSpreadSheetServiceImplTest : DescribeSpec() {
 
             it("generate the spread sheet") {
 
-                actual.filename shouldBe customersSpreadSheetFilename
+                actual.filename shouldBe "Customers.xlsx"
 
                 actual.title shouldBe "Active customers"
 

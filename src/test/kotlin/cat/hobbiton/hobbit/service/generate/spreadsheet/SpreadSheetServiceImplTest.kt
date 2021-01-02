@@ -218,12 +218,12 @@ class SpreadSheetServiceImplTest : DescribeSpec() {
             every { customerRepository.getActiveCustomers() } returns testCustomers
             every { customersSpreadSheetService.generate(any()) } returns expectedSpreadSheetCells
             every { spreadSheetBuilderService.generate(any()) } returns
-                FileResource("XLSX".toByteArray(StandardCharsets.UTF_8), customersSpreadSheetFilename)
+                FileResource("XLSX".toByteArray(StandardCharsets.UTF_8), "Customers.xlsx")
 
             val actual = sut.generateCustomersSpreadSheet()
 
             it("returns the spreadsheet resource") {
-                actual.filename shouldBe customersSpreadSheetFilename
+                actual.filename shouldBe "Customers.xlsx"
             }
 
             it("calls customerRepository") {

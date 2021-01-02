@@ -14,11 +14,15 @@ class CustomersSpreadSheetServiceImpl : CustomersSpreadSheetService {
 
     override fun generate(customers: List<Customer>): SpreadSheet {
         return SpreadSheet(
-            customersSpreadSheetFilename,
+            getFilename(),
             getTitle(),
             getHeaders(),
             getLines(customers)
         )
+    }
+
+    private fun getFilename(): String {
+        return TextMessages.CUSTOMERS_SPREADSHEET_FILENAME.translate()
     }
 
     private fun getTitle(): String {
