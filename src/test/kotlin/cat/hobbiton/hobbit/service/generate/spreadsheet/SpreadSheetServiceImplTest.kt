@@ -170,12 +170,12 @@ class SpreadSheetServiceImplTest : DescribeSpec() {
                     mockReaders(invoiceRepository, customerRepository)
                     every { yearSpreadSheetService.generate(any(), any(), any()) } returns expectedSpreadSheetCells
                     every { spreadSheetBuilderService.generate(any()) } returns
-                        FileResource("XLSX".toByteArray(StandardCharsets.UTF_8), yearSpreadSheetFilename)
+                        FileResource("XLSX".toByteArray(StandardCharsets.UTF_8), "Year report.xlsx")
 
                     val actual = sut.generateYearSpreadSheet(YEAR)
 
                     it("returns the spreadsheet resource") {
-                        actual.filename shouldBe yearSpreadSheetFilename
+                        actual.filename shouldBe "Year report.xlsx"
                     }
 
                     it("call the collaborators") {

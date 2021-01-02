@@ -25,7 +25,7 @@ class YearSpreadSheetServiceImplTest : DescribeSpec() {
 
             it("generate the spread sheet") {
 
-                actual.filename shouldBe yearSpreadSheetFilename
+                actual.filename shouldBe "Year report.xlsx"
 
                 actual.title shouldBe "2,019 yearly report"
 

@@ -36,6 +36,7 @@ enum class TextMessages(
     MONTH_SPREADSHEET_PAYMENT("month.spreadsheet.payment"),
     MONTH_SPREADSHEET_NOTE("month.spreadsheet.note"),
 
+    YEAR_SPREADSHEET_FILENAME("year.spreadsheet.filename"),
     YEAR_SPREADSHEET_TITLE("year.spreadsheet.title"),
     YEAR_SPREADSHEET_ID("year.spreadsheet.id"),
     YEAR_SPREADSHEET_FIRST_ADULT_TAX_ID("year.spreadsheet.first_adult.tax_id"),
