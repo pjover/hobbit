@@ -28,13 +28,38 @@ class BillingServiceImplTest : DescribeSpec() {
         every { timeService.currentLocalDate } returns DATE
 
         describe("getInvoices") {
-            mockReaders(customerRepository, productRepository)
-            every { consumptionRepository.findByInvoiceIdNull() } returns consumptions
 
-            val actual = sut.getInvoices()
+            context("with rectification") {
+                mockReaders(customerRepository, productRepository)
+                every { consumptionRepository.findByInvoiceIdNull() } returns consumptions
 
-            it("returns the list of invoices from pending consumptions") {
-                actual shouldBe expectedInvoices(code = "??")
+                val actual = sut.getInvoices()
+
+                it("returns the list of invoices from pending consumptions") {
+                    actual shouldBe expectedInvoices(code = "??")
+                }
+            }
+
+            context("without rectification") {
+                mockReaders(customerRepository, productRepository)
+                every { consumptionRepository.findByInvoiceIdNull() } returns consumptions.filter { !it.isRectification }
+
+                val actual = sut.getInvoices()
+
+                it("returns the list of invoices from pending consumptions") {
+                    actual shouldBe listOf(expectedInvoices(code = "??")[0])
+                }
+            }
+
+            context("only rectification") {
+                mockReaders(customerRepository, productRepository)
+                every { consumptionRepository.findByInvoiceIdNull() } returns consumptions.filter { it.isRectification }
+
+                val actual = sut.getInvoices()
+
+                it("returns the list of invoices from pending consumptions") {
+                    actual shouldBe listOf(expectedInvoices(code = "??")[1])
+                }
             }
         }
 

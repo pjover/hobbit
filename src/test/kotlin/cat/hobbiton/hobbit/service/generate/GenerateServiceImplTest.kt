@@ -149,62 +149,43 @@ class GenerateServiceImplTest : DescribeSpec() {
         }
 
         describe("Month SpreadSheet") {
+            every { spreadsheetService.generateMonthSpreadSheet(any()) } returns expectedResource
 
-            context("simulateMonthSpreadSheet") {
-                every { spreadsheetService.simulateMonthSpreadSheet(any()) } returns expectedInvoice
+            val actual = sut.generateMonthSpreadSheet(YEAR_MONTH.toString())
 
-                val actual = sut.simulateMonthSpreadSheet(YEAR_MONTH.toString())
-
-                it("should return the correct invoice") {
-                    actual shouldBe expectedInvoice
-                }
-
-                it("call the collaborator") {
-                    verify {
-                        spreadsheetService.simulateMonthSpreadSheet(YEAR_MONTH.toString())
-                    }
-                }
+            it("should return the correct resource") {
+                actual shouldBe expectedResource
             }
 
-            context("generateMonthSpreadSheet") {
-                every { spreadsheetService.generateMonthSpreadSheet(any()) } returns expectedResource
-
-                val actual = sut.generateMonthSpreadSheet(YEAR_MONTH.toString())
-
-                it("should return the correct resource") {
-                    actual shouldBe expectedResource
-                }
-
-                it("call the collaborator") {
-                    verify {
-                        spreadsheetService.generateMonthSpreadSheet(YEAR_MONTH.toString())
-                    }
+            it("call the collaborator") {
+                verify {
+                    spreadsheetService.generateMonthSpreadSheet(YEAR_MONTH.toString())
                 }
             }
         }
 
         describe("Year SpreadSheet") {
+            every { spreadsheetService.generateYearSpreadSheet(any()) } returns expectedResource
 
-            context("simulateYearSpreadSheet") {
-                every { spreadsheetService.simulateYearSpreadSheet(any()) } returns expectedInvoice
+            val actual = sut.generateYearSpreadSheet(YEAR)
 
-                val actual = sut.simulateYearSpreadSheet(YEAR)
-
-                it("should return the correct invoice") {
-                    actual shouldBe expectedInvoice
-                }
-
-                it("call the collaborator") {
-                    verify {
-                        spreadsheetService.simulateYearSpreadSheet(YEAR)
-                    }
-                }
+            it("should return the correct resource") {
+                actual shouldBe expectedResource
             }
 
-            context("generateYearSpreadSheet") {
-                every { spreadsheetService.generateYearSpreadSheet(any()) } returns expectedResource
+            it("call the collaborator") {
+                verify {
+                    spreadsheetService.generateYearSpreadSheet(YEAR)
+                }
+            }
+        }
 
-                val actual = sut.generateYearSpreadSheet(YEAR)
+        describe("Customers SpreadSheet") {
+
+            context("generateCustomersSpreadSheet") {
+                every { spreadsheetService.generateCustomersSpreadSheet() } returns expectedResource
+
+                val actual = sut.generateCustomersSpreadSheet()
 
                 it("should return the correct resource") {
                     actual shouldBe expectedResource
@@ -212,7 +193,7 @@ class GenerateServiceImplTest : DescribeSpec() {
 
                 it("call the collaborator") {
                     verify {
-                        spreadsheetService.generateYearSpreadSheet(YEAR)
+                        spreadsheetService.generateCustomersSpreadSheet()
                     }
                 }
             }

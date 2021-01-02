@@ -29,4 +29,10 @@ class CachedCustomerRepositoryImpl(
         return customerRepository.findByChildCode(childCode)
             ?: throw NotFoundException(ErrorMessages.ERROR_CHILD_NOT_FOUND, childCode)
     }
+
+    override fun getActiveCustomers(): List<Customer> {
+        val customers = customerRepository.findAllByActiveTrue()
+        if(customers.isEmpty()) throw NotFoundException(ErrorMessages.ERROR_CUSTOMERS_NOT_FOUND)
+        return customers
+    }
 }

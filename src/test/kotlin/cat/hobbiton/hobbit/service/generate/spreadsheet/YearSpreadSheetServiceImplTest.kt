@@ -25,11 +25,12 @@ class YearSpreadSheetServiceImplTest : DescribeSpec() {
 
             it("generate the spread sheet") {
 
-                actual.filename shouldBe yearSpreadSheetFilename
+                actual.filename shouldBe "Year report.xlsx"
 
                 actual.title shouldBe "2,019 yearly report"
 
-                actual.headers shouldBe listOf("ID",
+                actual.headers shouldBe listOf(
+                    "ID",
                     "First adult tax ID",
                     "First adult name",
                     "First adult surname",
@@ -66,7 +67,7 @@ class YearSpreadSheetServiceImplTest : DescribeSpec() {
                     TextCell("Joana"),
                     TextCell("Bibiloni"),
                     TextCell("Oliver"),
-                    TextCell(""),
+                    TextCell("58921214K"),
                     TextCell("Pere"),
                     TextCell("Llull"),
                     TextCell("Adrover"),
@@ -96,7 +97,7 @@ class YearSpreadSheetServiceImplTest : DescribeSpec() {
                     TextCell("Joana"),
                     TextCell("Bibiloni"),
                     TextCell("Oliver"),
-                    TextCell(""),
+                    TextCell("58921214K"),
                     TextCell("Pere"),
                     TextCell("Llull"),
                     TextCell("Adrover"),

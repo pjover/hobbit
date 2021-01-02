@@ -17,46 +17,50 @@ class YearSpreadSheetServiceImpl : YearSpreadSheetService {
 
     override fun generate(year: Int, invoices: List<Invoice>, customers: List<Customer>): SpreadSheet {
         return SpreadSheet(
-            yearSpreadSheetFilename,
+            getFilename(),
             getTitle(year),
             getHeaders(),
             getLines(invoices, customers)
         )
     }
 
+    private fun getFilename(): String {
+        return TextMessages.YEAR_SPREADSHEET_FILENAME.translate()
+    }
+
     private fun getTitle(year: Int): String {
-        return TextMessages.YEAR_REPORT_TITLE.translate(year)
+        return TextMessages.YEAR_SPREADSHEET_TITLE.translate(year)
     }
 
     private fun getHeaders(): List<String> {
         return listOf(
-            TextMessages.YEAR_REPORT_ID.translate(),
-            TextMessages.YEAR_REPORT_FIRST_ADULT_TAX_ID.translate(),
-            TextMessages.YEAR_REPORT_FIRST_ADULT_NAME.translate(),
-            TextMessages.YEAR_REPORT_FIRST_ADULT_SURNAME.translate(),
-            TextMessages.YEAR_REPORT_FIRST_ADULT_SECOND_SURNAME.translate(),
-            TextMessages.YEAR_REPORT_SECOND_ADULT_TAX_ID.translate(),
-            TextMessages.YEAR_REPORT_SECOND_ADULT_NAME.translate(),
-            TextMessages.YEAR_REPORT_SECOND_ADULT_SURNAME.translate(),
-            TextMessages.YEAR_REPORT_SECOND_ADULT_SECOND_SURNAME.translate(),
-            TextMessages.YEAR_REPORT_CHILD_TAX_ID.translate(),
-            TextMessages.YEAR_REPORT_CHILD_NAME.translate(),
-            TextMessages.YEAR_REPORT_CHILD_SURNAME.translate(),
-            TextMessages.YEAR_REPORT_CHILD_SECOND_SURNAME.translate(),
-            TextMessages.YEAR_REPORT_CHILD_BIRTH_DATE.translate(),
-            TextMessages.YEAR_REPORT_JANUARY.translate(),
-            TextMessages.YEAR_REPORT_FEBRUARY.translate(),
-            TextMessages.YEAR_REPORT_MARCH.translate(),
-            TextMessages.YEAR_REPORT_APRIL.translate(),
-            TextMessages.YEAR_REPORT_MAY.translate(),
-            TextMessages.YEAR_REPORT_JUNE.translate(),
-            TextMessages.YEAR_REPORT_JULY.translate(),
-            TextMessages.YEAR_REPORT_AUGUST.translate(),
-            TextMessages.YEAR_REPORT_SEPTEMBER.translate(),
-            TextMessages.YEAR_REPORT_OCTOBER.translate(),
-            TextMessages.YEAR_REPORT_NOVEMBER.translate(),
-            TextMessages.YEAR_REPORT_DECEMBER.translate(),
-            TextMessages.YEAR_REPORT_TOTAL.translate()
+            TextMessages.YEAR_SPREADSHEET_ID.translate(),
+            TextMessages.YEAR_SPREADSHEET_FIRST_ADULT_TAX_ID.translate(),
+            TextMessages.YEAR_SPREADSHEET_FIRST_ADULT_NAME.translate(),
+            TextMessages.YEAR_SPREADSHEET_FIRST_ADULT_SURNAME.translate(),
+            TextMessages.YEAR_SPREADSHEET_FIRST_ADULT_SECOND_SURNAME.translate(),
+            TextMessages.YEAR_SPREADSHEET_SECOND_ADULT_TAX_ID.translate(),
+            TextMessages.YEAR_SPREADSHEET_SECOND_ADULT_NAME.translate(),
+            TextMessages.YEAR_SPREADSHEET_SECOND_ADULT_SURNAME.translate(),
+            TextMessages.YEAR_SPREADSHEET_SECOND_ADULT_SECOND_SURNAME.translate(),
+            TextMessages.YEAR_SPREADSHEET_CHILD_TAX_ID.translate(),
+            TextMessages.YEAR_SPREADSHEET_CHILD_NAME.translate(),
+            TextMessages.YEAR_SPREADSHEET_CHILD_SURNAME.translate(),
+            TextMessages.YEAR_SPREADSHEET_CHILD_SECOND_SURNAME.translate(),
+            TextMessages.YEAR_SPREADSHEET_CHILD_BIRTH_DATE.translate(),
+            TextMessages.YEAR_SPREADSHEET_JANUARY.translate(),
+            TextMessages.YEAR_SPREADSHEET_FEBRUARY.translate(),
+            TextMessages.YEAR_SPREADSHEET_MARCH.translate(),
+            TextMessages.YEAR_SPREADSHEET_APRIL.translate(),
+            TextMessages.YEAR_SPREADSHEET_MAY.translate(),
+            TextMessages.YEAR_SPREADSHEET_JUNE.translate(),
+            TextMessages.YEAR_SPREADSHEET_JULY.translate(),
+            TextMessages.YEAR_SPREADSHEET_AUGUST.translate(),
+            TextMessages.YEAR_SPREADSHEET_SEPTEMBER.translate(),
+            TextMessages.YEAR_SPREADSHEET_OCTOBER.translate(),
+            TextMessages.YEAR_SPREADSHEET_NOVEMBER.translate(),
+            TextMessages.YEAR_SPREADSHEET_DECEMBER.translate(),
+            TextMessages.YEAR_SPREADSHEET_TOTAL.translate()
         )
     }
 

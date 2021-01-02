@@ -20,11 +20,9 @@ interface GenerateService {
 
 	fun generateEmails(yearMonth: String): PaymentTypeInvoicesDTO
 
-	fun simulateMonthSpreadSheet(yearMonth: String): List<PaymentTypeInvoicesDTO>
-
 	fun generateMonthSpreadSheet(yearMonth: String): Resource
 
-	fun simulateYearSpreadSheet(year: Int): List<PaymentTypeInvoicesDTO>
-
 	fun generateYearSpreadSheet(year: Int): Resource
+
+	fun generateCustomersSpreadSheet(): Resource
 }

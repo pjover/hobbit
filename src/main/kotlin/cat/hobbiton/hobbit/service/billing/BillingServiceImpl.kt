@@ -49,6 +49,7 @@ class BillingServiceImpl(
     }
 
     fun rectificationInvoices(save: Boolean, consumptions: List<Consumption>): List<PaymentTypeInvoicesDTO> {
+        if(consumptions.isEmpty()) return emptyList()
         val consumptionsWhithUsers = consumptions
             .map { Pair(customerRepository.getCustomerByChildCode(it.childCode), it) }
         return listOf(

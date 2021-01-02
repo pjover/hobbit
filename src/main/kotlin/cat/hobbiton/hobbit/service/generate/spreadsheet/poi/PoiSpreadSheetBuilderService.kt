@@ -42,16 +42,16 @@ class PoiSpreadSheetBuilderService(
     }
 
     private fun validate(spreadSheet: SpreadSheet) {
-        if(spreadSheet.filename.isEmpty()) throw AppException(ErrorMessages.ERROR_SPREAD_SHEET_BLANK_FILENAME)
-        if(spreadSheet.title.isEmpty()) throw AppException(ErrorMessages.ERROR_SPREAD_SHEET_BLANK_TITLE)
-        if(spreadSheet.headers.isEmpty()) throw AppException(ErrorMessages.ERROR_SPREAD_SHEET_NO_HEADERS)
-        if(spreadSheet.lines.isEmpty()) throw AppException(ErrorMessages.ERROR_SPREAD_SHEET_NO_DATA)
+        if(spreadSheet.filename.isEmpty()) throw AppException(ErrorMessages.ERROR_SPREADSHEET_BLANK_FILENAME)
+        if(spreadSheet.title.isEmpty()) throw AppException(ErrorMessages.ERROR_SPREADSHEET_BLANK_TITLE)
+        if(spreadSheet.headers.isEmpty()) throw AppException(ErrorMessages.ERROR_SPREADSHEET_NO_HEADERS)
+        if(spreadSheet.lines.isEmpty()) throw AppException(ErrorMessages.ERROR_SPREADSHEET_NO_DATA)
 
         val maxCols = spreadSheet.lines.maxByOrNull { it.size }!!.size
         val minCols = spreadSheet.lines.minByOrNull { it.size }!!.size
         val columnCount = spreadSheet.headers.size
         if(maxCols != columnCount || minCols != columnCount) {
-            throw AppException(ErrorMessages.ERROR_SPREAD_SHEET_NO_MATCH_COLUMN_NUMBER)
+            throw AppException(ErrorMessages.ERROR_SPREADSHEET_NO_MATCH_COLUMN_NUMBER)
         }
     }
 

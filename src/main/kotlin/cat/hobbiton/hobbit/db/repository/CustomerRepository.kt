@@ -8,4 +8,6 @@ interface CustomerRepository : MongoRepository<Customer, Int>, CustomizedCustome
 
     @Query(value = "{ 'children.code' : ?0 }")
     fun findByChildCode(code: Int): Customer?
+
+    fun findAllByActiveTrue(): List<Customer>
 }
