@@ -39,7 +39,7 @@ class SpreadSheetServiceImpl(
 
     private fun getInvoices(yearMonth: YearMonth): List<Invoice> {
         val invoices = invoiceRepository.findByYearMonth(yearMonth)
-        if(invoices.isEmpty()) throw NotFoundException(ErrorMessages.ERROR_SPREAD_SHEET_INVOICES_NOT_FOUND)
+        if(invoices.isEmpty()) throw NotFoundException(ErrorMessages.ERROR_SPREADSHEET_INVOICES_NOT_FOUND)
         return invoices
     }
 
@@ -73,7 +73,7 @@ class SpreadSheetServiceImpl(
     private fun getInvoices(year: Int): List<Invoice> {
         val allMonths = (1..12).map { YearMonth.of(year, it) }
         val invoices = invoiceRepository.findByYearMonthIn(allMonths)
-        if(invoices.isEmpty()) throw NotFoundException(ErrorMessages.ERROR_SPREAD_SHEET_INVOICES_NOT_FOUND)
+        if(invoices.isEmpty()) throw NotFoundException(ErrorMessages.ERROR_SPREADSHEET_INVOICES_NOT_FOUND)
         return invoices
     }
 

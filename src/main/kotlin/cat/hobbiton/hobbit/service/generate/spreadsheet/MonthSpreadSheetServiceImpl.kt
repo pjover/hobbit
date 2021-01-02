@@ -25,21 +25,21 @@ class MonthSpreadSheetServiceImpl : MonthSpreadSheetService {
     }
 
     private fun getTitle(yearMonth: YearMonth): String {
-        return TextMessages.MONTH_REPORT_TITLE.translate(yearMonth.toString())
+        return TextMessages.MONTH_SPREADSHEET_TITLE.translate(yearMonth.toString())
     }
 
     private fun getHeaders(): List<String> {
         return listOf(
-            TextMessages.MONTH_REPORT_ID.translate(),
-            TextMessages.MONTH_REPORT_CUSTOMER.translate(),
-            TextMessages.MONTH_REPORT_CHILDREN.translate(),
-            TextMessages.MONTH_REPORT_DATE.translate(),
-            TextMessages.MONTH_REPORT_YEAR_MONTH.translate(),
-            TextMessages.MONTH_REPORT_INVOICE.translate(),
-            TextMessages.MONTH_REPORT_TOTAL.translate(),
-            TextMessages.MONTH_REPORT_PRODUCTS.translate(),
-            TextMessages.MONTH_REPORT_PAYMENT.translate(),
-            TextMessages.MONTH_REPORT_NOTE.translate()
+            TextMessages.MONTH_SPREADSHEET_ID.translate(),
+            TextMessages.MONTH_SPREADSHEET_CUSTOMER.translate(),
+            TextMessages.MONTH_SPREADSHEET_CHILDREN.translate(),
+            TextMessages.MONTH_SPREADSHEET_DATE.translate(),
+            TextMessages.MONTH_SPREADSHEET_YEAR_MONTH.translate(),
+            TextMessages.MONTH_SPREADSHEET_INVOICE.translate(),
+            TextMessages.MONTH_SPREADSHEET_TOTAL.translate(),
+            TextMessages.MONTH_SPREADSHEET_PRODUCTS.translate(),
+            TextMessages.MONTH_SPREADSHEET_PAYMENT.translate(),
+            TextMessages.MONTH_SPREADSHEET_NOTE.translate()
         )
     }
 
