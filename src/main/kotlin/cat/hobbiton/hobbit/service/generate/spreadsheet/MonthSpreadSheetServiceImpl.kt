@@ -17,11 +17,15 @@ class MonthSpreadSheetServiceImpl : MonthSpreadSheetService {
 
     override fun generate(yearMonth: YearMonth, invoices: List<Invoice>, customers: Map<Int, Customer>): SpreadSheet {
         return SpreadSheet(
-            monthSpreadSheetFilename,
+            getFilename(),
             getTitle(yearMonth),
             getHeaders(),
             getLines(invoices, customers)
         )
+    }
+
+    private fun getFilename(): String {
+        return TextMessages.MONTH_SPREADSHEET_FILENAME.translate()
     }
 
     private fun getTitle(yearMonth: YearMonth): String {

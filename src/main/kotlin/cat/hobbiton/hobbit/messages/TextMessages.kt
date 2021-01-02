@@ -23,6 +23,7 @@ enum class TextMessages(
     PDF_INVOICE_TOTALS_TAX("pdf.invoice.totals.tax"),
     PDF_INVOICE_TOTALS_TOTAL("pdf.invoice.totals.total"),
 
+    MONTH_SPREADSHEET_FILENAME("month.spreadsheet.filename"),
     MONTH_SPREADSHEET_TITLE("month.spreadsheet.title"),
     MONTH_SPREADSHEET_ID("month.spreadsheet.id"),
     MONTH_SPREADSHEET_CUSTOMER("month.spreadsheet.customer"),

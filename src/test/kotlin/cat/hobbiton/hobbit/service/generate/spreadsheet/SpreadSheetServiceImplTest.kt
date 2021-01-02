@@ -77,12 +77,12 @@ class SpreadSheetServiceImplTest : DescribeSpec() {
                     mockReaders(invoiceRepository, customerRepository)
                     every { monthSpreadSheetService.generate(any(), any(), any()) } returns expectedSpreadSheetCells
                     every { spreadSheetBuilderService.generate(any()) } returns
-                        FileResource("XLSX".toByteArray(StandardCharsets.UTF_8), monthSpreadSheetFilename)
+                        FileResource("XLSX".toByteArray(StandardCharsets.UTF_8), "Month report.xlsx")
 
                     val actual = sut.generateMonthSpreadSheet(YEAR_MONTH.toString())
 
                     it("returns the spreadsheet resource") {
-                        actual.filename shouldBe monthSpreadSheetFilename
+                        actual.filename shouldBe "Month report.xlsx"
                     }
 
                     it("call the collaborators") {
@@ -248,7 +248,7 @@ private fun mockReaders(invoiceRepository: InvoiceRepository, customerRepository
 
 
 val expectedSpreadSheetCells = SpreadSheet(
-    monthSpreadSheetFilename,
+    "Month report.xlsx",
     "Llistat de prova",
     listOf("Data",
         "Valor",
