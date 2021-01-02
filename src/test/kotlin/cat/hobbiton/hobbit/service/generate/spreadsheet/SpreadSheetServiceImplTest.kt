@@ -24,8 +24,9 @@ class SpreadSheetServiceImplTest : DescribeSpec() {
         val customerRepository = mockk<CachedCustomerRepository>()
         val monthSpreadSheetService = mockk<MonthSpreadSheetService>()
         val yearSpreadSheetService = mockk<YearSpreadSheetService>()
+        val customersSpreadSheetService = mockk<CustomersSpreadSheetService>()
         val spreadSheetBuilderService = mockk<SpreadSheetBuilderService>()
-        val sut = SpreadSheetServiceImpl(invoiceRepository, customerRepository, monthSpreadSheetService, yearSpreadSheetService, spreadSheetBuilderService)
+        val sut = SpreadSheetServiceImpl(invoiceRepository, customerRepository, monthSpreadSheetService, yearSpreadSheetService, customersSpreadSheetService, spreadSheetBuilderService)
 
         describe("MonthSpreadSheet") {
             context("simulateMonthSpreadSheet") {
@@ -213,7 +214,23 @@ class SpreadSheetServiceImplTest : DescribeSpec() {
         }
 
         describe("generateCustomersSpreadSheet") {
+            clearMocks(customerRepository)
+            every { customerRepository.getActiveCustomers() } returns testCustomers
+            every { customersSpreadSheetService.generate(any()) } returns expectedSpreadSheetCells
+            every { spreadSheetBuilderService.generate(any()) } returns
+                FileResource("XLSX".toByteArray(StandardCharsets.UTF_8), customersSpreadSheetFilename)
 
+            val actual = sut.generateCustomersSpreadSheet()
+
+            it("returns the spreadsheet resource") {
+                actual.filename shouldBe customersSpreadSheetFilename
+            }
+
+            it("calls customerRepository") {
+                verify {
+                    customerRepository.getActiveCustomers()
+                }
+            }
         }
     }
 }

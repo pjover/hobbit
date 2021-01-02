@@ -21,6 +21,7 @@ class SpreadSheetServiceImpl(
     private val customerRepository: CachedCustomerRepository,
     private val monthSpreadSheetService: MonthSpreadSheetService,
     private val yearSpreadSheetService: YearSpreadSheetService,
+    private val customersSpreadSheetService: CustomersSpreadSheetService,
     private val spreadSheetBuilderService: SpreadSheetBuilderService
 ) : SpreadSheetService {
 
@@ -84,6 +85,8 @@ class SpreadSheetServiceImpl(
     }
 
     override fun generateCustomersSpreadSheet(): Resource {
-        TODO("Not implemented")
+        val customers = customerRepository.getActiveCustomers()
+        val spreadSheetCells = customersSpreadSheetService.generate(customers)
+        return spreadSheetBuilderService.generate(spreadSheetCells)
     }
 }
