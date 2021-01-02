@@ -371,26 +371,6 @@ paths:
 
 
   /generate/monthSpreadSheet:
-    get:
-      tags:
-        - Generate
-      description: Return the invoices (generated on the yearMonth) that will generate the month report spreadsheet
-      operationId: simulateMonthSpreadSheet
-      parameters:
-        - name: yearMonth
-          in: query
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/PaymentTypeInvoicesDTO'
     post:
       tags:
         - Generate
@@ -412,27 +392,6 @@ paths:
                 format: binary
 
   /generate/yearSpreadSheet:
-    get:
-      tags:
-        - Generate
-      description: Return the invoices (generated on the year) that will generate the year report spreadsheet
-      operationId: simulateYearSpreadSheet
-      parameters:
-        - name: year
-          in: query
-          required: true
-          schema:
-            type: integer
-            format: int32
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/PaymentTypeInvoicesDTO'
     post:
       tags:
         - Generate
