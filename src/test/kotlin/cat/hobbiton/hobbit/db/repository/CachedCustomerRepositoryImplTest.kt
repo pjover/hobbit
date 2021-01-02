@@ -3,6 +3,7 @@ package cat.hobbiton.hobbit.db.repository
 import cat.hobbiton.hobbit.testChild1850
 import cat.hobbiton.hobbit.testCustomer185
 import cat.hobbiton.hobbit.testCustomer187
+import cat.hobbiton.hobbit.testCustomers
 import cat.hobbiton.hobbit.util.error.NotFoundException
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.DescribeSpec
@@ -114,6 +115,33 @@ class CachedCustomerRepositoryImplTest : DescribeSpec() {
                 it("throws an error") {
                     val exception = assertFailsWith<NotFoundException> { executor.invoke() }
                     exception.message shouldBe "Cannot find child with id 1"
+                }
+            }
+        }
+
+        describe("getActiveCustomers") {
+            clearMocks(customerRepository)
+
+            context("existing customer") {
+                every { customerRepository.findAllByActiveTrue() } returns testCustomers
+
+                val actual = sut.getActiveCustomers()
+
+                it("returns the active customers") {
+                    actual shouldBe testCustomers
+                }
+            }
+
+            context("non existing customer") {
+                every { customerRepository.findAllByActiveTrue() } returns emptyList()
+
+                val executor = {
+                    sut.getActiveCustomers()
+                }
+
+                it("throws an error") {
+                    val exception = assertFailsWith<NotFoundException> { executor.invoke() }
+                    exception.message shouldBe "Cannot find customers at the database"
                 }
             }
         }

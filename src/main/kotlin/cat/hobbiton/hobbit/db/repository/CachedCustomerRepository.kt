@@ -7,4 +7,5 @@ interface CachedCustomerRepository {
     fun getChild(childCode: Int): Child
     fun getCustomer(id: Int): Customer
     fun getCustomerByChildCode(childCode: Int): Customer
+    fun getActiveCustomers(): List<Customer>
 }
