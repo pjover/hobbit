@@ -217,5 +217,24 @@ class GenerateServiceImplTest : DescribeSpec() {
                 }
             }
         }
+
+        describe("Customers SpreadSheet") {
+
+            context("generateCustomersSpreadSheet") {
+                every { spreadsheetService.generateCustomersSpreadSheet() } returns expectedResource
+
+                val actual = sut.generateCustomersSpreadSheet()
+
+                it("should return the correct resource") {
+                    actual shouldBe expectedResource
+                }
+
+                it("call the collaborator") {
+                    verify {
+                        spreadsheetService.generateCustomersSpreadSheet()
+                    }
+                }
+            }
+        }
     }
 }
