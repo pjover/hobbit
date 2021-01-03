@@ -11,5 +11,5 @@ data class Product(
     val shortName: String,
     @Field(targetType = FieldType.DECIMAL128) val price: BigDecimal,
     @Field(targetType = FieldType.DECIMAL128) val taxPercentage: BigDecimal = BigDecimal.ZERO,
-    val isSubsidy: Boolean? = false
+    val isSubsidy: Boolean = false
 )
