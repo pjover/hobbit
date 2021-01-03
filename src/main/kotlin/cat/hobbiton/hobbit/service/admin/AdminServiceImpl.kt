@@ -49,7 +49,6 @@ class AdminServiceImpl(
     private fun modifyInvoice(): Int {
         val invoices = invoiceRepository.findAll()
         val updatedInvoices = invoices
-//            .filter { it.subsidizedAmount != null }
             .map { updateInvoice(it) }
         invoiceRepository.saveAll(updatedInvoices)
         logger.warn("✅ updated ${updatedInvoices.size} invoices ‼️️")

@@ -10,7 +10,6 @@ import javax.validation.constraints.NotNull
  * @param children
  * @param totalAmount
  * @param lines
- * @param subsidizedAmount
  * @param note
  */
 data class InvoiceDTO(
@@ -29,8 +28,6 @@ data class InvoiceDTO(
 
     @get:NotNull
     @JsonProperty("lines") val lines: List<InvoiceLineDTO>,
-
-    @JsonProperty("subsidizedAmount") val subsidizedAmount: java.math.BigDecimal? = null,
 
     @JsonProperty("note") val note: String? = null
 )
