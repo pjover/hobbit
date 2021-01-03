@@ -73,7 +73,7 @@ class AdminServiceImpl(
 
     private fun updateProduct(product: Product): Product {
         logger.info("Updating product $product")
-        val updatedProduct = product.copy(isSubsidy = false)
+        val updatedProduct = product.copy()
         logger.info("Updated product $updatedProduct")
         return updatedProduct
     }
