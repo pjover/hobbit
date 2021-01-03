@@ -661,8 +661,6 @@ components:
             type: string
         totalAmount:
           type: BigDecimal
-        subsidizedAmount:
-          type: BigDecimal
         note:
           type: string
         lines:
