@@ -108,14 +108,19 @@ class ConsumptionsServiceImpl(
     )
 
     private fun getSetConsumtionDTO(dto: ConsumtionDTO) = SetConsumtionDTO(
-        productId = dto.productId,
-        units = dto.units,
-        note = dto.note
+            productId = dto.productId,
+            units = dto.units,
+            note = dto.note
     )
 
     override fun setConsumptions(setYearMonthConsumptionsDTO: SetYearMonthConsumptionsDTO): List<YearMonthConsumptionsDTO> {
+        checkChildren(setYearMonthConsumptionsDTO.children)
         saveConsumptions(setYearMonthConsumptionsDTO, false)
         return getConsumptions()
+    }
+
+    private fun checkChildren(children: List<SetChildConsumtionDTO>) {
+        children.forEach { customerRepository.getChild(it.code) }
     }
 
     private fun saveConsumptions(setYearMonthConsumptionsDTO: SetYearMonthConsumptionsDTO, isRectification: Boolean) {
@@ -126,7 +131,7 @@ class ConsumptionsServiceImpl(
     private fun getYearMonth(yearMonth: String): YearMonth {
         return try {
             YearMonth.parse(yearMonth)
-        } catch(e: DateTimeParseException) {
+        } catch (e: DateTimeParseException) {
             throw IllegalArgumentException(ValidationMessages.ERROR_YEAR_MONTH_INVALID.translate(), e)
         }
     }
