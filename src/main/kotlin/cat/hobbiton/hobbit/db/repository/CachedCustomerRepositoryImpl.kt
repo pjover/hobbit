@@ -9,10 +9,11 @@ import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Service
 
 @Service
-class CachedCustomerRepositoryImpl(
-    private val customerRepository: CustomerRepository
+open class CachedCustomerRepositoryImpl(
+        private val customerRepository: CustomerRepository
 ) : CachedCustomerRepository {
 
+    @Cacheable("childById")
     override fun getChild(childCode: Int): Child {
         val customer = getCustomerByChildCode(childCode)
         return customer.getChild(childCode)
