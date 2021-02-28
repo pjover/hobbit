@@ -178,7 +178,7 @@ class InvoiceServiceImplTest : DescribeSpec() {
                     verify(exactly = 0) {
                         invoiceRepository.save(any())
                         sequenceService.decrement(any())
-                        consumptionRepository.saveAll(any())
+                        consumptionRepository.saveAll(any<List<Consumption>>())
                     }
                 }
             }
