@@ -15,7 +15,13 @@ interface InvoiceRepository : MongoRepository<Invoice, String> {
 
     fun findByEmailedAndYearMonth(emailed: Boolean, yearMonth: YearMonth): List<Invoice>
 
-    fun findByPaymentTypeAndYearMonthAndSentToBank(paymentType: PaymentType, yearMonth: YearMonth, sentToBank: Boolean): List<Invoice>
+    fun findByPaymentTypeAndYearMonthAndSentToBank(
+        paymentType: PaymentType,
+        yearMonth: YearMonth,
+        sentToBank: Boolean
+    ): List<Invoice>
 
     fun findByIdStartingWith(idPrefix: String): List<Invoice>
+
+    fun findByCustomerId(customerId: Int): List<Invoice>
 }
