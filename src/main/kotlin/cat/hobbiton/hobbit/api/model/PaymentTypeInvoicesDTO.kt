@@ -19,8 +19,9 @@ data class PaymentTypeInvoicesDTO(
     @JsonProperty("totalAmount") val totalAmount: java.math.BigDecimal,
 
     @get:NotNull
-    @JsonProperty("customers") val customers: List<CustomerInvoicesDTO>,
+    @JsonProperty("numberOfInvoices") val numberOfInvoices: Int,
 
-    @JsonProperty("numberOfInvoices") val numberOfInvoices: Int? = null
+    @get:NotNull
+    @JsonProperty("customers") val customers: List<CustomerInvoicesDTO>
 )
 

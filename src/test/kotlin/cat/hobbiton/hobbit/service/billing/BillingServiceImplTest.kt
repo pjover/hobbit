@@ -106,6 +106,7 @@ fun expectedInvoices(code: String) = listOf(
     PaymentTypeInvoicesDTO(
         paymentType = PaymentTypeDTO.BANK_DIRECT_DEBIT,
         totalAmount = 105.4.toBigDecimal(),
+        numberOfInvoices = 2,
         customers = listOf(
             CustomerInvoicesDTO(
                 code = 185,
@@ -168,6 +169,7 @@ fun expectedInvoices(code: String) = listOf(
     PaymentTypeInvoicesDTO(
         paymentType = PaymentTypeDTO.RECTIFICATION,
         totalAmount = -(21.8).toBigDecimal(),
+        numberOfInvoices = 1,
         customers = listOf(
             CustomerInvoicesDTO(
                 code = 187,

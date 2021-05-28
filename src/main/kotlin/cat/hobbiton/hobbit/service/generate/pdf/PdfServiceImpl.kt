@@ -29,10 +29,12 @@ class PdfServiceImpl(
         return getInvoices(yearMonth)
             .groupBy { it.paymentType }
             .map { (paymentType, invoices) ->
+                val customers = customerRepository.getCustomerInvoicesDTOs(invoices)
                 PaymentTypeInvoicesDTO(
                     paymentType = PaymentTypeDTO.valueOf(paymentType.name),
                     totalAmount = invoices.totalAmount(),
-                    customers = customerRepository.getCustomerInvoicesDTOs(invoices)
+                    numberOfInvoices = customers.flatMap { it.invoices }.count(),
+                    customers = customers
                 )
             }
     }
