@@ -20,7 +20,7 @@ class MongoConfigurationTest : DescribeSpec() {
 
                 it("throws an error") {
                     val exception = assertFailsWith<IllegalArgumentException> { executor.invoke() }
-                    exception.message shouldBe "Missing configuration value for 'db.name'"
+                    exception.message shouldBe "Missing configuration value for ´db.name´"
                 }
             }
         }
