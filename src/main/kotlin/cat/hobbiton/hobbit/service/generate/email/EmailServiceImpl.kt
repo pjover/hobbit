@@ -30,10 +30,12 @@ class EmailServiceImpl(
     }
 
     private fun getPaymentTypeInvoicesDTO(invoices: List<Invoice>): PaymentTypeInvoicesDTO {
+        val customers = customerRepository.getCustomerInvoicesDTOs(invoices)
         return PaymentTypeInvoicesDTO(
             paymentType = PaymentTypeDTO.BANK_DIRECT_DEBIT,
             totalAmount = invoices.totalAmount(),
-            customers = customerRepository.getCustomerInvoicesDTOs(invoices)
+            numberOfInvoices = customers.flatMap { it.invoices }.count(),
+            customers = customers
         )
     }
 

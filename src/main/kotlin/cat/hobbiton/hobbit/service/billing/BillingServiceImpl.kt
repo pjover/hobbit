@@ -40,10 +40,12 @@ class BillingServiceImpl(
             .map { Pair(customerRepository.getCustomerByChildCode(it.childCode), it) }
             .groupBy { it.first.invoiceHolder.paymentType }
             .map { (paymentType, consumptions) ->
+                val customers = getCustomerInvoices(save, consumptions)
                 PaymentTypeInvoicesDTO(
                     paymentType = PaymentTypeDTO.valueOf(paymentType.name),
                     totalAmount = getTotalAmount(consumptions.map { it.second }),
-                    customers = getCustomerInvoices(save, consumptions)
+                    numberOfInvoices = customers.flatMap { it.invoices }.count(),
+                    customers = customers
                 )
             }
     }
@@ -52,11 +54,13 @@ class BillingServiceImpl(
         if(consumptions.isEmpty()) return emptyList()
         val consumptionsWhithUsers = consumptions
             .map { Pair(customerRepository.getCustomerByChildCode(it.childCode), it) }
+        val customers = getCustomerInvoices(save, consumptionsWhithUsers)
         return listOf(
             PaymentTypeInvoicesDTO(
                 paymentType = PaymentTypeDTO.RECTIFICATION,
                 totalAmount = getTotalAmount(consumptions),
-                customers = getCustomerInvoices(save, consumptionsWhithUsers)
+                numberOfInvoices = customers.flatMap { it.invoices }.count(),
+                customers = customers
             )
         )
     }

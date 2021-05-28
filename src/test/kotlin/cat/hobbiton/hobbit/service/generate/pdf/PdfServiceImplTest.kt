@@ -207,6 +207,7 @@ val expectedInvoices = listOf(
     PaymentTypeInvoicesDTO(
         paymentType = PaymentTypeDTO.BANK_DIRECT_DEBIT,
         totalAmount = 105.4.toBigDecimal(),
+        numberOfInvoices = 2,
         customers = listOf(
             CustomerInvoicesDTO(
                 code = 185,
