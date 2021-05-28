@@ -8,6 +8,7 @@ import javax.validation.constraints.NotNull
  * @param paymentType
  * @param totalAmount
  * @param customers
+ * @param numberOfInvoices
  */
 data class PaymentTypeInvoicesDTO(
 
@@ -18,6 +19,8 @@ data class PaymentTypeInvoicesDTO(
     @JsonProperty("totalAmount") val totalAmount: java.math.BigDecimal,
 
     @get:NotNull
-    @JsonProperty("customers") val customers: List<CustomerInvoicesDTO>
+    @JsonProperty("customers") val customers: List<CustomerInvoicesDTO>,
+
+    @JsonProperty("numberOfInvoices") val numberOfInvoices: Int? = null
 )
 

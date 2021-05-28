@@ -615,6 +615,9 @@ components:
           $ref: '#/components/schemas/PaymentTypeDTO'
         totalAmount:
           type: BigDecimal
+        numberOfInvoices:
+          type: integer
+          format: int32
         customers:
           type: array
           items:
