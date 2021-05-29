@@ -5,6 +5,7 @@ import cat.hobbiton.hobbit.model.PaymentType
 import org.springframework.data.mongodb.repository.MongoRepository
 import java.time.YearMonth
 
+@Suppress("unused")
 interface InvoiceRepository : MongoRepository<Invoice, String> {
 
     fun findByYearMonth(yearMonth: YearMonth): List<Invoice>
@@ -24,4 +25,8 @@ interface InvoiceRepository : MongoRepository<Invoice, String> {
     fun findByIdStartingWith(idPrefix: String): List<Invoice>
 
     fun findByCustomerId(customerId: Int): List<Invoice>
+
+    fun findByCustomerIdAndYearMonth(customerId: Int, yearMonth: YearMonth): List<Invoice>
+
+    fun findByCustomerIdAndYearMonthYear(customerId: Int, year: Int): List<Invoice>
 }
