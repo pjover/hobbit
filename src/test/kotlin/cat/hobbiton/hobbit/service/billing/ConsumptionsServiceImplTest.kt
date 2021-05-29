@@ -8,6 +8,7 @@ import cat.hobbiton.hobbit.db.repository.ConsumptionRepository
 import cat.hobbiton.hobbit.messages.ErrorMessages
 import cat.hobbiton.hobbit.model.Consumption
 import cat.hobbiton.hobbit.service.aux.TimeService
+import cat.hobbiton.hobbit.util.error.AppException
 import cat.hobbiton.hobbit.util.error.NotFoundException
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.DescribeSpec
@@ -182,17 +183,17 @@ class ConsumptionsServiceImplTest : DescribeSpec() {
 
         describe("setConsumptions") {
 
-            context("Missing child") {
+            context("Child not found") {
                 mockAuxReaders(customerRepository, productRepository)
                 mockConsumptionsReader(
-                        consumptionRepository,
-                        listOf(
-                                Consumption(
-                                        id = "AA1",
-                                        childCode = 7777,
-                                        productId = "TST",
-                                        units = 2.toBigDecimal(),
-                                        yearMonth = YEAR_MONTH,
+                    consumptionRepository,
+                    listOf(
+                        Consumption(
+                            id = "AA1",
+                            childCode = 7777,
+                            productId = "TST",
+                            units = 2.toBigDecimal(),
+                            yearMonth = YEAR_MONTH,
                                         note = "Note 1"
                                 )
                         )
@@ -220,6 +221,82 @@ class ConsumptionsServiceImplTest : DescribeSpec() {
                 }
             }
 
+            context("Inactive consumer") {
+                mockAuxReaders(customerRepository, productRepository)
+                mockConsumptionsReader(
+                    consumptionRepository,
+                    listOf(
+                        Consumption(
+                            id = "AA2",
+                            childCode = 8888,
+                            productId = "TST",
+                            units = 2.toBigDecimal(),
+                            yearMonth = YEAR_MONTH,
+                            note = "Note 1"
+                        )
+                    )
+                )
+                val executor = {
+                    sut.setConsumptions(
+                        SetYearMonthConsumptionsDTO(
+                            yearMonth = YEAR_MONTH.toString(),
+                            listOf(
+                                SetChildConsumtionDTO(
+                                    code = 8888,
+                                    listOf(
+                                        SetConsumtionDTO("TST", 2.toBigDecimal(), "Note 1"),
+                                        SetConsumtionDTO("TST", 2.toBigDecimal(), "Note 2")
+                                    )
+                                )
+                            )
+                        )
+                    )
+                }
+
+                it("throws an error") {
+                    val exception = assertFailsWith<AppException> { executor.invoke() }
+                    exception.message shouldBe "Customer 186 is inactive"
+                }
+            }
+
+            context("Inactive child") {
+                mockAuxReaders(customerRepository, productRepository)
+                mockConsumptionsReader(
+                    consumptionRepository,
+                    listOf(
+                        Consumption(
+                            id = "AA2",
+                            childCode = 9999,
+                            productId = "TST",
+                            units = 2.toBigDecimal(),
+                            yearMonth = YEAR_MONTH,
+                            note = "Note 1"
+                        )
+                    )
+                )
+                val executor = {
+                    sut.setConsumptions(
+                        SetYearMonthConsumptionsDTO(
+                            yearMonth = YEAR_MONTH.toString(),
+                            listOf(
+                                SetChildConsumtionDTO(
+                                    code = 9999,
+                                    listOf(
+                                        SetConsumtionDTO("TST", 2.toBigDecimal(), "Note 1"),
+                                        SetConsumtionDTO("TST", 2.toBigDecimal(), "Note 2")
+                                    )
+                                )
+                            )
+                        )
+                    )
+                }
+
+                it("throws an error") {
+                    val exception = assertFailsWith<AppException> { executor.invoke() }
+                    exception.message shouldBe "Child 9,999 is inactive"
+                }
+            }
+
             context("Known children") {
                 mockAuxReaders(customerRepository, productRepository)
                 mockConsumptionsReader(consumptionRepository)
@@ -227,8 +304,8 @@ class ConsumptionsServiceImplTest : DescribeSpec() {
                 every { consumptionRepository.save(capture(capturedConsumptions)) } answers { firstArg() }
 
                 val actual = sut.setConsumptions(
-                        SetYearMonthConsumptionsDTO(
-                                yearMonth = YEAR_MONTH.toString(),
+                    SetYearMonthConsumptionsDTO(
+                        yearMonth = YEAR_MONTH.toString(),
                                 listOf(
                                         SetChildConsumtionDTO(
                                                 code = 1850,
@@ -421,10 +498,25 @@ fun mockAuxReaders(customerRepository: CachedCustomerRepository, productReposito
     clearMocks(customerRepository, productRepository)
     every { productRepository.getProduct("TST") } returns testProduct1
     every { productRepository.getProduct("XXX") } returns testProduct2
+    val testCustomer185plus = testCustomer185
+        .copy(children = listOf(testChild1850, testChild1851, testChild1851.copy(code = 1852)))
+    every { customerRepository.getCustomerByChildCode(1850) } returns testCustomer185plus
     every { customerRepository.getChild(1850) } returns testChild1850
+    every { customerRepository.getCustomerByChildCode(1851) } returns testCustomer185plus
     every { customerRepository.getChild(1851) } returns testChild1851
+    every { customerRepository.getCustomerByChildCode(1852) } returns testCustomer185plus
     every { customerRepository.getChild(1852) } returns testChild1860
-    every { customerRepository.getChild(7777) } throws NotFoundException(ErrorMessages.ERROR_CHILD_NOT_FOUND, 7777)
+    every { customerRepository.getCustomerByChildCode(7777) } throws NotFoundException(
+        ErrorMessages.ERROR_CHILD_NOT_FOUND,
+        7777
+    )
+    every { customerRepository.getCustomerByChildCode(8888) } returns testCustomer186.copy(active = false)
+    val inactiveChild = testChild1860.copy(code = 9999, active = false)
+    every { customerRepository.getCustomerByChildCode(9999) } returns testCustomer186.copy(
+        children = listOf(
+            inactiveChild
+        )
+    )
 }
 
 fun mockConsumptionsReader(consumptionRepository: ConsumptionRepository, additionalList: List<Consumption> = emptyList()) {

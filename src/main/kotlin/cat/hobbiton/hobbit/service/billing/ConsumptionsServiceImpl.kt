@@ -4,10 +4,13 @@ import cat.hobbiton.hobbit.api.model.*
 import cat.hobbiton.hobbit.db.repository.CachedCustomerRepository
 import cat.hobbiton.hobbit.db.repository.CachedProductRepository
 import cat.hobbiton.hobbit.db.repository.ConsumptionRepository
+import cat.hobbiton.hobbit.messages.ErrorMessages
 import cat.hobbiton.hobbit.messages.ValidationMessages
 import cat.hobbiton.hobbit.model.Consumption
+import cat.hobbiton.hobbit.model.extension.getChild
 import cat.hobbiton.hobbit.model.extension.shortName
 import cat.hobbiton.hobbit.service.aux.TimeService
+import cat.hobbiton.hobbit.util.error.AppException
 import cat.hobbiton.hobbit.util.i18n.translate
 import org.springframework.stereotype.Service
 import java.math.BigDecimal
@@ -120,9 +123,13 @@ class ConsumptionsServiceImpl(
     }
 
     private fun checkChildren(children: List<SetChildConsumtionDTO>) {
-        children.forEach { customerRepository.getChild(it.code) }
+        children.forEach {
+            val customer = customerRepository.getCustomerByChildCode(it.code)
+            if (!customer.active) throw AppException(ErrorMessages.ERROR_CUSTOMER_INACTIVE, customer.id)
+            val child = customer.getChild(it.code)
+            if (!child.active) throw AppException(ErrorMessages.ERROR_CHILD_INACTIVE, it.code)
+        }
     }
-
     private fun saveConsumptions(setYearMonthConsumptionsDTO: SetYearMonthConsumptionsDTO, isRectification: Boolean) {
         val yearMonth = getYearMonth(setYearMonthConsumptionsDTO.yearMonth)
         setYearMonthConsumptionsDTO.children.forEach { saveChildConsumtions(yearMonth, it, isRectification) }
