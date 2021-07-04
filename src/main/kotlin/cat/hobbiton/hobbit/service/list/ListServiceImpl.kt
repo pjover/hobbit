@@ -67,9 +67,10 @@ class ListServiceImpl(
         return EmailsGroupDTO(
                 group = GroupDTO.ALL,
                 emails = customerRepository.findAll()
-                        .filter { it.active }
-                        .map { it.invoiceHolder.emailText() }
-                        .sorted()
+                    .filter { it.active }
+                    .map { it.invoiceHolder.emailText() }
+                    .sorted()
+                    .joinToString(", ")
         )
     }
 
@@ -78,12 +79,13 @@ class ListServiceImpl(
         return EmailsGroupDTO(
                 group = group,
                 emails = customerRepository.findAll()
-                        .filter { it.active }
-                        .filter {
-                            it.children.any { child -> child.group.name == group.name }
-                        }
-                        .map { it.invoiceHolder.emailText() }
-                        .sorted()
+                    .filter { it.active }
+                    .filter {
+                        it.children.any { child -> child.group.name == group.name }
+                    }
+                    .map { it.invoiceHolder.emailText() }
+                    .sorted()
+                    .joinToString(", ")
         )
     }
 }

@@ -52,18 +52,21 @@ class ListServiceImplTest : DescribeSpec() {
 
             it("returns the correct list") {
                 actual shouldBe listOf(
-                    CustomerListDTO(185, "Joana Bibiloni",
+                    CustomerListDTO(
+                        185, "Joana Bibiloni",
                         listOf(
                             ChildListDTO(1850, "Laura Llull"),
                             ChildListDTO(1851, "Aina Llull")
                         )
                     ),
-                    CustomerListDTO(186, "Silvia Mayol",
+                    CustomerListDTO(
+                        186, "Silvia Mayol",
                         listOf(
                             ChildListDTO(1860, "Laia Mayol")
                         )
                     ),
-                    CustomerListDTO(188, "Andrew Brown",
+                    CustomerListDTO(
+                        188, "Andrew Brown",
                         listOf(
                             ChildListDTO(1880, "Nil Brown")
                         )
@@ -81,11 +84,7 @@ class ListServiceImplTest : DescribeSpec() {
                 it("returns the correct list") {
                     actual shouldBe EmailsGroupDTO(
                         group = GroupDTO.ALL,
-                        emails = listOf(
-                            "Andrew Brown <abrown@gmail.com>",
-                            "Joana Bibiloni Oliver <jbibiloni@gmail.com>",
-                            "Silvia Mayol <silvia@gmail.com>"
-                        )
+                        emails = "Andrew Brown <abrown@gmail.com>, Joana Bibiloni Oliver <jbibiloni@gmail.com>, Silvia Mayol <silvia@gmail.com>"
                     )
                 }
             }
@@ -97,11 +96,7 @@ class ListServiceImplTest : DescribeSpec() {
                 it("returns the correct list") {
                     actual shouldBe EmailsGroupDTO(
                         group = GroupDTO.EI_1,
-                        emails = listOf(
-                            "Andrew Brown <abrown@gmail.com>",
-                            "Joana Bibiloni Oliver <jbibiloni@gmail.com>",
-                            "Silvia Mayol <silvia@gmail.com>"
-                        )
+                        emails = "Andrew Brown <abrown@gmail.com>, Joana Bibiloni Oliver <jbibiloni@gmail.com>, Silvia Mayol <silvia@gmail.com>"
                     )
                 }
             }

@@ -11,6 +11,6 @@ data class EmailsGroupDTO(
 
     @JsonProperty("group") val group: GroupDTO? = null,
 
-    @JsonProperty("emails") val emails: List<String>? = null
+    @JsonProperty("emails") val emails: String = ""
 )
 
