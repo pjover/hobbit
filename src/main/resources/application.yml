@@ -3,7 +3,7 @@ springdoc:
     path: /api-docs
 
 db:
-  host: mongo
+  host: mongo-server
   port: 27017
 
 invoices:

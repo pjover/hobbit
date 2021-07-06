@@ -61,7 +61,19 @@ docker run -it --rm \
 
 - Build the image with JIB: `.\gradlew jibDockerBuild`
 
-### Helm
+
+### Run Hobbit on Docker
+
+```shell script
+docker run -d \
+    --name hobbit-prod \
+    --network mongo-network \
+    -e "spring.profiles.active=prod" \
+    -p 8080:8080 \
+    hobbit
+```
+
+### Run Hobbit on Kubernetes
 
 We use Hel to build the k8s files and deploy it to the kubernetes cluster.
 
