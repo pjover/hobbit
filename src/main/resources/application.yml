@@ -1,3 +1,5 @@
+appVersion: 5.0.3
+
 springdoc:
   api-docs:
     path: /api-docs

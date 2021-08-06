@@ -1,6 +1,7 @@
 package cat.hobbiton.hobbit.util.error
 
 import cat.hobbiton.hobbit.util.Logging
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
@@ -10,7 +11,7 @@ import javax.servlet.http.HttpServletRequest
 
 @ResponseBody
 @ControllerAdvice
-class GlobalExceptionHandler {
+class GlobalExceptionHandler(@Value("\${appVersion}") private val appVersion: String) {
 
     private val logger by Logging()
 
@@ -42,7 +43,8 @@ class GlobalExceptionHandler {
         return ErrorInfo(
             message = message,
             path = request.requestURL.toString(),
-            status = status.value()
+            status = status.value(),
+            version = appVersion
         )
     }
 }

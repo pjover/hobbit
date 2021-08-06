@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest
 class GlobalExceptionHandlerTest : DescribeSpec() {
 
     init {
-        val sut = GlobalExceptionHandler()
+        val sut = GlobalExceptionHandler("5.0.3")
 
         val url = "/test/url"
         val request = mockk<HttpServletRequest>()
@@ -24,6 +24,7 @@ class GlobalExceptionHandlerTest : DescribeSpec() {
                 actual.message shouldBe "Error while saving invoice: TST"
                 actual.status shouldBe 500
                 actual.path shouldBe url
+                actual.version shouldBe "5.0.3"
             }
         }
 
