@@ -47,16 +47,23 @@ class PdfServiceImpl(
 
     override fun generatePDFs(yearMonth: String): Resource {
         val invoices = getInvoices(yearMonth)
-        val pdfs = zipService.zipFiles(invoices.map { getPdf(it) }, pdfsZipFilename)
+        val pdfs = invoices.map { getPdf(it) }
+        val zip = zipService.zipFiles(pdfs, pdfsZipFilename)
         invoices.forEach { updateInvoice(it) }
-        return pdfs
+        return zip
     }
 
     private fun getPdf(invoice: Invoice): FileResource {
-        val customer = customerRepository.getCustomer(invoice.customerId)
-        val products = invoice.lines.map { it.productId to productRepository.getProduct(it.productId) }.toMap()
+        val customer = getInvoiceCustomer(invoice)
+        val products = getInvoiceProducts(invoice)
         return pdfBuilderService.generate(invoice, customer, products)
     }
+
+    private fun getInvoiceCustomer(invoice: Invoice) =
+        customerRepository.getCustomer(invoice.customerId)
+
+    private fun getInvoiceProducts(invoice: Invoice) =
+        invoice.lines.associate { it.productId to productRepository.getProduct(it.productId) }
 
     override fun generatePDF(invoiceId: String): Resource {
         val invoice = invoiceRepository.findById(invoiceId)

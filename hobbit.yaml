@@ -1,2 +1,2 @@
 # set the app version for gradle and helm
-appVersion: 5.0.1
+appVersion: 5.0.2

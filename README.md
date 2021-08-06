@@ -46,7 +46,7 @@ docker run -d \
     mongo-express
 ```
 
-Run the Mongo client to access the database server by command terminal
+If needed, you can run the Mongo client to access the database server by command terminal
 
 ```shell script
 docker run -it --rm \
@@ -57,7 +57,7 @@ docker run -it --rm \
 
 #### Hobbit
 
-Build the image with JIB: `.\gradlew jibDockerBuild`
+Build the image with JIB: `./gradlew jibDockerBuild`
 
 Run the app with production profile
 
