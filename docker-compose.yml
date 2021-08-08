@@ -8,10 +8,10 @@ services:
     - $HOME/mongodb_data:/data/db
     healthcheck:
       test: mongo --eval 'db.runCommand("ping").ok' localhost:27017/test --quiet
-      interval: 10s
-      timeout: 10s
+      interval: 5s
+      timeout: 5s
       retries: 3
-      start_period: 20s
+      start_period: 5s
 
   mongo_express:
     image: mongo-express
