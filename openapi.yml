@@ -486,9 +486,10 @@ components:
           $ref: '#/components/schemas/GroupDTO'
         emails:
           description: The customers email
-          type: array
-          items:
-            type: string
+          type: string
+          default: ""
+      required:
+        - emails
 
     GroupDTO:
       description: Group where the children are
@@ -626,6 +627,7 @@ components:
         - paymentType
         - totalAmount
         - customers
+        - numberOfInvoices
 
     CustomerInvoicesDTO:
       description: Invoices grouped by customer

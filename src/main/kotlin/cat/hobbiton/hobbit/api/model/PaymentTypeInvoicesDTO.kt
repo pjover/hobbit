@@ -7,8 +7,8 @@ import javax.validation.constraints.NotNull
  * Invoices grouped by payment type
  * @param paymentType
  * @param totalAmount
- * @param customers
  * @param numberOfInvoices
+ * @param customers
  */
 data class PaymentTypeInvoicesDTO(
 
