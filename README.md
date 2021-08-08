@@ -2,6 +2,10 @@
 
 Hobbit Kotlin Spring boot application for managing a Kindergarten business, initially developed for [Hobbiton](http://www.hobbiton.es) Kindergarten
 
+## Configuration file
+
+Copy /src/main/resources/application-local.yml to application-prod.yml and configure the Business values
+
 ## How to run
 
 ### Production profile with docker compose
