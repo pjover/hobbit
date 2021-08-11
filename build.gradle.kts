@@ -1,10 +1,10 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-	id("org.springframework.boot") version "2.4.0-SNAPSHOT"
-	id("io.spring.dependency-management") version "1.0.10.RELEASE"
-	kotlin("jvm") version "1.4.10"
-	kotlin("plugin.spring") version "1.4.10"
+	id("org.springframework.boot") version "2.5.2"
+	id("io.spring.dependency-management") version "1.0.11.RELEASE"
+	kotlin("jvm") version "1.5.20"
+	kotlin("plugin.spring") version "1.5.20"
 	id("com.google.cloud.tools.jib") version "1.3.0"
 	id("info.solidsoft.pitest") version "1.5.2"
 }
@@ -12,7 +12,7 @@ plugins {
 group = "cat.hobbiton"
 version = version()
 
-java.sourceCompatibility = JavaVersion.VERSION_1_8
+java.sourceCompatibility = JavaVersion.VERSION_16
 
 configurations {
 	compileOnly {
@@ -60,7 +60,7 @@ tasks.withType<Test> {
 tasks.withType<KotlinCompile> {
 	kotlinOptions {
 		freeCompilerArgs = listOf("-Xjsr305=strict")
-		jvmTarget = "1.8"
+		jvmTarget = "16"
 	}
 }
 

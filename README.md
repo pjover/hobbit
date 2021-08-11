@@ -7,14 +7,13 @@ Hobbit Kotlin Spring boot application for managing a Kindergarten business, init
 Hobbit will run inside a Kubernetes cluster, alongside with a MongoDB database and Mongo express database administrator.
 
 
-### Local app with MongoDB on Docker
+### Local app on Docker
 
 Also you can run as standard java application, and will connect to MongoDB on localhost:27017
 
 Set program arguments to: `--spring.profiles.active=local`
 
-
-#### MongoDB on Docker
+#### MongoDB
 
 For development, you can deploy a Docker container, with local persistence
 
@@ -56,13 +55,11 @@ docker run -it --rm \
      mongo --host mongo-server
 ```
 
+#### Hobbit
 
-### App docker image
+Build the image with JIB: `.\gradlew jibDockerBuild`
 
-- Build the image with JIB: `.\gradlew jibDockerBuild`
-
-
-### Run Hobbit on Docker
+Run the app with production profile
 
 ```shell script
 docker run -d \
