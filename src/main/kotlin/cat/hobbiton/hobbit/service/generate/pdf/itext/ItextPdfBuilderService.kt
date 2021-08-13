@@ -53,6 +53,7 @@ class ItextPdfBuilderService(
         private lateinit var oneDecimalFormat: NumberFormat
         private lateinit var twoDecimalFormat: NumberFormat
         private lateinit var longDateFormat: DateTimeFormatter
+        private lateinit var logo: Image
     }
 
     @PostConstruct
@@ -65,6 +66,21 @@ class ItextPdfBuilderService(
         twoDecimalFormat = NumberFormat.getNumberInstance(locale)
         twoDecimalFormat.minimumFractionDigits = 2
         twoDecimalFormat.maximumFractionDigits = 2
+        logo = getLogoImage()
+    }
+
+    private fun getLogoImage(): Image {
+        val logo = this::class.java.getResource(logoResourcePath)
+            ?: throw IllegalArgumentException(ValidationMessages.ERROR_LOGO_FILE_NOT_FOUND.translate(logoResourcePath))
+        val file = File(logo.file)
+        if(!file.exists()) {
+            throw IllegalArgumentException(ValidationMessages.ERROR_LOGO_FILE_NOT_FOUND.translate(logoResourcePath))
+        }
+        return try {
+            Image.getInstance(file.absolutePath)
+        } catch(e: Exception) {
+            throw IllegalArgumentException(ValidationMessages.ERROR_LOGO_FILE_NOT_FOUND.translate(logoResourcePath), e)
+        }
     }
 
     override fun generate(invoice: Invoice, customer: Customer, products: Map<String, Product>): FileResource {
@@ -121,19 +137,9 @@ class ItextPdfBuilderService(
     }
 
     private fun logo(doc: Document) {
-        val logo = getLogoImage()
         logo.scalePercent(50f)
         logo.setAbsolutePosition(40f, PageSize.A4.height - logo.scaledHeight - 50)
         doc.add(logo)
-    }
-
-    private fun getLogoImage(): Image {
-        return try {
-            val file = File(this::class.java.getResource(logoResourcePath).file)
-            Image.getInstance(file.absolutePath)
-        } catch(e: IOException) {
-            throw IllegalArgumentException(ValidationMessages.ERROR_LOGO_FILE_NOT_FOUND.translate(logoResourcePath), e)
-        }
     }
 
     private fun businessGroup(doc: Document) {

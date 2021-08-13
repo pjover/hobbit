@@ -270,30 +270,10 @@ paths:
                 format: binary
 
   /generate/pdf:
-    get:
-      tags:
-        - Generate
-      description: Return the pending invoices (no printed to PDF) that will generate the invoice PDF file
-      operationId: simulatePDFs
-      parameters:
-        - name: yearMonth
-          in: query
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/PaymentTypeInvoicesDTO'
     post:
       tags:
         - Generate
-      description: Generates the PDF invoice files for the pending invoices (no printed to PDF)
+      description: Generates the PDF invoices files
       operationId: generatePDFs
       parameters:
         - name: yearMonth
@@ -301,6 +281,13 @@ paths:
           required: true
           schema:
             type: string
+        - name: notYetPrinted
+          in: query
+          required: true
+          description: Which invoices to generate, not yet printed (true) or all (false)
+          schema:
+            type: boolean
+            default: true
       responses:
         '200':
           description: OK
@@ -486,9 +473,10 @@ components:
           $ref: '#/components/schemas/GroupDTO'
         emails:
           description: The customers email
-          type: array
-          items:
-            type: string
+          type: string
+          default: ""
+      required:
+        - emails
 
     GroupDTO:
       description: Group where the children are
@@ -626,6 +614,7 @@ components:
         - paymentType
         - totalAmount
         - customers
+        - numberOfInvoices
 
     CustomerInvoicesDTO:
       description: Invoices grouped by customer

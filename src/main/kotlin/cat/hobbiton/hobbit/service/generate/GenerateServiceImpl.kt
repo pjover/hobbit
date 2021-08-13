@@ -18,9 +18,7 @@ class GenerateServiceImpl(
 
     override fun generateBDD(yearMonth: String) = bddService.generateBDD(yearMonth)
 
-    override fun simulatePDFs(yearMonth: String) = pdfService.simulatePDFs(yearMonth)
-
-    override fun generatePDFs(yearMonth: String) = pdfService.generatePDFs(yearMonth)
+    override fun generatePDFs(yearMonth: String, notYetPrinted: Boolean) = pdfService.generatePDFs(yearMonth, notYetPrinted)
 
     override fun generatePDF(invoiceId: String) = pdfService.generatePDF(invoiceId)
 

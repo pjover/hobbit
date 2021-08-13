@@ -1,3 +1,31 @@
 db:
-  name: hobbit_dev
+  port: 27017
   host: localhost
+  name: hobbit_dev
+
+business:
+  businessName: "BusinessName"
+  addressLine1: "AddressLine1"
+  addressLine2: "AddressLine2"
+  addressLine3: "AddressLine3"
+  addressLine4: "AddressLine4"
+  taxIdLine: "TaxIdLine"
+
+  bddBusinessPrefix: TEST
+  bddBusinessId: ES92000A22316012
+  bddBusinessIban: ES8400817164314613054357
+  bddBankBic: BSABESM1993
+  bddCountry: ES
+  bddPurposeCode: OTHR
+
+  paymentTypeNotes:
+    BANK_DIRECT_DEBIT: Bank direct debit payment type note
+    BANK_TRANSFER: Bank transfer payment type note
+    VOUCHER: Voucher payment type note
+    CASH: Cash payment type note
+    OTHER: Other payment type note
+    RECTIFICATION: Rectification payment type note
+
+formatting:
+  locale: "en_US"
+  longDateFormat: "MMMM d, yyyy"

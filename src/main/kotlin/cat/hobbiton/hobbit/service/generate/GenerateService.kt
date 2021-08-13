@@ -6,23 +6,21 @@ import org.springframework.core.io.Resource
 
 interface GenerateService {
 
-	fun simulateBDD(yearMonth: String): PaymentTypeInvoicesDTO
+    fun simulateBDD(yearMonth: String): PaymentTypeInvoicesDTO
 
-	fun generateBDD(yearMonth: String): Resource
+    fun generateBDD(yearMonth: String): Resource
 
-	fun simulatePDFs(yearMonth: String): List<PaymentTypeInvoicesDTO>
+    fun generatePDFs(yearMonth: String, notYetPrinted: Boolean): Resource
 
-	fun generatePDFs(yearMonth: String): Resource
+    fun generatePDF(invoiceId: String): Resource
 
-	fun generatePDF(invoiceId: String): Resource
+    fun simulateEmails(yearMonth: String): PaymentTypeInvoicesDTO
 
-	fun simulateEmails(yearMonth: String): PaymentTypeInvoicesDTO
+    fun generateEmails(yearMonth: String): PaymentTypeInvoicesDTO
 
-	fun generateEmails(yearMonth: String): PaymentTypeInvoicesDTO
+    fun generateMonthSpreadSheet(yearMonth: String): Resource
 
-	fun generateMonthSpreadSheet(yearMonth: String): Resource
+    fun generateYearSpreadSheet(year: Int): Resource
 
-	fun generateYearSpreadSheet(year: Int): Resource
-
-	fun generateCustomersSpreadSheet(): Resource
+    fun generateCustomersSpreadSheet(): Resource
 }

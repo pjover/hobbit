@@ -89,7 +89,7 @@ jib {
 
 fun version(): String {
 	return rootProject
-		.file("hobbit.yaml")
+		.file("$projectDir/src/main/resources/application.yml")
 		.readLines()
 		.findLast { it.startsWith("appVersion:") }
 		?.split(":")

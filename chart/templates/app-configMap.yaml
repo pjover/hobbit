@@ -1,9 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: profile-config
-  labels:
-    name: {{ .Values.name }}
-  {{- template "labels" . }}
-data:
-  spring.profiles.active: {{ .Values.profile }}

@@ -26,101 +26,125 @@ class PdfServiceImplTest : DescribeSpec() {
         val zipService = mockk<ZipService>()
         val sut = PdfServiceImpl(invoiceRepository, customerRepository, productRepository, pdfBuilderService, zipService)
 
-        describe("simulatePDFs") {
-
-            context("there are invoices") {
-                mockReaders(invoiceRepository, customerRepository, productRepository)
-
-                val actual = sut.simulatePDFs(YEAR_MONTH.toString())
-
-                it("should be the pending invoices") {
-                    actual shouldBe expectedInvoices
-                }
-
-                it("call the collaborators") {
-                    verify {
-                        invoiceRepository.findByPrintedAndYearMonth(false, YEAR_MONTH)
-                        customerRepository.getCustomer(185)
-                        customerRepository.getCustomer(186)
-                    }
-                }
-            }
-
-            context("there are no invoices") {
-                clearMocks(invoiceRepository, customerRepository, pdfBuilderService, zipService)
-                every { invoiceRepository.findByPrintedAndYearMonth(false, YEAR_MONTH) } returns emptyList()
-
-                val executor = {
-                    sut.simulatePDFs(YEAR_MONTH.toString())
-                }
-
-                it("throws an error") {
-                    val exception = assertFailsWith<NotFoundException> { executor.invoke() }
-                    exception.message shouldBe "There are no pending PDFs to generate"
-                }
-
-                it("calls invoiceRepository") {
-                    verify {
-                        invoiceRepository.findByPrintedAndYearMonth(false, YEAR_MONTH)
-                    }
-                }
-            }
-        }
-
         describe("generatePDFs") {
 
-            context("there are invoices") {
-                clearMocks(pdfBuilderService)
-                mockReaders(invoiceRepository, customerRepository, productRepository)
-                mockWriters(invoiceRepository)
-                mockZipService(zipService)
-                every { pdfBuilderService.generate(testInvoice185, testCustomer185, any()) } returns
-                    FileResource("PDF1".toByteArray(StandardCharsets.UTF_8), testInvoice185.getPdfName())
-                every { pdfBuilderService.generate(testInvoice186, testCustomer186, any()) } returns
-                    FileResource("PDF2".toByteArray(StandardCharsets.UTF_8), testInvoice186.getPdfName())
+            context("not printed") {
+                context("there are invoices") {
+                    clearMocks(pdfBuilderService)
+                    mockReaders(invoiceRepository, customerRepository, productRepository)
+                    mockWriters(invoiceRepository)
+                    mockZipService(zipService)
+                    every { pdfBuilderService.generate(testInvoice185, testCustomer185, any()) } returns
+                        FileResource("PDF1".toByteArray(StandardCharsets.UTF_8), testInvoice185.getPdfName())
+                    every { pdfBuilderService.generate(testInvoice186, testCustomer186, any()) } returns
+                        FileResource("PDF2".toByteArray(StandardCharsets.UTF_8), testInvoice186.getPdfName())
 
-                val actual = sut.generatePDFs(YEAR_MONTH.toString())
+                    val actual = sut.generatePDFs(yearMonth = YEAR_MONTH.toString(), notYetPrinted = true)
 
-                it("returns the zip resource") {
-                    actual.filename shouldBe pdfsZipFilename
-                }
+                    it("returns the zip resource") {
+                        actual.filename shouldBe pdfsZipFilename
+                    }
 
-                it("call the collaborators") {
-                    verify {
-                        invoiceRepository.findByPrintedAndYearMonth(false, YEAR_MONTH)
-                        customerRepository.getCustomer(185)
-                        customerRepository.getCustomer(186)
-                        pdfBuilderService.generate(testInvoice185, testCustomer185, any())
-                        pdfBuilderService.generate(testInvoice186, testCustomer186, any())
-                        zipService.zipFiles(any(), pdfsZipFilename)
+                    it("call the collaborators") {
+                        verify {
+                            invoiceRepository.findByPrintedAndYearMonth(false, YEAR_MONTH)
+                            customerRepository.getCustomer(185)
+                            customerRepository.getCustomer(186)
+                            pdfBuilderService.generate(testInvoice185, testCustomer185, any())
+                            pdfBuilderService.generate(testInvoice186, testCustomer186, any())
+                            zipService.zipFiles(any(), pdfsZipFilename)
+                        }
+                    }
+
+                    it("updates the invoices") {
+                        verify {
+                            invoiceRepository.save(testInvoice185.copy(printed = true))
+                            invoiceRepository.save(testInvoice186.copy(printed = true))
+                        }
                     }
                 }
 
-                it("updates the invoices") {
-                    verify {
-                        invoiceRepository.save(testInvoice185.copy(printed = true))
-                        invoiceRepository.save(testInvoice186.copy(printed = true))
+                context("there are no invoices") {
+                    clearMocks(invoiceRepository, customerRepository, pdfBuilderService)
+                    every { invoiceRepository.findByPrintedAndYearMonth(false, YEAR_MONTH) } returns emptyList()
+
+
+                    val executor = {
+                        sut.generatePDFs(yearMonth = YEAR_MONTH.toString(), notYetPrinted = true)
+                    }
+
+                    it("throws an error") {
+                        val exception = assertFailsWith<NotFoundException> { executor.invoke() }
+                        exception.message shouldBe "There are no pending PDFs to generate"
+                    }
+
+                    it("calls invoiceRepository") {
+                        verify {
+                            invoiceRepository.findByPrintedAndYearMonth(false, YEAR_MONTH)
+                        }
                     }
                 }
             }
 
-            context("there are no invoices") {
-                clearMocks(invoiceRepository, customerRepository, pdfBuilderService)
-                every { invoiceRepository.findByPrintedAndYearMonth(false, YEAR_MONTH) } returns emptyList()
+            context("all") {
+                context("there are invoices") {
+                    clearMocks(pdfBuilderService)
+                    mockReaders(invoiceRepository, customerRepository, productRepository)
+                    mockWriters(invoiceRepository)
+                    mockZipService(zipService)
+                    every { pdfBuilderService.generate(testInvoice185, testCustomer185, any()) } returns
+                        FileResource("PDF1".toByteArray(StandardCharsets.UTF_8), testInvoice185.getPdfName())
+                    every { pdfBuilderService.generate(testInvoice186, testCustomer186, any()) } returns
+                        FileResource("PDF2".toByteArray(StandardCharsets.UTF_8), testInvoice186.getPdfName())
+                    every { pdfBuilderService.generate(testInvoice187, testCustomer187, any()) } returns
+                        FileResource("PDF2".toByteArray(StandardCharsets.UTF_8), testInvoice187.getPdfName())
 
+                    val actual = sut.generatePDFs(yearMonth = YEAR_MONTH.toString(), notYetPrinted = false)
 
-                val executor = {
-                    sut.generatePDFs(YEAR_MONTH.toString())
+                    it("returns the zip resource") {
+                        actual.filename shouldBe pdfsZipFilename
+                    }
+
+                    it("call the collaborators") {
+                        verify {
+                            invoiceRepository.findByYearMonth(YEAR_MONTH)
+                            customerRepository.getCustomer(185)
+                            customerRepository.getCustomer(186)
+                            customerRepository.getCustomer(187)
+                            pdfBuilderService.generate(testInvoice185, testCustomer185, any())
+                            pdfBuilderService.generate(testInvoice186, testCustomer186, any())
+                            pdfBuilderService.generate(testInvoice187, testCustomer187, any())
+                            zipService.zipFiles(any(), pdfsZipFilename)
+                        }
+                    }
+
+                    it("updates the invoices") {
+                        verify {
+                            invoiceRepository.save(testInvoice185.copy(printed = true))
+                            invoiceRepository.save(testInvoice186.copy(printed = true))
+                            invoiceRepository.save(testInvoice187.copy(printed = true))
+                        }
+                    }
                 }
 
-                it("throws an error") {
-                    val exception = assertFailsWith<NotFoundException> { executor.invoke() }
-                    exception.message shouldBe "There are no pending PDFs to generate"
-                }
+                context("there are no invoices") {
+                    clearMocks(invoiceRepository, customerRepository, pdfBuilderService)
+                    every { invoiceRepository.findByYearMonth(YEAR_MONTH) } returns emptyList()
 
-                it("calls invoiceRepository") {
-                    verify {
-                        invoiceRepository.findByPrintedAndYearMonth(false, YEAR_MONTH)
+
+                    val executor = {
+                        sut.generatePDFs(yearMonth = YEAR_MONTH.toString(), notYetPrinted = false)
+                    }
+
+                    it("throws an error") {
+                        val exception = assertFailsWith<NotFoundException> { executor.invoke() }
+                        exception.message shouldBe "There are no pending PDFs to generate"
+                    }
+
+                    it("calls invoiceRepository") {
+                        verify {
+                            invoiceRepository.findByYearMonth(YEAR_MONTH)
+                        }
                     }
                 }
             }
@@ -184,8 +208,11 @@ private fun mockReaders(invoiceRepository: InvoiceRepository, customerRepository
         testInvoice186
     )
 
+    every { invoiceRepository.findByYearMonth(YEAR_MONTH) } returns testInvoices
+
     every { customerRepository.getCustomer(185) } returns testCustomer185
     every { customerRepository.getCustomer(186) } returns testCustomer186
+    every { customerRepository.getCustomer(187) } returns testCustomer187
 
     every { productRepository.getProduct("TST") } returns testProduct1
     every { productRepository.getProduct("XXX") } returns testProduct2

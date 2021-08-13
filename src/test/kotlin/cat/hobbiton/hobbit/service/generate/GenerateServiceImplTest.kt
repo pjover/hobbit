@@ -64,26 +64,10 @@ class GenerateServiceImplTest : DescribeSpec() {
 
         describe("PDF") {
 
-            context("simulatePDFs") {
-                every { pdfService.simulatePDFs(any()) } returns expectedInvoice
-
-                val actual = sut.simulatePDFs(YEAR_MONTH.toString())
-
-                it("should return the correct invoice") {
-                    actual shouldBe expectedInvoice
-                }
-
-                it("call the collaborator") {
-                    verify {
-                        pdfService.simulatePDFs(YEAR_MONTH.toString())
-                    }
-                }
-            }
-
             context("generatePDFs") {
-                every { pdfService.generatePDFs(any()) } returns expectedResource
+                every { pdfService.generatePDFs(any(), any()) } returns expectedResource
 
-                val actual = sut.generatePDFs(YEAR_MONTH.toString())
+                val actual = sut.generatePDFs(YEAR_MONTH.toString(), true)
 
                 it("should return the correct resource") {
                     actual shouldBe expectedResource
@@ -91,7 +75,7 @@ class GenerateServiceImplTest : DescribeSpec() {
 
                 it("call the collaborator") {
                     verify {
-                        pdfService.generatePDFs(YEAR_MONTH.toString())
+                        pdfService.generatePDFs(YEAR_MONTH.toString(), true)
                     }
                 }
             }
