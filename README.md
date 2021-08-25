@@ -33,14 +33,14 @@ Set up a SpringBoot running configuration inside IntelliJ:
 
 Set up a SwaggerCodegen running configuration inside IntelliJ:
 
-- Specification path: $PATH_TO_HOBBIT_PROJECT/openapi.yml
+- Specification path: $PATH_TO_HOBBIT_PROJECT/API_definition.yml
 - generate files to: $PATH_TO_HOBBIT_PROJECT
 - generator
   path: https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/4.3.1/openapi-generator-cli-4.3.1.jar
 - Language: kotlin-spring
-- Configure generator with JSON file: $PATH_TO_HOBBIT_PROJECT/openapi-options.json
+- Configure generator with JSON file: $PATH_TO_HOBBIT_PROJECT/API_definition_options.json
 
-1. Keep up to date the API definition at `openapi.yml`
+1. Keep up to date the API definition at `API_definition.yml`
 1. Run the running configuration inside IntelliJ
 1. Delete the services
 1. Move or copy the changed code to the controllers to controller package
