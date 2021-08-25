@@ -11,6 +11,7 @@ Copy /src/main/resources/application-local.yml to application-prod.yml and confi
 
 ### Production profile with docker compose
 
+1. Add a `application-prod.yml` configuration file to resources directory
 1. Build the Hobbit image with JIB: `./gradlew jibDockerBuild`
 1. Run with docker compose: `docker-compose up`. This will start:
 

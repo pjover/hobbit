@@ -66,7 +66,7 @@ tasks.withType<KotlinCompile> {
 
 jib {
 	from {
-		image = "openjdk:8-jre-alpine"
+		image = "openjdk:16-jre-alpine"
 	}
 	to {
 		tags = tags()
