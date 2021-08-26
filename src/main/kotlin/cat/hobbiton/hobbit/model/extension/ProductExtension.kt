@@ -14,7 +14,7 @@ fun Product.validate() {
     require(id.isNotBlank()) { ValidationMessages.ERROR_PRODUCT_ID_BLANK.translate() }
     require(id.length == ID_MAX_LENGTH) { ValidationMessages.ERROR_PRODUCT_ID_LENGTH.translate(ID_MAX_LENGTH) }
 
-    require(id == id.toUpperCase()) { ValidationMessages.ERROR_PRODUCT_ID_LOWER_CASE.translate() }
+    require(id == id.uppercase()) { ValidationMessages.ERROR_PRODUCT_ID_LOWER_CASE.translate() }
 
     require(name.isNotBlank()) { ValidationMessages.ERROR_PRODUCT_NAME_BLANK.translate() }
     require(name.length <= NAME_MAX_LENGTH) { ValidationMessages.ERROR_PRODUCT_NAME_TOO_LONG.translate(NAME_MAX_LENGTH) }

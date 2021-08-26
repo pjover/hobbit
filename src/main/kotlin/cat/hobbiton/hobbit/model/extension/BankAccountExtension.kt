@@ -12,7 +12,7 @@ fun String.isValidBankAccount(): Boolean {
 private fun prepare(code: String): String {
     return code
             .trim()
-            .capitalize()
+            .replaceFirstChar { it.uppercase() }
             .replace(" ", "")
             .replace("-", "")
 }
@@ -31,7 +31,7 @@ private fun moveCountryCodeToTheEnd(code: String): String {
 }
 
 private fun formatCode(rawCode: String?): String {
-    return if(rawCode == null || rawCode.isBlank()) "" else RegExUtils.removeAll(rawCode.toUpperCase(), "[\\s-]")
+    return if(rawCode == null || rawCode.isBlank()) "" else RegExUtils.removeAll(rawCode.uppercase(), "[\\s-]")
 }
 
 private fun getCountryCode(code: String): String {

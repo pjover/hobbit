@@ -17,7 +17,7 @@ class HobbitApplication(
 
     @EventListener(ApplicationReadyEvent::class)
     fun afterStartup() {
-        logger.info("🟢 Started $appName v$appVersion (${activeProfile.toUpperCase()})")
+        logger.info("🟢 Started $appName v$appVersion (${activeProfile.uppercase()})")
     }
 }
 
