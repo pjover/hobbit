@@ -72,7 +72,7 @@ jib {
         tags = tags()
     }
     container {
-//		useCurrentTimestamp = true
+        creationTime = "USE_CURRENT_TIMESTAMP"
         labels = mapOf(
             "org.opencontainers.image.title" to "Hobbit",
             "org.opencontainers.image.description" to "Hobbit Kotlin Spring boot application for managing a Kindergarten business",
