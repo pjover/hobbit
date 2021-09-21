@@ -19,9 +19,9 @@ Copy /src/main/resources/application-local.yml to application-prod.yml and confi
 - A Mongo express database UI at port 8081. The UI is at http://localhost:8081
 - Hobbit application at port 8080.The Swagger UI is at http://localhost:8080/swagger-ui.html
 
-### Local app on Docker
+### Local app on IntelliJ
 
-Also you can run as standard java application, and will connect to a running MongoDB on localhost:27017
+You can run as standard java application, and will connect to a running MongoDB on localhost:27017
 
 Set up a SpringBoot running configuration inside IntelliJ:
 
@@ -29,6 +29,18 @@ Set up a SpringBoot running configuration inside IntelliJ:
 
 1. Stop the production Hobbit application
 1. Run the running configuration inside IntelliJ
+
+### Production app on IntelliJ
+
+To run inside IntelliJ with production database, you should:
+
+Set up a SpringBoot running configuration inside IntelliJ:
+
+- Program arguments to: `--spring.profiles.active=prod --db.host=localhost`
+
+1. Stop the production Hobbit application
+1. Run the running configuration inside IntelliJ
+
 
 ## Update API definition
 
