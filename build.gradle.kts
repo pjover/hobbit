@@ -42,7 +42,8 @@ dependencies {
 
     implementation("com.itextpdf:itextpdf:5.5.13.2") // PDF generation with iText
     implementation("com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.3") // Java Simplified Encryption
-    implementation("org.apache.poi:poi-ooxml:4.1.2") // Spread sheet generation
+    implementation("org.apache.poi:poi-ooxml:5.0.0") // Spread sheet generation
+
 
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(mapOf("group" to "org.junit.vintage", "module" to "junit-vintage-engine"))
