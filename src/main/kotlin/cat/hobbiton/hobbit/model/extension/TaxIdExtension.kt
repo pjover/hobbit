@@ -13,7 +13,7 @@ private const val NIF_LETTERS = "TRWAGMYFPDXBNJZSQVHLCKE"
 fun String.isValidTaxId(): Boolean {
     if(this.isBlank()) return false
 
-    val value: String = this.trim().capitalize()
+    val value: String = this.trim().replaceFirstChar { it.uppercase() }
     val letter: String = value.substring(0, 1)
     return when {
         CIF_LETTERS.contains(letter) -> isValidCif(value)
@@ -33,7 +33,7 @@ private fun computeCif(value: String): String {
 
     val totalSum = totalSum(body)
 
-    val tail = if (CIF_HEAD_LETTERS.contains(head)) {
+    val tail = if(CIF_HEAD_LETTERS.contains(head)) {
         CIF_TAIL_LETTERS[totalSum].toString()
     } else {
         totalSum.toString()
@@ -46,7 +46,7 @@ private fun removeTail(value: String) = value.substring(0, 8)
 private fun totalSum(body: String): Int {
     val partialSum = pairSum(body) + oddSum(body)
     var totalSum = 10 - partialSum % 10
-    if (totalSum == 10) totalSum = 0
+    if(totalSum == 10) totalSum = 0
     return totalSum
 }
 
@@ -54,7 +54,7 @@ private fun pairSum(body: String): Int {
     var sum = 0
     run {
         var i = 1
-        while (i < body.length) {
+        while(i < body.length) {
             val aux = body[i].toString().toInt()
             sum += aux
             i += 2
@@ -67,7 +67,7 @@ private fun oddSum(body: String): Int {
     var sum = 0
     run {
         var i = 0
-        while (i < body.length) {
+        while(i < body.length) {
             sum += oddPosition(body[i].toString())
             i += 2
         }
@@ -112,10 +112,10 @@ private fun completeWithZeroes(str: String): String {
 }
 
 fun String.getSepaIndentifier(countryCode: String, suffix: String): String {
-    return countryCode.toUpperCase() +
+    return countryCode.uppercase() +
         calculateControlCode(this, countryCode) +
         StringUtils.leftPad(suffix, 3, '0') +
-        StringUtils.leftPad(this.toUpperCase(), 9, '0')
+        StringUtils.leftPad(this.uppercase(), 9, '0')
 }
 
 fun calculateControlCode(vararg params: String): String {
@@ -130,7 +130,7 @@ private fun prepareParams(vararg params: String): String {
 
 private fun prepareParam(rawCode: String): String {
     return if(rawCode.isBlank()) "00"
-    else RegExUtils.removeAll(rawCode.toUpperCase(), "[\\s-]") + "00"
+    else RegExUtils.removeAll(rawCode.uppercase(), "[\\s-]") + "00"
 }
 
 private fun assignWeightsToLetters(code: String): String {
