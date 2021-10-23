@@ -1,5 +1,7 @@
 package cat.hobbiton.hobbit.model
 
+import java.util.*
+
 data class Adult(
         val name: String,
         val surname: String,
@@ -12,5 +14,7 @@ data class Adult(
         val homePhone: String? = null,
         val grandMotherPhone: String? = null,
         val grandParentPhone: String? = null,
-        val workPhone: String? = null
+        val workPhone: String? = null,
+        val birthDate: Date? = null,
+        val nationality: String? = null
 )
