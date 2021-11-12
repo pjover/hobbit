@@ -1,10 +1,12 @@
 package cat.hobbiton.hobbit.model
 
+import org.springframework.data.mongodb.core.index.TextIndexed
+import org.springframework.data.mongodb.core.mapping.TextScore
 import java.util.*
 
 data class Adult(
-        val name: String,
-        val surname: String,
+        @TextIndexed(weight = 10F) val name: String,
+        @TextIndexed(weight = 7F) val surname: String,
         val secondSurname: String? = null,
         val taxId: String? = null,
         val role: AdultRole,
@@ -16,5 +18,6 @@ data class Adult(
         val grandParentPhone: String? = null,
         val workPhone: String? = null,
         val birthDate: Date? = null,
-        val nationality: String? = null
+        val nationality: String? = null,
+        @TextScore val score: Double = 0.0
 )
