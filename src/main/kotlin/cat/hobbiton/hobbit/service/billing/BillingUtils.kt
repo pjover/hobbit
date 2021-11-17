@@ -19,7 +19,7 @@ fun groupConsumptions(childCode: Int, consumptions: List<Consumption>): Pair<Int
                     productId = productId,
                     units = it.sumOf { it.units },
                     yearMonth = it.first().yearMonth,
-                    note = it.map { it.note }.joinToString(separator = ", ")
+                    note = it.map { it.note }.filterNotNull().filter{ it.isNotBlank() }.joinToString(separator = ", ")
                 )
             }
     )

@@ -109,6 +109,66 @@ class ConsumptionsServiceImplTest : DescribeSpec() {
                     )
                 }
             }
+
+            context("with empty notes consumptions") {
+
+                mockAuxReaders(customerRepository, productRepository)
+                every { consumptionRepository.findByInvoiceIdNullAndChildCode(1) } returns listOf(
+                    Consumption(
+                        id = "AA1",
+                        childCode = 1850,
+                        productId = "TST",
+                        units = 2.toBigDecimal(),
+                        yearMonth = YEAR_MONTH,
+                        note = ""
+                    ),
+                    Consumption(
+                        id = "AA2",
+                        childCode = 1850,
+                        productId = "TST",
+                        units = 2.toBigDecimal(),
+                        yearMonth = YEAR_MONTH,
+                        note = ""
+                    ),
+                    Consumption(
+                        id = "AA3",
+                        childCode = 1850,
+                        productId = "TST",
+                        units = 2.toBigDecimal(),
+                        yearMonth = YEAR_MONTH,
+                        note = ""
+                    ),
+                    Consumption(
+                        id = "AA5",
+                        childCode = 1850,
+                        productId = "TST",
+                        units = 2.toBigDecimal(),
+                        yearMonth = YEAR_MONTH,
+                        note = ""
+                    )
+                )
+
+                val actual = sut.getChildConsumptions(1)
+
+                it("return the consumpion of this child") {
+                    actual shouldBe listOf(
+                        YearMonthConsumptionsDTO(
+                            yearMonth = YEAR_MONTH.toString(),
+                            grossAmount = 105.4.toBigDecimal(),
+                            listOf(
+                                ChildConsumtionDTO(
+                                    code = 1850,
+                                    shortName = "Laura Llull",
+                                    grossAmount = 105.4.toBigDecimal(),
+                                    listOf(
+                                        ConsumtionDTO("TST", 8.toBigDecimal(), 87.2.toBigDecimal(), ""),
+                                    )
+                                )
+                            )
+                        )
+                    )
+                }
+            }
         }
 
         describe("getConsumptions") {
