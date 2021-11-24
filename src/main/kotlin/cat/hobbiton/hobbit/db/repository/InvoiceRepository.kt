@@ -29,4 +29,8 @@ interface InvoiceRepository : MongoRepository<Invoice, String> {
     fun findByCustomerIdAndYearMonth(customerId: Int, yearMonth: YearMonth): List<Invoice>
 
     fun findByCustomerIdAndYearMonthYear(customerId: Int, year: Int): List<Invoice>
+
+    fun findByCustomerIdAndYearMonthYearAndYearMonthMonth(customerId: Int, year: Int, month: Int): List<Invoice>
+
+    fun findByCustomerIdAndYearMonthIn(customerId: Int, yearMonths: List<YearMonth>): List<Invoice>
 }

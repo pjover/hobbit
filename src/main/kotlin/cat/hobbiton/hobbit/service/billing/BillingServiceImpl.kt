@@ -117,7 +117,7 @@ class BillingServiceImpl(
     }
 
     private fun getNotes(consumptions: List<Consumption>): String? {
-        val n = consumptions.mapNotNull { it.note }
+        val n = consumptions.mapNotNull { it.note }.filter{ it.isNotBlank() }
         return if(n.isEmpty()) null
         else n.joinToString(", ")
     }
