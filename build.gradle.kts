@@ -70,6 +70,7 @@ jib {
         image = "adoptopenjdk/openjdk11:alpine"
     }
     to {
+        image = "p3r3/hobbit"
         tags = tags()
     }
     container {
