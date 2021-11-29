@@ -25,7 +25,7 @@ services:
       ME_CONFIG_MONGODB_SERVER: "mongo_server"
 
   hobbit:
-    image: p3r3/hobbit:latest
+    image: p3r3/hobbit:amd64
     depends_on:
       mongo_server:
         condition: service_healthy

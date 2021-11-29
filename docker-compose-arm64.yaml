@@ -1,7 +1,7 @@
 version: "3.9"
 services:
   mongo_server:
-    image: mongo
+    image: arm64v8/mongo:focal
     ports:
     - 27017:27017
     volumes:
@@ -14,7 +14,7 @@ services:
       start_period: 5s
 
   mongo_express:
-    image: mongo-express
+    image: arm64v8/mongo-express:latest
     depends_on:
       mongo_server:
         condition: service_healthy
@@ -25,14 +25,14 @@ services:
       ME_CONFIG_MONGODB_SERVER: "mongo_server"
 
   hobbit:
-    image: hobbit:latest
+    image: p3r3/hobbit:arm64
     depends_on:
       mongo_server:
         condition: service_healthy
     ports:
     - 8080:8080
     environment:
-      SPRING_PROFILES_ACTIVE: "dev"
+      SPRING_PROFILES_ACTIVE: "prod"
 
 
 
