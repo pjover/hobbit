@@ -91,7 +91,7 @@ jib {
 
 fun version(): String {
     return rootProject
-        .file("$projectDir/src/main/resources/application.yml")
+        .file("$projectDir/src/main/resources/application.yaml")
         .readLines()
         .findLast { it.startsWith("appVersion:") }
         ?.split(":")
