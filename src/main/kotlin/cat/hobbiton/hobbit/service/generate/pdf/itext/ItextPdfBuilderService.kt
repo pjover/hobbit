@@ -66,7 +66,6 @@ class ItextPdfBuilderService(
         twoDecimalFormat = NumberFormat.getNumberInstance(locale)
         twoDecimalFormat.minimumFractionDigits = 2
         twoDecimalFormat.maximumFractionDigits = 2
-        logo = getLogoImage()
     }
 
     private fun getLogoImage(): Image {
@@ -84,6 +83,7 @@ class ItextPdfBuilderService(
     }
 
     override fun generate(invoice: Invoice, customer: Customer, products: Map<String, Product>): FileResource {
+        logo = getLogoImage()
         try {
             ByteArrayOutputStream().use {
                 generate(it, invoice, customer, products)
