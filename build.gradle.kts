@@ -10,7 +10,6 @@ plugins {
 }
 
 group = "cat.hobbiton"
-version = version()
 
 java.sourceCompatibility = JavaVersion.VERSION_11
 
@@ -65,20 +64,20 @@ tasks.withType<KotlinCompile> {
     }
 }
 
+
 jib {
     from {
         image = "adoptopenjdk/openjdk11:alpine"
     }
     to {
         image = "p3r3/hobbit"
-        tags = tags()
+        tags = setOf("amd64")
     }
     container {
         creationTime = "USE_CURRENT_TIMESTAMP"
         labels = mapOf(
             "org.opencontainers.image.title" to "Hobbit",
             "org.opencontainers.image.description" to "Hobbit Kotlin Spring boot application for managing a Kindergarten business",
-            "org.opencontainers.image.version" to "$version",
             "org.opencontainers.image.url" to "https://github.com/pjover/hobbit",
             "org.opencontainers.image.vendor" to "https://github.com/pjover",
             "org.opencontainers.image.licenses" to "GPL-3.0"
@@ -86,24 +85,6 @@ jib {
         workingDirectory = "/opt/target"
         jvmFlags = listOf("-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005")
         ports = listOf("8080", "5005")
-    }
-}
-
-fun version(): String {
-    return rootProject
-        .file("$projectDir/src/main/resources/application.yaml")
-        .readLines()
-        .findLast { it.startsWith("appVersion:") }
-        ?.split(":")
-        ?.last()
-        ?.trim()!!
-}
-
-fun tags(): Set<String> {
-    return if(version.toString().endsWith("-SNAPSHOT")) {
-        setOf("$version")
-    } else {
-        setOf("$version", "latest")
     }
 }
 
