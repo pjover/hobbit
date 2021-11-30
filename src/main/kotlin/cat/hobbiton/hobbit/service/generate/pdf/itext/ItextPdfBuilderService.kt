@@ -2,7 +2,6 @@ package cat.hobbiton.hobbit.service.generate.pdf.itext
 
 import cat.hobbiton.hobbit.init.BusinessProperties
 import cat.hobbiton.hobbit.init.FormattingProperties
-import cat.hobbiton.hobbit.logoResourcePath
 import cat.hobbiton.hobbit.messages.ErrorMessages
 import cat.hobbiton.hobbit.messages.TextMessages
 import cat.hobbiton.hobbit.messages.ValidationMessages
@@ -25,6 +24,7 @@ import com.itextpdf.text.pdf.PdfPTable
 import com.itextpdf.text.pdf.PdfWriter
 import com.itextpdf.text.pdf.draw.LineSeparator
 import org.apache.commons.lang3.LocaleUtils
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import java.io.ByteArrayOutputStream
 import java.io.File
@@ -38,7 +38,8 @@ import javax.annotation.PostConstruct
 @Service
 class ItextPdfBuilderService(
     private val businessProperties: BusinessProperties,
-    private val formattingProperties: FormattingProperties
+    private val formattingProperties: FormattingProperties,
+    @Value("\${logoFilePath}") private val logoFilePath: String
 ) : PdfBuilderService {
 
     companion object {
@@ -66,24 +67,22 @@ class ItextPdfBuilderService(
         twoDecimalFormat = NumberFormat.getNumberInstance(locale)
         twoDecimalFormat.minimumFractionDigits = 2
         twoDecimalFormat.maximumFractionDigits = 2
+        logo = getLogoImage()
     }
 
     private fun getLogoImage(): Image {
-        val logo = this::class.java.getResource(logoResourcePath)
-            ?: throw IllegalArgumentException(ValidationMessages.ERROR_LOGO_FILE_NOT_FOUND.translate(logoResourcePath))
-        val file = File(logo.file)
+        val file = File(logoFilePath)
         if(!file.exists()) {
-            throw IllegalArgumentException(ValidationMessages.ERROR_LOGO_FILE_NOT_FOUND.translate(logoResourcePath))
+            throw IllegalArgumentException(ValidationMessages.ERROR_LOGO_FILE_NOT_FOUND.translate(logoFilePath))
         }
         return try {
             Image.getInstance(file.absolutePath)
         } catch(e: Exception) {
-            throw IllegalArgumentException(ValidationMessages.ERROR_LOGO_FILE_NOT_FOUND.translate(logoResourcePath), e)
+            throw IllegalArgumentException(ValidationMessages.ERROR_LOGO_FILE_NOT_FOUND.translate(logoFilePath), e)
         }
     }
 
     override fun generate(invoice: Invoice, customer: Customer, products: Map<String, Product>): FileResource {
-        logo = getLogoImage()
         try {
             ByteArrayOutputStream().use {
                 generate(it, invoice, customer, products)

@@ -36,3 +36,5 @@ spring:
           auth: true
         starttls:
           enable: true
+
+logoFilePath: /opt/target/logo.png
