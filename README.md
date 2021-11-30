@@ -12,8 +12,11 @@ Copy /src/main/resources/application-local.yaml to application-prod.yaml and con
 ### Production profile with docker compose
 
 1. Add a `application-prod.yaml` configuration file to resources directory
-1. Build the Hobbit image with JIB: `./gradlew jibDockerBuild`
-1. Run with docker compose: `docker-compose up`. This will start:
+2. Build the Hobbit image with Dockerfile and run it with Docker compose:
+   - `./build-amd64.sh` for linux, windows and intel Mac
+   - `./build-arm64.sh` for Apple Silicon Mac
+
+This will start:
 
 - A MongoDB server on port 27017. To enter into the mongo server run: `docker exec -it hobbit_mongo_server_1 bash`
 - A Mongo express database UI at port 8081. The UI is at http://localhost:8081
