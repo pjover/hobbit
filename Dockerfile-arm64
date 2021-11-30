@@ -2,5 +2,6 @@ FROM arm64v8/openjdk:11-jre-slim-buster
 EXPOSE 8080 5005
 WORKDIR /opt/target
 COPY build/libs/hobbit.jar /opt/target
+COPY src/main/resources/logo.png /opt/target
 ENV _JAVA_OPTIONS '-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005'
 CMD ["java", "-jar", "hobbit.jar"]
