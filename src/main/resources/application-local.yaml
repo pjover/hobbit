@@ -1,7 +1,7 @@
 db:
   port: 27017
   host: localhost
-  name: hobbit_dev
+  name: hobbit_prod
 
 business:
   businessName: "BusinessName"
@@ -29,3 +29,5 @@ business:
 formatting:
   locale: "en_US"
   longDateFormat: "MMMM d, yyyy"
+
+logoFilePath: src/main/resources/logo.png
