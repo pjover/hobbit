@@ -7,8 +7,8 @@ import cat.hobbiton.hobbit.service.generate.bdd.BddService
 import cat.hobbiton.hobbit.service.generate.email.EmailService
 import cat.hobbiton.hobbit.service.generate.pdf.PdfService
 import cat.hobbiton.hobbit.service.generate.spreadsheet.SpreadSheetService
-import io.kotlintest.shouldBe
-import io.kotlintest.specs.DescribeSpec
+import io.kotest.core.spec.style.DescribeSpec
+import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify

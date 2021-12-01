@@ -3,11 +3,12 @@ package cat.hobbiton.hobbit.service.generate.email
 import cat.hobbiton.hobbit.*
 import cat.hobbiton.hobbit.db.repository.CachedCustomerRepository
 import cat.hobbiton.hobbit.db.repository.InvoiceRepository
+import cat.hobbiton.hobbit.messages.ErrorMessages
 import cat.hobbiton.hobbit.model.Invoice
 import cat.hobbiton.hobbit.service.billing.expectedInvoices
 import cat.hobbiton.hobbit.util.error.NotFoundException
-import io.kotlintest.shouldBe
-import io.kotlintest.specs.DescribeSpec
+import io.kotest.core.spec.style.DescribeSpec
+import io.kotest.matchers.shouldBe
 import io.mockk.*
 import kotlin.test.assertFailsWith
 
@@ -49,7 +50,7 @@ class EmailServiceImplTest : DescribeSpec() {
 
                 it("throws an error") {
                     val exception = assertFailsWith<NotFoundException> { executor.invoke() }
-                    exception.message shouldBe "There are no pending emails to send"
+                    exception.errorMessage shouldBe ErrorMessages.ERROR_EMAILS_TO_SEND_NOT_FOUND
                 }
 
                 it("calls invoiceRepository") {
@@ -108,7 +109,7 @@ class EmailServiceImplTest : DescribeSpec() {
 
                 it("throws an error") {
                     val exception = assertFailsWith<NotFoundException> { executor.invoke() }
-                    exception.message shouldBe "There are no pending emails to send"
+                    exception.errorMessage shouldBe ErrorMessages.ERROR_EMAILS_TO_SEND_NOT_FOUND
                 }
 
                 it("calls invoiceRepository") {

@@ -2,8 +2,8 @@ package cat.hobbiton.hobbit.model.extension
 
 import cat.hobbiton.hobbit.model.Sequence
 import cat.hobbiton.hobbit.model.SequenceType
-import io.kotlintest.shouldBe
-import io.kotlintest.specs.DescribeSpec
+import io.kotest.core.spec.style.DescribeSpec
+import io.kotest.matchers.shouldBe
 
 class SequenceExtensionTest : DescribeSpec() {
 

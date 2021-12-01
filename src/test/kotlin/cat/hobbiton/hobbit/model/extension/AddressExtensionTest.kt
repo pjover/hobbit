@@ -1,8 +1,7 @@
 package cat.hobbiton.hobbit.model.extension
 
 import cat.hobbiton.hobbit.testAddress
-import io.kotlintest.shouldBe
-import io.kotlintest.specs.DescribeSpec
+import io.kotest.core.spec.style.DescribeSpec
 import kotlin.test.assertFailsWith
 
 
@@ -30,8 +29,7 @@ class AddressExtensionTest : DescribeSpec() {
                     }
 
                     it("throws an error") {
-                        val exception = assertFailsWith<IllegalArgumentException> { executor.invoke() }
-                        exception.message shouldBe "Address street cannot be blank"
+                        assertFailsWith<IllegalArgumentException> { executor.invoke() }
                     }
                 }
 
@@ -41,8 +39,7 @@ class AddressExtensionTest : DescribeSpec() {
                     }
 
                     it("throws an error") {
-                        val exception = assertFailsWith<IllegalArgumentException> { executor.invoke() }
-                        exception.message shouldBe "Address zip code cannot be blank"
+                        assertFailsWith<IllegalArgumentException> { executor.invoke() }
                     }
                 }
 
@@ -52,8 +49,7 @@ class AddressExtensionTest : DescribeSpec() {
                     }
 
                     it("throws an error") {
-                        val exception = assertFailsWith<IllegalArgumentException> { executor.invoke() }
-                        exception.message shouldBe "Address city cannot be blank"
+                        assertFailsWith<IllegalArgumentException> { executor.invoke() }
                     }
                 }
 
@@ -63,8 +59,7 @@ class AddressExtensionTest : DescribeSpec() {
                     }
 
                     it("throws an error") {
-                        val exception = assertFailsWith<IllegalArgumentException> { executor.invoke() }
-                        exception.message shouldBe "Address state cannot be blank"
+                        assertFailsWith<IllegalArgumentException> { executor.invoke() }
                     }
                 }
             }

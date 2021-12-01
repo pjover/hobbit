@@ -44,13 +44,17 @@ dependencies {
     implementation("org.apache.poi:poi-ooxml:5.0.0") // Spread sheet generation
 
 
-    testImplementation("org.springframework.boot:spring-boot-starter-test") {
+    testImplementation("org.springframework.boot:spring-boot-starter-test:2.5.6") {
         exclude(mapOf("group" to "org.junit.vintage", "module" to "junit-vintage-engine"))
     }
-    testImplementation("de.flapdoodle.embed:de.flapdoodle.embed.mongo")
+    testImplementation("de.flapdoodle.embed:de.flapdoodle.embed.mongo:3.2.0")
     testImplementation("org.jetbrains.kotlin:kotlin-test:1.4.10")
-    testImplementation("io.kotlintest:kotlintest-runner-junit5:3.4.2")
-    testImplementation("io.mockk:mockk:1.10.0")
+//    testImplementation("io.kotlintest:kotlintest-runner-junit5:3.4.2")
+    testImplementation("io.mockk:mockk:1.12.0")
+    testImplementation("io.kotest:kotest-runner-junit5-jvm:4.6.3")
+    testImplementation("io.kotest:kotest-runner-console-jvm:4.1.3.2")
+    testImplementation("io.kotest:kotest-assertions-core-jvm:4.6.3")
+    testImplementation("io.kotest:kotest-extensions-spring-jvm:4.4.3")
 }
 
 tasks.withType<Test> {

@@ -1,8 +1,8 @@
 package cat.hobbiton.hobbit.util
 
-import io.kotlintest.shouldBe
-import io.kotlintest.shouldNotBe
-import io.kotlintest.specs.DescribeSpec
+import io.kotest.core.spec.style.DescribeSpec
+import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
 
 class EncryptorConfigurationTest : DescribeSpec() {
 

@@ -5,12 +5,13 @@ import cat.hobbiton.hobbit.api.model.*
 import cat.hobbiton.hobbit.db.repository.CachedCustomerRepository
 import cat.hobbiton.hobbit.db.repository.CachedProductRepository
 import cat.hobbiton.hobbit.db.repository.InvoiceRepository
+import cat.hobbiton.hobbit.messages.ErrorMessages
 import cat.hobbiton.hobbit.model.Invoice
 import cat.hobbiton.hobbit.util.error.NotFoundException
 import cat.hobbiton.hobbit.util.resource.FileResource
 import cat.hobbiton.hobbit.util.resource.ZipService
-import io.kotlintest.shouldBe
-import io.kotlintest.specs.DescribeSpec
+import io.kotest.core.spec.style.DescribeSpec
+import io.kotest.matchers.shouldBe
 import io.mockk.*
 import java.nio.charset.StandardCharsets
 import java.util.*
@@ -75,7 +76,7 @@ class PdfServiceImplTest : DescribeSpec() {
 
                     it("throws an error") {
                         val exception = assertFailsWith<NotFoundException> { executor.invoke() }
-                        exception.message shouldBe "There are no pending PDFs to generate"
+                        exception.errorMessage shouldBe ErrorMessages.ERROR_PDFS_TO_GENERATE_NOT_FOUND
                     }
 
                     it("calls invoiceRepository") {
@@ -138,7 +139,7 @@ class PdfServiceImplTest : DescribeSpec() {
 
                     it("throws an error") {
                         val exception = assertFailsWith<NotFoundException> { executor.invoke() }
-                        exception.message shouldBe "There are no pending PDFs to generate"
+                        exception.errorMessage shouldBe ErrorMessages.ERROR_PDFS_TO_GENERATE_NOT_FOUND
                     }
 
                     it("calls invoiceRepository") {
@@ -193,7 +194,7 @@ class PdfServiceImplTest : DescribeSpec() {
 
                 it("throws an error") {
                     val exception = assertFailsWith<NotFoundException> { executor.invoke() }
-                    exception.message shouldBe "Cannot find invoice with id XX"
+                    exception.errorMessage shouldBe ErrorMessages.ERROR_INVOICE_NOT_FOUND
                 }
             }
         }

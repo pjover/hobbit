@@ -2,8 +2,8 @@ package cat.hobbiton.hobbit.model.extension
 
 import cat.hobbiton.hobbit.model.GroupType
 import cat.hobbiton.hobbit.testChild1850
-import io.kotlintest.shouldBe
-import io.kotlintest.specs.DescribeSpec
+import io.kotest.core.spec.style.DescribeSpec
+import io.kotest.matchers.shouldBe
 import java.time.LocalDate
 import kotlin.test.assertFailsWith
 
@@ -78,8 +78,7 @@ class ChildExtensionTest : DescribeSpec() {
                     }
 
                     it("throws an error") {
-                        val exception = assertFailsWith<IllegalArgumentException> { executor.invoke() }
-                        exception.message shouldBe "Child name cannot be blank"
+                        assertFailsWith<IllegalArgumentException> { executor.invoke() }
                     }
                 }
 
@@ -89,8 +88,7 @@ class ChildExtensionTest : DescribeSpec() {
                     }
 
                     it("throws an error") {
-                        val exception = assertFailsWith<IllegalArgumentException> { executor.invoke() }
-                        exception.message shouldBe "Child surname cannot be blank"
+                        assertFailsWith<IllegalArgumentException> { executor.invoke() }
                     }
                 }
 
@@ -100,8 +98,7 @@ class ChildExtensionTest : DescribeSpec() {
                     }
 
                     it("throws an error") {
-                        val exception = assertFailsWith<IllegalArgumentException> { executor.invoke() }
-                        exception.message shouldBe "Child tax id 01960447X is not valid"
+                        assertFailsWith<IllegalArgumentException> { executor.invoke() }
                     }
                 }
 
@@ -111,8 +108,7 @@ class ChildExtensionTest : DescribeSpec() {
                     }
 
                     it("throws an error") {
-                        val exception = assertFailsWith<IllegalArgumentException> { executor.invoke() }
-                        exception.message shouldBe "Child group must be defined"
+                        assertFailsWith<IllegalArgumentException> { executor.invoke() }
                     }
                 }
             }

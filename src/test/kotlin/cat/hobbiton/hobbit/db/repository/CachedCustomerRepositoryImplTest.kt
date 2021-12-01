@@ -1,12 +1,13 @@
 package cat.hobbiton.hobbit.db.repository
 
+import cat.hobbiton.hobbit.messages.ErrorMessages
 import cat.hobbiton.hobbit.testChild1850
 import cat.hobbiton.hobbit.testCustomer185
 import cat.hobbiton.hobbit.testCustomer187
 import cat.hobbiton.hobbit.testCustomers
 import cat.hobbiton.hobbit.util.error.NotFoundException
-import io.kotlintest.shouldBe
-import io.kotlintest.specs.DescribeSpec
+import io.kotest.core.spec.style.DescribeSpec
+import io.kotest.matchers.shouldBe
 import io.mockk.clearMocks
 import io.mockk.every
 import io.mockk.mockk
@@ -48,7 +49,7 @@ class CachedCustomerRepositoryImplTest : DescribeSpec() {
 
                 it("throws an error") {
                     val exception = assertFailsWith<NotFoundException> { executor.invoke() }
-                    exception.message shouldBe "Cannot find child with id 1,850"
+                    exception.errorMessage shouldBe ErrorMessages.ERROR_CHILD_NOT_FOUND
                 }
             }
         }
@@ -81,7 +82,7 @@ class CachedCustomerRepositoryImplTest : DescribeSpec() {
 
                 it("throws an error") {
                     val exception = assertFailsWith<NotFoundException> { executor.invoke() }
-                    exception.message shouldBe "Cannot find customer with id 11"
+                    exception.errorMessage shouldBe ErrorMessages.ERROR_CUSTOMER_NOT_FOUND
                 }
             }
         }
@@ -114,7 +115,7 @@ class CachedCustomerRepositoryImplTest : DescribeSpec() {
 
                 it("throws an error") {
                     val exception = assertFailsWith<NotFoundException> { executor.invoke() }
-                    exception.message shouldBe "Cannot find child with id 1"
+                    exception.errorMessage shouldBe ErrorMessages.ERROR_CHILD_NOT_FOUND
                 }
             }
         }
@@ -141,7 +142,7 @@ class CachedCustomerRepositoryImplTest : DescribeSpec() {
 
                 it("throws an error") {
                     val exception = assertFailsWith<NotFoundException> { executor.invoke() }
-                    exception.message shouldBe "Cannot find customers at the database"
+                    exception.errorMessage shouldBe ErrorMessages.ERROR_CUSTOMERS_NOT_FOUND
                 }
             }
         }

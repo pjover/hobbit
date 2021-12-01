@@ -4,8 +4,8 @@ import cat.hobbiton.hobbit.api.model.ChildListDTO
 import cat.hobbiton.hobbit.api.model.CustomerListDTO
 import cat.hobbiton.hobbit.model.Customer
 import cat.hobbiton.hobbit.testCustomers
-import io.kotlintest.shouldBe
-import io.kotlintest.specs.DescribeSpec
+import io.kotest.core.spec.style.DescribeSpec
+import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
 import org.springframework.data.mongodb.core.MongoTemplate

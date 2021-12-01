@@ -1,8 +1,7 @@
 package cat.hobbiton.hobbit.db.eventhandler
 
 import cat.hobbiton.hobbit.model.Product
-import io.kotlintest.shouldBe
-import io.kotlintest.specs.DescribeSpec
+import io.kotest.core.spec.style.DescribeSpec
 import java.math.BigDecimal
 import kotlin.test.assertFailsWith
 
@@ -28,8 +27,7 @@ class ProductEventHandlerTest : DescribeSpec() {
                     }
 
                     it("throws an error") {
-                        val exception = assertFailsWith<IllegalArgumentException> { executor.invoke() }
-                        exception.message shouldBe "Product id cannot be blank"
+                        assertFailsWith<IllegalArgumentException> { executor.invoke() }
                     }
                 }
 

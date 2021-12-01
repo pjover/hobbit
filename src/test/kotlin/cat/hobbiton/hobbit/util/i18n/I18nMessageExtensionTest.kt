@@ -3,8 +3,8 @@ package cat.hobbiton.hobbit.util.i18n
 import cat.hobbiton.hobbit.messages.ValidationMessages
 import cat.hobbiton.hobbit.messages.ValidationMessages.ERROR_PRODUCT_ID_BLANK
 import cat.hobbiton.hobbit.messages.ValidationMessages.ERROR_PRODUCT_ID_LENGTH
-import io.kotlintest.shouldBe
-import io.kotlintest.specs.DescribeSpec
+import io.kotest.core.spec.style.DescribeSpec
+import io.kotest.matchers.shouldBe
 
 class I18nMessageExtensionTest : DescribeSpec() {
 
@@ -16,7 +16,7 @@ class I18nMessageExtensionTest : DescribeSpec() {
                 val actual = ERROR_PRODUCT_ID_BLANK.translate()
 
                 it("translates the message") {
-                    actual shouldBe "Product id cannot be blank"
+                    actual shouldBe "El id del producte no pot estar buit"
                 }
             }
 
@@ -24,7 +24,7 @@ class I18nMessageExtensionTest : DescribeSpec() {
                 val actual = ERROR_PRODUCT_ID_LENGTH.translate(3)
 
                 it("translates the message") {
-                    actual shouldBe "Product id must be 3 characters long"
+                    actual shouldBe "El id del producte ha de tenir 3 carácters"
                 }
             }
 
@@ -32,7 +32,7 @@ class I18nMessageExtensionTest : DescribeSpec() {
                 val actual = ValidationMessages.ERROR_PAYMENT_TYPE_CONFIGURATION_UNDEFINED.translate("RECTIFICATION")
 
                 it("translates the message") {
-                    actual shouldBe "Missing configuration value for paymentTypeNotes.RECTIFICATION"
+                    actual shouldBe "El valor de configuració paymentTypeNotes.RECTIFICATION no està informat"
                 }
             }
         }
@@ -43,7 +43,7 @@ class I18nMessageExtensionTest : DescribeSpec() {
                 val actual = ERROR_PRODUCT_ID_BLANK.translateWithParamsArray(arrayOf())
 
                 it("translates the message") {
-                    actual shouldBe "Product id cannot be blank"
+                    actual shouldBe "El id del producte no pot estar buit"
                 }
             }
 
@@ -51,7 +51,7 @@ class I18nMessageExtensionTest : DescribeSpec() {
                 val actual = ERROR_PRODUCT_ID_LENGTH.translateWithParamsArray(arrayOf(3))
 
                 it("translates the message") {
-                    actual shouldBe "Product id must be 3 characters long"
+                    actual shouldBe "El id del producte ha de tenir 3 carácters"
                 }
             }
         }

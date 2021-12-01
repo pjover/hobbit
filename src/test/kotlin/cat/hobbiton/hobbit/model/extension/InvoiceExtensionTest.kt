@@ -4,8 +4,8 @@ import cat.hobbiton.hobbit.model.InvoiceLine
 import cat.hobbiton.hobbit.testCustomer185
 import cat.hobbiton.hobbit.testInvoice185
 import cat.hobbiton.hobbit.testInvoices
-import io.kotlintest.shouldBe
-import io.kotlintest.specs.DescribeSpec
+import io.kotest.core.spec.style.DescribeSpec
+import io.kotest.matchers.shouldBe
 import java.math.BigDecimal
 import kotlin.test.assertFailsWith
 
@@ -63,8 +63,7 @@ class InvoiceExtensionTest : DescribeSpec() {
                 }
 
                 it("throws an error") {
-                    val exception = assertFailsWith<IllegalArgumentException> { executor.invoke() }
-                    exception.message shouldBe "Invoice children codes cannot be blank"
+                    assertFailsWith<IllegalArgumentException> { executor.invoke() }
                 }
             }
 
@@ -75,8 +74,7 @@ class InvoiceExtensionTest : DescribeSpec() {
                 }
 
                 it("throws an error") {
-                    val exception = assertFailsWith<IllegalArgumentException> { executor.invoke() }
-                    exception.message shouldBe "Invoice lines cannot be blank"
+                    assertFailsWith<IllegalArgumentException> { executor.invoke() }
                 }
             }
 
@@ -99,8 +97,7 @@ class InvoiceExtensionTest : DescribeSpec() {
                 }
 
                 it("throws an error") {
-                    val exception = assertFailsWith<IllegalArgumentException> { executor.invoke() }
-                    exception.message shouldBe "Invoice amount has bo be lesser than 2,500 €"
+                    assertFailsWith<IllegalArgumentException> { executor.invoke() }
                 }
             }
 
@@ -118,8 +115,7 @@ class InvoiceExtensionTest : DescribeSpec() {
                 }
 
                 it("throws an error") {
-                    val exception = assertFailsWith<IllegalArgumentException> { executor.invoke() }
-                    exception.message shouldBe "Invoice line product units cannot be zero"
+                    assertFailsWith<IllegalArgumentException> { executor.invoke() }
                 }
             }
 

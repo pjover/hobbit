@@ -8,8 +8,8 @@ import cat.hobbiton.hobbit.db.repository.ConsumptionRepository
 import cat.hobbiton.hobbit.model.Consumption
 import cat.hobbiton.hobbit.model.Invoice
 import cat.hobbiton.hobbit.service.aux.TimeService
-import io.kotlintest.shouldBe
-import io.kotlintest.specs.DescribeSpec
+import io.kotest.core.spec.style.DescribeSpec
+import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.slot

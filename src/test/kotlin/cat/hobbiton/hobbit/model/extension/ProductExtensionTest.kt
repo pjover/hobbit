@@ -1,8 +1,7 @@
 package cat.hobbiton.hobbit.model.extension
 
 import cat.hobbiton.hobbit.testProduct1
-import io.kotlintest.shouldBe
-import io.kotlintest.specs.DescribeSpec
+import io.kotest.core.spec.style.DescribeSpec
 import java.math.BigDecimal
 import kotlin.test.assertFailsWith
 
@@ -19,8 +18,7 @@ class ProductExtensionTest : DescribeSpec() {
                     }
 
                     it("throws an error") {
-                        val exception = assertFailsWith<IllegalArgumentException> { executor.invoke() }
-                        exception.message shouldBe "Product id cannot be blank"
+                        assertFailsWith<IllegalArgumentException> { executor.invoke() }
                     }
                 }
 
@@ -30,8 +28,7 @@ class ProductExtensionTest : DescribeSpec() {
                     }
 
                     it("throws an error") {
-                        val exception = assertFailsWith<IllegalArgumentException> { executor.invoke() }
-                        exception.message shouldBe "Product id must be 3 characters long"
+                        assertFailsWith<IllegalArgumentException> { executor.invoke() }
                     }
                 }
 
@@ -41,8 +38,7 @@ class ProductExtensionTest : DescribeSpec() {
                     }
 
                     it("throws an error") {
-                        val exception = assertFailsWith<IllegalArgumentException> { executor.invoke() }
-                        exception.message shouldBe "Product id must be 3 characters long"
+                        assertFailsWith<IllegalArgumentException> { executor.invoke() }
                     }
                 }
 
@@ -52,8 +48,7 @@ class ProductExtensionTest : DescribeSpec() {
                     }
 
                     it("throws an error") {
-                        val exception = assertFailsWith<IllegalArgumentException> { executor.invoke() }
-                        exception.message shouldBe "Product id must be in upper case"
+                        assertFailsWith<IllegalArgumentException> { executor.invoke() }
                     }
                 }
             }
@@ -66,8 +61,7 @@ class ProductExtensionTest : DescribeSpec() {
                     }
 
                     it("throws an error") {
-                        val exception = assertFailsWith<IllegalArgumentException> { executor.invoke() }
-                        exception.message shouldBe "Product name cannot be blank"
+                        assertFailsWith<IllegalArgumentException> { executor.invoke() }
                     }
                 }
 
@@ -86,8 +80,7 @@ class ProductExtensionTest : DescribeSpec() {
                     }
 
                     it("throws an error") {
-                        val exception = assertFailsWith<IllegalArgumentException> { executor.invoke() }
-                        exception.message shouldBe "Product name cannot exceed 150 chars length"
+                        assertFailsWith<IllegalArgumentException> { executor.invoke() }
                     }
                 }
             }
@@ -100,8 +93,7 @@ class ProductExtensionTest : DescribeSpec() {
                     }
 
                     it("throws an error") {
-                        val exception = assertFailsWith<IllegalArgumentException> { executor.invoke() }
-                        exception.message shouldBe "Product short name cannot be blank"
+                        assertFailsWith<IllegalArgumentException> { executor.invoke() }
                     }
                 }
 
@@ -118,8 +110,7 @@ class ProductExtensionTest : DescribeSpec() {
                     }
 
                     it("throws an error") {
-                        val exception = assertFailsWith<IllegalArgumentException> { executor.invoke() }
-                        exception.message shouldBe "Product short name cannot exceed 12 chars length"
+                        assertFailsWith<IllegalArgumentException> { executor.invoke() }
                     }
                 }
             }
@@ -132,8 +123,7 @@ class ProductExtensionTest : DescribeSpec() {
                     }
 
                     it("throws an error") {
-                        val exception = assertFailsWith<IllegalArgumentException> { executor.invoke() }
-                        exception.message shouldBe "Product price cannot be zero"
+                        assertFailsWith<IllegalArgumentException> { executor.invoke() }
                     }
                 }
             }
@@ -146,8 +136,7 @@ class ProductExtensionTest : DescribeSpec() {
                     }
 
                     it("throws an error") {
-                        val exception = assertFailsWith<IllegalArgumentException> { executor.invoke() }
-                        exception.message shouldBe "Product tax percentage cannot be negative"
+                        assertFailsWith<IllegalArgumentException> { executor.invoke() }
                     }
                 }
             }

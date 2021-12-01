@@ -1,7 +1,7 @@
 package cat.hobbiton.hobbit.model.extension
 
-import io.kotlintest.shouldBe
-import io.kotlintest.specs.DescribeSpec
+import io.kotest.core.spec.style.DescribeSpec
+import io.kotest.matchers.shouldBe
 
 
 class EmailExtensionTest : DescribeSpec() {

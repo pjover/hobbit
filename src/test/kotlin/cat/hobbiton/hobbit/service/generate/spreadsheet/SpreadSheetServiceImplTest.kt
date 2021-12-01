@@ -3,10 +3,11 @@ package cat.hobbiton.hobbit.service.generate.spreadsheet
 import cat.hobbiton.hobbit.*
 import cat.hobbiton.hobbit.db.repository.CachedCustomerRepository
 import cat.hobbiton.hobbit.db.repository.InvoiceRepository
+import cat.hobbiton.hobbit.messages.ErrorMessages
 import cat.hobbiton.hobbit.util.error.NotFoundException
 import cat.hobbiton.hobbit.util.resource.FileResource
-import io.kotlintest.shouldBe
-import io.kotlintest.specs.DescribeSpec
+import io.kotest.core.spec.style.DescribeSpec
+import io.kotest.matchers.shouldBe
 import io.mockk.clearMocks
 import io.mockk.every
 import io.mockk.mockk
@@ -19,6 +20,7 @@ import kotlin.test.assertFailsWith
 class SpreadSheetServiceImplTest : DescribeSpec() {
 
     init {
+
         val invoiceRepository = mockk<InvoiceRepository>()
         val customerRepository = mockk<CachedCustomerRepository>()
         val monthSpreadSheetService = mockk<MonthSpreadSheetService>()
@@ -64,7 +66,7 @@ class SpreadSheetServiceImplTest : DescribeSpec() {
 
                 it("throws an error") {
                     val exception = assertFailsWith<NotFoundException> { executor.invoke() }
-                    exception.message shouldBe "There are no invoices to generate the SpreadSheet"
+                    exception.errorMessage shouldBe ErrorMessages.ERROR_SPREADSHEET_INVOICES_NOT_FOUND
                 }
 
                 it("calls invoiceRepository") {
@@ -112,7 +114,7 @@ class SpreadSheetServiceImplTest : DescribeSpec() {
 
                 it("throws an error") {
                     val exception = assertFailsWith<NotFoundException> { executor.invoke() }
-                    exception.message shouldBe "There are no invoices to generate the SpreadSheet"
+                    exception.errorMessage shouldBe ErrorMessages.ERROR_SPREADSHEET_INVOICES_NOT_FOUND
                 }
 
                 it("calls invoiceRepository") {

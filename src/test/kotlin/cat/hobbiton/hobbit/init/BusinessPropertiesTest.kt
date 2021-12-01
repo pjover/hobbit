@@ -1,7 +1,6 @@
 package cat.hobbiton.hobbit.init
 
-import io.kotlintest.shouldBe
-import io.kotlintest.specs.DescribeSpec
+import io.kotest.core.spec.style.DescribeSpec
 import kotlin.test.assertFailsWith
 
 class BusinessPropertiesTest : DescribeSpec() {
@@ -23,8 +22,7 @@ class BusinessPropertiesTest : DescribeSpec() {
                 }
 
                 it("throws an error") {
-                    val exception = assertFailsWith<IllegalArgumentException> { executor.invoke() }
-                    exception.message shouldBe "Missing configuration value for paymentTypeNotes.RECTIFICATION"
+                    assertFailsWith<IllegalArgumentException> { executor.invoke() }
                 }
 
             }

@@ -9,12 +9,18 @@ Copy /src/main/resources/application-local.yaml to application-prod.yaml and con
 
 ## How to run
 
+At this moment Hobbit runs whith a single database in a mongoDb server.
+
+- Runs containerized in a production environment with `prod` profile
+- Runs containerized in a development environment with `prod` profile
+- Runs in IntelliJ in a development environment with `local` profile
+
 ### Production profile with docker compose
 
 1. Add a `application-prod.yaml` configuration file to resources directory
 2. Build the Hobbit image with Dockerfile and run it with Docker compose:
-   - `./build-amd64.sh` for linux, windows and intel Mac
-   - `./build-arm64.sh` for Apple Silicon Mac
+    - `./build-amd64.sh` for linux, windows and intel Mac
+    - `./build-arm64.sh` for Apple Silicon Mac
 
 This will start:
 
@@ -22,28 +28,16 @@ This will start:
 - A Mongo express database UI at port 8081. The UI is at http://localhost:8081
 - Hobbit application at port 8080.The Swagger UI is at http://localhost:8080/swagger-ui.html
 
-### Local app on IntelliJ
+### Local app on IntelliJ for development
 
-You can run as standard java application, and will connect to a running MongoDB on localhost:27017
+You can run as standard Kotlin application, and will connect to a running MongoDB on localhost:27017
 
 Set up a SpringBoot running configuration inside IntelliJ:
 
 - Program arguments to: `--spring.profiles.active=local`
 
-1. Stop the production Hobbit application
+1. Stop the production Hobbit application if it's running
 1. Run the running configuration inside IntelliJ
-
-### Production app on IntelliJ
-
-To run inside IntelliJ with production database, you should:
-
-Set up a SpringBoot running configuration inside IntelliJ:
-
-- Program arguments to: `--spring.profiles.active=prod --db.host=localhost`
-
-1. Stop the production Hobbit application
-1. Run the running configuration inside IntelliJ
-
 
 ## Update API definition
 

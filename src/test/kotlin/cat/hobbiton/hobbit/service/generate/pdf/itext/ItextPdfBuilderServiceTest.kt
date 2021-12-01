@@ -6,10 +6,10 @@ import cat.hobbiton.hobbit.testCustomer185
 import cat.hobbiton.hobbit.testInvoice185
 import cat.hobbiton.hobbit.testProductsMap
 import com.itextpdf.text.pdf.PdfReader
-import io.kotlintest.matchers.string.shouldStartWith
-import io.kotlintest.shouldBe
-import io.kotlintest.shouldNotBe
-import io.kotlintest.specs.DescribeSpec
+import io.kotest.core.spec.style.DescribeSpec
+import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
+import io.kotest.matchers.string.shouldStartWith
 import io.mockk.every
 import io.mockk.mockk
 

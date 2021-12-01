@@ -3,8 +3,8 @@ package cat.hobbiton.hobbit.util.i18n
 import cat.hobbiton.hobbit.messages.ValidationMessages
 import cat.hobbiton.hobbit.messages.ValidationMessages.ERROR_PRODUCT_ID_BLANK
 import cat.hobbiton.hobbit.messages.ValidationMessages.ERROR_PRODUCT_ID_LENGTH
-import io.kotlintest.shouldBe
-import io.kotlintest.specs.DescribeSpec
+import io.kotest.core.spec.style.DescribeSpec
+import io.kotest.matchers.shouldBe
 
 class I18nTranslatorTest : DescribeSpec() {
 
@@ -15,7 +15,7 @@ class I18nTranslatorTest : DescribeSpec() {
                 val actual = I18nTranslator.translate(ERROR_PRODUCT_ID_BLANK)
 
                 it("translates the message") {
-                    actual shouldBe "Product id cannot be blank"
+                    actual shouldBe "El id del producte no pot estar buit"
                 }
             }
 
@@ -23,7 +23,7 @@ class I18nTranslatorTest : DescribeSpec() {
                 val actual = I18nTranslator.translate(ERROR_PRODUCT_ID_LENGTH, 3)
 
                 it("translates the message") {
-                    actual shouldBe "Product id must be 3 characters long"
+                    actual shouldBe "El id del producte ha de tenir 3 carácters"
                 }
             }
 
@@ -31,7 +31,7 @@ class I18nTranslatorTest : DescribeSpec() {
                 val actual = I18nTranslator.translate(ValidationMessages.ERROR_CHILD_TAX_ID_INVALID, "12345H")
 
                 it("translates the message") {
-                    actual shouldBe "Child tax id 12345H is not valid"
+                    actual shouldBe "El NIF/NIE 12345H de l´infant no és vàlid"
                 }
             }
         }
@@ -42,7 +42,7 @@ class I18nTranslatorTest : DescribeSpec() {
                 val actual = I18nTranslator.translateWithParamsArray(ERROR_PRODUCT_ID_BLANK, arrayOf())
 
                 it("translates the message") {
-                    actual shouldBe "Product id cannot be blank"
+                    actual shouldBe "El id del producte no pot estar buit"
                 }
             }
 
@@ -50,7 +50,7 @@ class I18nTranslatorTest : DescribeSpec() {
                 val actual = I18nTranslator.translateWithParamsArray(ERROR_PRODUCT_ID_LENGTH, arrayOf(3))
 
                 it("translates the message") {
-                    actual shouldBe "Product id must be 3 characters long"
+                    actual shouldBe "El id del producte ha de tenir 3 carácters"
                 }
             }
         }

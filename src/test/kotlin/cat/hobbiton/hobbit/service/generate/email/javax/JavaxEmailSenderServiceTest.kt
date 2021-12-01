@@ -1,6 +1,6 @@
 package cat.hobbiton.hobbit.service.generate.email.javax
 
-import io.kotlintest.specs.DescribeSpec
+import io.kotest.core.spec.style.DescribeSpec
 
 class JavaxEmailSenderServiceTest : DescribeSpec() {
 
