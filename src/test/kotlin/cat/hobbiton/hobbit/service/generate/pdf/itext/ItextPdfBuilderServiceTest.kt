@@ -19,7 +19,7 @@ class ItextPdfBuilderServiceTest : DescribeSpec() {
     init {
         val businessProperties = mockk<BusinessProperties>()
         val formattingProperties = mockk<FormattingProperties>()
-        val sut = ItextPdfBuilderService(businessProperties, formattingProperties)
+        val sut = ItextPdfBuilderService(businessProperties, formattingProperties, "src/main/resources/logo.png")
 
         every { businessProperties.businessName } returns "BusinessName"
         every { businessProperties.addressLine1 } returns "AddressLine1"
