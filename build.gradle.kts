@@ -5,7 +5,6 @@ plugins {
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
     kotlin("jvm") version "1.5.21"
     kotlin("plugin.spring") version "1.5.21"
-    id("com.google.cloud.tools.jib") version "2.8.0"
     id("info.solidsoft.pitest") version "1.5.2"
 }
 
@@ -68,29 +67,6 @@ tasks.withType<KotlinCompile> {
     }
 }
 
-
-jib {
-    from {
-        image = "adoptopenjdk/openjdk11:alpine"
-    }
-    to {
-        image = "p3r3/hobbit"
-        tags = setOf("amd64")
-    }
-    container {
-        creationTime = "USE_CURRENT_TIMESTAMP"
-        labels = mapOf(
-            "org.opencontainers.image.title" to "Hobbit",
-            "org.opencontainers.image.description" to "Hobbit Kotlin Spring boot application for managing a Kindergarten business",
-            "org.opencontainers.image.url" to "https://github.com/pjover/hobbit",
-            "org.opencontainers.image.vendor" to "https://github.com/pjover",
-            "org.opencontainers.image.licenses" to "GPL-3.0"
-        )
-        workingDirectory = "/opt/target"
-        jvmFlags = listOf("-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005")
-        ports = listOf("8080", "5005")
-    }
-}
 
 pitest {
     outputFormats.add("HTML")
