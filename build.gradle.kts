@@ -5,7 +5,6 @@ plugins {
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
     kotlin("jvm") version "1.5.21"
     kotlin("plugin.spring") version "1.5.21"
-    id("info.solidsoft.pitest") version "1.5.2"
 }
 
 group = "cat.hobbiton"
@@ -65,14 +64,4 @@ tasks.withType<KotlinCompile> {
         freeCompilerArgs = listOf("-Xjsr305=strict")
         jvmTarget = "11"
     }
-}
-
-
-pitest {
-    outputFormats.add("HTML")
-    timestampedReports.set(true)
-    useClasspathFile.set(true)
-    junit5PluginVersion.set("0.12")
-    excludedClasses.add("cat.hobbiton.hobbit.HobitApplication*")
-    excludedClasses.add("cat.hobbiton.hobbit.api.*")
 }
