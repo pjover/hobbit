@@ -1,4 +1,4 @@
-/src/main/resources/application-prod.yaml
+/src/main/resources/application-k8s.yaml
 
 HELP.md
 .gradle

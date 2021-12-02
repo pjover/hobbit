@@ -5,19 +5,18 @@ for [Hobbiton](http://www.hobbiton.es) Kindergarten
 
 ## Configuration file
 
-Copy /src/main/resources/application-local.yaml to application-prod.yaml and configure the Business values
+Copy /src/main/resources/application-local.yaml to application-k8s.yaml and configure the Business values
 
 ## How to run
 
 At this moment Hobbit runs whith a single database in a mongoDb server.
 
-- Runs containerized in a production environment with `prod` profile
-- Runs containerized in a development environment with `prod` profile
+- Runs containerized environment with `k8s` profile
 - Runs in IntelliJ in a development environment with `local` profile
 
-### Production profile with docker compose
+### Containerized profile with docker compose
 
-1. Add a `application-prod.yaml` configuration file to resources directory
+1. Add a `application-k8s.yaml` configuration file to resources directory
 2. Build the Hobbit image with Dockerfile and run it with Docker compose:
     - `./build-amd64.sh` for linux, windows and intel Mac
     - `./build-arm64.sh` for Apple Silicon Mac
@@ -36,7 +35,7 @@ Set up a SpringBoot running configuration inside IntelliJ:
 
 - Program arguments to: `--spring.profiles.active=local`
 
-1. Stop the production Hobbit application if it's running
+1. Stop the containerized Hobbit application if it's running
 1. Run the running configuration inside IntelliJ
 
 ## Update API definition
