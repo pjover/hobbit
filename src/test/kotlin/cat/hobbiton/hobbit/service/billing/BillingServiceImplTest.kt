@@ -23,7 +23,13 @@ class BillingServiceImplTest : DescribeSpec() {
         val productRepository = mockk<CachedProductRepository>()
         val timeService = mockk<TimeService>()
         val invoiceService = mockk<InvoiceService>()
-        val sut = BillingServiceImpl(consumptionRepository, customerRepository, productRepository, timeService, invoiceService)
+        val sut = BillingServiceImpl(
+            consumptionRepository,
+            customerRepository,
+            productRepository,
+            timeService,
+            invoiceService
+        )
 
         every { timeService.currentLocalDate } returns DATE
 
@@ -42,7 +48,26 @@ class BillingServiceImplTest : DescribeSpec() {
 
             context("without rectification") {
                 mockReaders(customerRepository, productRepository)
-                every { consumptionRepository.findByInvoiceIdNull() } returns consumptions.filter { !it.isRectification }
+                every { consumptionRepository.findByInvoiceIdNull() } returns consumptions.filter { !it.isRectification } + listOf(
+                    Consumption(
+                        id = "AA7",
+                        childCode = 1860,
+                        productId = "YYY",
+                        units = 2.toBigDecimal(),
+                        yearMonth = YEAR_MONTH,
+                        note = "",
+                        isRectification = false
+                    ),
+                    Consumption(
+                        id = "AA8",
+                        childCode = 1860,
+                        productId = "YYY",
+                        units = (-2).toBigDecimal(),
+                        yearMonth = YEAR_MONTH,
+                        note = "",
+                        isRectification = false
+                    )
+                )
 
                 val actual = sut.getInvoices()
 
@@ -88,6 +113,7 @@ class BillingServiceImplTest : DescribeSpec() {
     private fun mockReaders(customerRepository: CachedCustomerRepository, productRepository: CachedProductRepository) {
         every { productRepository.getProduct("TST") } returns testProduct1
         every { productRepository.getProduct("XXX") } returns testProduct2
+        every { productRepository.getProduct("YYY") } returns testProduct3
 
         every { customerRepository.getCustomerByChildCode(1850) } returns testCustomer185
         every { customerRepository.getCustomerByChildCode(1851) } returns testCustomer185
@@ -246,7 +272,7 @@ val consumptions = listOf(
         yearMonth = YEAR_MONTH,
         note = "Note 6",
         isRectification = true
-    )
+    ),
 )
 
 

@@ -133,7 +133,9 @@ class BillingServiceImpl(
     }
 
     private fun getChildInvoiceLines(consumptions: List<Consumption>): List<InvoiceLine> {
-        return consumptions.map { getInvoiceLine(it) }
+        return consumptions
+            .map { getInvoiceLine(it) }
+            .filter { it.units != BigDecimal.ZERO }
     }
 
     private fun getInvoiceLine(consumption: Consumption): InvoiceLine {

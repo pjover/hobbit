@@ -7,6 +7,7 @@ import cat.hobbiton.hobbit.model.Customer
 import cat.hobbiton.hobbit.model.Invoice
 import cat.hobbiton.hobbit.model.extension.getChild
 import cat.hobbiton.hobbit.model.extension.totalAmount
+import java.math.BigDecimal
 
 fun groupConsumptions(childCode: Int, consumptions: List<Consumption>): Pair<Int, List<Consumption>> {
     return Pair(
@@ -19,9 +20,10 @@ fun groupConsumptions(childCode: Int, consumptions: List<Consumption>): Pair<Int
                     productId = productId,
                     units = it.sumOf { it.units },
                     yearMonth = it.first().yearMonth,
-                    note = it.map { it.note }.filterNotNull().filter{ it.isNotBlank() }.joinToString(separator = ", ")
+                    note = it.map { it.note }.filterNotNull().filter { it.isNotBlank() }.joinToString(separator = ", ")
                 )
             }
+            .filter { it.units != BigDecimal.ZERO }
     )
 }
 
