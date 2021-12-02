@@ -2,8 +2,8 @@ package cat.hobbiton.hobbit.model.extension
 
 import cat.hobbiton.hobbit.testAddress
 import cat.hobbiton.hobbit.testAdultMother185
-import io.kotlintest.shouldBe
-import io.kotlintest.specs.DescribeSpec
+import io.kotest.core.spec.style.DescribeSpec
+import io.kotest.matchers.shouldBe
 import kotlin.test.assertFailsWith
 
 
@@ -75,8 +75,7 @@ class AdultExtensionTest : DescribeSpec() {
                     }
 
                     it("throws an error") {
-                        val exception = assertFailsWith<IllegalArgumentException> { executor.invoke() }
-                        exception.message shouldBe "Adult name cannot be blank"
+                        assertFailsWith<IllegalArgumentException> { executor.invoke() }
                     }
                 }
 
@@ -86,8 +85,7 @@ class AdultExtensionTest : DescribeSpec() {
                     }
 
                     it("throws an error") {
-                        val exception = assertFailsWith<IllegalArgumentException> { executor.invoke() }
-                        exception.message shouldBe "Adult surname cannot be blank"
+                        assertFailsWith<IllegalArgumentException> { executor.invoke() }
                     }
                 }
 
@@ -97,8 +95,7 @@ class AdultExtensionTest : DescribeSpec() {
                     }
 
                     it("throws an error") {
-                        val exception = assertFailsWith<IllegalArgumentException> { executor.invoke() }
-                        exception.message shouldBe "Adult tax id 01960447X is not valid"
+                        assertFailsWith<IllegalArgumentException> { executor.invoke() }
                     }
                 }
 
@@ -109,8 +106,7 @@ class AdultExtensionTest : DescribeSpec() {
                     }
 
                     it("throws an error") {
-                        val exception = assertFailsWith<IllegalArgumentException> { executor.invoke() }
-                        exception.message shouldBe "Address street cannot be blank"
+                        assertFailsWith<IllegalArgumentException> { executor.invoke() }
                     }
                 }
             }

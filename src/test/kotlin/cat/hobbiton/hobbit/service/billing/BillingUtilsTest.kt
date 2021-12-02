@@ -9,8 +9,8 @@ import cat.hobbiton.hobbit.model.Invoice
 import cat.hobbiton.hobbit.model.InvoiceLine
 import cat.hobbiton.hobbit.model.PaymentType
 import cat.hobbiton.hobbit.testCustomer185
-import io.kotlintest.shouldBe
-import io.kotlintest.specs.DescribeSpec
+import io.kotest.core.spec.style.DescribeSpec
+import io.kotest.matchers.shouldBe
 
 class BillingUtilsTest : DescribeSpec() {
 

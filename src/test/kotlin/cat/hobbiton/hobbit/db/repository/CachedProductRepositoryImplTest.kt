@@ -1,9 +1,10 @@
 package cat.hobbiton.hobbit.db.repository
 
+import cat.hobbiton.hobbit.messages.ErrorMessages
 import cat.hobbiton.hobbit.testProduct1
 import cat.hobbiton.hobbit.util.error.NotFoundException
-import io.kotlintest.shouldBe
-import io.kotlintest.specs.DescribeSpec
+import io.kotest.core.spec.style.DescribeSpec
+import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
@@ -42,7 +43,7 @@ class CachedProductRepositoryImplTest : DescribeSpec() {
 
                 it("throws an error") {
                     val exception = assertFailsWith<NotFoundException> { executor.invoke() }
-                    exception.message shouldBe "Cannot find product with id TST"
+                    exception.errorMessage shouldBe ErrorMessages.ERROR_PRODUCT_NOT_FOUND
                 }
             }
         }

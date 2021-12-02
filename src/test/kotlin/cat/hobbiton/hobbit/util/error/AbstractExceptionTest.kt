@@ -1,23 +1,20 @@
 package cat.hobbiton.hobbit.util.error
 
 import cat.hobbiton.hobbit.messages.ErrorMessages
-import io.kotlintest.shouldBe
-import io.kotlintest.specs.DescribeSpec
+import io.kotest.core.spec.style.DescribeSpec
+import io.kotest.matchers.shouldBe
 import kotlin.test.assertFailsWith
 
 class AbstractExceptionTest : DescribeSpec() {
 
     init {
-
         describe("without cause") {
-
             val executor = {
                 throw NotFoundException(ErrorMessages.ERROR_PRODUCT_NOT_FOUND, "TST")
             }
 
             it("throws an error") {
                 val exception = assertFailsWith<NotFoundException> { executor.invoke() }
-                exception.message shouldBe "Cannot find product with id TST"
                 exception.errorMessage shouldBe ErrorMessages.ERROR_PRODUCT_NOT_FOUND
                 exception.params shouldBe arrayOf("TST")
             }
@@ -33,7 +30,6 @@ class AbstractExceptionTest : DescribeSpec() {
 
             it("throws an error") {
                 val exception = assertFailsWith<AppException> { executor.invoke() }
-                exception.message shouldBe "Error while saving invoice: TST"
                 exception.errorMessage shouldBe ErrorMessages.ERROR_SAVING_INVOICE
                 exception.params shouldBe arrayOf("TST")
                 exception.cause shouldBe cause

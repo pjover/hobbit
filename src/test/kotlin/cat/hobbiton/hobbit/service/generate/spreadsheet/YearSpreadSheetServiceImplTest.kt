@@ -7,9 +7,9 @@ import cat.hobbiton.hobbit.model.Invoice
 import cat.hobbiton.hobbit.model.InvoiceLine
 import cat.hobbiton.hobbit.model.PaymentType
 import cat.hobbiton.hobbit.testCustomers
-import io.kotlintest.matchers.collections.shouldHaveSize
-import io.kotlintest.shouldBe
-import io.kotlintest.specs.DescribeSpec
+import io.kotest.core.spec.style.DescribeSpec
+import io.kotest.matchers.collections.shouldHaveSize
+import io.kotest.matchers.shouldBe
 import java.math.BigDecimal
 import java.time.LocalDate
 import java.time.YearMonth
@@ -24,40 +24,6 @@ class YearSpreadSheetServiceImplTest : DescribeSpec() {
             val actual = sut.generate(YEAR, invoices(), testCustomers)
 
             it("generate the spread sheet") {
-
-                actual.filename shouldBe "Year report.xlsx"
-
-                actual.title shouldBe "2,019 yearly report"
-
-                actual.headers shouldBe listOf(
-                    "ID",
-                    "First adult tax ID",
-                    "First adult surname",
-                    "First adult second surname",
-                    "First adult name",
-                    "Second adult tax ID",
-                    "Second adult surname",
-                    "Second adult second surname",
-                    "Second adult name",
-                    "Child tax ID",
-                    "Child surname",
-                    "Child second surname",
-                    "Child name",
-                    "Child birth date",
-                    "January",
-                    "February",
-                    "March",
-                    "April",
-                    "May",
-                    "June",
-                    "July",
-                    "August",
-                    "September",
-                    "October",
-                    "November",
-                    "December",
-                    "Total"
-                )
 
                 actual.lines shouldHaveSize 4
 

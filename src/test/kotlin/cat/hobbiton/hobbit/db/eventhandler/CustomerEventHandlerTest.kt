@@ -1,8 +1,7 @@
 package cat.hobbiton.hobbit.db.eventhandler
 
 import cat.hobbiton.hobbit.testCustomer188
-import io.kotlintest.shouldBe
-import io.kotlintest.specs.DescribeSpec
+import io.kotest.core.spec.style.DescribeSpec
 import kotlin.test.assertFailsWith
 
 class CustomerEventHandlerTest : DescribeSpec() {
@@ -20,8 +19,7 @@ class CustomerEventHandlerTest : DescribeSpec() {
                     }
 
                     it("throws an error") {
-                        val exception = assertFailsWith<IllegalArgumentException> { executor.invoke() }
-                        exception.message shouldBe "Customer must have al least one child"
+                        assertFailsWith<IllegalArgumentException> { executor.invoke() }
                     }
                 }
 

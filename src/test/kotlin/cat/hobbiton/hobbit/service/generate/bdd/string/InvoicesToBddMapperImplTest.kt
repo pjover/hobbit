@@ -7,8 +7,8 @@ import cat.hobbiton.hobbit.model.extension.totalAmount
 import cat.hobbiton.hobbit.service.aux.TimeService
 import cat.hobbiton.hobbit.testChildren185
 import cat.hobbiton.hobbit.testProductsMap
-import io.kotlintest.shouldBe
-import io.kotlintest.specs.DescribeSpec
+import io.kotest.core.spec.style.DescribeSpec
+import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
 import java.math.BigDecimal
@@ -50,7 +50,7 @@ class InvoicesToBddMapperImplTest : DescribeSpec() {
                     messageIdentification = "HOBB-20180707204308000-24",
                     creationDateTime = "2018-07-07T20:43:08",
                     numberOfTransactions = 4,
-                    controlSum = "146.60",
+                    controlSum = "146,60",
                     name = "Centre d'Educació Infantil Hobbiton, S.L.",
                     identification = "ES92000B57398000",
                     requestedCollectionDate = "2018-07-07",
@@ -59,7 +59,53 @@ class InvoicesToBddMapperImplTest : DescribeSpec() {
                     addressLine2 = "07010 Palma, Illes Balears",
                     iban = "ES8004872157762000009714",
                     bic = "GBMNESMMXXX",
-                    details = buildTestBddDetailList("HOBB-20180707204308000-24", invoices))
+                    details = listOf(
+                        BddDetail(
+                            endToEndIdentifier = "HOBB-20180707204308000-24.F-100",
+                            instructedAmount = "36,65",
+                            dateOfSignature = "2018-07-07",
+                            name = "Nom de la mare 1er llinatge_mare 2on llinatge_mare",
+                            identification = "ES4200036361882D",
+                            iban = "ES2830668859978258529057",
+                            purposeCode = "OTHR",
+                            remittanceInformation = "1xTstProduct, 3xXxxProduct, 1.5xYyyProduct",
+                            isBusiness = false
+                        ),
+                        BddDetail(
+                            endToEndIdentifier = "HOBB-20180707204308000-24.F-101",
+                            instructedAmount = "36,65",
+                            dateOfSignature = "2018-07-07",
+                            name = "Nom de la mare 1er llinatge_mare 2on llinatge_mare",
+                            identification = "ES4200036361882D",
+                            iban = "ES2830668859978258529057",
+                            purposeCode = "OTHR",
+                            remittanceInformation = "1xTstProduct, 3xXxxProduct, 1.5xYyyProduct",
+                            isBusiness = false
+                        ),
+                        BddDetail(
+                            endToEndIdentifier = "HOBB-20180707204308000-24.F-102",
+                            instructedAmount = "36,65",
+                            dateOfSignature = "2018-07-07",
+                            name = "Nom empresa",
+                            identification = "ES5500037866397W",
+                            iban = "ES2830668859978258529057",
+                            purposeCode = "OTHR",
+                            remittanceInformation = "1xTstProduct, 3xXxxProduct, 1.5xYyyProduct",
+                            isBusiness = true
+                        ),
+                        BddDetail(
+                            endToEndIdentifier = "HOBB-20180707204308000-24.F-103",
+                            instructedAmount = "36,65",
+                            dateOfSignature = "2018-07-07",
+                            name = "Nom empresa",
+                            identification = "ES5500037866397W",
+                            iban = "ES2830668859978258529057",
+                            purposeCode = "OTHR",
+                            remittanceInformation = "1xTstProduct, 3xXxxProduct, 1.5xYyyProduct",
+                            isBusiness = true
+                        ),
+                    ),
+                )
             }
         }
     }
@@ -68,29 +114,44 @@ class InvoicesToBddMapperImplTest : DescribeSpec() {
 fun buildTestBddDetailList(messageIdentification: String, invoices: List<Invoice>): List<BddDetail> {
 
     return listOf(
-        buildTestBddDetail(messageIdentification,
+        buildTestBddDetail(
+            messageIdentification,
             "ES4200036361882D",
             "Nom de la mare 1er llinatge_mare 2on llinatge_mare",
             false,
-            invoices[0]),
-        buildTestBddDetail(messageIdentification,
+            invoices[0]
+        ),
+        buildTestBddDetail(
+            messageIdentification,
             "ES4200036361882D",
             "Nom de la mare 1er llinatge_mare 2on llinatge_mare",
             false,
-            invoices[1]),
-        buildTestBddDetail(messageIdentification,
+            invoices[1]
+        ),
+        buildTestBddDetail(
+            messageIdentification,
             "ES5500037866397W",
             "Nom empresa",
             true,
-            invoices[2]),
-        buildTestBddDetail(messageIdentification,
+            invoices[2]
+        ),
+        buildTestBddDetail(
+            messageIdentification,
             "ES5500037866397W",
             "Nom empresa",
             true,
-            invoices[3]))
+            invoices[3]
+        )
+    )
 }
 
-private fun buildTestBddDetail(messageIdentification: String, identification: String, name: String, isBusiness: Boolean, invoice: Invoice): BddDetail {
+private fun buildTestBddDetail(
+    messageIdentification: String,
+    identification: String,
+    name: String,
+    isBusiness: Boolean,
+    invoice: Invoice
+): BddDetail {
     return BddDetail(
         name = name,
         instructedAmount = invoice.totalAmount().toString(),
@@ -100,7 +161,8 @@ private fun buildTestBddDetail(messageIdentification: String, identification: St
         iban = "ES2830668859978258529057",
         purposeCode = "OTHR",
         remittanceInformation = "1xTstProduct, 3xXxxProduct, 1.5xYyyProduct",
-        isBusiness = isBusiness)
+        isBusiness = isBusiness
+    )
 }
 
 private fun bddTestBusinessCustomer(id: Int = 149, paymentType: PaymentType = PaymentType.BANK_TRANSFER): Customer {
@@ -196,7 +258,8 @@ fun bddTestInvoices(invoiceDate: LocalDate? = DATE): List<Invoice> {
             emailed = false,
             printed = false,
             paymentType = PaymentType.BANK_DIRECT_DEBIT,
-            childrenCodes = listOf(1800, 1801)),
+            childrenCodes = listOf(1800, 1801)
+        ),
         Invoice(
             id = "F-101",
             date = invoiceDate,
@@ -206,7 +269,8 @@ fun bddTestInvoices(invoiceDate: LocalDate? = DATE): List<Invoice> {
             emailed = false,
             printed = false,
             paymentType = PaymentType.BANK_DIRECT_DEBIT,
-            childrenCodes = listOf(1801, 1802)),
+            childrenCodes = listOf(1801, 1802)
+        ),
         Invoice(
             id = "F-102",
             date = invoiceDate,
@@ -216,7 +280,8 @@ fun bddTestInvoices(invoiceDate: LocalDate? = DATE): List<Invoice> {
             emailed = false,
             printed = false,
             paymentType = PaymentType.BANK_DIRECT_DEBIT,
-            childrenCodes = listOf(1800, 1801, 1802)),
+            childrenCodes = listOf(1800, 1801, 1802)
+        ),
         Invoice(
             id = "F-103",
             customerId = 149,
@@ -226,26 +291,33 @@ fun bddTestInvoices(invoiceDate: LocalDate? = DATE): List<Invoice> {
             emailed = false,
             printed = false,
             paymentType = PaymentType.BANK_DIRECT_DEBIT,
-            childrenCodes = listOf(1800))
+            childrenCodes = listOf(1800)
+        )
     )
 }
 
 private fun bddTestInvoiceLines(): List<InvoiceLine> {
     return listOf(
-        InvoiceLine(productId = "TST",
+        InvoiceLine(
+            productId = "TST",
             units = 1.toBigDecimal(),
             productPrice = 11.toBigDecimal(),
             taxPercentage = BigDecimal.ZERO,
-            childCode = 1850),
-        InvoiceLine(productId = "XXX",
+            childCode = 1850
+        ),
+        InvoiceLine(
+            productId = "XXX",
             units = 3.toBigDecimal(),
             productPrice = 5.5.toBigDecimal(),
             taxPercentage = 0.1.toBigDecimal(),
-            childCode = 1850),
-        InvoiceLine(productId = "YYY",
+            childCode = 1850
+        ),
+        InvoiceLine(
+            productId = "YYY",
             units = 1.5.toBigDecimal(),
             productPrice = 5.toBigDecimal(),
             taxPercentage = BigDecimal.ZERO,
-            childCode = 1850)
+            childCode = 1850
+        )
     )
 }

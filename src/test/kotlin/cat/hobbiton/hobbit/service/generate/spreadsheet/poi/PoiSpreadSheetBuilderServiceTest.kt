@@ -1,13 +1,14 @@
 package cat.hobbiton.hobbit.service.generate.spreadsheet.poi
 
 import cat.hobbiton.hobbit.init.FormattingProperties
+import cat.hobbiton.hobbit.messages.ErrorMessages
 import cat.hobbiton.hobbit.service.generate.spreadsheet.DateCell
 import cat.hobbiton.hobbit.service.generate.spreadsheet.DecimalCell
 import cat.hobbiton.hobbit.service.generate.spreadsheet.SpreadSheet
 import cat.hobbiton.hobbit.service.generate.spreadsheet.TextCell
 import cat.hobbiton.hobbit.util.error.AppException
-import io.kotlintest.shouldBe
-import io.kotlintest.specs.DescribeSpec
+import io.kotest.core.spec.style.DescribeSpec
+import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
 import org.apache.poi.ss.usermodel.WorkbookFactory
@@ -52,7 +53,7 @@ class PoiSpreadSheetBuilderServiceTest : DescribeSpec() {
 
                 it("throws an error") {
                     val exception = assertFailsWith<AppException> { executor.invoke() }
-                    exception.message shouldBe "SpreadSheet filename cannot be blank"
+                    exception.errorMessage shouldBe ErrorMessages.ERROR_SPREADSHEET_BLANK_FILENAME
                 }
             }
 
@@ -79,7 +80,7 @@ class PoiSpreadSheetBuilderServiceTest : DescribeSpec() {
 
                 it("throws an error") {
                     val exception = assertFailsWith<AppException> { executor.invoke() }
-                    exception.message shouldBe "SpreadSheet title cannot be blank"
+                    exception.errorMessage shouldBe ErrorMessages.ERROR_SPREADSHEET_BLANK_TITLE
                 }
             }
 
@@ -103,7 +104,7 @@ class PoiSpreadSheetBuilderServiceTest : DescribeSpec() {
 
                 it("throws an error") {
                     val exception = assertFailsWith<AppException> { executor.invoke() }
-                    exception.message shouldBe "There are no headers defined on the SpreadSheet"
+                    exception.errorMessage shouldBe ErrorMessages.ERROR_SPREADSHEET_NO_HEADERS
                 }
             }
 
@@ -122,7 +123,7 @@ class PoiSpreadSheetBuilderServiceTest : DescribeSpec() {
 
                 it("throws an error") {
                     val exception = assertFailsWith<AppException> { executor.invoke() }
-                    exception.message shouldBe "There are no data rows on the SpreadSheet"
+                    exception.errorMessage shouldBe ErrorMessages.ERROR_SPREADSHEET_NO_DATA
                 }
             }
 
@@ -148,7 +149,7 @@ class PoiSpreadSheetBuilderServiceTest : DescribeSpec() {
 
                 it("throws an error") {
                     val exception = assertFailsWith<AppException> { executor.invoke() }
-                    exception.message shouldBe "The number of headers colums does not match with the number of data columns"
+                    exception.errorMessage shouldBe ErrorMessages.ERROR_SPREADSHEET_NO_MATCH_COLUMN_NUMBER
                 }
             }
 
@@ -172,7 +173,7 @@ class PoiSpreadSheetBuilderServiceTest : DescribeSpec() {
 
                 it("throws an error") {
                     val exception = assertFailsWith<AppException> { executor.invoke() }
-                    exception.message shouldBe "The number of headers colums does not match with the number of data columns"
+                    exception.errorMessage shouldBe ErrorMessages.ERROR_SPREADSHEET_NO_MATCH_COLUMN_NUMBER
                 }
             }
 
@@ -198,7 +199,7 @@ class PoiSpreadSheetBuilderServiceTest : DescribeSpec() {
 
                 it("throws an error") {
                     val exception = assertFailsWith<AppException> { executor.invoke() }
-                    exception.message shouldBe "The number of headers colums does not match with the number of data columns"
+                    exception.errorMessage shouldBe ErrorMessages.ERROR_SPREADSHEET_NO_MATCH_COLUMN_NUMBER
                 }
             }
 
@@ -222,7 +223,7 @@ class PoiSpreadSheetBuilderServiceTest : DescribeSpec() {
 
                 it("throws an error") {
                     val exception = assertFailsWith<AppException> { executor.invoke() }
-                    exception.message shouldBe "The number of headers colums does not match with the number of data columns"
+                    exception.errorMessage shouldBe ErrorMessages.ERROR_SPREADSHEET_NO_MATCH_COLUMN_NUMBER
                 }
             }
         }

@@ -1,8 +1,8 @@
 package cat.hobbiton.hobbit.util.error
 
 import cat.hobbiton.hobbit.messages.ErrorMessages
-import io.kotlintest.shouldBe
-import io.kotlintest.specs.DescribeSpec
+import io.kotest.core.spec.style.DescribeSpec
+import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
 import javax.servlet.http.HttpServletRequest
@@ -21,7 +21,6 @@ class GlobalExceptionHandlerTest : DescribeSpec() {
             val actual = sut.onAppException(request, AppException(ErrorMessages.ERROR_SAVING_INVOICE, "TST"))
 
             it("returns the correct ErrorInfo") {
-                actual.message shouldBe "Error while saving invoice: TST"
                 actual.status shouldBe 500
                 actual.path shouldBe url
                 actual.version shouldBe "5.0.3"
@@ -33,7 +32,6 @@ class GlobalExceptionHandlerTest : DescribeSpec() {
             val actual = sut.onNotFoundException(request, NotFoundException(ErrorMessages.ERROR_PRODUCT_NOT_FOUND, "TST"))
 
             it("returns the correct ErrorInfo") {
-                actual.message shouldBe "Cannot find product with id TST"
                 actual.status shouldBe 404
                 actual.path shouldBe url
             }

@@ -5,8 +5,8 @@ import cat.hobbiton.hobbit.db.repository.CustomerRepository
 import cat.hobbiton.hobbit.db.repository.InvoiceRepository
 import cat.hobbiton.hobbit.db.repository.SequenceRepository
 import cat.hobbiton.hobbit.model.*
-import io.kotlintest.IsolationMode
-import io.kotlintest.specs.DescribeSpec
+import io.kotest.core.spec.IsolationMode
+import io.kotest.core.spec.style.DescribeSpec
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify

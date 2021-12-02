@@ -2,8 +2,8 @@ package cat.hobbiton.hobbit.service.generate.bdd.string
 
 import cat.hobbiton.hobbit.testCustomersMap
 import cat.hobbiton.hobbit.testProductsMap
-import io.kotlintest.shouldBe
-import io.kotlintest.specs.DescribeSpec
+import io.kotest.core.spec.style.DescribeSpec
+import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
 import java.nio.charset.StandardCharsets

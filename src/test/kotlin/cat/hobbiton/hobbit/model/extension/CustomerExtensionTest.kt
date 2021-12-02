@@ -1,10 +1,11 @@
 package cat.hobbiton.hobbit.model.extension
 
 import cat.hobbiton.hobbit.*
+import cat.hobbiton.hobbit.messages.ErrorMessages
 import cat.hobbiton.hobbit.model.AdultRole
 import cat.hobbiton.hobbit.util.error.AppException
-import io.kotlintest.shouldBe
-import io.kotlintest.specs.DescribeSpec
+import io.kotest.core.spec.style.DescribeSpec
+import io.kotest.matchers.shouldBe
 import kotlin.test.assertFailsWith
 
 internal class CustomerExtensionTest : DescribeSpec() {
@@ -48,7 +49,7 @@ internal class CustomerExtensionTest : DescribeSpec() {
 
                     it("throws an error") {
                         val exception = assertFailsWith<AppException> { executor.invoke() }
-                        exception.message shouldBe "Cannot find child with id 1,852"
+                        exception.errorMessage shouldBe ErrorMessages.ERROR_CHILD_NOT_FOUND
                     }
 
                 }
@@ -135,8 +136,7 @@ internal class CustomerExtensionTest : DescribeSpec() {
                     }
 
                     it("throws an error") {
-                        val exception = assertFailsWith<IllegalArgumentException> { executor.invoke() }
-                        exception.message shouldBe "Customer must have al least one child"
+                        assertFailsWith<IllegalArgumentException> { executor.invoke() }
                     }
                 }
 
@@ -147,8 +147,7 @@ internal class CustomerExtensionTest : DescribeSpec() {
                     }
 
                     it("throws an error") {
-                        val exception = assertFailsWith<IllegalArgumentException> { executor.invoke() }
-                        exception.message shouldBe "Customer must have al least one adult"
+                        assertFailsWith<IllegalArgumentException> { executor.invoke() }
                     }
                 }
             }

@@ -10,8 +10,8 @@ import cat.hobbiton.hobbit.model.Consumption
 import cat.hobbiton.hobbit.service.aux.TimeService
 import cat.hobbiton.hobbit.util.error.AppException
 import cat.hobbiton.hobbit.util.error.NotFoundException
-import io.kotlintest.shouldBe
-import io.kotlintest.specs.DescribeSpec
+import io.kotest.core.spec.style.DescribeSpec
+import io.kotest.matchers.shouldBe
 import io.mockk.clearMocks
 import io.mockk.every
 import io.mockk.mockk
@@ -154,12 +154,12 @@ class ConsumptionsServiceImplTest : DescribeSpec() {
                     actual shouldBe listOf(
                         YearMonthConsumptionsDTO(
                             yearMonth = YEAR_MONTH.toString(),
-                            grossAmount = 105.4.toBigDecimal(),
+                            grossAmount = 87.2.toBigDecimal(),
                             listOf(
                                 ChildConsumtionDTO(
                                     code = 1850,
                                     shortName = "Laura Llull",
-                                    grossAmount = 105.4.toBigDecimal(),
+                                    grossAmount = 87.2.toBigDecimal(),
                                     listOf(
                                         ConsumtionDTO("TST", 8.toBigDecimal(), 87.2.toBigDecimal(), ""),
                                     )
@@ -277,7 +277,7 @@ class ConsumptionsServiceImplTest : DescribeSpec() {
 
                 it("throws an error") {
                     val exception = assertFailsWith<NotFoundException> { executor.invoke() }
-                    exception.message shouldBe "Cannot find child with id 7,777"
+                    exception.errorMessage shouldBe ErrorMessages.ERROR_CHILD_NOT_FOUND
                 }
             }
 
@@ -315,7 +315,7 @@ class ConsumptionsServiceImplTest : DescribeSpec() {
 
                 it("throws an error") {
                     val exception = assertFailsWith<AppException> { executor.invoke() }
-                    exception.message shouldBe "Customer 186 is inactive"
+                    exception.errorMessage shouldBe ErrorMessages.ERROR_CUSTOMER_INACTIVE
                 }
             }
 
@@ -353,7 +353,7 @@ class ConsumptionsServiceImplTest : DescribeSpec() {
 
                 it("throws an error") {
                     val exception = assertFailsWith<AppException> { executor.invoke() }
-                    exception.message shouldBe "Child 9,999 is inactive"
+                    exception.errorMessage shouldBe ErrorMessages.ERROR_CHILD_INACTIVE
                 }
             }
 

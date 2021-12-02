@@ -4,10 +4,11 @@ import cat.hobbiton.hobbit.DATE
 import cat.hobbiton.hobbit.YEAR_MONTH
 import cat.hobbiton.hobbit.db.repository.ConsumptionRepository
 import cat.hobbiton.hobbit.db.repository.InvoiceRepository
+import cat.hobbiton.hobbit.messages.ErrorMessages
 import cat.hobbiton.hobbit.model.*
 import cat.hobbiton.hobbit.util.error.AppException
-import io.kotlintest.shouldBe
-import io.kotlintest.specs.DescribeSpec
+import io.kotest.core.spec.style.DescribeSpec
+import io.kotest.matchers.shouldBe
 import io.mockk.*
 import kotlin.test.assertFailsWith
 
@@ -137,7 +138,7 @@ class InvoiceServiceImplTest : DescribeSpec() {
 
                 it("throws an error") {
                     val exception = assertFailsWith<AppException> { executor.invoke() }
-                    exception.message shouldBe "Error while saving invoice: STANDARD_INVOICE"
+                    exception.errorMessage shouldBe ErrorMessages.ERROR_SAVING_INVOICE
                 }
 
                 it("Increments and decrements the sequence") {
@@ -165,7 +166,7 @@ class InvoiceServiceImplTest : DescribeSpec() {
 
                 it("throws an error") {
                     val exception = assertFailsWith<AppException> { executor.invoke() }
-                    exception.message shouldBe "Error while saving invoice: STANDARD_INVOICE"
+                    exception.errorMessage shouldBe ErrorMessages.ERROR_SAVING_INVOICE
                 }
 
                 it("Increments the sequence") {
@@ -195,7 +196,7 @@ class InvoiceServiceImplTest : DescribeSpec() {
 
                 it("throws an error") {
                     val exception = assertFailsWith<AppException> { executor.invoke() }
-                    exception.message shouldBe "Error while saving invoice: STANDARD_INVOICE"
+                    exception.errorMessage shouldBe ErrorMessages.ERROR_SAVING_INVOICE
                 }
 
                 it("increments the sequence and saves the consumptions") {

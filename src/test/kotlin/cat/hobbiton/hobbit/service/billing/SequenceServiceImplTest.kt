@@ -3,9 +3,9 @@ package cat.hobbiton.hobbit.service.billing
 import cat.hobbiton.hobbit.db.repository.SequenceRepository
 import cat.hobbiton.hobbit.model.Sequence
 import cat.hobbiton.hobbit.model.SequenceType
-import io.kotlintest.IsolationMode
-import io.kotlintest.shouldBe
-import io.kotlintest.specs.DescribeSpec
+import io.kotest.core.spec.IsolationMode
+import io.kotest.core.spec.style.DescribeSpec
+import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.slot

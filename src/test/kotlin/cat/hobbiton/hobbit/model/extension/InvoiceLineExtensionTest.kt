@@ -1,8 +1,8 @@
 package cat.hobbiton.hobbit.model.extension
 
 import cat.hobbiton.hobbit.model.InvoiceLine
-import io.kotlintest.shouldBe
-import io.kotlintest.specs.DescribeSpec
+import io.kotest.core.spec.style.DescribeSpec
+import io.kotest.matchers.shouldBe
 import java.math.BigDecimal
 import kotlin.test.assertFailsWith
 
@@ -72,8 +72,7 @@ internal class InvoiceLineExtensionTest : DescribeSpec() {
                 }
 
                 it("throws an error") {
-                    val exception = assertFailsWith<IllegalArgumentException> { executor.invoke() }
-                    exception.message shouldBe "Invoice line must inform a product id"
+                    assertFailsWith<IllegalArgumentException> { executor.invoke() }
                 }
             }
 
@@ -88,8 +87,7 @@ internal class InvoiceLineExtensionTest : DescribeSpec() {
                 }
 
                 it("throws an error") {
-                    val exception = assertFailsWith<IllegalArgumentException> { executor.invoke() }
-                    exception.message shouldBe "Invoice line product units cannot be zero"
+                    assertFailsWith<IllegalArgumentException> { executor.invoke() }
                 }
             }
         }

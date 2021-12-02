@@ -2,8 +2,7 @@ package cat.hobbiton.hobbit.db.eventhandler
 
 import cat.hobbiton.hobbit.model.Sequence
 import cat.hobbiton.hobbit.model.SequenceType
-import io.kotlintest.shouldBe
-import io.kotlintest.specs.DescribeSpec
+import io.kotest.core.spec.style.DescribeSpec
 import kotlin.test.assertFailsWith
 
 class SequenceEventHandlerTest : DescribeSpec() {
@@ -22,8 +21,7 @@ class SequenceEventHandlerTest : DescribeSpec() {
                 }
 
                 it("throws an error") {
-                    val exception = assertFailsWith<IllegalArgumentException> { executor.invoke() }
-                    exception.message shouldBe "Sequence counter has to be greater than zero"
+                    assertFailsWith<IllegalArgumentException> { executor.invoke() }
                 }
             }
 

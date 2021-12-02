@@ -1,8 +1,8 @@
 package cat.hobbiton.hobbit.service.generate.pdf
 
 import cat.hobbiton.hobbit.testInvoice185
-import io.kotlintest.shouldBe
-import io.kotlintest.specs.DescribeSpec
+import io.kotest.core.spec.style.DescribeSpec
+import io.kotest.matchers.shouldBe
 
 class PdfUtilsTest : DescribeSpec() {
 

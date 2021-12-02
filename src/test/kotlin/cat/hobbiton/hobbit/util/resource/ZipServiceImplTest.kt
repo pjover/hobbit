@@ -1,7 +1,7 @@
 package cat.hobbiton.hobbit.util.resource
 
-import io.kotlintest.shouldBe
-import io.kotlintest.specs.DescribeSpec
+import io.kotest.core.spec.style.DescribeSpec
+import io.kotest.matchers.shouldBe
 import java.nio.charset.StandardCharsets
 import java.util.zip.ZipInputStream
 
