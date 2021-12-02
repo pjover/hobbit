@@ -38,7 +38,7 @@ dependencies {
     implementation("org.springdoc:springdoc-openapi-kotlin:1.4.8")
 
     implementation("com.itextpdf:itextpdf:5.5.13.2") // PDF generation with iText
-    implementation("com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.3") // Java Simplified Encryption
+    implementation("com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.4") // Java Simplified Encryption
     implementation("org.apache.poi:poi-ooxml:5.0.0") // Spread sheet generation
 
 
