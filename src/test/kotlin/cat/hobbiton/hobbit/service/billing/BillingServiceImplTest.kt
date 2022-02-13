@@ -37,7 +37,7 @@ class BillingServiceImplTest : DescribeSpec() {
 
             context("with rectification") {
                 mockReaders(customerRepository, productRepository)
-                every { consumptionRepository.findByInvoiceIdNull() } returns consumptions
+                every { consumptionRepository.findByInvoiceId() } returns consumptions
 
                 val actual = sut.getInvoices()
 
@@ -48,7 +48,7 @@ class BillingServiceImplTest : DescribeSpec() {
 
             context("without rectification") {
                 mockReaders(customerRepository, productRepository)
-                every { consumptionRepository.findByInvoiceIdNull() } returns consumptions.filter { !it.isRectification } + listOf(
+                every { consumptionRepository.findByInvoiceId() } returns consumptions.filter { !it.isRectification } + listOf(
                     Consumption(
                         id = "AA7",
                         childCode = 1860,
@@ -78,7 +78,7 @@ class BillingServiceImplTest : DescribeSpec() {
 
             context("only rectification") {
                 mockReaders(customerRepository, productRepository)
-                every { consumptionRepository.findByInvoiceIdNull() } returns consumptions.filter { it.isRectification }
+                every { consumptionRepository.findByInvoiceId() } returns consumptions.filter { it.isRectification }
 
                 val actual = sut.getInvoices()
 
@@ -90,7 +90,7 @@ class BillingServiceImplTest : DescribeSpec() {
 
         describe("setInvoices") {
             mockReaders(customerRepository, productRepository)
-            every { consumptionRepository.findByInvoiceIdNull() } returns consumptions
+            every { consumptionRepository.findByInvoiceId() } returns consumptions
             val slot = slot<Invoice>()
             every { invoiceService.saveInvoice(capture(slot), any()) } answers { slot.captured.copy(id = "F-1") }
 

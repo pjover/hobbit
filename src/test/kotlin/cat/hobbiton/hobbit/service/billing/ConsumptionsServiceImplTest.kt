@@ -32,7 +32,7 @@ class ConsumptionsServiceImplTest : DescribeSpec() {
         describe("getChildConsumptions") {
 
             context("with no consumptions") {
-                every { consumptionRepository.findByInvoiceIdNullAndChildCode(1) } returns emptyList()
+                every { consumptionRepository.findByChildCodeAndInvoiceId(1) } returns emptyList()
 
                 val actual = sut.getChildConsumptions(1)
 
@@ -44,27 +44,27 @@ class ConsumptionsServiceImplTest : DescribeSpec() {
             context("with consumptions") {
 
                 mockAuxReaders(customerRepository, productRepository)
-                every { consumptionRepository.findByInvoiceIdNullAndChildCode(1) } returns listOf(
-                        Consumption(
-                                id = "AA1",
-                                childCode = 1850,
-                                productId = "TST",
-                                units = 2.toBigDecimal(),
-                                yearMonth = YEAR_MONTH,
-                                note = "Note 1"
-                        ),
-                        Consumption(
-                                id = "AA2",
-                                childCode = 1850,
-                                productId = "TST",
-                                units = 2.toBigDecimal(),
-                                yearMonth = YEAR_MONTH,
-                                note = "Note 2"
-                        ),
-                        Consumption(
-                                id = "AA3",
-                                childCode = 1850,
-                                productId = "TST",
+                every { consumptionRepository.findByChildCodeAndInvoiceId(1) } returns listOf(
+                    Consumption(
+                        id = "AA1",
+                        childCode = 1850,
+                        productId = "TST",
+                        units = 2.toBigDecimal(),
+                        yearMonth = YEAR_MONTH,
+                        note = "Note 1"
+                    ),
+                    Consumption(
+                        id = "AA2",
+                        childCode = 1850,
+                        productId = "TST",
+                        units = 2.toBigDecimal(),
+                        yearMonth = YEAR_MONTH,
+                        note = "Note 2"
+                    ),
+                    Consumption(
+                        id = "AA3",
+                        childCode = 1850,
+                        productId = "TST",
                                 units = 2.toBigDecimal(),
                                 yearMonth = YEAR_MONTH,
                                 note = "Note 3"
@@ -113,7 +113,7 @@ class ConsumptionsServiceImplTest : DescribeSpec() {
             context("with empty notes consumptions") {
 
                 mockAuxReaders(customerRepository, productRepository)
-                every { consumptionRepository.findByInvoiceIdNullAndChildCode(1) } returns listOf(
+                every { consumptionRepository.findByChildCodeAndInvoiceId(1) } returns listOf(
                     Consumption(
                         id = "AA1",
                         childCode = 1850,
@@ -187,7 +187,7 @@ class ConsumptionsServiceImplTest : DescribeSpec() {
 
             context("with no consumptions") {
                 clearMocks(customerRepository)
-                every { consumptionRepository.findByInvoiceIdNull() } returns emptyList()
+                every { consumptionRepository.findByInvoiceId() } returns emptyList()
 
                 val actual = sut.getLastMonthConsumptions()
 
@@ -581,27 +581,27 @@ fun mockAuxReaders(customerRepository: CachedCustomerRepository, productReposito
 
 fun mockConsumptionsReader(consumptionRepository: ConsumptionRepository, additionalList: List<Consumption> = emptyList()) {
     clearMocks(consumptionRepository)
-    every { consumptionRepository.findByInvoiceIdNull() } returns listOf(
-            Consumption(
-                    id = "AA1",
-                    childCode = 1850,
-                    productId = "TST",
-                    units = 2.toBigDecimal(),
-                    yearMonth = YEAR_MONTH,
-                    note = "Note 1"
-            ),
-            Consumption(
-                    id = "AA2",
-                    childCode = 1850,
-                    productId = "TST",
-                    units = 2.toBigDecimal(),
-                    yearMonth = YEAR_MONTH,
-                    note = "Note 2"
-            ),
-            Consumption(
-                    id = "AA3",
-                    childCode = 1851,
-                    productId = "TST",
+    every { consumptionRepository.findByInvoiceId() } returns listOf(
+        Consumption(
+            id = "AA1",
+            childCode = 1850,
+            productId = "TST",
+            units = 2.toBigDecimal(),
+            yearMonth = YEAR_MONTH,
+            note = "Note 1"
+        ),
+        Consumption(
+            id = "AA2",
+            childCode = 1850,
+            productId = "TST",
+            units = 2.toBigDecimal(),
+            yearMonth = YEAR_MONTH,
+            note = "Note 2"
+        ),
+        Consumption(
+            id = "AA3",
+            childCode = 1851,
+            productId = "TST",
                     units = 2.toBigDecimal(),
                     yearMonth = YEAR_MONTH,
                     note = "Note 3"
