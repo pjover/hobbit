@@ -18,5 +18,5 @@ data class Consumption(
     var yearMonth: YearMonth = YearMonth.from(LocalDate.now()),
     val note: String? = null,
     val isRectification: Boolean = false,
-    val invoiceId: String? = null
+    val invoiceId: String = "NONE"
 )

@@ -29,7 +29,7 @@ class BillingServiceImpl(
     }
 
     fun invoices(save: Boolean): List<PaymentTypeInvoicesDTO> {
-        val consumptions = consumptionRepository.findByInvoiceIdNull()
+        val consumptions = consumptionRepository.findByInvoiceId()
         val normalConsumptions = consumptions.filter { !it.isRectification }
         val rectificationConsumptions = consumptions.filter { it.isRectification }
         return normalInvoices(save, normalConsumptions) + rectificationInvoices(save, rectificationConsumptions)
