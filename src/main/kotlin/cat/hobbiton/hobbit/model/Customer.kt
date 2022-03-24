@@ -12,5 +12,4 @@ data class Customer(
         val language: Language = Language.CA,
         val active: Boolean = true,
         val changedOn: LocalDateTime? = LocalDateTime.now(),
-        val printedOn: LocalDateTime? = null,
 )
