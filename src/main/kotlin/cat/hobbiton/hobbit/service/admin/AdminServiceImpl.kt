@@ -9,7 +9,6 @@ import cat.hobbiton.hobbit.model.Invoice
 import cat.hobbiton.hobbit.model.Product
 import cat.hobbiton.hobbit.util.Logging
 import org.springframework.stereotype.Service
-import java.time.LocalDateTime
 
 @Service
 class AdminServiceImpl(
@@ -44,7 +43,7 @@ class AdminServiceImpl(
 
     private fun updateCustomer(customer: Customer): Customer {
         logger.info("Updating customer $customer")
-        val updatedCustomer = customer.copy(changedOn = LocalDateTime.now())
+        val updatedCustomer = customer.copy()
         logger.info("Updated customer $updatedCustomer")
         return updatedCustomer
     }
