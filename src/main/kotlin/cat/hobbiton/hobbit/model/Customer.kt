@@ -1,6 +1,7 @@
 package cat.hobbiton.hobbit.model
 
 import org.springframework.data.annotation.Id
+import java.time.LocalDateTime
 
 data class Customer(
         @Id val id: Int = 0,
@@ -9,5 +10,7 @@ data class Customer(
         val invoiceHolder: InvoiceHolder,
         val note: String? = null,
         val language: Language = Language.CA,
-        val active: Boolean = true
+        val active: Boolean = true,
+        val changedOn: LocalDateTime? = LocalDateTime.now(),
+        val printedOn: LocalDateTime? = null,
 )
